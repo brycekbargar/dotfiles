@@ -7,6 +7,15 @@
 
 if [ -z "$PACKAGE_MANAGER" ]; then
     echo 'No $PACKAGE_MANAGER found'
+
+    if [ -e "$(which pacman)" ]; then
+        echo "We're on Arch!"
+        export PACKAGE_MANAGER=pacman
+    elif [ -e "$(which brew)" ] || [[ "$OSTYPE" == "darwin"* ]]; then
+        echo "We're on Mac!"
+        export PACKAGE_MANAGER=homebrew
+    fi
+
 else
     echo "$PACKAGE_MANAGER found"
 fi
