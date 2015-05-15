@@ -1,0 +1,12 @@
+#!/bin/bash
+#
+# Ensures that the distros package manager is installed
+# Ensures that additional package manager components are installed
+# Ensures that the PACKAGE_MANAGER environment variable is set
+#
+
+if [ -z "$PACKAGE_MANAGER" ]; then
+    echo 'No $PACKAGE_MANAGER found'
+else
+    echo "$PACKAGE_MANAGER found"
+fi
