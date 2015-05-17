@@ -13,12 +13,14 @@ fi
 
 if ! package_installed dropbox-uploader; then
     
-	# Do a manual install
-	git clone https://github.com/andreafabrizi/Dropbox-Uploader/
- 	sudo mv Dropbox-Uploader/dropbox_uploader.sh /usr/bin/
- 	pushd /usr/bin/
- 	chmod +x dropbox_uploader.sh
- 	popd
+    if [ ! -e /usr/bin/dropbox_uploader.sh ]; then
+		# Do a manual install
+		git clone https://github.com/andreafabrizi/Dropbox-Uploader/
+ 		sudo mv Dropbox-Uploader/dropbox_uploader.sh /usr/bin/
+ 		pushd /usr/bin/
+	 	chmod +x dropbox_uploader.sh
+ 		popd
+ 	fi
 
  	alias dropbox_uploader='/usr/bin/dropbox_uploader.sh'
  	rm -fdr Dropbox-Uploader

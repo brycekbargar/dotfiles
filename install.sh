@@ -6,4 +6,6 @@
 # Dependencies
 source ensure-dropbox
 
-# Do some fancy stuff with ssh keys and symlinking dotfiles
+# Do some fancy stuff with ssh keys
+
+# Do some fancy stuff with symlinking configs
