@@ -15,14 +15,17 @@ package_installed () {
 
     case "$PACKAGE_MANAGER" in
         "pacman")
-            if pacman -Ss $1 | grep '/$1 '; then
+            if pacman -Ss $1 | grep "/$1 "; then
             	echo "Installing $1 from pacman"
             	pacman -S $1
 
-            elif packer -Ss $1 | grep '/$1 '; then
+            elif packer -Ss $1 | grep "/$1 "; then
             	echo "Installing $1 from packer"
             	packer -S $1
-
+                
+            elif packer -Ss $1 | grep "/$1-git"; then
+                echo "Installing $1 from packer"
+                packer -S "$1-git"
             fi 
         ;;
         "homebrew")
@@ -33,7 +36,7 @@ package_installed () {
                     if brew outdated | grep $1; then
     				    echo "Upgrading $1 from homebrew"
                         brew upgrade $1
-                        
+
                     fi
             	else
             		echo "Installing $1 from homebrew"

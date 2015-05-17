@@ -5,6 +5,6 @@
 #
 # Dependencies
 source ensure-lastpass-cli
-# source src/ensure-dropbox
+source src/ensure-dropbox
 
 # Do some fancy stuff with ssh keys and symlinking dotfiles

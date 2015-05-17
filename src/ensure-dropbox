@@ -1,0 +1,15 @@
+#!/bin/bash
+#
+# Ensures that Dropbox is installed on this system
+#
+# Dependencies
+source package-installer
+
+if package_installed dropbox-uploader; then
+    echo 'Latest dropbox-uploader version installed'
+else
+    
+	# Do a manual install
+
+    exit 1
+fi
