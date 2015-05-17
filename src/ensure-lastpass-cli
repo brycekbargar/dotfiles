@@ -7,7 +7,12 @@ source package-installer
 
 if package_installed lastpass-cli; then
     echo 'Latest lastpass-cli version installed'
-else
-    echo 'Something went wrong and you might not have lastpass-cli :('
-    exit 1
+
+    if lpass login $LASTPASS_USERNAME; then
+        lpass sync
+        return 0
+    fi
 fi
+
+echo 'Something went wrong and you might not have lastpass-cli :('
+exit 1

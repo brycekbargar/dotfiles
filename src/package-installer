@@ -17,12 +17,12 @@ package_installed () {
         "pacman")
             if pacman -Ss $1 | grep "/$1 "; then
             	echo "Installing $1 from pacman"
-            	pacman -S $1
+            	sudo pacman -S $1
 
             elif packer -Ss $1 | grep "/$1 "; then
             	echo "Installing $1 from packer"
             	packer -S $1
-                
+
             elif packer -Ss $1 | grep "/$1-git"; then
                 echo "Installing $1 from packer"
                 packer -S "$1-git"
