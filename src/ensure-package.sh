@@ -14,12 +14,12 @@ case "$PACKAGE_MANAGER" in
     "pacman")
 		pacman -Syu
 		packer -Syu
-        if [ ! -z "$(pacman -Ss $1 | grep '/$1 ')" ]; then
+        if [ $(pacman -Ss $1 | grep '/$1 ') ]; then
         	echo "Installing $1 from pacman"
         	pacman -S $1
         	exit 0
         fi
-        if [ ! -z "$(packer -Ss $1 | grep '/$1 ')" ]; then
+        if [ $(packer -Ss $1 | grep '/$1 ') ]; then
         	echo "Installing $1 from packer"
         	packer -S $1
         	exit 0
@@ -27,9 +27,9 @@ case "$PACKAGE_MANAGER" in
     ;;
     "homebrew")
 		brew update && brew upgrade brew-cask && brew cleanup && brew cask cleanup
-		if [ ! -z "$(brew search $1 | grep '^$1$')" ]; then
+		if [ $(brew search $1 | grep $1) ]; then
 			
-			if [ ! -z "$(brew list | grep $1)" ]; then
+			if [ $(brew list | grep $1) ]; then
 				echo "Upgrading $1 from homebrew"
         		brew upgrade $1
         	else
@@ -39,11 +39,11 @@ case "$PACKAGE_MANAGER" in
         	
         	exit 0
         fi
-        if [ ! -z "$(brew cask search $1 | grep '^$1$')" ]; then
+        if [ $(brew cask search $1 | grep $1) ]; then
         	
-        	if [ ! -z "$(brew cask list | grep $1)" ]; then
+        	if [ $(brew cask list | grep $1) ]; then
 				echo "Upgrading $1 from homebrew cask"
-        		brew cask upgrade $1
+        		brew cask install --force $1
         	else
         		echo "Installing $1 from homebrew cask"
         		brew cask install $1	
@@ -59,5 +59,5 @@ case "$PACKAGE_MANAGER" in
 esac
 
 
-echo "We couldn't find $1 using the $PACKAGE_MANAGER!"
+echo "We couldn't find $1 using $PACKAGE_MANAGER!"
 exit 1
