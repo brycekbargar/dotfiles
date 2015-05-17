@@ -5,6 +5,10 @@
 # Dependencies
 source package-installer
 
+if [ ! "$LASTPASS_USERNAME" ]; then
+	echo '$LASTPASS_USERNAME not set'
+fi
+
 if [ "$LASTPASS_INSTALLED" ]; then
     echo "Found lastpass"
     return 0
