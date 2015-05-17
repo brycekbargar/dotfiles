@@ -2,26 +2,29 @@
 #
 # Dependencies
 source package-installer
+source logwriter
 
 if [ ! "$LASTPASS_USERNAME" ]; then
-	echo '$LASTPASS_USERNAME not set'
+	log_error 'You must set $LASTPASS_USERNAME'
+	exit 1
 fi
 
 if [ "$LASTPASS_INSTALLED" ]; then
-    echo "Found lastpass"
+    log_trace "Lastpass already installed"
     return 0
 fi
 
 if package_installed lastpass-cli; then
-    echo 'Latest lastpass-cli version installed'
 
     if lpass login $LASTPASS_USERNAME; then
         lpass sync
-        export LASTPASS_INSTALLED="true"
+        
+        export LASTPASS_INSTALLED="true"	
+		log_message 'Latest Lastpass version installed'
 
         return 0
     fi
 fi
 
-echo 'Something went wrong and you might not have lastpass-cli :('
+log_error 'Something went wrong and you might not have Lastpass'
 exit 1

@@ -1,7 +1,9 @@
-# Exports package_installed
+# Exports
+#    package_installed
 #
 # Dependencies
 source ensure-package-manager
+source logwriter
 
 # Installs the requested packege if available
 # Arguments
@@ -15,18 +17,18 @@ package_installed () {
     case "$PACKAGE_MANAGER" in
         "pacman")
             if pacman -Ss $1 | grep "/$1 "; then
-            	echo "Installing $1 from pacman"
+            	log_trace "Installing $1 from pacman"
             	sudo pacman -S $1
 
             elif packer -Ss $1 | grep "/$1 "; then
-            	echo "Installing $1 from packer"
+            	log_trace "Installing $1 from packer"
             	packer -S $1
 
             elif packer -Ss $1 | grep "/$1-git"; then
-                echo "Installing $1 from packer"
+                log_trace "Installing $1 from packer"
                 packer -S "$1-git"
             else
-                echo "pacman couldn't find $1"
+                log_error "pacman couldn't find $1"
                 return 1
             fi 
         ;;
@@ -34,27 +36,27 @@ package_installed () {
             case $(brew search $1) in
                 Caskroom/*/"$1")
                     if brew cask list | grep $1 ; then
-                        echo "Upgrading $1 from homebrew cask"
+                        log_trace "Upgrading $1 from homebrew cask"
                         brew cask install --force $1
 
                     else
-                        echo "Installing $1 from homebrew cask"
+                        log_trace "Installing $1 from homebrew cask"
                         brew cask install $1    
                     fi
                 ;;
                 "$1")
     		      	if brew list $1 | grep $1 ; then
                         if brew outdated | grep $1; then
-    				        echo "Upgrading $1 from homebrew"
+    				        log_trace "Upgrading $1 from homebrew"
                             brew upgrade $1
                         fi
                     else
-                        echo "Installing $1 from homebrew"
+                        log_trace "Installing $1 from homebrew"
                         brew install $1
                     fi
                 ;;
                 *)
-                    echo "homebrew couldn't find $1"
+                    log_error "homebrew couldn't find $1"
                     return 1
                 ;;
             esac

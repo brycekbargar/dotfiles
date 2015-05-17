@@ -3,43 +3,40 @@
 # Ensures that the PACKAGE_MANAGER environment variable is set
 # 
 # Dependencies
+source logwriter
 
 # We have been through this before and don't need to install/update anything
 if [ "$PACKAGE_MANAGER" ]; then
-    echo "$PACKAGE_MANAGER found"
+    log_trace "$PACKAGE_MANAGER found"
     return 0
 fi
 
 # Let's first figure out what system we're on and what the package manager is
-echo 'No $PACKAGE_MANAGER found'
 if which pacman; then
-    echo "We're on Arch!"
+    log_trace $'We\'re on Arch'
     export PACKAGE_MANAGER=pacman
 elif which brew  || [[ "$OSTYPE" == "darwin"* ]]; then
-    echo "We're on Mac!"
+    log_trace $'We\'re on a Mac'
     export PACKAGE_MANAGER=homebrew
-else
-    echo "We couldn't find a package manager!"
-    exit 1
 fi
 
 # Install helpers and make sure everything is up to date
 case "$PACKAGE_MANAGER" in
     "pacman")
         if ! which packer; then
-            echo "We need to make packer"
+            log_trace 'We need to make packer'
             # Make packer
         fi
         pacman -Syy
     ;;
     "homebrew")
         if ! which brew; then
-            echo "We need to get homebrew"
+            log_trace 'We need to get homebrew'
             xcode-select --install
             ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
         fi
         if ! brew list | grep brew-cask; then
-            echo "We need to get cask"
+            log_trace 'We need to get cask'
             brew install caskroom/cask/brew-cask
         fi
 
@@ -52,9 +49,9 @@ case "$PACKAGE_MANAGER" in
         brew cleanup && brew cask cleanup
     ;;
     *)
-        echo "We couldn't find a package manager!"
+        log_error $'We couldn\'t find a package manager'
         exit 1
     ;;
 esac
 
-echo 'Done! You for sure have a package manager'
+log_message "You have $PACKAGE_MANAGER"
