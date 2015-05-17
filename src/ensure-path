@@ -1,5 +1,3 @@
-#!/bin/bash
-#
 # Ensures that we have the correct path while running scripts
 #
 # Dependencies

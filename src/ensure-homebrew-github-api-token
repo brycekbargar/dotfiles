@@ -1,5 +1,3 @@
-#!/bin/bash
-#
 # Ensures that Homebrew knows about our API token so it stops complaining about searches
 #
 # Dependencies

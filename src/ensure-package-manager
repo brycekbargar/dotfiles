@@ -1,5 +1,3 @@
-#!/bin/bash
-#
 # Ensures that the distros package manager is installed
 # Ensures that additional package manager components are installed
 # Ensures that the PACKAGE_MANAGER environment variable is set
