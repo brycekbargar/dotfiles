@@ -36,5 +36,11 @@ if [ ! -e ~/~/.dropbox_uploader ]; then
 	echo "OAUTH_ACCESS_TOKEN_SECRET=$(lpass show --password DropboxAuth/OAUTH_ACCESS_TOKEN_SECRET)" >> ~/.dropbox_uploader
 fi
 
+if ! dropbox_uploader list; then
+
+	echo 'Something went wrong and you might not have dropbox :('
+	exit 1
+fi
+
 export DROPBOX_INSTALLED="true"
 echo 'Latest dropbox-uploader version installed'
