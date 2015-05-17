@@ -7,29 +7,40 @@
 # 
 # Dependencies
 
-if [ -z "$PACKAGE_MANAGER" ]; then
-    echo 'No $PACKAGE_MANAGER found'
+# Gets the package manager name for this distro
+# Returns
+#   The name of the current package manager
+get_package_manager () {
+    echo "$PACKAGE_MANAGER"
+}
 
-    if which pacman; then
-        echo "We're on Arch!"
-        export PACKAGE_MANAGER=pacman
-    elif which brew  || [[ "$OSTYPE" == "darwin"* ]]; then
-        echo "We're on Mac!"
-        export PACKAGE_MANAGER=homebrew
-    else
-        exit 1
-    fi
-
-else
+# We have been through this before and don't need to install/update anything
+if [ "$PACKAGE_MANAGER" ]; then
     echo "$PACKAGE_MANAGER found"
+    return 0
 fi
 
+# Let's first figure out what system we're on and what the package manager is
+echo 'No $PACKAGE_MANAGER found'
+if which pacman; then
+    echo "We're on Arch!"
+    export PACKAGE_MANAGER=pacman
+elif which brew  || [[ "$OSTYPE" == "darwin"* ]]; then
+    echo "We're on Mac!"
+    export PACKAGE_MANAGER=homebrew
+else
+    echo "We couldn't find a package manager!"
+    exit 1
+fi
+
+# Install helpers and make sure everything is up to date
 case "$PACKAGE_MANAGER" in
     "pacman")
         if ! which packer; then
             echo "We need to make packer"
             # Make packer
         fi
+        pacman -Syy
     ;;
     "homebrew")
         if ! which brew; then
@@ -41,18 +52,12 @@ case "$PACKAGE_MANAGER" in
             echo "We need to get cask"
             brew install caskroom/cask/brew-cask
         fi
-        brew upgrade caskroom/cask/brew-cask
+        brew update && brew upgrade brew-cask && brew cleanup && brew cask cleanup
     ;;
     *)
+        echo "We couldn't find a package manager!"
         exit 1
     ;;
 esac
 
 echo 'Done! You for sure have a package manager'
-
-# Gets the package manager name for this distro
-# Returns
-#   The name of the current package manager
-get_package_manager () {
-    echo "$PACKAGE_MANAGER"
-}

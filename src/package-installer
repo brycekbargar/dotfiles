@@ -21,8 +21,6 @@ package_installed () {
     
     case "$(get_package_manager)" in
         "pacman")
-    		pacman -Syu
-    		packer -Syu
             if [ $(pacman -Ss $1 | grep '/$1 ') ]; then
             	echo "Installing $1 from pacman"
             	pacman -S $1
@@ -35,7 +33,6 @@ package_installed () {
             fi 
         ;;
         "homebrew")
-    		brew update && brew upgrade brew-cask && brew cleanup && brew cask cleanup
     		if [ $(brew search $1 | grep $1) ]; then
     			
     			if [ $(brew list | grep $1) ]; then

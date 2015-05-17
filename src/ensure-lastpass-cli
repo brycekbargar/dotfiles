@@ -1,11 +1,13 @@
 #!/bin/bash
+#
 # Ensures that Lastpass is installed on this system
-
+#
 # Dependencies
-source ensure-package
+source package-installer
 
 if package_installed lastpass-cli; then
     echo 'Latest lastpass-cli version installed'
 else
     echo 'Something went wrong and you might not have lastpass-cli :('
+    exit 1
 fi
