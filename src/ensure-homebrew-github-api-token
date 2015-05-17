@@ -1,0 +1,13 @@
+#!/bin/bash
+#
+# Ensures that Homebrew knows about our API token so it stops complaining about searches
+#
+# Dependencies
+source ensure-lastpass-cli
+
+if [ "$HOMEBREW_GITHUB_API_TOKEN" ]; th
+	echo "Homebrew Github Api token found"
+	return 0
+fi
+
+export HOMEBREW_GITHUB_API_TOKEN=$(lpass show --password ApiKeys/Github)
