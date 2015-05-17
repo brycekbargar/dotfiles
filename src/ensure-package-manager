@@ -44,7 +44,14 @@ case "$PACKAGE_MANAGER" in
             echo "We need to get cask"
             brew install caskroom/cask/brew-cask
         fi
-        brew update && brew upgrade brew-cask && brew cleanup && brew cask cleanup
+
+        brew update
+
+        if brew outdated | grep brew-cask; then
+            brew upgrade brew-cask
+        fi
+        
+        brew cleanup && brew cask cleanup
     ;;
     *)
         echo "We couldn't find a package manager!"
