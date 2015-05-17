@@ -5,11 +5,18 @@
 # Dependencies
 source package-installer
 
+if [ "$LASTPASS_INSTALLED" ]; then
+    echo "Found lastpass"
+    return 0
+fi
+
 if package_installed lastpass-cli; then
     echo 'Latest lastpass-cli version installed'
 
     if lpass login $LASTPASS_USERNAME; then
         lpass sync
+        export LASTPASS_INSTALLED="true"
+        
         return 0
     fi
 fi

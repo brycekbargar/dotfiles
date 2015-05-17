@@ -6,9 +6,12 @@
 source package-installer
 source ensure-lastpass-cli
 
-if package_installed dropbox-uploader; then
-    echo 'Latest dropbox-uploader version installed'
-else
+if [ "$DROPBOX_INSTALLED" ]; then
+	echo "Found dropbox"
+	return 0
+fi
+
+if ! package_installed dropbox-uploader; then
     
 	# Do a manual install
 	git clone https://github.com/andreafabrizi/Dropbox-Uploader/
@@ -17,17 +20,19 @@ else
  	chmod +x dropbox_uploader.sh
  	popd
 
+ 	alias dropbox_uploader='/usr/bin/dropbox_uploader.sh'
  	rm -fdr Dropbox-Uploader
 fi
-
-alias dbox='/usr/bin/dropbox_uploader.sh'
 
 # We are setting these config values from lastpass so it "just works"
 if [ ! -e ~/~/.dropbox_uploader ]; then
 	echo '' > ~/.dropbox_uploader
-	echo "APPKEY=$(lpass show --sync=now DropboxAuth/AppKey)" > ~/.dropbox_uploader
-	echo "APPSECRET=$(lpass show --sync=now DropboxAuth/AppSecret)" >> ~/.dropbox_uploader
+	echo "APPKEY=$(lpass show --password DropboxAuth/APPKEY)" > ~/.dropbox_uploader
+	echo "APPSECRET=$(lpass show --password DropboxAuth/APPSECRET)" >> ~/.dropbox_uploader
 	echo "ACCESS_LEVEL=dropbox" >> ~/.dropbox_uploader
-	echo "OAUTH_ACCESS_TOKEN=$(lpass show --sync=now DropboxAuth/OAuthToken)" >> ~/.dropbox_uploader
-	echo "OAUTH_ACCESS_TOKEN_SECRET=$(lpass show --sync=now DropboxAuth/OAuthSecret)" >> ~/.dropbox_uploader
+	echo "OAUTH_ACCESS_TOKEN=$(lpass show --password DropboxAuth/OAUTH_ACCESS_TOKEN)" >> ~/.dropbox_uploader
+	echo "OAUTH_ACCESS_TOKEN_SECRET=$(lpass show --password DropboxAuth/OAUTH_ACCESS_TOKEN_SECRET)" >> ~/.dropbox_uploader
 fi
+
+export DROPBOX_INSTALLED="true"
+echo 'Latest dropbox-uploader version installed'
