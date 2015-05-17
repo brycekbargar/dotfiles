@@ -1,0 +1,44 @@
+# Exports
+#	log_error
+# log_warning
+#	log_trace
+#	log_message
+#
+# Dependencies
+
+# Log the message to stderr after marking it as error
+# Tees to TRACE_OUTPUT if available
+log_error () {
+  echo "error: $1 :(" | tee ${TRACE_OUTPUT:-/dev/null} 1>&2
+  echo "fatal: $1" >>  ${INSTALL_LOG_OUT:-/dev/null}
+}
+
+# Log the message to TRACE_OUTPUT, or stderr if TRACE_OUTPUT is null
+log_trace () {
+	echo "trace: $1" >> ${TRACE_OUTPUT:-/dev/stderr}
+}
+
+# Log the message to TRACE_OUTPUT, or stderr if TRACE_OUTPUT is null
+log_warning () {
+  echo "warning: $1..." > ${TRACE_OUTPUT:-/dev/stderr}
+}
+
+# Log the message to stderr after marking it as message
+# Tees to TRACE_OUTPUT if available
+log_message () {
+	echo "message: $1!" | tee ${TRACE_OUTPUT:-/dev/null} 1>&2
+  echo "$1" >>  ${INSTALL_LOG_OUT:-/dev/null}
+}
+
+if [ "$TRACE_OUTPUT" ]; then
+  echo '' > $TRACE_OUTPUT
+else
+  log_warning $'You don\'t have a $TRACE_OUTPUT defined. We\'re going to log to stderr'
+fi
+
+
+if [ "$INSTALL_LOG_OUT" ]; then
+  echo '' > $INSTALL_LOG_OUT
+else
+  log_warning $'You don\'t have a $INSTALL_LOG_OUT defined. We won\'t log to a file'
+fi
