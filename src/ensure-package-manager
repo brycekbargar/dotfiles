@@ -1,18 +1,10 @@
 #!/bin/bash
-# Exports get_package_manager
 #
 # Ensures that the distros package manager is installed
 # Ensures that additional package manager components are installed
 # Ensures that the PACKAGE_MANAGER environment variable is set
 # 
 # Dependencies
-
-# Gets the package manager name for this distro
-# Returns
-#   The name of the current package manager
-get_package_manager () {
-    echo "$PACKAGE_MANAGER"
-}
 
 # We have been through this before and don't need to install/update anything
 if [ "$PACKAGE_MANAGER" ]; then

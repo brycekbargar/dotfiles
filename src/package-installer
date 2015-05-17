@@ -19,7 +19,7 @@ package_installed () {
     fi
     
     
-    case "$(get_package_manager)" in
+    case "$PACKAGE_MANAGER" in
         "pacman")
             if [ $(pacman -Ss $1 | grep '/$1 ') ]; then
             	echo "Installing $1 from pacman"
