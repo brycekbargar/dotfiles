@@ -1,0 +1,13 @@
+#!/bin/bash
+#
+# Ensures that we have the correct path while running scripts
+#
+# Dependencies
+
+# TODO: Add more paths as needed
+for thisPath in "$(pwd)/src"; do
+  case ":$PATH:" in
+    *":$thisPath:"*) :;; # already there
+    *) PATH="$PATH:$thisPath";;
+  esac
+done

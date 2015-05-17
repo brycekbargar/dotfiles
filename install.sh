@@ -1,9 +1,10 @@
 #!/bin/bash
 #
 # Run to setup dotfiles
-# Right now it just acts as a chell container so I can test exits
+# Right now it just acts as a shell container so I can test exits
 #
 # Dependencies
+source src/ensure-path
 source ensure-homebrew-github-api-token
 source ensure-dropbox
 
