@@ -5,9 +5,9 @@
 # Dependencies
 source ensure-lastpass-cli
 
-if [ "$HOMEBREW_GITHUB_API_TOKEN" ]; th
+if [ "$HOMEBREW_GITHUB_API_TOKEN" ]; then
 	echo "Homebrew Github Api token found"
 	return 0
 fi
 
-export HOMEBREW_GITHUB_API_TOKEN=$(lpass show --password ApiKeys/Github)
+export HOMEBREW_GITHUB_API_TOKEN=$(lpass show --password ApiKeys/GitHub)
