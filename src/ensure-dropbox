@@ -21,13 +21,15 @@ if ! package_installed dropbox-uploader; then
 	 	chmod +x dropbox_uploader.sh
  		popd
  	fi
-
- 	alias dropbox_uploader='/usr/bin/dropbox_uploader.sh'
  	rm -fdr Dropbox-Uploader
+
+ 	dropbox_uploader () {
+ 		/usr/bin/dropbox_uploader.sh $@
+ 	}
 fi
 
 # We are setting these config values from lastpass so it "just works"
-if [ ! -e ~/~/.dropbox_uploader ]; then
+if [ ! -e ~/.dropbox_uploader ]; then
 	echo '' > ~/.dropbox_uploader
 	echo "APPKEY=$(lpass show --password DropboxAuth/APPKEY)" > ~/.dropbox_uploader
 	echo "APPSECRET=$(lpass show --password DropboxAuth/APPSECRET)" >> ~/.dropbox_uploader
