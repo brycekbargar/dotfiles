@@ -1,0 +1,11 @@
+# Sets things up for the installation script
+
+alias requires=source
+alias depends_on=source
+
+for thisPath in "$(pwd)/src/applications" "$(pwd)/src/utilities"; do
+  case ":$PATH:" in
+    *":$thisPath:"*) :;; # already there
+    *) PATH="$PATH:$thisPath";;
+  esac
+done

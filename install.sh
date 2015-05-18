@@ -4,7 +4,7 @@
 # Right now it just acts as a shell container so I can test exits
 #
 # Dependencies
-source src/ensure-path
+source init
 source ensure-homebrew-github-api-token
 source ensure-dropbox
 
