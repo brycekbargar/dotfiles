@@ -10,7 +10,7 @@ if [ "$PACKAGE_MANAGER" ]; then
     log_trace "$PACKAGE_MANAGER found"
     return 0
 fi
-
+    
 # Let's first figure out what system we're on and what the package manager is
 if which pacman; then
     log_trace $'We\'re on Arch'
