@@ -3,14 +3,17 @@
 # Dependencies
 source package-installer
 source ensure-lastpass-cli
+source logwriter
 
 if [ "$DROPBOX_INSTALLED" ]; then
-	echo "Found dropbox"
+	log_trace "Dropbox already installed"
 	return 0
 fi
 
 if ! package_installed dropbox-uploader; then
     
+	log_warning $'Your package manager couldn\'t install dropbox'
+
     if [ ! -e /usr/bin/dropbox_uploader.sh ]; then
 		# Do a manual install
 		git clone https://github.com/andreafabrizi/Dropbox-Uploader/
@@ -38,9 +41,9 @@ fi
 
 if ! dropbox_uploader list; then
 
-	echo 'Something went wrong and you might not have dropbox :('
+	log_error 'Something went wrong and you might not have dropbox'
 	exit 1
 fi
 
 export DROPBOX_INSTALLED="true"
-echo 'Latest dropbox-uploader version installed'
+log_message 'Latest dropbox-uploader version installed'

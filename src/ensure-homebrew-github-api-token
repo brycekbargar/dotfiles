@@ -2,10 +2,12 @@
 #
 # Dependencies
 source ensure-lastpass-cli
+source logwriter
 
 if [ "$HOMEBREW_GITHUB_API_TOKEN" ]; then
-	echo "Homebrew Github Api token found"
+	log_trace "Homebrew GitHub Api Token is already set"
 	return 0
 fi
 
 export HOMEBREW_GITHUB_API_TOKEN=$(lpass show --password ApiKeys/GitHub)
+log_message 'Your Homebrew GitHub Auth Token has been set'
