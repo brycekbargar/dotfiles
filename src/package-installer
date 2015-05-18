@@ -28,7 +28,7 @@ package_installed () {
                 log_trace "Installing $1 from packer"
                 packer -S "$1-git"
             else
-                log_error "pacman couldn't find $1"
+                log_warning "pacman couldn't find $1"
                 return 1
             fi 
         ;;
@@ -56,14 +56,14 @@ package_installed () {
                     fi
                 ;;
                 *)
-                    log_error "homebrew couldn't find $1"
+                    log_warning "homebrew couldn't find $1"
                     return 1
                 ;;
             esac
         ;;
         *)
-    		echo 'We dont know what $PACKAGE_MANAGER you are using!'
-            return 1
+    		log_error 'We dont know what $PACKAGE_MANAGER you are using!'
+            exit 1
         ;;
     esac
 
