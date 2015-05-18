@@ -1,8 +1,8 @@
 # Ensures that Lastpass is installed on this system
 #
 # Dependencies
-source package-installer
-source logwriter
+requires package-installer
+requires log-writer
 
 if [ ! "$LASTPASS_USERNAME" ]; then
 	log_error 'You must set $LASTPASS_USERNAME'

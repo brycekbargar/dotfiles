@@ -1,0 +1,17 @@
+# Sets things up for the installation script
+
+requires () {
+  source $@
+}
+depends_on () {
+  source $@
+}
+
+for thisPath in "$(pwd)/src/applications" "$(pwd)/src/utilities"; do
+  case ":$PATH:" in
+    *":$thisPath:"*) :;; # already there
+    *) PATH="$PATH:$thisPath";;
+  esac
+done
+
+export DOTFILES_DIR="$(pwd)/dotfiles"

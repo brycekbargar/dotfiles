@@ -1,9 +1,9 @@
 # Ensures that Dropbox is installed on this system
 #
 # Dependencies
-source package-installer
-source ensure-lastpass-cli
-source logwriter
+depends_on lastpass
+requires package-installer
+requires log-writer
 
 if [ "$DROPBOX_INSTALLED" ]; then
 	log_trace "Dropbox already installed"
@@ -31,12 +31,7 @@ fi
 
 # We are setting these config values from lastpass so it "just works"
 if [ ! -e ~/.dropbox_uploader ]; then
-	echo '' > ~/.dropbox_uploader
-	echo 'APPKEY=$(lpass show --password DropboxAuth/APPKEY)' > ~/.dropbox_uploader
-	echo 'APPSECRET=$(lpass show --password DropboxAuth/APPSECRET)' >> ~/.dropbox_uploader
-	echo 'ACCESS_LEVEL=dropbox' >> ~/.dropbox_uploader
-	echo 'OAUTH_ACCESS_TOKEN=$(lpass show --password DropboxAuth/OAUTH_ACCESS_TOKEN)' >> ~/.dropbox_uploader
-	echo 'OAUTH_ACCESS_TOKEN_SECRET=$(lpass show --password DropboxAuth/OAUTH_ACCESS_TOKEN_SECRET)' >> ~/.dropbox_uploader
+	ln -s "$DOTFILES_DIR/applications/.dropbox_uploader" ~/.dropbox_uploader
 fi
 
 if ! dropbox_uploader list; then
