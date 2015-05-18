@@ -1,9 +1,9 @@
 # Ensures that Dropbox is installed on this system
 #
 # Dependencies
-source package-installer
-source ensure-lastpass-cli
-source logwriter
+depends_on lastpass
+requires package-installer
+requires log-writer
 
 if [ "$DROPBOX_INSTALLED" ]; then
 	log_trace "Dropbox already installed"

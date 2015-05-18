@@ -2,8 +2,8 @@
 #    package_installed
 #
 # Dependencies
-source ensure-package-manager
-source logwriter
+depends_on package-manager
+requires log-writer
 
 # Installs the requested packege if available
 # Arguments

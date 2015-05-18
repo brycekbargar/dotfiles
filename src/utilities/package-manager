@@ -3,7 +3,7 @@
 # Ensures that the PACKAGE_MANAGER environment variable is set
 # 
 # Dependencies
-source logwriter
+requires log-writer
 
 # We have been through this before and don't need to install/update anything
 if [ "$PACKAGE_MANAGER" ]; then
