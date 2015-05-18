@@ -13,3 +13,5 @@ for thisPath in "$(pwd)/src/applications" "$(pwd)/src/utilities"; do
     *) PATH="$PATH:$thisPath";;
   esac
 done
+
+export DOTFILES_DIR="$(pwd)/dotfiles"
