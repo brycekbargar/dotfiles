@@ -2,7 +2,7 @@
 # Ensures that Lastpass is installed on this system
 #
 # Dependencies
-requires package-installer
+requires package-manager
 requires log-writer
 
 if [ ! "$LASTPASS_USERNAME" ]; then
@@ -10,22 +10,20 @@ if [ ! "$LASTPASS_USERNAME" ]; then
 	exit 1
 fi
 
-if [ "$LASTPASS_INSTALLED" ]; then
-    log_trace "Lastpass already installed"
-    return 0
+if ! which lpass && ! try_install lastpass-cli; then
+
+    #Try manual install?
+
+    log_error 'Something went wrong and you might not have Lastpass'
+    exit 1
 fi
 
-if package_installed lastpass-cli; then
+if find ~/.lpass -maxdepth 0 -empty | grep lpass > /dev/null; then
+    if ! lpass login $LASTPASS_USERNAME; then
 
-    if lpass sync || lpass login $LASTPASS_USERNAME; then
-        lpass sync
-        
-        export LASTPASS_INSTALLED="true"	
-		log_message 'Latest Lastpass version installed'
-
-        return 0
+        log_error 'Something went wrong and you might not have Lastpass'
+        exit 1
     fi
 fi
 
-log_error 'Something went wrong and you might not have Lastpass'
-exit 1
+log_message 'lpass is installed'

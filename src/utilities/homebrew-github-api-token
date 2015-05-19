@@ -2,7 +2,7 @@
 # Ensures that Homebrew knows about our API token so it stops complaining about searches
 #
 # Dependencies
-depends_on lastpass
+requires lastpass
 requires log-writer
 
 if [ "$HOMEBREW_GITHUB_API_TOKEN" ]; then

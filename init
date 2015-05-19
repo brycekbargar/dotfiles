@@ -4,9 +4,6 @@
 requires () {
   source $@
 }
-depends_on () {
-  source $@
-}
 
 for thisPath in "$(pwd)/src/applications" "$(pwd)/src/utilities"; do
   case ":$PATH:" in
