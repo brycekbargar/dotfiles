@@ -1,4 +1,7 @@
 #!/bin/bash
+# Exports
+#    package_installed
+#
 # Ensures that the distros package manager is installed
 # Ensures that additional package manager components are installed
 # Ensures that the PACKAGE_MANAGER environment variable is set
@@ -56,3 +59,69 @@ case "$PACKAGE_MANAGER" in
 esac
 
 log_message "You have $PACKAGE_MANAGER"
+
+# Installs the requested packege if available
+# Arguments
+#   $1 package-name 
+#   $2 additional-package-source TODO: figure out how to handle additional package sources
+# Returns
+#   0 Package is definitely installed
+#   1 Package is probably not installed
+package_installed () {
+
+    case "$PACKAGE_MANAGER" in
+        "pacman")
+            if pacman -Ss $1 | grep "/$1 "; then
+                log_trace "Installing $1 from pacman"
+                sudo pacman -S $1
+
+            elif packer -Ss $1 | grep "/$1 "; then
+                log_trace "Installing $1 from packer"
+                packer -S $1
+
+            elif packer -Ss $1 | grep "/$1-git"; then
+                log_trace "Installing $1 from packer"
+                packer -S "$1-git"
+            else
+                log_warning "pacman couldn't find $1"
+                return 1
+            fi 
+        ;;
+        "homebrew")
+            case $(brew search $1) in
+                Caskroom/*/"$1")
+                    if brew cask list | grep $1 ; then
+                        log_trace "Upgrading $1 from homebrew cask"
+                        brew cask install --force $1
+
+                    else
+                        log_trace "Installing $1 from homebrew cask"
+                        brew cask install $1    
+                    fi
+                ;;
+                "$1")
+                    if brew list $1 | grep $1 ; then
+                        if brew outdated | grep $1; then
+                            log_trace "Upgrading $1 from homebrew"
+                            brew upgrade $1
+                        fi
+                    else
+                        log_trace "Installing $1 from homebrew"
+                        brew install $1
+                    fi
+                ;;
+                *)
+                    log_warning "homebrew couldn't find $1"
+                    return 1
+                ;;
+            esac
+        ;;
+        *)
+            log_error 'We dont know what $PACKAGE_MANAGER you are using!'
+            exit 1
+        ;;
+    esac
+
+    return $?
+}
+export -f package_installed

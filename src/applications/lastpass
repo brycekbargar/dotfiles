@@ -2,7 +2,7 @@
 # Ensures that Lastpass is installed on this system
 #
 # Dependencies
-requires package-installer
+requires package-manager
 requires log-writer
 
 if [ ! "$LASTPASS_USERNAME" ]; then

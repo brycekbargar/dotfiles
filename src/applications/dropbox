@@ -3,7 +3,7 @@
 #
 # Dependencies
 depends_on lastpass
-requires package-installer
+requires package-manager
 requires log-writer
 
 if [ "$DROPBOX_INSTALLED" ]; then
