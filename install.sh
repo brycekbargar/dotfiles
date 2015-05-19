@@ -5,8 +5,8 @@
 #
 # Dependencies
 source init
-depends_on homebrew-github-api-token
-depends_on dropbox
+requires homebrew-github-api-token
+requires dropbox
 
 # Do some fancy stuff with ssh keys
 
