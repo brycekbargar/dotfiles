@@ -1,3 +1,4 @@
+#!/bin/bash
 # Ensures that Lastpass is installed on this system
 #
 # Dependencies

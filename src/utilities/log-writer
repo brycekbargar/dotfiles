@@ -1,3 +1,4 @@
+#!/bin/bash
 # Exports
 #	  log_error
 #   log_warning
