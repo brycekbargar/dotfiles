@@ -1,6 +1,6 @@
 #!/bin/bash
 # Exports
-#    package_installed
+#    try_install
 #
 # Ensures that the distros package manager is installed
 # Ensures that additional package manager components are installed
@@ -67,7 +67,7 @@ log_message "You have $PACKAGE_MANAGER"
 # Returns
 #   0 Package is definitely installed
 #   1 Package is probably not installed
-package_installed () {
+try_install () {
 
     case "$PACKAGE_MANAGER" in
         "pacman")
@@ -124,4 +124,4 @@ package_installed () {
 
     return $?
 }
-export -f package_installed
+export -f try_install

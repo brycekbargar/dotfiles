@@ -15,7 +15,7 @@ if [ "$LASTPASS_INSTALLED" ]; then
     return 0
 fi
 
-if package_installed lastpass-cli; then
+if try_install lastpass-cli; then
 
     if lpass sync || lpass login $LASTPASS_USERNAME; then
         lpass sync
