@@ -90,25 +90,12 @@ try_install () {
         "homebrew")
             case $(brew search $1) in
                 Caskroom/*/"$1")
-                    if brew cask list | grep $1 ; then
-                        log_trace "Upgrading $1 from homebrew cask"
-                        brew cask install --force $1
-
-                    else
-                        log_trace "Installing $1 from homebrew cask"
-                        brew cask install $1    
-                    fi
+                    log_trace "Installing $1 from homebrew cask"
+                    brew cask install $1    
                 ;;
-                "$1")
-                    if brew list $1 | grep $1 ; then
-                        if brew outdated | grep $1; then
-                            log_trace "Upgrading $1 from homebrew"
-                            brew upgrade $1
-                        fi
-                    else
-                        log_trace "Installing $1 from homebrew"
-                        brew install $1
-                    fi
+                *"$1"*)
+                    log_trace "Installing $1 from homebrew"
+                    brew install $1
                 ;;
                 *)
                     log_warning "homebrew couldn't find $1"

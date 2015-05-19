@@ -6,7 +6,18 @@ requires lastpass
 requires package-manager
 requires log-writer
 
-if [ "$DROPBOX_INSTALLED" ]; then
+if which dropbox_uploader; then
+	log_trace "Dropbox already installed"
+	return 0
+fi
+
+if which dropbox_uploader.sh; then
+
+	dropbox_uploader () {
+ 		/usr/bin/dropbox_uploader.sh $@
+ 	}
+ 	export -f dropbox_uploader
+
 	log_trace "Dropbox already installed"
 	return 0
 fi
@@ -28,6 +39,7 @@ if ! try_install dropbox-uploader; then
  	dropbox_uploader () {
  		/usr/bin/dropbox_uploader.sh $@
  	}
+ 	export -f dropbox_uploader
 fi
 
 # We are setting these config values from lastpass so it "just works"
@@ -41,5 +53,4 @@ if ! dropbox_uploader list; then
 	exit 1
 fi
 
-export DROPBOX_INSTALLED="true"
-log_message 'Latest dropbox-uploader version installed'
+log_message 'dropbox_uploader is installed'
