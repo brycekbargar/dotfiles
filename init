@@ -5,7 +5,7 @@ requires () {
   source $@
 }
 
-for thisPath in "$(pwd)/src/applications" "$(pwd)/src/utilities"; do
+for thisPath in "$(pwd)/src/applications" "$(pwd)/src/utilities" "$(pwd)/src/ssh-keys"; do
   case ":$PATH:" in
     *":$thisPath:"*) :;; # already there
     *) PATH="$PATH:$thisPath";;

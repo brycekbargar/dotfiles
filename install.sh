@@ -6,8 +6,8 @@
 # Dependencies
 source init
 requires homebrew-github-api-token
-requires dropbox
 
 # Do some fancy stuff with ssh keys
+requires ssh-host-key
 
 # Do some fancy stuff with symlinking configs
