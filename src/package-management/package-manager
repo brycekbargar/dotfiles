@@ -28,11 +28,7 @@ fi
 # Install helpers and make sure everything is up to date
 case "$PACKAGE_MANAGER" in
     "pacman")
-        if ! which packer; then
-            log_trace 'We need to make packer'
-            # Make packer
-        fi
-        pacman -Syy
+        pacman_init
     ;;
     "homebrew")
         homebrew_init
@@ -55,21 +51,7 @@ try_install () {
 
     case "$PACKAGE_MANAGER" in
         "pacman")
-            if pacman -Ss $1 | grep "/$1 "; then
-                log_trace "Installing $1 from pacman"
-                sudo pacman -S $1
-
-            elif packer -Ss $1 | grep "/$1 "; then
-                log_trace "Installing $1 from packer"
-                packer -S $1
-
-            elif packer -Ss $1 | grep "/$1-git"; then
-                log_trace "Installing $1 from packer"
-                packer -S "$1-git"
-            else
-                log_warning "pacman couldn't find $1"
-                return 1
-            fi 
+            pacman_install "$1"
         ;;
         "homebrew")
             homebrew_install "$1"

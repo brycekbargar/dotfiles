@@ -1,0 +1,60 @@
+#!/bin/bash
+#
+# Exports
+#   pacman_init
+#   pacman_install
+#
+# A wrapper for pacman and packer
+#
+requires log-writer
+
+# Ensures that the pacman and packer are installed and updated
+pacman_init () {
+  if ! which packer; then
+    log_trace 'We need to make packer'
+    # Make packer
+  fi
+  pacman -Syy
+
+  log_message 'You have pacman'
+}
+export -f pacman_init
+
+# Tries to install the package from pacman and packer
+# Arguments
+#   $1 package-name 
+#   $2 additional-package-source TODO: figure out how to handle additional package sources
+# Returns
+#   0 Package was installed
+#   1 Package was not installed
+pacman_install () {
+  if pacman -Ss $1 | grep "/$1 "; then
+    log_trace "Installing $1 from pacman"
+    if ! sudo pacman -S $1; then
+      log_warning "pacman couldn't install $1"
+      return 1
+    fi
+    
+  elif packer -Ss $1 | grep "/$1 "; then
+    log_trace "Installing $1 from packer"
+    if ! packer -S $1; then
+      log_warning "packer couldn't install $1"
+      return 1
+    fi
+    
+
+  elif packer -Ss $1 | grep "/$1-git"; then
+    log_trace "Installing $1 from packer"
+    if ! packer -S "$1-git"; then
+      log_warning "packer couldn't install $1"
+      return 1
+    fi
+
+  else
+    log_warning "pacman couldn't find $1"
+    return 1
+  fi 
+
+  log_message "pacman installed $1"
+}
+export -f pacman_install
