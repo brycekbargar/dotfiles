@@ -45,14 +45,14 @@ homebrew_install () {
     Caskroom/*/"$1")
       log_trace "Installing $1 from homebrew cask"
       if ! brew cask install $1; then
-        log_warning "hombrew cask couldn't install $1"
+        log_warning "homebrew cask couldn't install $1"
         return 1
       fi
     ;;
     *"$1"*)
       log_trace "Installing $1 from homebrew"
       if ! brew install $1; then
-        log_warning "hombrew couldn't install $1"
+        log_warning "homebrew couldn't install $1"
         return 1
       fi
     ;;
@@ -62,6 +62,6 @@ homebrew_install () {
     ;;
   esac
 
-  log_message "Homebrew installed $1"
+  log_message "homebrew installed $1"
 }
 export -f homebrew_install
