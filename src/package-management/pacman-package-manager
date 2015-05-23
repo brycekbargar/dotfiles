@@ -12,7 +12,21 @@ requires log-writer
 pacman_init () {
   if ! which packer; then
     log_trace 'We need to make packer'
-    # Make packer
+    fail=0
+    mkdir packer || fail=1
+    pushd packer || fail=1
+      sudo pacman -S base-devel fakeroot jshon expac git || fail=1
+      wget https://aur.archlinux.org/packages/pa/packer/PKGBUILD || fail=1
+      makepkg || fail=1
+      sudo pacman -U *.tar.xz || fail=1
+    popd
+    sudo rm -dR packer || fail=1
+
+    if ((fail)); then
+      log_error $'Couldn\'t install packer'
+      return 1
+    fi
+    
   fi
   pacman -Syy
 

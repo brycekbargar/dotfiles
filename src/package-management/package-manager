@@ -39,6 +39,11 @@ case "$PACKAGE_MANAGER" in
     ;;
 esac
 
+if ! "$?"; then
+    log_error "$PACKAGE_MANAGER not setup"
+    exit 1
+fi
+
 log_message "You have $PACKAGE_MANAGER"
 
 # Installs the requested packege if available
