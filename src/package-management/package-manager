@@ -1,0 +1,72 @@
+#!/bin/bash
+#
+# Exports
+#    try_install
+#
+# Ensures that the distros package manager is installed
+# Ensures that additional package manager components are installed
+# Ensures that the PACKAGE_MANAGER environment variable is set
+# 
+requires log-writer
+requires homebrew-package-manager
+
+# We have been through this before and don't need to install/update anything
+if [ "$PACKAGE_MANAGER" ]; then
+    log_trace "$PACKAGE_MANAGER found"
+    return 0
+fi
+    
+# Let's first figure out what system we're on and what the package manager is
+if which pacman; then
+    log_trace $'We\'re on Arch'
+    export PACKAGE_MANAGER=pacman
+elif which brew  || [[ "$OSTYPE" == "darwin"* ]]; then
+    log_trace $'We\'re on a Mac'
+    export PACKAGE_MANAGER=homebrew
+fi
+
+# Install helpers and make sure everything is up to date
+case "$PACKAGE_MANAGER" in
+    "pacman")
+        pacman_init
+    ;;
+    "homebrew")
+        homebrew_init
+    ;;
+    *)
+        log_error $'We couldn\'t find a package manager'
+        exit 1
+    ;;
+esac
+
+if ! "$?"; then
+    log_error "$PACKAGE_MANAGER not setup"
+    exit 1
+fi
+
+log_message "You have $PACKAGE_MANAGER"
+
+# Installs the requested packege if available
+# Arguments
+#   $1 package-name 
+#   $2 additional-package-source TODO: figure out how to handle additional package sources
+# Returns
+#   return value of *-package-manager
+try_install () {
+
+    case "$PACKAGE_MANAGER" in
+        "pacman")
+            pacman_install "$1"
+        ;;
+        "homebrew")
+            homebrew_install "$1"
+        ;;
+        *)
+            log_error 'We dont know what $PACKAGE_MANAGER you are using!'
+            exit 1
+        ;;
+    esac
+
+    return $?
+}
+export -f try_install
