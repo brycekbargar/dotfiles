@@ -1,7 +1,7 @@
 #!/bin/bash
+#
 # Ensures that Dropbox is installed on this system
 #
-# Dependencies
 requires lastpass
 requires package-manager
 requires log-writer

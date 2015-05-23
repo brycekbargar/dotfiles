@@ -1,5 +1,7 @@
 #!/bin/bash
+#
 # Sets things up for the installation script
+#
 
 requires () {
   source $@
