@@ -8,6 +8,7 @@
 # Ensures that the PACKAGE_MANAGER environment variable is set
 # 
 requires log-writer
+requires homebrew-package-manager
 
 # We have been through this before and don't need to install/update anything
 if [ "$PACKAGE_MANAGER" ]; then
@@ -34,23 +35,7 @@ case "$PACKAGE_MANAGER" in
         pacman -Syy
     ;;
     "homebrew")
-        if ! which brew; then
-            log_trace 'We need to get homebrew'
-            xcode-select --install
-            ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-        fi
-        if ! brew list | grep brew-cask; then
-            log_trace 'We need to get cask'
-            brew install caskroom/cask/brew-cask
-        fi
-
-        brew update
-
-        if brew outdated | grep brew-cask; then
-            brew upgrade brew-cask
-        fi
-        
-        brew cleanup && brew cask cleanup
+        homebrew_init
     ;;
     *)
         log_error $'We couldn\'t find a package manager'
@@ -65,8 +50,7 @@ log_message "You have $PACKAGE_MANAGER"
 #   $1 package-name 
 #   $2 additional-package-source TODO: figure out how to handle additional package sources
 # Returns
-#   0 Package is definitely installed
-#   1 Package is probably not installed
+#   return value of *-package-manager
 try_install () {
 
     case "$PACKAGE_MANAGER" in
@@ -88,20 +72,7 @@ try_install () {
             fi 
         ;;
         "homebrew")
-            case $(brew search $1) in
-                Caskroom/*/"$1")
-                    log_trace "Installing $1 from homebrew cask"
-                    brew cask install $1    
-                ;;
-                *"$1"*)
-                    log_trace "Installing $1 from homebrew"
-                    brew install $1
-                ;;
-                *)
-                    log_warning "homebrew couldn't find $1"
-                    return 1
-                ;;
-            esac
+            homebrew_install "$1"
         ;;
         *)
             log_error 'We dont know what $PACKAGE_MANAGER you are using!'
