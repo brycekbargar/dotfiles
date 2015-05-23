@@ -1,0 +1,24 @@
+#!/bin/bash
+# Exports
+#   create-ssh-key
+# Utilities for ssh-keys
+# 
+requires lastpass
+requires log-writer
+
+create-ssh-key () {
+
+  if lpass ls --sync=now | grep "SSHKeys/$1"; then
+    local password=$(lpass show "$1")
+  else
+    local password=$(lpass generate --sync=now "SSHKeys/$1" 32)
+  fi
+
+  if ! ssh-keygen -t rsa -N "$password" -C "$LASTPASS_USERNAME" -f "$HOME/.ssh/$1"; then
+    log_warning "ssh-keygen failed"
+    return 1
+  fi
+
+  return 0
+}
+export -f create-ssh-key

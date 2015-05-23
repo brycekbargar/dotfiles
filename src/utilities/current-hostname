@@ -1,0 +1,8 @@
+#!/bin/bash
+#
+# Set the HOSTNAME environment variable
+#
+
+if which uname; then
+    export HOSTNAME="$(uname -n)"
+fi
