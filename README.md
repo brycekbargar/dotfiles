@@ -28,7 +28,7 @@ You should also have the same folder/naming structure in LastPass for the privat
 
 ### To Run
 ```
-export $LASTPASS_USERNAME=<your username>
+export LASTPASS_USERNAME=<your username>
 git clone https://github.com/brycekbargar/dotfiles.git
 cd dotfiles
 chmod +x install.sh
