@@ -26,7 +26,7 @@ if ! try_install dropbox-uploader; then
     
 	log_warning $'Your package manager couldn\'t install dropbox'
 
-    if [ ! -e /usr/bin/dropbox_uploader.sh ]; then
+  if [ ! -e /usr/bin/dropbox_uploader.sh ]; then
 		# Do a manual install
 		git clone https://github.com/andreafabrizi/Dropbox-Uploader/
  		sudo mv Dropbox-Uploader/dropbox_uploader.sh /usr/bin/

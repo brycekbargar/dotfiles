@@ -12,7 +12,8 @@ for thisPath in \
     "$(pwd)/src/applications" \
     "$(pwd)/src/utilities" \
     "$(pwd)/src/ssh-keys" \
-    "$(pwd)/src/package-management"; do
+    "$(pwd)/src/package-management" \
+    "$(pwd)/dotfiles/git"; do
   case ":$PATH:" in
     *":$thisPath:"*) :;; # already there
     *) PATH="$PATH:$thisPath";;

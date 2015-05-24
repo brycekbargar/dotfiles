@@ -1,0 +1,26 @@
+#!/bin/bash
+#
+# git scam (git "safe commit all with message")
+#
+# Adds all files with git add -A
+# Confirms commit
+# Commits with given message
+#
+
+if ! [ "$1" ]; then
+  echo 'error: You didnt specify a commit message'
+  exit 1
+fi
+
+git add -A 
+git status
+
+read -p 'Do you still want to commit all? [Yn]' confirmed
+if [ "$confirmed" = 'Y' ]
+then
+  echo
+  git commit -m "$1"
+  echo
+else
+  git reset > /dev/null
+fi

@@ -1,0 +1,41 @@
+#!/bin/bash
+#
+# Symlinks .gitconfig
+# Sets up initial settings
+# Copies and chmods git-* scripts
+#
+requires log-writer
+
+if [ ! -e "$HOME/.gitconfig" ] || [ ! grep '# bryces-dotfiles-gitconfig' "$HOME/.gitconfig" ]; then
+  log_trace 'Symlinking my gitconfig'
+
+  if [ -e "$HOME/.gitconfig" ]; then
+    log_warning 'Removing existing gitconfig'
+    rm -f "$HOME/.gitconfig"
+  fi
+
+  ln -s "$DOTFILES_DIR/git/.gitconfig" "$HOME/.gitconfig"
+else
+  log_trace 'My gitconfig already in place'
+fi
+
+for thisFileName in "$DOTFILES_DIR/git/bin/"*; do
+    thisFile=$(basename "$thisFileName")
+    log_trace "Symlinking $thisFile"
+
+    if [ -e "/usr/local/bin/$thisFile" ]; then
+      log_warning "Removing existing $thisFile"
+      rm -f "/usr/local/bin/$thisFile"
+    fi
+    
+    ln -s "$DOTFILES_DIR/git/bin/$thisFile" "/usr/local/bin/$thisFile"
+    pushd /usr/local/bin/
+    chmod +x "$thisFile"
+    popd
+
+    log_message "$thisFile symlinked"
+done
+
+git update-index --assume-unchanged "$DOTFILES_DIR/git/.gitconfig"
+
+log_message 'gitconfig symlinked'
