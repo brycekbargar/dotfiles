@@ -5,10 +5,10 @@
 #
 # Utilities for ssh-keys
 # 
-requires lastpass
+requires lastpass-installed
 requires log-writer
 
-create-ssh-key () {
+create_ssh_key () {
 
   if lpass ls --sync=now | grep "SSHKeys/$1"; then
     local password=$(lpass show "$1")
@@ -23,4 +23,4 @@ create-ssh-key () {
 
   return 0
 }
-export -f create-ssh-key
+export -f create_ssh_key

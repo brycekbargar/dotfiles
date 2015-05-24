@@ -2,7 +2,7 @@
 #
 # Ensures that Dropbox is installed on this system
 #
-requires lastpass
+requires lastpass-installed
 requires package-manager
 requires log-writer
 
