@@ -26,14 +26,17 @@ In your dropbox you should create a root folder names SSHKeys
 
 You should also have the same folder/naming structure in LastPass for the private key encryption password
 
-Modify `src/package-management/environment-specific-packages` to include your favorite packages
+### Post clone steps
+- Modify `src/package-management/environment-specific-packages` to include your favorite packages
 
+### Post run steps
+- Run git config --global user.name
+- Run git config --global user.email
 
 ### To Run
 ```
 export LASTPASS_USERNAME=<your username>
-git clone https://github.com/brycekbargar/dotfiles.git
-cd dotfiles
-chmod +x install.sh
-./install.sh
+git clone https://github.com/brycekbargar/dotfiles.git && cd dotfiles
+# Do post clone steps
+chmod +x install.sh && ./install.sh
 ```

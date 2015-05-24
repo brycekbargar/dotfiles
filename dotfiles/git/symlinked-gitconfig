@@ -19,4 +19,6 @@ else
   log_trace 'My gitconfig already in place'
 fi
 
+# git update-index --assume-unchanged "$DOTFILES_DIR/git/.gitconfig"
+
 log_message 'gitconfig symlinked'
