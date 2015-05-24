@@ -17,5 +17,4 @@ git merge --no-ff $toMerge
 
 if [ "$2" = '-d' ]; then
   git branch -d $toMerge
-  git push --delete origin $toMerge
 fi
