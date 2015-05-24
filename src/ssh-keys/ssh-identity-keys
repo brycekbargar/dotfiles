@@ -2,7 +2,7 @@
 #
 # Downloads the Identity keys from Dropbox
 #
-requires dropbox
+requires dropbox-installed
 requires log-writer
 
 if ! dropbox_uploader.sh download "/SSHKeys/Identity" "$HOME/.ssh/"; then

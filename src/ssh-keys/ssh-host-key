@@ -3,7 +3,7 @@
 # Checks to see if the host key is in dropbox or on the local system
 # 
 requires log-writer
-requires dropbox
+requires dropbox-installed
 requires current-hostname
 requires ssh-key-utilities
 

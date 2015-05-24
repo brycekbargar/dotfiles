@@ -1,0 +1,43 @@
+#!/bin/bash
+#
+# Installs zsh and sets it as the default shell
+#
+requires log-writer
+requires package-manager
+
+if [[ "$SHELL" =~ 'zsh' ]]; then
+    log_trace 'Already have zsh'
+
+elif ! try_install 'zsh'; then
+    log_error $'Couldn\'t install zsh and I don\'t know how to manually do it'
+    exit 1
+
+fi
+
+if [ ! -e "$HOME/.zshrc" ]; then
+  echo '' > "$HOME/.zshrc"
+fi
+
+if [[ ! "$SHELL" =~ 'zsh' ]]; then
+  case "$PACKAGE_MANAGER" in
+    'pacman')
+      zsh_loc=$(which zsh)
+    ;;
+    'homebrew')
+      zsh_loc=$(find /usr/local/Cellar/zsh/ -type f -name zsh)
+    ;;
+  esac
+
+  if [ ! "$zsh_loc" ]; then
+    log_error $'Couldn\t find zsh'
+    exit 1
+  fi
+
+  if ! grep "$zsh_loc" /etc/shells; then
+    sudo sh -c "echo '$zsh_loc' >> /etc/shells"
+  fi
+
+  chsh -s "$zsh_loc"
+fi
+
+log_message 'You have zsh'

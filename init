@@ -6,6 +6,7 @@
 requires () {
   source $@
 }
+export -f requires
 
 for thisPath in \
     "$(pwd)/src/applications" \
