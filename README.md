@@ -2,11 +2,11 @@
 
 ### [You know the drill](https://dotfiles.github.io/)
 Used to bootstrap a system. In this case my system.
-- Installs packer(sort of)
+- Installs packer
 - Installs homebrew and homebrew-cask
 - Installs LastPass
-- Installs Dropbox
 - Syncs client SSH keys
+- Installs zsh
 - More coming soon!
 
 ### Prerequisites
