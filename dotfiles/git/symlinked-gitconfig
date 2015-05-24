@@ -6,7 +6,7 @@
 #
 requires log-writer
 
-if [ ! -e "$HOME/.gitconfig" ] || [ ! grep '# bryces-dotfiles-gitconfig' "$HOME/.gitconfig" ]; then
+if [ ! -e "$HOME/.gitconfig" ] || ! grep '# bryces-dotfiles-gitconfig' "$HOME/.gitconfig"; then
   log_trace 'Symlinking my gitconfig'
 
   if [ -e "$HOME/.gitconfig" ]; then
