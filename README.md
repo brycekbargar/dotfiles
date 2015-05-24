@@ -42,3 +42,10 @@ git clone https://github.com/brycekbargar/dotfiles.git && cd dotfiles
 # Do post clone steps
 chmod +x install.sh && ./install.sh
 ```
+
+### Caveats
+- This works on my system (at least my one mac at varying points)
+- It will eventually work on all of MY systems
+- It may work on your system, but I'm not looking to build yadr.
+- I just want some way to keep all my dev systems consistent and to learn bash/git/zsh/everything else
+
