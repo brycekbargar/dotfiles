@@ -1,0 +1,21 @@
+#!/bin/bash
+#
+# Symlinks .gitconfig
+# Sets up initial settings
+# Copies and chmods git-* scripts
+#
+
+if ! grep 'bryces-dotfiles-gitconfig' "$HOME/.gitconfig"; then
+  ln -s "$DOTFILES_DIR/git/.gitconfig" "$HOME/.gitconfig"
+  git config --global user.name "$(whoami)"
+  git config --global user.email "$LASTPASS_USERNAME"
+fi
+
+if [ ! -e /usr/bin/dropbox_uploader.sh ]; then
+    # Do a manual install
+    git clone https://github.com/andreafabrizi/Dropbox-Uploader/
+    sudo mv Dropbox-Uploader/dropbox_uploader.sh /usr/bin/
+    pushd /usr/bin/
+    chmod +x dropbox_uploader.sh
+    popd
+  fi
