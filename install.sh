@@ -12,3 +12,4 @@ requires ssh-host-key
 requires ssh-identity-keys
 
 # Do some fancy stuff with symlinking configs
+requires zsh-installed

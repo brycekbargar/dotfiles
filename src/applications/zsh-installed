@@ -1,0 +1,23 @@
+#!/bin/bash
+#
+# Installs zsh and sets it as the default shell
+#
+requires log-writer
+requires package-manager
+
+
+if [[ "$SHELL" =~ 'zsh' ]]; then
+    log_trace 'Already have zsh'
+    return 0
+fi
+
+if ! try_install 'zsh'; then
+    log_error $'Couldn\'t install zsh and I don\'t know how to manually do it'
+    exit 1
+fi
+
+echo '' > "$HOME/.zshrc"
+sudo chsh -s $(which zsh)
+
+
+log_message 'You have zsh'
