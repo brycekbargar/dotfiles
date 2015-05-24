@@ -8,6 +8,7 @@
 # Ensures that the PACKAGE_MANAGER environment variable is set
 # 
 requires log-writer
+requires pacman-package-manager
 requires homebrew-package-manager
 
 # We have been through this before and don't need to install/update anything
@@ -39,7 +40,7 @@ case "$PACKAGE_MANAGER" in
     ;;
 esac
 
-if ! "$?"; then
+if [ ! "$?" ] ; then
     log_error "$PACKAGE_MANAGER not setup"
     exit 1
 fi

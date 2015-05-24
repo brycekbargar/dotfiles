@@ -23,10 +23,10 @@ pacman_init () {
     sudo rm -dR packer || fail=1
 
     if ((fail)); then
-      log_error $'Couldn\'t install packer'
+      log_warning $'Couldn\'t install packer'
       return 1
     fi
-    
+
   fi
   pacman -Syy
 
