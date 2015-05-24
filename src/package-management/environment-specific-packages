@@ -10,8 +10,6 @@ case "$ENVIRONMENT" in
     pacman_init
 
     pacman_install openssh
-    pacman_install pinentry
-    pacman_install lastpass-cli
   ;;
   'mac')
     requires homebrew-package-manager
@@ -23,8 +21,6 @@ case "$ENVIRONMENT" in
     homebrew_install ynab
     homebrew_install iterm2
     homebrew_install seil
-    homebrew_install pinentry
-    homebrew_install lastpass-cli
   ;;
   *)
     log_error $'We don\'t know what system you are on'

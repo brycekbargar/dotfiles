@@ -9,7 +9,15 @@ if [ ! "$LASTPASS_USERNAME" ]; then
 	exit 1
 fi
 
-if ! which lpass && ! try_install lastpass-cli; then
+if ! try_install pinentry; then
+
+    #Try manual install?
+
+    log_error $'Couldn\'t install pinentry, we aren\'t going to try lastpass'
+    exit 1
+fi
+
+if ! try_install lastpass-cli; then
 
     #Try manual install?
 
