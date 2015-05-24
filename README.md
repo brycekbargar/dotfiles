@@ -9,6 +9,8 @@ Used to bootstrap a system. In this case my system.
 - Installs zsh
 - Installs any number of pacman or AUR packages
 - Installs any number of homebrew or homebrew-cask packages
+- Symlinks my git config (easily swappable)
+- Installs my git bin commands
 - More coming soon!
 
 ### Prerequisites
