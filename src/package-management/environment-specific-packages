@@ -9,6 +9,7 @@ case "$ENVIRONMENT" in
     requires pacman-package-manager
     pacman_init
 
+    # Add you favorite pacman or AUR packages here!
     pacman_install openssh
   ;;
   'mac')
@@ -16,6 +17,7 @@ case "$ENVIRONMENT" in
     homebrew_init
     requires homebrew-github-api-token
 
+    # Add your favorite homebrew or homebrew-cask packages here!
     homebrew_install google-chrome
     homebrew_install sonos
     homebrew_install ynab
