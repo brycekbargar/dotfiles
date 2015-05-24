@@ -36,6 +36,10 @@ for thisFileName in "$DOTFILES_DIR/git/bin/"*; do
     log_message "$thisFile symlinked"
 done
 
+# ignore changes so username and password aren't commited upstream
+if ! grep "$DOTFILES_DIR/git/.gitconfig" .git/info/exclude; then
+  echo "$DOTFILES_DIR/git/.gitconfig" >> .git/info/exclude
+fi
 git update-index --assume-unchanged "$DOTFILES_DIR/git/.gitconfig"
 
 log_message 'gitconfig symlinked'
