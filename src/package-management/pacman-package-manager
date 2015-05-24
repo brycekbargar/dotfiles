@@ -26,9 +26,11 @@ pacman_init () {
       log_warning $'Couldn\'t install packer'
       return 1
     fi
-
   fi
-  pacman -Syy
+  # Make sure base-devel is installed
+  sudo pacman -S base-devel --needed -noconfirm
+  # Update the system
+  sudo pacman -Syu --needed -noconfirm
 
   log_message 'You have pacman'
 }
@@ -42,31 +44,36 @@ export -f pacman_init
 #   0 Package was installed
 #   1 Package was not installed
 pacman_install () {
-  if pacman -Ss $1 | grep "/$1 "; then
-    log_trace "Installing $1 from pacman"
-    if ! sudo pacman -S $1; then
-      log_warning "pacman couldn't install $1"
+  # First check to see if the package is already installed
+  if ! pacman -Qqe | grep "$1"; then
+    if pacman -Ss $1 | grep "/$1 "; then
+      log_trace "Installing $1 from pacman"
+      if ! sudo pacman -S $1; then
+        log_warning "pacman couldn't install $1"
+        return 1
+      fi
+      
+    elif packer -Ss $1 | grep "/$1 "; then
+      log_trace "Installing $1 from packer"
+      if ! packer -S $1; then
+        log_warning "packer couldn't install $1"
+        return 1
+      fi
+      
+  
+    elif packer -Ss $1 | grep "/$1-git"; then
+      log_trace "Installing $1 from packer"
+      if ! packer -S "$1-git"; then
+        log_warning "packer couldn't install $1"
+        return 1
+      fi
+  
+    else
+      log_warning "pacman couldn't find $1"
       return 1
     fi
-    
-  elif packer -Ss $1 | grep "/$1 "; then
-    log_trace "Installing $1 from packer"
-    if ! packer -S $1; then
-      log_warning "packer couldn't install $1"
-      return 1
-    fi
-    
-
-  elif packer -Ss $1 | grep "/$1-git"; then
-    log_trace "Installing $1 from packer"
-    if ! packer -S "$1-git"; then
-      log_warning "packer couldn't install $1"
-      return 1
-    fi
-
   else
-    log_warning "pacman couldn't find $1"
-    return 1
+    log_trace "$1 already installed"
   fi 
 
   log_message "pacman installed $1"
