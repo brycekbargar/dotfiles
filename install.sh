@@ -5,9 +5,9 @@
 #
 source init
 
-requires homebrew-github-api-token
-
 requires ssh-host-key
 requires ssh-identity-keys
 
 requires zsh-installed
+
+requires environment-specific-packages
