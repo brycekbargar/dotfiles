@@ -19,6 +19,21 @@ else
   log_trace 'My gitconfig already in place'
 fi
 
+for thisFileName in "$DOTFILES_DIR/git/bin/"*; do
+    thisFile=$(basename "$thisFileName")
+    log_trace "Symlinking $thisFile"
+
+    if [ -e "/usr/local/bin/$thisFile" ]; then
+      sudo rm -f "/usr/local/bin/$thisFile"
+    fi
+    
+    ln -s "$DOTFILES_DIR/git/bin/$thisFile" "/usr/local/bin/$thisFile"
+    pushd /usr/local/bin/
+    chmod +x "$thisFile"
+    popd
+
+done
+
 # git update-index --assume-unchanged "$DOTFILES_DIR/git/.gitconfig"
 
 log_message 'gitconfig symlinked'
