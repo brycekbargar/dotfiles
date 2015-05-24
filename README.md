@@ -7,6 +7,8 @@ Used to bootstrap a system. In this case my system.
 - Installs LastPass
 - Syncs client SSH keys
 - Installs zsh
+- Installs any number of pacman or AUR packages
+- Installs any number of homebrew or homebrew-cask packages
 - More coming soon!
 
 ### Prerequisites
@@ -24,6 +26,7 @@ In your dropbox you should create a root folder names SSHKeys
 
 You should also have the same folder/naming structure in LastPass for the private key encryption password
 
+Modify `src/package-management/environment-specific-packages` to include your favorite packages
 
 
 ### To Run

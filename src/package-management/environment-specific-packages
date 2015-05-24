@@ -1,0 +1,32 @@
+#!/bin/bash
+#
+# Installs all the packages required for a given environment
+#
+requires environment-name
+
+case "$ENVIRONMENT" in
+  'arch')
+    requires pacman-package-manager
+    pacman_init
+
+    # Add you favorite pacman or AUR packages here!
+    pacman_install openssh
+  ;;
+  'mac')
+    requires homebrew-package-manager
+    homebrew_init
+    requires homebrew-github-api-token
+
+    # Add your favorite homebrew or homebrew-cask packages here!
+    homebrew_install google-chrome
+    homebrew_install sonos
+    homebrew_install ynab
+    homebrew_install iterm2
+    homebrew_install seil
+    homebrew_install sublime-text
+  ;;
+  *)
+    log_error $'We don\'t know what system you are on'
+    exit 1
+  ;;
+esac
