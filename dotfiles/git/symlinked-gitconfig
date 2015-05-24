@@ -4,9 +4,19 @@
 # Sets up initial settings
 # Copies and chmods git-* scripts
 #
+requires log-writer
 
 if ! grep '# bryces-dotfiles-gitconfig' "$HOME/.gitconfig"; then
+  log_trace 'Symlinking my gitconfig'
+
+  if [ -e "$HOME/.gitconfig" ]; then
+    log_warning 'Removing existing gitconfig'
+    sudo rm -f "$HOME/.gitconfig"
+  fi
+
   ln -s "$DOTFILES_DIR/git/.gitconfig" "$HOME/.gitconfig"
-  git config --global user.name "$(whoami)"
-  git config --global user.email "$LASTPASS_USERNAME"
+else
+  log_trace 'My gitconfig already in place'
 fi
+
+log_message 'gitconfig symlinked'
