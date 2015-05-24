@@ -12,4 +12,4 @@ requires zsh-installed
 
 requires environment-specific-packages
 
-requires symlinked-git-config
+requires symlinked-gitconfig
