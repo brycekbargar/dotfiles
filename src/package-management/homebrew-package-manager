@@ -41,26 +41,34 @@ export -f homebrew_init
 #   0 Package was installed
 #   1 Package was not installed
 homebrew_install () {
-  case $(brew search $1) in
-    Caskroom/*/"$1")
-      log_trace "Installing $1 from homebrew cask"
-      if ! brew cask install $1; then
-        log_warning "homebrew cask couldn't install $1"
+  # first check if it is installed
+  if [ ! $(brew list | grep "$1") ] && [ ! $(brew cask list | grep "$1") ]; then
+
+    case $(brew search $1) in
+      Caskroom/*/"$1")
+        log_trace "Installing $1 from homebrew cask"
+        if ! brew cask install $1; then
+          log_warning "homebrew cask couldn't install $1"
+          return 1
+        fi
+      ;;
+
+      *"$1"*)
+        log_trace "Installing $1 from homebrew"
+        if ! brew install $1; then
+          log_warning "homebrew couldn't install $1"
+          return 1
+        fi
+      ;;
+
+      *)
+        log_warning "homebrew couldn't find $1"
         return 1
-      fi
-    ;;
-    *"$1"*)
-      log_trace "Installing $1 from homebrew"
-      if ! brew install $1; then
-        log_warning "homebrew couldn't install $1"
-        return 1
-      fi
-    ;;
-    *)
-      log_warning "homebrew couldn't find $1"
-      return 1
-    ;;
-  esac
+      ;;
+    esac
+  else
+    log_trace "$1 already installed"
+  fi
 
   log_message "homebrew installed $1"
 }
