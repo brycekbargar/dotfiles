@@ -14,3 +14,5 @@ requires environment-specific-packages
 
 requires symlinked-zshrc
 requires symlinked-gitconfig
+
+exit 0

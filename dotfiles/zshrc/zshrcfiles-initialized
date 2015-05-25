@@ -1,0 +1,27 @@
+#!/bin/bash
+#
+# Makes sure the folder for additional configs is present
+#
+requires log-writer
+
+if [ ! "$ZSHRCFILES_INITIALIZED" ] && [ -d "$HOME/.zshrcfiles" ]; then
+    log_warning 'Removing existing zshfiles'
+  
+    if ! rm -dfr "$HOME/.zshrcfiles"; then
+        log_error $'Couldn\'t remove existing zshrcfiles'
+        exit 1
+    fi
+
+else
+    log_trace 'Already have zshrcfiles'
+fi
+
+if [ ! -d "$HOME/.zshrcfiles" ]; then
+    log_trace 'Creating zshrcfiles'
+    if ! mkdir -p "$HOME/.zshrcfiles"; then
+        log_error $'Could\'t make zshrcfiles'
+    fi
+fi
+
+export ZSHRCFILES_INITIALIZED=yes
+log_message 'zshrcfiles initialized'
