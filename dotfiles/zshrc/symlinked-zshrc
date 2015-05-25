@@ -23,10 +23,27 @@ fi
 case "$ENVIRONMENT" in
   'mac')
     if [ ! -e "$HOME/.zshrcfiles/.zsh_mac" ]; then
-      ln -s "$DOTFILES_DIR/zshrc/.zsh_mac" "$HOME/.zshrcfiles/.zsh_mac"
+      log_trace "Symlinking .zsh_mac"
+
+      ln -s "$DOTFILES_DIR/zshrcfiles/environment/.zsh_mac" "$HOME/.zshrcfiles/.zsh_mac"
     fi
-    log_trace 'Linked zsh_mac settings' 
+    log_trace 'Linked .zsh_mac settings' 
   ;;
 esac
+
+shopt -s nullglob
+for thisFile in "$DOTFILES_DIR"/zshrcfiles/.*; do
+  if [ ! -d "$thisFile" ]; then
+
+    thisFileName=$(basename "$thisFile")
+    log_trace "Symlinking $thisFileName"
+
+    if [ ! -e "$HOME/.zshrcfiles/$thisFileName" ]; then
+        ln -s "$thisFile" "$HOME/.zshrcfiles/$thisFileName"
+    fi
+
+    log_trace "Linked $thisFileName settings"
+  fi
+done
 
 log_message 'zshrc setup'

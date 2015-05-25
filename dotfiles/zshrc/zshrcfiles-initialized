@@ -5,7 +5,7 @@
 requires log-writer
 
 if [ ! "$ZSHRCFILES_INITIALIZED" ] && [ -d "$HOME/.zshrcfiles" ]; then
-    log_warning 'Removing existing zshfiles'
+    log_warning 'Removing existing zshrcfiles'
   
     if ! rm -dfr "$HOME/.zshrcfiles"; then
         log_error $'Couldn\'t remove existing zshrcfiles'
