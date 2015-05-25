@@ -13,7 +13,7 @@ fi
 
 toMerge=`git branch | sed -n '/\* /s///p'`
 git checkout $1
-git merge --no-ff $toMerge
+git merge --no-ff --no-edit $toMerge
 
 if [ "$2" = '-d' ]; then
   git branch -d $toMerge
