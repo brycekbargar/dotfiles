@@ -3,18 +3,11 @@
 #
 requires package-manager
 requires log-writer
+requires pinentry-installed
 
 if [ ! "$LASTPASS_USERNAME" ]; then
 	log_error 'You must set $LASTPASS_USERNAME'
 	exit 1
-fi
-
-if ! try_install pinentry; then
-
-    #Try manual install?
-
-    log_error $'Couldn\'t install pinentry, we aren\'t going to try lastpass'
-    exit 1
 fi
 
 if ! try_install lastpass-cli; then

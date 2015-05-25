@@ -1,0 +1,15 @@
+#!/bin/bash
+# Ensures that Lastpass is installed on this system
+#
+requires package-manager
+requires log-writer
+
+if ! try_install pinentry; then
+
+    #Try manual install?
+
+    log_error $'Couldn\'t install pinentry'
+    exit 1
+fi
+
+log_message 'pinentry is installed'
