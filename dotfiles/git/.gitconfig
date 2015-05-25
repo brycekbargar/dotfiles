@@ -9,3 +9,4 @@
     m2m = !git m2 master
     m2d = !git m2 $1 -d
     m2md = !git m2 master -d
+    

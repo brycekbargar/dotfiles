@@ -14,7 +14,8 @@ if [ ! -e "$HOME/.gitconfig" ] || ! grep '# bryces-dotfiles-gitconfig' "$HOME/.g
     rm -f "$HOME/.gitconfig"
   fi
 
-  ln -s "$DOTFILES_DIR/git/.gitconfig" "$HOME/.gitconfig"
+  # We're copying since we don't want to check to modification into source
+  cp "$DOTFILES_DIR/git/.gitconfig" "$HOME/.gitconfig"
 else
   log_trace 'My gitconfig already in place'
 fi
@@ -35,11 +36,5 @@ for thisFileName in "$DOTFILES_DIR/git/bin/"*; do
 
     log_message "$thisFile symlinked"
 done
-
-# ignore changes so username and password aren't commited upstream
-if ! grep "$DOTFILES_DIR/git/.gitconfig" .git/info/exclude; then
-  echo "$DOTFILES_DIR/git/.gitconfig" >> .git/info/exclude
-fi
-git update-index --assume-unchanged "$DOTFILES_DIR/git/.gitconfig"
 
 log_message 'gitconfig symlinked'
