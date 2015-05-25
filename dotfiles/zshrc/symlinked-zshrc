@@ -1,0 +1,21 @@
+#!/bin/bash
+#
+# Symlinks .zshrc
+# Sets up initial settings
+#
+requires log-writer
+
+if [ ! -e "$HOME/.zshrc" ] || ! grep '# bryces-dotfiles-zshrc' "$HOME/.zshrc"; then
+  log_trace 'Copying my zshrc'
+
+  if [ -e "$HOME/.zshrc" ]; then
+    log_warning 'Removing existing zshrc'
+    rm -f "$HOME/.zshrc"
+  fi
+
+  ln -s "$DOTFILES_DIR/zshrc/.zshrc" "$HOME/.zshrc"
+else
+  log_trace 'My zshrc already in place'
+fi
+
+log_message 'zshrc setup'
