@@ -12,7 +12,3 @@ MYEMAIL=<your email>
 export LASTPASS_USERNAME=${LASTPASS_USERNAME:-"$MYEMAIL"}
 export GIT_NAME=${GIT_NAME:-$(whoami)}
 export GIT_EMAIL=${GIT_EMAIL:-"$MYEMAIL"}
-
-echo "$LASTPASS_USERNAME" >&2
-echo "$GIT_EMAIL" >&2
-echo "$GIT_NAME" >&2
