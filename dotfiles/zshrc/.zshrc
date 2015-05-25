@@ -15,8 +15,8 @@ for thisPath in \
   esac
 done
 
-if [ -d "$HOME/.zshrcfiles" ] && [ "$(ls -A "$HOME/.zshrcfiles")" ]; then
-  for thisZshFile in "$HOME/.zshrcfiles/."*; do
-    source "$thisZshFile" > /dev/null
-  done
-fi
+setopt NULL_GLOB
+for thisZshFile in "$HOME/.zshrcfiles/."*; do
+  source "$thisZshFile" > /dev/null
+done
+setopt NO_NULL_GLOB
