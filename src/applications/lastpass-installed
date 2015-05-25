@@ -4,6 +4,7 @@
 requires package-manager
 requires log-writer
 requires pinentry-installed
+requires zshrcfiles-initialized
 
 if [ ! "$LASTPASS_USERNAME" ]; then
 	log_error 'You must set $LASTPASS_USERNAME'
@@ -25,5 +26,20 @@ if [ ! -e "$HOME/.lpass/session_privatekey" ]; then
         exit 1
     fi
 fi
+
+if [ ! "$ZSH_LPASS" ]; then 
+  if [ -e "$HOME/.zshrcfiles/.zsh_lpass" ]; then
+    log_warning 'Deleting existing lpass config'
+    rm -f "$HOME/.zshrcfiles/.zsh_lpass"
+  fi
+
+  # We're copying since we are going to modify the file
+  cp "$DOTFILES_DIR/applications/.zsh_lpass" "$HOME/.zshrcfiles/.zsh_lpass"
+  sed -i '' "s/<username>/$LASTPASS_USERNAME/g" "$HOME/.zshrcfiles/.zsh_lpass"
+
+  export ZSH_LPASS=yes
+fi
+
+
 
 log_message 'lpass is installed'
