@@ -3,6 +3,11 @@
 # bryces-dotfiles-zshrc
 #
 
+autoload -U promptinit
+promptinit
+
+prompt bart
+
 export PREFIX=/usr/local
 
 for thisPath in \
