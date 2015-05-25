@@ -6,8 +6,13 @@
 #
 requires log-writer
 
+if [ ! "$GIT_NAME" ] || [ ! "$GIT_EMAIL" ]; then
+  log_error '$GIT_NAME and $GIT_EMAIL are required'
+  exit 1
+fi
+
 if [ ! -e "$HOME/.gitconfig" ] || ! grep '# bryces-dotfiles-gitconfig' "$HOME/.gitconfig"; then
-  log_trace 'Symlinking my gitconfig'
+  log_trace 'Copying my gitconfig'
 
   if [ -e "$HOME/.gitconfig" ]; then
     log_warning 'Removing existing gitconfig'
@@ -16,6 +21,9 @@ if [ ! -e "$HOME/.gitconfig" ] || ! grep '# bryces-dotfiles-gitconfig' "$HOME/.g
 
   # We're copying since we don't want to check to modification into source
   cp "$DOTFILES_DIR/git/.gitconfig" "$HOME/.gitconfig"
+
+  git config --global user.name "$GIT_NAME"
+  git config --global user.email "$GIT_EMAIL"
 else
   log_trace 'My gitconfig already in place'
 fi
