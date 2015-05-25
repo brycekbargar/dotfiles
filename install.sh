@@ -12,4 +12,7 @@ requires zsh-installed
 
 requires environment-specific-packages
 
+requires symlinked-zshrc
 requires symlinked-gitconfig
+
+exit 0

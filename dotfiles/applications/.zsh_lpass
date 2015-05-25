@@ -1,0 +1,16 @@
+#!/bin/zsh
+#
+# Sees if lpass is has login information
+# Logs in if it doesn't
+# Syncs before issuing command
+#
+
+lpass () {
+  if [ ! -e "$HOME/.lpass/session_privatekey" ]; then
+    $PREFIX/bin/lpass login <username>
+  fi
+
+  $PREFIX/bin/lpass sync
+  $PREFIX/bin/lpass "$@"
+}
+export -f lpass > /dev/null
