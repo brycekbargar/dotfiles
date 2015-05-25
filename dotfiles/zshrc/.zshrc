@@ -15,7 +15,7 @@ for thisPath in \
   esac
 done
 
-if [ -d "$HOME/.zshrcfiles" ] && [ $(ls -A "$HOME/.zshrcfiles") ]; then
+if [ -d "$HOME/.zshrcfiles" ] && [ "$(ls -A "$HOME/.zshrcfiles")" ]; then
   for thisZshFile in "$HOME/.zshrcfiles/."*; do
     source "$thisZshFile" > /dev/null
   done
