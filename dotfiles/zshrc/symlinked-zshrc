@@ -8,7 +8,7 @@ requires zshrcfiles-initialized
 requires environment-name
 
 if [ ! -e "$HOME/.zshrc" ] || ! grep '# bryces-dotfiles-zshrc' "$HOME/.zshrc"; then
-  log_trace 'Copying my zshrc'
+  log_trace 'Linking my zshrc'
 
   if [ -e "$HOME/.zshrc" ]; then
     log_warning 'Removing existing zshrc'
@@ -18,6 +18,12 @@ if [ ! -e "$HOME/.zshrc" ] || ! grep '# bryces-dotfiles-zshrc' "$HOME/.zshrc"; t
   ln -s "$DOTFILES_DIR/zshrc/.zshrc" "$HOME/.zshrc"
 else
   log_trace 'My zshrc already in place'
+fi
+
+if [ ! -e "$HOME/.zshenv" ]; then
+  log_trace 'Linking zshenv'
+
+  ln -s "$DOTFILES_DIR/zshrc/.zshenv" "$HOME/.zshenv"
 fi
 
 case "$ENVIRONMENT" in

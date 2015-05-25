@@ -4,21 +4,9 @@
 #
 
 autoload -U promptinit
+
 promptinit
-
 prompt bart
-
-export PREFIX=/usr/local
-
-for thisPath in \
-  "$PREFIX/bin" \
-  "$PREFIX/sbin"; do
-  
-  case ":$PATH:" in
-    *":$thisPath:"*) :;; # already there
-    *) PATH="$PATH:$thisPath";;
-  esac
-done
 
 setopt NULL_GLOB
 for thisZshFile in "$HOME/.zshrcfiles/."*; do
