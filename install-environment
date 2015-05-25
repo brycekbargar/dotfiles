@@ -1,0 +1,18 @@
+#!/bin/bash
+#
+# Makes sure all the environment variables are set correctly before running the script
+#
+
+MYEMAIL=<your email>
+# The following only need to be overriden if they can't be found be default
+# LASTPASS_USERNAME=
+# GIT_NAME=
+# GIT_EMAIL=
+
+export LASTPASS_USERNAME=${LASTPASS_USERNAME:-"$MYEMAIL"}
+export GIT_NAME=${GIT_NAME:-$(whoami)}
+export GIT_EMAIL=${GIT_EMAIL:-"$MYEMAIL"}
+
+echo "$LASTPASS_USERNAME" >&2
+echo "$GIT_EMAIL" >&2
+echo "$GIT_NAME" >&2

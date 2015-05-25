@@ -37,4 +37,4 @@ for thisFileName in "$DOTFILES_DIR/git/bin/"*; do
     log_message "$thisFile symlinked"
 done
 
-log_message 'gitconfig symlinked'
+log_message 'gitconfig setup'
