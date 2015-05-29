@@ -3,20 +3,16 @@
 # bryces-dotfiles-zshrc
 #
 
-export PREFIX=/usr/local
+autoload -U promptinit compinit
 
-for thisPath in \
-  "$PREFIX/bin" \
-  "$PREFIX/sbin"; do
-  
-  case ":$PATH:" in
-    *":$thisPath:"*) :;; # already there
-    *) PATH="$PATH:$thisPath";;
-  esac
+promptinit
+prompt bart
+
+compinit -d "$HOME/.zsh_zcompdump"
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+
+setopt NULL_GLOB
+for thisZshFile in "$HOME/.zshrcfiles/."*; do
+  source "$thisZshFile" > /dev/null
 done
-
-if [ -d "$HOME/.zshrcfiles" ] && [ "$(ls -A "$HOME/.zshrcfiles")" ]; then
-  for thisZshFile in "$HOME/.zshrcfiles/."*; do
-    source "$thisZshFile" > /dev/null
-  done
-fi
+setopt NO_NULL_GLOB

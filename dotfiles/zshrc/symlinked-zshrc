@@ -8,25 +8,45 @@ requires zshrcfiles-initialized
 requires environment-name
 
 if [ ! -e "$HOME/.zshrc" ] || ! grep '# bryces-dotfiles-zshrc' "$HOME/.zshrc"; then
-  log_trace 'Copying my zshrc'
+  log_trace 'Linking my zshrc'
 
-  if [ -e "$HOME/.zshrc" ]; then
-    log_warning 'Removing existing zshrc'
-    rm -f "$HOME/.zshrc"
-  fi
-
-  ln -s "$DOTFILES_DIR/zshrc/.zshrc" "$HOME/.zshrc"
+  ln -sf "$DOTFILES_DIR/zshrc/.zshrc" "$HOME/.zshrc"
+  # I hate going ~/.zs -> tab and then only getting ~/.zsh 
+  ln -sf "$DOTFILES_DIR/zshrc/.zshrc" "$HOME/.zsh"
 else
   log_trace 'My zshrc already in place'
+fi
+
+if [ ! -e "$HOME/.zshenv" ]; then
+  log_trace 'Linking zshenv'
+
+  ln -sf "$DOTFILES_DIR/zshrc/.zshenv" "$HOME/.zshenv"
 fi
 
 case "$ENVIRONMENT" in
   'mac')
     if [ ! -e "$HOME/.zshrcfiles/.zsh_mac" ]; then
-      ln -s "$DOTFILES_DIR/zshrc/.zsh_mac" "$HOME/.zshrcfiles/.zsh_mac"
+      log_trace "Symlinking .zsh_mac"
+
+      ln -s "$DOTFILES_DIR/zshrcfiles/environment/.zsh_mac" "$HOME/.zshrcfiles/.zsh_mac"
     fi
-    log_trace 'Linked zsh_mac settings' 
+    log_trace 'Linked .zsh_mac settings' 
   ;;
 esac
+
+shopt -s nullglob
+for thisFile in "$DOTFILES_DIR"/zshrcfiles/.*; do
+  if [ ! -d "$thisFile" ]; then
+
+    thisFileName=$(basename "$thisFile")
+    log_trace "Symlinking $thisFileName"
+
+    if [ ! -e "$HOME/.zshrcfiles/$thisFileName" ]; then
+        ln -s "$thisFile" "$HOME/.zshrcfiles/$thisFileName"
+    fi
+
+    log_trace "Linked $thisFileName settings"
+  fi
+done
 
 log_message 'zshrc setup'
