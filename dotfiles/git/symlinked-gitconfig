@@ -6,27 +6,27 @@
 #
 requires log-writer
 
+if grep '# bryces-dotfiles-gitconfig' "$HOME/.gitconfig" > /dev/null; then
+  log_trace 'My gitconfig already in place'
+  return 0  
+fi
+
 if [ ! "$GIT_NAME" ] || [ ! "$GIT_EMAIL" ]; then
   log_error '$GIT_NAME and $GIT_EMAIL are required'
   exit 1
 fi
 
-if [ ! -e "$HOME/.gitconfig" ] || ! grep '# bryces-dotfiles-gitconfig' "$HOME/.gitconfig"; then
-  log_trace 'Copying my gitconfig'
+log_trace 'Copying my gitconfig'
 
-  if [ -e "$HOME/.gitconfig" ]; then
-    log_warning 'Removing existing gitconfig'
-    rm -f "$HOME/.gitconfig"
-  fi
-
-  # We're copying since we don't want to check to modification into source
-  cp "$DOTFILES_DIR/git/.gitconfig" "$HOME/.gitconfig"
-
-  git config --global user.name "$GIT_NAME"
-  git config --global user.email "$GIT_EMAIL"
-else
-  log_trace 'My gitconfig already in place'
+if [ -e "$HOME/.gitconfig" ]; then
+  log_warning 'Removing existing gitconfig'
 fi
+
+# We're copying since we don't want to check to modification into source
+cp -f "$DOTFILES_DIR/git/.gitconfig" "$HOME/.gitconfig"
+
+git config --global user.name "$GIT_NAME"
+git config --global user.email "$GIT_EMAIL"
 
 for thisFileName in "$DOTFILES_DIR/git/bin/"*; do
     thisFile=$(basename "$thisFileName")

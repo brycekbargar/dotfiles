@@ -17,6 +17,7 @@ fi
 
 if [ "$key_present" ] && [ "$key_in_dropbox" ]; then
     log_trace 'We have the key locally and in dropbox'
+    return 0
 fi
 
 if [ ! "$key_present" ] && [ "$key_in_dropbox" ]; then

@@ -7,11 +7,10 @@ requires package-manager
 
 if [[ "$SHELL" =~ 'zsh' ]]; then
     log_trace 'Already have zsh'
-
+    return 0;
 elif ! try_install 'zsh'; then
     log_error $'Couldn\'t install zsh and I don\'t know how to manually do it'
     exit 1
-
 fi
 
 if [ ! -e "$HOME/.zshrc" ]; then
@@ -24,7 +23,7 @@ if [[ ! "$SHELL" =~ 'zsh' ]]; then
       zsh_loc=$(which zsh)
     ;;
     'homebrew')
-      zsh_loc=$(find /usr/local/Cellar/zsh/ -type f -name zsh)
+      zsh_loc=$(find /usr/local/bin -name zsh)
     ;;
   esac
 

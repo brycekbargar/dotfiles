@@ -7,28 +7,27 @@ requires log-writer
 requires zshrcfiles-initialized
 requires environment-name
 
-if [ ! -e "$HOME/.zshrc" ] || ! grep '# bryces-dotfiles-zshrc' "$HOME/.zshrc"; then
-  log_trace 'Linking my zshrc'
-
-  ln -sf "$DOTFILES_DIR/zshrc/.zshrc" "$HOME/.zshrc"
-  # I hate going ~/.zs -> tab and then only getting ~/.zsh 
-  ln -sf "$DOTFILES_DIR/zshrc/.zshrc" "$HOME/.zsh"
-else
+if grep '# bryces-dotfiles-zshrc' "$HOME/.zshrc" > /dev/null; then
   log_trace 'My zshrc already in place'
+  return 0
 fi
 
-if [ ! -e "$HOME/.zshenv" ]; then
-  log_trace 'Linking zshenv'
+log_trace 'Linking my zshrc'
 
-  ln -sf "$DOTFILES_DIR/zshrc/.zshenv" "$HOME/.zshenv"
-fi
+ln -sf "$DOTFILES_DIR/zshrc/.zshrc" "$HOME/.zshrc"
+ # I hate going ~/.zs -> tab and then only getting ~/.zsh 
+ln -sf "$DOTFILES_DIR/zshrc/.zshrc" "$HOME/.zsh"
+
+log_trace 'Linking zshenv'
+ln -sf "$DOTFILES_DIR/zshrc/.zshenv" "$HOME/.zshenv"
+
 
 case "$ENVIRONMENT" in
   'mac')
     if [ ! -e "$HOME/.zshrcfiles/.zsh_mac" ]; then
       log_trace "Symlinking .zsh_mac"
 
-      ln -s "$DOTFILES_DIR/zshrcfiles/environment/.zsh_mac" "$HOME/.zshrcfiles/.zsh_mac"
+      ln -sf "$DOTFILES_DIR/zshrcfiles/environment/.zsh_mac" "$HOME/.zshrcfiles/.zsh_mac"
     fi
     log_trace 'Linked .zsh_mac settings' 
   ;;
@@ -42,7 +41,7 @@ for thisFile in "$DOTFILES_DIR"/zshrcfiles/.*; do
     log_trace "Symlinking $thisFileName"
 
     if [ ! -e "$HOME/.zshrcfiles/$thisFileName" ]; then
-        ln -s "$thisFile" "$HOME/.zshrcfiles/$thisFileName"
+        ln -sf "$thisFile" "$HOME/.zshrcfiles/$thisFileName"
     fi
 
     log_trace "Linked $thisFileName settings"
