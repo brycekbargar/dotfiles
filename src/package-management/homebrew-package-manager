@@ -68,6 +68,7 @@ homebrew_install () {
     esac
   else
     log_trace "$1 already installed"
+    return 0;
   fi
 
   log_message "homebrew installed $1"

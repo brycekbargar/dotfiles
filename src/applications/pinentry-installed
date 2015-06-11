@@ -4,11 +4,11 @@
 requires package-manager
 requires log-writer
 
-if ! try_install pinentry; then
-
-    #Try manual install?
-
-    log_error $'Couldn\'t install pinentry'
+if which pinentry; then
+  log_trace 'Already have pinentry'
+  return 0
+elif ! try_install pinentry; then
+    log_error $'Couldn\'t install pinentry and I don\'t know how to manually do it'
     exit 1
 fi
 

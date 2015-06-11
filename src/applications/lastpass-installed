@@ -11,35 +11,28 @@ if [ ! "$LASTPASS_USERNAME" ]; then
 	exit 1
 fi
 
-if ! try_install lastpass-cli; then
-
-    #Try manual install?
-
-    log_error 'Something went wrong and you might not have Lastpass'
-    exit 1
+if which lpass; then
+  log_trace "Lastpass already installed"
+  return 0
+elif ! try_install lastpass-cli; then
+  log_error $'Couldn\'t install lastpass and I don\'t know how to manually do it'
+  exit 1
 fi
 
 if [ ! -e "$HOME/.lpass/session_privatekey" ]; then
-    if ! lpass login $LASTPASS_USERNAME; then
-
-        log_error 'Something went wrong and you might not have Lastpass'
-        exit 1
-    fi
+  if ! lpass login $LASTPASS_USERNAME; then
+    log_error 'Something went wrong and you might not have Lastpass'
+    exit 1
+  fi
 fi
 
-if [ ! "$ZSH_LPASS" ]; then 
-  if [ -e "$HOME/.zshrcfiles/.zsh_lpass" ]; then
-    log_warning 'Deleting existing lpass config'
-    rm -f "$HOME/.zshrcfiles/.zsh_lpass"
-  fi
-
+if [ ! -e "$HOME/.zshrcfiles/.zsh_lpass" ]; then
+  log_trace 'Copying zsh_lpass'
   # We're copying since we are going to modify the file
   cp "$DOTFILES_DIR/applications/.zsh_lpass" "$HOME/.zshrcfiles/.zsh_lpass"
   sed -i '' "s/<username>/$LASTPASS_USERNAME/g" "$HOME/.zshrcfiles/.zsh_lpass"
-
-  export ZSH_LPASS=yes
+else
+  log_trace 'Already have zsh_lpass'
 fi
-
-
 
 log_message 'lpass is installed'

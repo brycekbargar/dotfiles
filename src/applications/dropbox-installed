@@ -16,7 +16,7 @@ if which dropbox_uploader.sh; then
 	dropbox_uploader () {
  		/usr/bin/dropbox_uploader.sh $@
  	}
- 	export -f dropbox_uploader
+ 	export -f dropbox_uploader > /dev/null
 
 	log_trace "Dropbox already installed"
 	return 0
@@ -39,13 +39,11 @@ if ! try_install dropbox-uploader; then
  	dropbox_uploader () {
  		/usr/bin/dropbox_uploader.sh $@
  	}
- 	export -f dropbox_uploader
+ 	export -f dropbox_uploader > /dev/null
 fi
 
 # We are setting these config values from lastpass so it "just works"
-if [ ! -e "$HOME/.dropbox_uploader" ]; then
-	ln -s "$DOTFILES_DIR/applications/.dropbox_uploader" "$HOME/.dropbox_uploader"
-fi
+ln -sf "$DOTFILES_DIR/applications/.dropbox_uploader" "$HOME/.dropbox_uploader"
 
 if ! dropbox_uploader list; then
 
