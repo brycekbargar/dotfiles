@@ -9,12 +9,14 @@ requires () {
 export -f requires
 
 for thisPath in \
-    "$(pwd)/src/applications" \
-    "$(pwd)/src/utilities" \
-    "$(pwd)/src/ssh-keys" \
-    "$(pwd)/src/package-management" \
-    "$(pwd)/dotfiles/git" \
-    "$(pwd)/dotfiles/zshrc"; do
+  "$(pwd)/src/dotfiles" \
+  "$(pwd)/src/applications" \
+  "$(pwd)/src/utilities" \
+  "$(pwd)/src/ssh-keys" \
+  "$(pwd)/src/package-management" \
+  "$(pwd)/dotfiles/git" \
+  "$(pwd)/dotfiles/zshrc"; do
+  
   case ":$PATH:" in
     *":$thisPath:"*) :;; # already there
     *) PATH="$PATH:$thisPath";;
