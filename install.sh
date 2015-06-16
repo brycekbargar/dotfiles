@@ -15,4 +15,9 @@ requires environment-specific-packages
 requires symlinked-zshrc
 requires symlinked-gitconfig
 
+requires environment-name
+if [ "$ENVIRONMENT" == 'mac' ]; then
+  requires symlinked-pqrs
+fi
+
 exit 0

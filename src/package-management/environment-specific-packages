@@ -22,7 +22,6 @@ case "$ENVIRONMENT" in
     homebrew_install sonos
     homebrew_install ynab
     homebrew_install iterm2
-    homebrew_install seil
     homebrew_install sublime-text
   ;;
   *)
