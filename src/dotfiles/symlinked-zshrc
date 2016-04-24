@@ -15,37 +15,13 @@ fi
 log_trace 'Linking my zshrc'
 
 ln -sf "$DOTFILES_DIR/zshrc/.zshrc" "$HOME/.zshrc"
- # I hate going ~/.zs -> tab and then only getting ~/.zsh 
+ # I hate going ~/.zs -> tab and then only getting ~/.zsh
 ln -sf "$DOTFILES_DIR/zshrc/.zshrc" "$HOME/.zsh"
 
 log_trace 'Linking zshenv'
 ln -sf "$DOTFILES_DIR/zshrc/.zshenv" "$HOME/.zshenv"
 
-
-case "$ENVIRONMENT" in
-  'mac')
-    if [ ! -e "$HOME/.zshrcfiles/.zsh_mac" ]; then
-      log_trace "Symlinking .zsh_mac"
-
-      ln -sf "$DOTFILES_DIR/zshrcfiles/environment/.zsh_mac" "$HOME/.zshrcfiles/.zsh_mac"
-    fi
-    log_trace 'Linked .zsh_mac settings' 
-  ;;
-esac
-
-shopt -s nullglob
-for thisFile in "$DOTFILES_DIR"/zshrcfiles/.*; do
-  if [ ! -d "$thisFile" ]; then
-
-    thisFileName=$(basename "$thisFile")
-    log_trace "Symlinking $thisFileName"
-
-    if [ ! -e "$HOME/.zshrcfiles/$thisFileName" ]; then
-        ln -sf "$thisFile" "$HOME/.zshrcfiles/$thisFileName"
-    fi
-
-    log_trace "Linked $thisFileName settings"
-  fi
-done
+log_trace 'Linking antigen'
+ln -sf "$DOTFILES_DIR/zshrc/antigen/antigen.zsh" "$HOME/.zshrcfiles/antigen.zsh"
 
 log_message 'zshrc setup'
