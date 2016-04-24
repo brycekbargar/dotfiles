@@ -5,9 +5,6 @@
 # Syncs before issuing command
 #
 
-
-unset -f lpass > /dev/null
-BIN_LPASS=$(which lpass)
 lpass () {
   local bin_lpass=/usr/local/bin/lpass
   if [ ! -e "$HOME/.lpass/session_privatekey" ]; then
@@ -17,4 +14,3 @@ lpass () {
   $BIN_LPASS sync
   $BIN_LPASS $@
 }
-export -f lpass > /dev/null
