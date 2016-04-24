@@ -7,7 +7,7 @@ homebrew_init
 requires homebrew-github-api-token
 
 homebrew_install git
-homebrew_install neovim
+homebrew_install neovim/neovim/neovim
 homebrew_install node
 homebrew_install tmux
 homebrew_install atom
