@@ -13,6 +13,9 @@ fi
 
 if which lpass; then
   log_trace "Lastpass already installed"
+	if [ ! -e "$HOME/.lpass/session_privatekey" ]; then
+    lpass login <username>
+  fi
   return 0
 # Custom install to grab pinentry
 elif ! brew install lastpass-cli --with-pinentry; then
