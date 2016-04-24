@@ -21,19 +21,7 @@ ln -sf "$DOTFILES_DIR/zshrc/.zshrc" "$HOME/.zsh"
 log_trace 'Linking zshenv'
 ln -sf "$DOTFILES_DIR/zshrc/.zshenv" "$HOME/.zshenv"
 
-shopt -s nullglob
-for thisFile in "$DOTFILES_DIR"/zshrcfiles/.*; do
-  if [ ! -d "$thisFile" ]; then
-
-    thisFileName=$(basename "$thisFile")
-    log_trace "Symlinking $thisFileName"
-
-    if [ ! -e "$HOME/.zshrcfiles/$thisFileName" ]; then
-        ln -sf "$thisFile" "$HOME/.zshrcfiles/$thisFileName"
-    fi
-
-    log_trace "Linked $thisFileName settings"
-  fi
-done
+log_trace 'Linking antigen'
+ln -sf "$DOTFILES_DIR/zshrc/antigen/antigen.zsh" "$HOME/.zshrcfiles/antigen.zsh"
 
 log_message 'zshrc setup'
