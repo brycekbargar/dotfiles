@@ -11,4 +11,4 @@
     m2md = !git m2 master -d
     fuck = !git add -A && git commit --amend --no-edit
     sorry = !git add -A && git rebase --continue
-    looog = git loog 50
+    looog = !git loog 50
