@@ -1,7 +1,0 @@
-#!/bin/zsh
-#
-# Sets the editor to be sublime text (because I'm not cool enough to use vim yet)
-#
-
-export EDITOR='nvim'
-export VISUAL='nvim'

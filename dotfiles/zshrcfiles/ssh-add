@@ -3,14 +3,12 @@
 # Starts the ssh-agent and adds the decrypted keys from lastpass
 #
 
-unset -f ssh-add > /dev/null
-SSH_ADD=$(which ssh-add)
 function ssh-add (){
 
   if ! ps -e | grep '\d ssh-agent' > /dev/null; then
     eval `ssh-agent -s`
   fi
-  
+
   target="$1"
   if [ ! "$1" ] || [ "$1" = "--host" ]; then
     target=$(uname -n)
@@ -22,6 +20,5 @@ function ssh-add (){
   fi
 
   lpass show --password "$target" | pbcopy > /dev/null
-  $SSH_ADD "$HOME/.ssh/$target"
+  /usr/bin/ssh-add "$HOME/.ssh/$target"
 }
-export -f ssh-add > /dev/null

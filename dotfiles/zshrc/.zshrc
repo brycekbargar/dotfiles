@@ -16,3 +16,6 @@ for thisZshFile in "$HOME/.zshrcfiles/."*; do
   source "$thisZshFile" > /dev/null
 done
 setopt NO_NULL_GLOB
+
+export EDITOR='nvim'
+export VISUAL='nvim'
