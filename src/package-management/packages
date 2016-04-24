@@ -1,0 +1,21 @@
+#!/bin/bash
+#
+# Installs all the packages required for a given environment
+#
+requires homebrew
+homebrew_init
+requires homebrew-github-api-token
+
+homebrew_install git
+homebrew_install neovim
+homebrew_install node
+homebrew_install tmux
+homebrew_install atom
+homebrew_install google-chrome
+homebrew_install iterm2
+homebrew_install karabiner
+homebrew_install seil
+homebrew_install slack
+homebrew_install sonos
+homebrew_install ynab
+homebrew_install tidal

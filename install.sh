@@ -10,14 +10,11 @@ requires ssh-identity-keys
 requires lastpass-installed
 requires zsh-installed
 
-requires environment-specific-packages
+requires packages
 
 requires symlinked-zshrc
 requires symlinked-gitconfig
 
-requires environment-name
-if [ "$ENVIRONMENT" == 'mac' ]; then
-  requires symlinked-pqrs
-fi
+requires symlinked-pqrs
 
 exit 0

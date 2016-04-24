@@ -3,12 +3,13 @@
 # Installs zsh and sets it as the default shell
 #
 requires log-writer
-requires package-manager
+requires homebrew
+homebrew_init
 
 if [[ "$SHELL" =~ 'zsh' ]]; then
     log_trace 'Already have zsh'
     return 0;
-elif ! try_install 'zsh'; then
+elif ! homebrew_install 'zsh'; then
     log_error $'Couldn\'t install zsh and I don\'t know how to manually do it'
     exit 1
 fi
@@ -18,14 +19,8 @@ if [ ! -e "$HOME/.zshrc" ]; then
 fi
 
 if [[ ! "$SHELL" =~ 'zsh' ]]; then
-  case "$PACKAGE_MANAGER" in
-    'pacman')
-      zsh_loc=$(which zsh)
-    ;;
-    'homebrew')
-      zsh_loc=$(find /usr/local/bin -name zsh)
-    ;;
-  esac
+
+  zsh_loc=/usr/local/bin/zsh
 
   if [ ! "$zsh_loc" ]; then
     log_error $'Couldn\t find zsh'

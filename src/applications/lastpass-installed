@@ -1,9 +1,9 @@
 #!/bin/bash
 # Ensures that Lastpass is installed on this system
 #
-requires package-manager
+requires homebrew
+homebrew_init
 requires log-writer
-requires pinentry-installed
 requires zshrcfiles-initialized
 
 if [ ! "$LASTPASS_USERNAME" ]; then
@@ -14,7 +14,8 @@ fi
 if which lpass; then
   log_trace "Lastpass already installed"
   return 0
-elif ! try_install lastpass-cli; then
+# Custom install to grab pinentry
+elif ! brew install lastpass-cli --with-pinentry; then
   log_error $'Couldn\'t install lastpass and I don\'t know how to manually do it'
   exit 1
 fi
