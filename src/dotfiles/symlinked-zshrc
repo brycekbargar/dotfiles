@@ -5,7 +5,6 @@
 #
 requires log-writer
 requires zshrcfiles-initialized
-requires environment-name
 
 if grep '# bryces-dotfiles-zshrc' "$HOME/.zshrc" > /dev/null; then
   log_trace 'My zshrc already in place'
