@@ -6,7 +6,7 @@
 #
 
 lpass () {
-  local bin_lpass=/usr/local/bin/lpass
+  local BIN_LPASS=/usr/local/bin/lpass
   if [ ! -e "$HOME/.lpass/session_privatekey" ]; then
     $BIN_LPASS login <username>
   fi

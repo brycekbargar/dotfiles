@@ -5,10 +5,6 @@
 
 function ssh-add (){
 
-  if ! ps -e | grep '\d ssh-agent' > /dev/null; then
-    eval `ssh-agent -s`
-  fi
-
   target="$1"
   if [ ! "$1" ] || [ "$1" = "--host" ]; then
     target=$(uname -n)
@@ -19,6 +15,7 @@ function ssh-add (){
     return 1
   fi
 
-  lpass show --password "$target" | pbcopy > /dev/null
+  lpass show --password --clip "$target" 
+
   /usr/bin/ssh-add "$HOME/.ssh/$target"
 }
