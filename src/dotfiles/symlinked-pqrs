@@ -10,4 +10,4 @@ homebrew_install seil
 /Applications/Seil.app/Contents/Library/bin/seil set keycode_capslock 53
 
 homebrew_install karabiner
-cp -f "$DOTFILES_DIR/applications/private.xml" "$HOME/Library/Application\ Support/Karabiner/private.xml"
+ln -sf "$DOTFILES_DIR/applications/private.xml" "$HOME/Library/Application Support/Karabiner/private.xml"
