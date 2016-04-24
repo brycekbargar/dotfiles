@@ -39,7 +39,10 @@ homebrew_install () {
         log_trace "Installing $1 from homebrew cask"
         if ! brew cask install $1; then
           log_warning "homebrew cask couldn't install $1"
-          return 1
+          log_trace "Trying regular brew for $1"
+          if ! brew install $1; then
+            return 1
+          fi
         fi
       ;;
 
