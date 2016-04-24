@@ -3,11 +3,9 @@
 # Sets up mac keybindings/keyboard
 #
 requires log-writer
-requires homebrew-package-manager
-
+requires homebrew
 homebrew_init
 
-# Add your favorite homebrew or homebrew-cask packages here!
 homebrew_install seil
 /Applications/Seil.app/Contents/Library/bin/seil set keycode_capslock 53
 

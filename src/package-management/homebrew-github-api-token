@@ -9,5 +9,5 @@ if [ "$HOMEBREW_GITHUB_API_TOKEN" ]; then
 	return 0
 fi
 
-export HOMEBREW_GITHUB_API_TOKEN=$(lpass show --password ApiKeys/GitHub)
+export HOMEBREW_GITHUB_API_TOKEN=$(lpass show --password ApiKeys/HomebrewToken)
 log_message 'Your Homebrew GitHub Auth Token has been set'

@@ -3,43 +3,20 @@
 # Ensures that Dropbox is installed on this system
 #
 requires lastpass-installed
-requires package-manager
+requires homebrew
+homebrew_init
 requires log-writer
 
 if which dropbox_uploader; then
-	log_trace "Dropbox already installed"
-	return 0
-fi
-
-if which dropbox_uploader.sh; then
-
-	dropbox_uploader () {
- 		/usr/bin/dropbox_uploader.sh $@
- 	}
- 	export -f dropbox_uploader > /dev/null
 
 	log_trace "Dropbox already installed"
 	return 0
 fi
 
-if ! try_install dropbox-uploader; then
-    
-	log_warning $'Your package manager couldn\'t install dropbox'
+if ! homebrew_install dropbox-uploader; then
 
-  if [ ! -e /usr/bin/dropbox_uploader.sh ]; then
-		# Do a manual install
-		git clone https://github.com/andreafabrizi/Dropbox-Uploader/
- 		sudo mv Dropbox-Uploader/dropbox_uploader.sh /usr/bin/
- 		pushd /usr/bin/
-	 	chmod +x dropbox_uploader.sh
- 		popd
- 	fi
- 	rm -fdr Dropbox-Uploader
-
- 	dropbox_uploader () {
- 		/usr/bin/dropbox_uploader.sh $@
- 	}
- 	export -f dropbox_uploader > /dev/null
+  log_error $'Couldn\'t install lastpass and I don\'t know how to manually do it'
+  exit 1
 fi
 
 # We are setting these config values from lastpass so it "just works"

@@ -16,18 +16,7 @@ homebrew_init () {
     ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
   fi
 
-  if ! brew list | grep brew-cask; then
-    log_trace 'We need to get cask'
-    brew install caskroom/cask/brew-cask
-  fi
-
-  brew update
-
-  if brew outdated | grep brew-cask; then
-    brew upgrade brew-cask
-  fi
-      
-  brew cleanup && brew cask cleanup
+  brew update && brew cleanup
 
   log_message 'You have homebrew'
 }
@@ -35,7 +24,7 @@ export -f homebrew_init
 
 # Tries to install the package from homebrew and homebrew cask
 # Arguments
-#   $1 package-name 
+#   $1 package-name
 #   $2 additional-package-source TODO: figure out how to handle additional package sources
 # Returns
 #   0 Package was installed
