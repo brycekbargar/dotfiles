@@ -14,7 +14,7 @@ fi
 if which lpass; then
   log_trace "Lastpass already installed"
 	if [ ! -e "$HOME/.lpass/session_privatekey" ]; then
-    lpass login <username>
+    lpass login "$LASTPASS_USERNAME"
   fi
   return 0
 # Custom install to grab pinentry
