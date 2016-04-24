@@ -3,5 +3,5 @@
 # Sets the editor to be sublime text (because I'm not cool enough to use vim yet)
 #
 
-export EDITOR='subl --new-window --wait'
-export VISUAL='subl --new-window --wait'
+export EDITOR='nvim'
+export VISUAL='nvim'
