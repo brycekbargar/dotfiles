@@ -35,7 +35,7 @@ homebrew_install () {
   if [ ! $(brew list | grep "$1") ] && [ ! $(brew cask list | grep "$1") ]; then
 
     case $(brew search $1) in
-      Caskroom/*/"$1")
+      *Caskroom/*/"$1"*)
         log_trace "Installing $1 from homebrew cask"
         if ! brew cask install $1; then
           log_warning "homebrew cask couldn't install $1"
