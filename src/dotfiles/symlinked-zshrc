@@ -4,6 +4,7 @@
 # Links other configs
 #
 requires log-writer
+requires lastpass-installed
 requires zshrcfiles-initialized
 
 if grep '# bryces-dotfiles-zshrc' "$HOME/.zshrc" > /dev/null; then
@@ -12,10 +13,10 @@ if grep '# bryces-dotfiles-zshrc' "$HOME/.zshrc" > /dev/null; then
 fi
 
 log_trace 'Linking my zshrc'
-
 ln -sf "$DOTFILES_DIR/zshrc/.zshrc" "$HOME/.zshrc"
- # I hate going ~/.zs -> tab and then only getting ~/.zsh
-ln -sf "$DOTFILES_DIR/zshrc/.zshrc" "$HOME/.zsh"
+
+log_trace 'Setting homebrew token in local settings'
+echo "export HOMEBREW_GITHUB_API_TOKEN=$(lpass show --password ApiKeys/HomebrewToken)" >>  $HOME/.zshrcfiles/local.zsh
 
 log_trace 'Linking zshenv'
 ln -sf "$DOTFILES_DIR/zshrc/.zshenv" "$HOME/.zshenv"
