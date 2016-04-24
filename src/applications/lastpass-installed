@@ -27,13 +27,4 @@ if [ ! -e "$HOME/.lpass/session_privatekey" ]; then
   fi
 fi
 
-if [ ! -e "$HOME/.zshrcfiles/.zsh_lpass" ]; then
-  log_trace 'Copying zsh_lpass'
-  # We're copying since we are going to modify the file
-  cp "$DOTFILES_DIR/applications/.zsh_lpass" "$HOME/.zshrcfiles/.zsh_lpass"
-  sed -i '' "s/<username>/$LASTPASS_USERNAME/g" "$HOME/.zshrcfiles/.zsh_lpass"
-else
-  log_trace 'Already have zsh_lpass'
-fi
-
 log_message 'lpass is installed'
