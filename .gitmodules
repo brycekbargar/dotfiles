@@ -1,3 +1,6 @@
 [submodule "dotfiles/zshrc/antigen"]
 	path = dotfiles/zshrc/antigen
 	url = git@github.com:zsh-users/antigen.git
+[submodule "src/applications/Dropbox-Uploader"]
+	path = src/applications/Dropbox-Uploader
+	url = git@github.com:brycekbargar/Dropbox-Uploader.git
