@@ -5,7 +5,7 @@
 requires dropbox-installed
 requires log-writer
 
-if ! dropbox_uploader.sh download "/SSHKeys/Identity" "$HOME/.ssh/"; then
+if ! dropbox_uploader download "/SSHKeys/Identity" "$HOME/.ssh/"; then
     log_error $'Couldn\'t download ssh identity keys'
     exit 1
 fi
