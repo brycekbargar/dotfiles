@@ -1,0 +1,16 @@
+#!/bin/bash
+#
+# git log x2
+#
+# Logs prettily with a given length
+#
+
+HASH="%C(magenta)%h%Creset"
+RELATIVE_TIME="%Cgreen(%ar)%Creset"
+AUTHOR="%C(bold blue)%an%Creset"
+REFS="%C(red)%d%Creset"
+SUBJECT="%s"
+
+FORMAT="$HASH $RELATIVE_TIME $AUTHOR $REFS $SUBJECT "
+
+git log --graph --abbrev-commit --date=relative --pretty="tformat:${FORMAT}" -n ${1:-15}

@@ -5,10 +5,10 @@
     default = simple
 [alias]
     # Todos las Cosas!
-    todos = !git status && echo && git log --graph --oneline --decorate -n 15
+    todos = !git status && echo && git loog
     m2m = !git m2 master
     m2d = !git m2 $1 -d
     m2md = !git m2 master -d
     fuck = !git add -A && git commit --amend --no-edit
-    looog = log --graph --oneline --decorate -n 50
-    
+    sorry = !git add -A && git rebase --continue
+    looog = git loog 50

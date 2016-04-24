@@ -8,7 +8,7 @@ requires log-writer
 
 if grep '# bryces-dotfiles-gitconfig' "$HOME/.gitconfig" > /dev/null; then
   log_trace 'My gitconfig already in place'
-  return 0  
+  return 0
 fi
 
 if [ ! "$GIT_NAME" ] || [ ! "$GIT_EMAIL" ]; then
@@ -36,11 +36,8 @@ for thisFileName in "$DOTFILES_DIR/git/bin/"*; do
       log_warning "Removing existing $thisFile"
       rm -f "/usr/local/bin/$thisFile"
     fi
-    
+
     ln -s "$DOTFILES_DIR/git/bin/$thisFile" "/usr/local/bin/$thisFile"
-    pushd /usr/local/bin/
-    chmod +x "$thisFile"
-    popd
 
     log_message "$thisFile symlinked"
 done
