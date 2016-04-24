@@ -14,6 +14,8 @@ fi
 
 log_trace 'Linking my zshrc'
 ln -sf "$DOTFILES_DIR/zshrc/.zshrc" "$HOME/.zshrc"
+# I hate going ~/.zs -> tab and then only getting ~/.zsh
+ln -sf "$DOTFILES_DIR/zshrc/.zshrc" "$HOME/.zsh"
 
 log_trace 'Setting homebrew token in local settings'
 echo "export HOMEBREW_GITHUB_API_TOKEN=$(lpass show --password ApiKeys/HomebrewToken)" >>  $HOME/.zshrcfiles/local.zsh
