@@ -1,13 +1,9 @@
-#!/bin/zsh
-#
-# History settings
-#
-
-HISTFILE=${HISTFILE:-"$HOME"/.zsh_history}
-HISTSIZE=1000
-SAVEHIST=1000
+HISTFILE=${HISTFILE:-"$HOME"/.zshrcfiles/history}
+HISTSIZE=10000
+SAVEHIST=10000
 
 setopt APPEND_HISTORY
+setopt INC_APPEND_HISTORY
 
 setopt HIST_ALLOW_CLOBBER
 setopt HIST_REDUCE_BLANKS
