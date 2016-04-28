@@ -8,7 +8,7 @@
 lpass () {
   local BIN_LPASS=/usr/local/bin/lpass
   if [ ! -e "$HOME/.lpass/session_privatekey" ]; then
-    $BIN_LPASS login <username>
+    $BIN_LPASS login $LASTPASS_USERNAME
   fi
 
   $BIN_LPASS sync
