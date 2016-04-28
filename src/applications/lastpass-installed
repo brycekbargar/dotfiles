@@ -4,7 +4,6 @@
 requires homebrew
 homebrew_init
 requires log-writer
-requires zshrcfiles-initialized
 
 if [ ! "$LASTPASS_USERNAME" ]; then
 	log_error 'You must set $LASTPASS_USERNAME'

@@ -2,27 +2,17 @@
 #
 # Symlinks .gitconfig
 # Sets up initial settings
-# Copies and chmods git-* scripts
+# Adds the git cmds to the /bin path
 #
 requires log-writer
-
-if grep '# bryces-dotfiles-gitconfig' "$HOME/.gitconfig" > /dev/null; then
-  log_trace 'My gitconfig already in place'
-  return 0
-fi
 
 if [ ! "$GIT_NAME" ] || [ ! "$GIT_EMAIL" ]; then
   log_error '$GIT_NAME and $GIT_EMAIL are required'
   exit 1
 fi
 
-log_trace 'Copying my gitconfig'
-
-if [ -e "$HOME/.gitconfig" ]; then
-  log_warning 'Removing existing gitconfig'
-fi
-
 # We're copying since we don't want to check to modification into source
+log_trace 'Copying my gitconfig'
 cp -f "$DOTFILES_DIR/git/.gitconfig" "$HOME/.gitconfig"
 
 git config --global user.name "$GIT_NAME"
@@ -31,14 +21,7 @@ git config --global user.email "$GIT_EMAIL"
 for thisFileName in "$DOTFILES_DIR/git/bin/"*; do
     thisFile=$(basename "$thisFileName")
     log_trace "Symlinking $thisFile"
-
-    if [ -e "/usr/local/bin/$thisFile" ]; then
-      log_warning "Removing existing $thisFile"
-      rm -f "/usr/local/bin/$thisFile"
-    fi
-
-    ln -s "$DOTFILES_DIR/git/bin/$thisFile" "/usr/local/bin/$thisFile"
-
+    ln -sf "$DOTFILES_DIR/git/bin/$thisFile" "/usr/local/bin/$thisFile"
     log_message "$thisFile symlinked"
 done
 
