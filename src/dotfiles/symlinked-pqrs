@@ -6,9 +6,13 @@ requires log-writer
 requires homebrew
 homebrew_init
 
+log_trace "Setting up Seil"
 homebrew_install seil
 /Applications/Seil.app/Contents/Library/bin/seil set keycode_capslock 53
 
+log_trace "Setting up Karabiner"
 homebrew_install karabiner
 mkdir -p "$HOME/Library/Application Support/Karabiner"
 ln -sf "$DOTFILES_DIR/applications/private.xml" "$HOME/Library/Application Support/Karabiner/private.xml"
+
+log_message "PQRS apps setp"

@@ -18,4 +18,6 @@ requires symlinked-gitconfig
 
 requires symlinked-pqrs
 
+requires elm-installed
+
 exit 0

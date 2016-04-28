@@ -1,0 +1,14 @@
+#!/bin/bash
+#
+# Makes sure elm is installed and setup
+#
+requires log-writer
+requires node-npm
+
+log_trace "Installing elm"
+npm_install_global elm
+npm_install_global elm-test
+npm_install_global elm-oracle
+
+
+log_message "Elm installed!"
