@@ -1,27 +1,25 @@
 #!/bin/bash
 #
 # Symlinks .zshrc
-# Links other configs
+# Sets up antigen and local zsh settings
 #
 requires log-writer
 requires lastpass-installed
-requires zshrcfiles-initialized
-
-if grep '# bryces-dotfiles-zshrc' "$HOME/.zshrc" > /dev/null; then
-  log_trace 'My zshrc already in place'
-  return 0
-fi
 
 log_trace 'Linking my zshrc'
 ln -sf "$DOTFILES_DIR/zshrc/.zshrc" "$HOME/.zshrc"
 # I hate going ~/.zs -> tab and then only getting ~/.zsh
 ln -sf "$DOTFILES_DIR/zshrc/.zshrc" "$HOME/.zsh"
 
-log_trace 'Setting homebrew token in local settings'
-echo "export HOMEBREW_GITHUB_API_TOKEN=$(lpass show --password ApiKeys/HomebrewToken)" >>  $HOME/.zshrcfiles/local.zsh
-
 log_trace 'Linking zshenv'
 ln -sf "$DOTFILES_DIR/zshrc/.zshenv" "$HOME/.zshenv"
+
+mkdir -p "$HOME/.zshrcfiles"
+touch "$HOME/.zshrcfiles/local.zsh"
+
+log_trace 'Setting homebrew token in local settings'
+grep 'HOMEBREW_GITHUB_API_TOKEN' "$HOME/.zshrcfiles/local.zsh" > /dev/null || \
+echo "export HOMEBREW_GITHUB_API_TOKEN=$(lpass show --password ApiKeys/HomebrewToken)" >>  "$HOME/.zshrcfiles/local.zsh"
 
 log_trace 'Linking antigen'
 ln -sf "$DOTFILES_DIR/zshrc/antigen/antigen.zsh" "$HOME/.zshrcfiles/antigen.zsh"

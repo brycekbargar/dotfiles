@@ -22,11 +22,6 @@ if [[ ! "$SHELL" =~ 'zsh' ]]; then
 
   zsh_loc=/usr/local/bin/zsh
 
-  if [ ! "$zsh_loc" ]; then
-    log_error $'Couldn\t find zsh'
-    exit 1
-  fi
-
   if ! grep "$zsh_loc" /etc/shells; then
     sudo sh -c "echo '$zsh_loc' >> /etc/shells"
   fi

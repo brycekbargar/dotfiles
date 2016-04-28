@@ -1,7 +1,6 @@
 autoload -U colors && colors
 autoload -Uz vcs_info
 setopt prompt_subst
-setopt transient_rprompt
 
 zstyle ':vcs_info:*' enable git
 zstyle ':vcs_info:git:*' check-for-changes true
