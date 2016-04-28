@@ -13,6 +13,7 @@ requires zsh-installed
 requires packages
 
 requires symlinked-zshrc
+requires symlinked-nvim
 requires symlinked-gitconfig
 
 requires symlinked-pqrs
