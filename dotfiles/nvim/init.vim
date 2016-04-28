@@ -10,6 +10,6 @@ Plug 'scrooloose/syntastic'
 Plug 'sheerun/vim-polyglot'
 Plug 'ElmCast/elm-vim'
 
-Plug 'brycekbargar/dotfiles', { 'rtp': 'dotfiles/nvimfiles' }
+Plug 'brycekbargar/dotfiles', { 'rtp': 'dotfiles/nvim' }
 
 call plug#end()
