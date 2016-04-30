@@ -7,12 +7,12 @@ requires log-writer
 requires lastpass-installed
 
 log_trace 'Linking my zshrc'
-ln -sf "$DOTFILES_DIR/zshrc/.zshrc" "$HOME/.zshrc"
+ln -sf "$DOTFILES_DIR/zsh/.zshrc" "$HOME/.zshrc"
 # I hate going ~/.zs -> tab and then only getting ~/.zsh
-ln -sf "$DOTFILES_DIR/zshrc/.zshrc" "$HOME/.zsh"
+ln -sf "$DOTFILES_DIR/zsh/.zshrc" "$HOME/.zsh"
 
 log_trace 'Linking zshenv'
-ln -sf "$DOTFILES_DIR/zshrc/.zshenv" "$HOME/.zshenv"
+ln -sf "$DOTFILES_DIR/zsh/.zshenv" "$HOME/.zshenv"
 
 mkdir -p "$HOME/.zshrcfiles"
 touch "$HOME/.zshrcfiles/local.zsh"
@@ -26,6 +26,6 @@ grep 'LASTPASS_USERNAME' "$HOME/.zshrcfiles/local.zsh" > /dev/null || \
 echo "export LASTPASS_USERNAME=$LASTPASS_USERNAME" >>  "$HOME/.zshrcfiles/local.zsh"
 
 log_trace 'Linking antigen'
-ln -sf "$DOTFILES_DIR/zshrc/antigen/antigen.zsh" "$HOME/.zshrcfiles/antigen.zsh"
+ln -sf "$DOTFILES_DIR/zsh/antigen/antigen.zsh" "$HOME/.zshrcfiles/antigen.zsh"
 
 log_message 'zshrc setup'
