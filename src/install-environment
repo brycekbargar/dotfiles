@@ -1,10 +1,7 @@
 #!/bin/bash
-#
-# Makes sure all the environment variables are set correctly before running the script
-#
 
-MYEMAIL=<your email>
-# The following only need to be overriden if they can't be found be default
+MYEMAIL="brycekbargar@gmail.com"
+# The following only need to be overriden if they aren't the same as above
 # LASTPASS_USERNAME=
 # GIT_NAME=
 # GIT_EMAIL=
@@ -12,6 +9,3 @@ MYEMAIL=<your email>
 export LASTPASS_USERNAME=${LASTPASS_USERNAME:-"$MYEMAIL"}
 export GIT_NAME=${GIT_NAME:-$(whoami)}
 export GIT_EMAIL=${GIT_EMAIL:-"$MYEMAIL"}
-
-export TRACE_OUTPUT=../trace
-export INSTALL_LOG_OUT=../install.log

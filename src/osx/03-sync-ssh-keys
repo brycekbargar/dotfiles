@@ -1,0 +1,110 @@
+#!/bin/bash
+
+create_ssh_key () {
+  if lpass ls --sync=now | grep "SSHKeys/$1"; then
+    local password=$(lpass show --password "$1")
+  else
+    local password=$(lpass generate --sync=now "SSHKeys/$1" 32)
+  fi
+
+  if ! ssh-keygen -t rsa -N "$password" -C "$LASTPASS_USERNAME" -f "$HOME/.ssh/$1"; then
+    password="nothing to see here"
+    log_warning "ssh-keygen failed"
+
+    return 1
+  fi
+  password="nothing to see here"
+
+  return 0
+}
+
+dropbox_uploader () {
+  "$SRC/Dropbox-Uploader/"dropbox_uploader.sh $@
+}
+
+ln -sf "$DOTFILES/dropbox-uploader/.dropbox_uploader" "$HOME/.dropbox_uploader"
+
+if ! brew install lastpass-cli --with-pinentry; then
+  log_error $'Couldn\'t install lpass'
+
+  exit 1
+fi
+
+if ! lpass login $LASTPASS_USERNAME; then
+  log_error $'Couldn\'t login to lpass'
+
+  exit 1
+fi
+
+hostname=$(uname -n)
+
+if [ -e "$HOME/.ssh/$hostname" ] && [ -e "$HOME/.ssh/$hostname.pub" ]; then
+    key_present='yes'
+fi
+
+if dropbox_uploader list SSHKeys/Host | grep $hostname; then
+    key_in_dropbox='yes'
+fi
+
+if [ "$key_present" ] && [ "$key_in_dropbox" ]; then
+    log_trace 'We have the key locally and in dropbox'
+    return 0
+fi
+
+if [ ! "$key_present" ] && [ "$key_in_dropbox" ]; then
+    log_trace 'Downloading keys from dropbox'
+
+    fail=0
+    dropbox_uploader download "SSHKeys/Host/$hostname" "$HOME/.ssh/$hostname" || fail=1
+    dropbox_uploader download "SSHKeys/Host/$hostname.pub" "$HOME/.ssh/$hostname.pub" || fail=1
+
+    if ((fail)); then
+        log_error $'Couldn\'t download ssh host keys from dropbox'
+        exit 1
+    fi
+
+    key_present='yes'
+fi
+
+if [ ! "$key_present" ]; then
+    log_trace 'Creating keys'
+
+    if ! create_ssh_key "$hostname"; then
+      log_error $'Couldn\'t create ssh hostkey'
+      exit 1
+    fi
+
+    key_present='yes'
+fi
+
+if [ "$key_present" ] && [ ! "$key_in_dropbox" ]; then
+    log_trace 'Uploading keys to dropbox'
+
+    fail=0
+    dropbox_uploader upload "$HOME/.ssh/$hostname" "SSHKeys/Host" || fail=1
+    dropbox_uploader upload "$HOME/.ssh/$hostname.pub" "SSHKeys/Host" || fail=1
+
+    if ((fail)); then
+      log_error $'Couldn\'t upload ssh host keys to dropbox'
+      exit 1
+    fi
+
+    key_in_dropbox='yes'
+fi
+
+if [ ! "$key_present" ] || [ ! "$key_in_dropbox" ]; then
+  log_error $'SSH Host Keys not in sync'
+  exit 1 
+fi
+
+log_message 'SSH Host Keys are in sync'
+
+if ! dropbox_uploader download "/SSHKeys/Identity" "$HOME/.ssh/"; then
+    log_error $'Couldn\'t download ssh identity keys'
+    exit 1
+fi
+
+mv "$HOME/.ssh/Identity/"* "$HOME/.ssh/"
+rm -fd "$HOME/.ssh/Identity/"
+
+log_message 'SSH Identity Keys are in sync'
