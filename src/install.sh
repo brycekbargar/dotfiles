@@ -4,6 +4,7 @@
 SRC="$(dirname $0)"
 DOTFILES="$(dirname $0)/../dotfiles/"
 
+source "$SRC/install-environment"
 source "$SRC/utils/logging"
 
 log_step "01 Set Environment"
