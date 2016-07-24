@@ -1,8 +1,13 @@
 #!/bin/bash
 
 # Set the path to the src folder depending on where the script is run fromj
-SRC="$(dirname $0)"
-DOTFILES="$(dirname $0)/../dotfiles/"
+pushd "$(dirname $0)"
+SRC="$(pwd)"
+popd
+
+pushd "$(dirname $0)/../dotfiles/"
+DOTFILES="$(pwd)"
+popd
 
 source "$SRC/install-environment"
 source "$SRC/utils/logging"
