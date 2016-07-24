@@ -1,0 +1,17 @@
+#!/bin/bash
+
+if ! which brew &> /dev/null; then
+  log_trace 'We need to get homebrew'
+
+  xcode-select --install
+  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  brew cask
+fi
+
+if ! brew update && brew cleanup && brew doctor; then
+  log_error $'You don\'t have homebrew'
+
+  exit 1
+fi
+
+log_message 'You have homebrew'
