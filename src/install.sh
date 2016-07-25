@@ -1,6 +1,7 @@
 #!/bin/bash
 
 pushd "$(dirname $0)"
+git submodule update --init --recursive
 SRC="$(pwd)"
 popd
 
