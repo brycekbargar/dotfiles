@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# Set the path to the src folder depending on where the script is run fromj
 pushd "$(dirname $0)"
 SRC="$(pwd)"
 popd
