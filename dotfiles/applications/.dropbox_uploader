@@ -1,7 +1,0 @@
-#!/bin/bash
-
-APPKEY=$(lpass show --password DropboxAuth/APPKEY)
-APPSECRET=$(lpass show --password DropboxAuth/APPSECRET)
-ACCESS_LEVEL=dropbox
-OAUTH_ACCESS_TOKEN=$(lpass show --password DropboxAuth/OAUTH_ACCESS_TOKEN)
-OAUTH_ACCESS_TOKEN_SECRET=$(lpass show --password DropboxAuth/OAUTH_ACCESS_TOKEN_SECRET)
