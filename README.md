@@ -31,15 +31,9 @@ You should have an SSHKeys folder in LastPass for the private key encryption pas
 
 ### To Run
 ```
-git clone https://github.com/brycekbargar/dotfiles.git --recursive && cd dotfiles
+git clone https://github.com/brycekbargar/dotfiles.git
 
-cp install-environment ../
-sed -i '' 's/<your email>/<your actual email>/g' ../install-environment
-
-# Do post clone steps
-
-$(source ../install-environment && ./install.sh)
-rm -f ../install-environment
+./dotfiles/src/install.sh
 ```
 
 ### Caveats
