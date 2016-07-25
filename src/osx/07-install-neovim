@@ -1,0 +1,5 @@
+#!/bin/bash
+
+brew install neovim/neovim/neovim
+
+source "$SRC/shared/07-install-neovim"

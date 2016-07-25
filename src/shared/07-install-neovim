@@ -1,0 +1,11 @@
+#!/bin/bash
+
+mkdir -p "$HOME/.config/nvim/autoload"
+
+log_trace 'Linking init.vim'
+ln -sf "$DOTFILES/nvim/init.vim" "$HOME/.config/nvim"
+
+log_trace 'Linking vim-plug'
+ln -sf "$DOTFILES/nvim/vim-plug/plug.vim" "$HOME/.config/nvim/autoload/plug.vim"
+
+log_message 'nvim setup'
