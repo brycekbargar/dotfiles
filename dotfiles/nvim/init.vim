@@ -9,6 +9,6 @@ Plug 'scrooloose/syntastic'
 
 Plug 'sheerun/vim-polyglot'
 
-Plug 'brycekbargar/dotfiles', { 'rtp': 'dotfiles/nvim/shared' }
+Plug 'brycekbargar/dotfiles', { 'rtp': 'dotfiles/nvim/shared', 'branch': 'multi-system-update' }
 
 call plug#end()
