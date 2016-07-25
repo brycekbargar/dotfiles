@@ -21,7 +21,7 @@ function precmd {
   local -ah ps1
   ps1=(
     '%B'
-    '%F{047}%n%F{199}@%F{047}%m'
+    '%F{047}%n%F{199} @ %F{047}%m'
     ' %(?.%F{099}.%F{160})' "$last_cmd_text"
     ' %F{075}$(pwd | sed -e "s,^$HOME,~,")'
     ' %F{192}${vcs_info_msg_0_/ U/ *}'
