@@ -3,10 +3,9 @@
 pushd "$(dirname $0)"
 git submodule update --init --recursive
 SRC="$(pwd)"
-popd
-
-pushd "$(dirname $0)/../dotfiles/"
+pushd "../dotfiles/"
 DOTFILES="$(pwd)"
+popd
 popd
 
 source "$SRC/install-environment"

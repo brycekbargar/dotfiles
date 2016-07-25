@@ -1,7 +1,4 @@
 #!/bin/zsh
-#
-# Starts the ssh-agent and adds the decrypted keys from lastpass
-#
 
 function ssh-add (){
 

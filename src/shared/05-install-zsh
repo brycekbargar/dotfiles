@@ -1,0 +1,19 @@
+#!/bin/bash
+
+log_trace 'Linking my zshrc'
+ln -sf "$DOTFILES/zsh/.zshrc" "$HOME/.zshrc"
+# I hate going ~/.zs -> tab and then only getting ~/.zsh
+ln -sf "$DOTFILES/zsh/.zshrc" "$HOME/.zsh"
+
+log_trace 'Linking zshenv'
+ln -sf "$DOTFILES/zsh/.zshenv" "$HOME/.zshenv"
+
+mkdir -p "$HOME/.zshrcfiles"
+touch "$HOME/.zshrcfiles/local.zsh"
+grep "$ENVIRONMENT" "$HOME/.zshrcfiles/local.zsh" &> /dev/null || \
+echo "antigen bundle brycekbargar/dotfiles dotfiles/zsh/$ENVIRONMENT --branch=multi-system-update" >>  "$HOME/.zshrcfiles/local.zsh"
+
+log_trace 'Linking antigen'
+ln -sf "$DOTFILES/zsh/antigen/antigen.zsh" "$HOME/.zshrcfiles/antigen.zsh"
+
+log_message 'zshrc setup'

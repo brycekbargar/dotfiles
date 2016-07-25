@@ -12,10 +12,6 @@ zstyle ':completion:*:corrections' format '%B%d (errors: %e)%b'
 zstyle ':completion:*' group-name ''
 
 setopt always_to_end
-setopt auto_menu
+setopt auto_list
 setopt complete_in_word
-
 unsetopt menu_complete
-
-setopt correct
-setopt correctall

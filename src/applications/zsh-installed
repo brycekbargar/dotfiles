@@ -8,14 +8,12 @@ homebrew_init
 
 if [[ "$SHELL" =~ 'zsh' ]]; then
     log_trace 'Already have zsh'
-    return 0;
-elif ! homebrew_install 'zsh'; then
-    log_error $'Couldn\'t install zsh and I don\'t know how to manually do it'
-    exit 1
-fi
 
-if [ ! -e "$HOME/.zshrc" ]; then
-  echo '' > "$HOME/.zshrc"
+    return 0;
+elif ! brew install zsh; then
+    log_error $'Couldn\'t install zsh'
+
+    exit 1
 fi
 
 if [[ ! "$SHELL" =~ 'zsh' ]]; then
