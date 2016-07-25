@@ -1,21 +1,23 @@
 #!/bin/bash
 
 pushd "$(dirname $0)"
-git submodule update --init --recursive
-SRC="$(pwd)"
-pushd "../dotfiles/"
-DOTFILES="$(pwd)"
-popd
+  git submodule update --init --recursive
+  SRC="$(pwd)"
+
+  pushd "../dotfiles/"
+    DOTFILES="$(pwd)"
+  popd
 popd
 
 source "$SRC/install-environment"
 source "$SRC/utils/logging"
-
-log_step "01 Set Environment"
 source "$SRC/utils/set-environment"
 
-log_step "02 Setup Package Manager"
-source "$SRC/$ENVIRONMENT/02-setup-package-manager"
+log_step "01 Setup Package Manager"
+source "$SRC/$ENVIRONMENT/01-setup-package-manager"
+
+log_step "02 Install Dotfiles Packages"
+source "$SRC/$ENVIRONMENT/02-install-dotfiles-packages"
 
 log_step "03 Sync SSH Keys"
 source "$SRC/$ENVIRONMENT/03-sync-ssh-keys"

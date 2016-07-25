@@ -24,18 +24,6 @@ dropbox_uploader () {
 
 ln -sf "$DOTFILES/dropbox-uploader/.dropbox_uploader" "$HOME/.dropbox_uploader"
 
-if ! brew install lastpass-cli --with-pinentry; then
-  log_error $'Couldn\'t install lpass'
-
-  exit 1
-fi
-
-if ! lpass login $LASTPASS_USERNAME; then
-  log_error $'Couldn\'t login to lpass'
-
-  exit 1
-fi
-
 hostname=$(uname -n)
 
 if [ -e "$HOME/.ssh/$hostname" ] && [ -e "$HOME/.ssh/$hostname.pub" ]; then
