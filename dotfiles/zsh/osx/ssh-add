@@ -1,0 +1,18 @@
+#!/bin/zsh
+
+function ssh-add (){
+
+  target="$1"
+  if [ ! "$1" ] || [ "$1" = "--host" ]; then
+    target=$(uname -n)
+  fi
+
+  if [ ! -e "$HOME/.ssh/$target" ] || ! lpass ls | grep "$target" > /dev/null; then
+    echo $'Bad key name' >&2
+    return 1
+  fi
+
+  lpass show --password --clip "$target" 
+
+  /usr/bin/ssh-add "$HOME/.ssh/$target"
+}

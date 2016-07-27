@@ -1,0 +1,17 @@
+#!/bin/bash
+
+if which pacman; then
+  log_trace $'We\'re on Arch'
+
+  export ENVIRONMENT=arch
+elif which brew  || [[ "$OSTYPE" == "darwin"* ]]; then
+  log_trace $'We\'re on a Mac'
+
+  export ENVIRONMENT=osx
+fi
+
+if [ -z "$ENVIRONMENT" ]; then
+  log_error $'Couldn\'t set the ENVIRONMENT'
+
+  exit 1
+fi

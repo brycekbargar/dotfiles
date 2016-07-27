@@ -1,0 +1,5 @@
+#!/bin/bash
+
+sudo pacman -S tmux
+
+source "$SRC/shared/06-install-tmux"

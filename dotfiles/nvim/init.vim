@@ -8,8 +8,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'scrooloose/syntastic'
 
 Plug 'sheerun/vim-polyglot'
-Plug 'ElmCast/elm-vim'
 
-Plug 'brycekbargar/dotfiles', { 'rtp': 'dotfiles/nvim' }
+Plug 'brycekbargar/dotfiles', { 'rtp': 'dotfiles/nvim/shared' }
 
 call plug#end()

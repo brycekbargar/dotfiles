@@ -1,0 +1,3 @@
+#!/bin/bash
+
+source "$SRC/shared/04-install-git"
