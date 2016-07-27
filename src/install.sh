@@ -9,7 +9,7 @@ pushd "$(dirname $0)"
   popd
 popd
 
-source "$SRC/install-environment"
+source "$SRC/utils/install-environment"
 source "$SRC/utils/logging"
 source "$SRC/utils/set-environment"
 
