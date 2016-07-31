@@ -5,6 +5,7 @@ export HOMEBREW_GITHUB_API_TOKEN="$(lpass show --password ApiKeys/HomebrewToken)
 brew cask install atom
 brew cask install discord
 brew cask install dropbox
+brew cask install flux
 brew cask install google-chrome
 brew cask install iterm2
 brew cask install itsycal
@@ -14,6 +15,6 @@ ln -sf "$DOTFILES/karabiner/private.xml" "$HOME/Library/Application Support/Kara
 brew cask install seil
 brew cask install selfcontrol
 brew cask install sonos
-brew cask install spotify
+brew cask install tidal
 brew cask install virtualbox
 brew cask install ynab
