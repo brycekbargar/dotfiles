@@ -1,0 +1,6 @@
+#!/bin/bash
+
+sudo yum -y install tmux
+
+
+source "$SRC/shared/06-install-tmux"

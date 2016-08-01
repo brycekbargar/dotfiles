@@ -1,0 +1,8 @@
+#!/bin/bash
+
+sudo yum -y install zsh
+
+chsh -s '/usr/bin/zsh'
+log_message 'You have zsh'
+
+source "$SRC/shared/05-install-zsh"
