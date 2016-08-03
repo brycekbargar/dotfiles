@@ -1,5 +1,24 @@
 #!/bin/bash
 
+if [[ "$SHELL" =~ 'zsh' ]]; then
+  log_trace 'Already have zsh'
+
+elif sh -c "$ZSH_INSTALL_COMMAND"; then
+  zsh_loc=${ZSH_EXECUTABLE_LOCATION:-"$(which zsh)"}
+
+  if ! grep "$zsh_loc" /etc/shells > /dev/null; then
+    sudo sh -c "echo '$zsh_loc' >> /etc/shells"
+  fi
+
+  chsh -s "$zsh_loc"
+  log_message 'You have zsh'
+
+else
+  log_error $'Couldn\'t install zsh...'
+
+  exit 1
+fi
+
 log_trace 'Linking my zshrc'
 ln -sf "$DOTFILES/zsh/.zshrc" "$HOME/.zshrc"
 # I hate going ~/.zs -> tab and then only getting ~/.zsh

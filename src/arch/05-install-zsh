@@ -1,8 +1,6 @@
 #!/bin/bash
 
-sudo pacman -S zsh
-
-chsh -s '/usr/bin/zsh'
-log_message 'You have zsh'
-
+export ZSH_INSTALL_COMMAND='sudo pacman -S zsh'
+export ZSH_EXECUTABLE_LOCATION='/usr/bin/zsh'
 source "$SRC/shared/05-install-zsh"
+

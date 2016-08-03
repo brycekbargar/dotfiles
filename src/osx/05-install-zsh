@@ -1,24 +1,7 @@
 #!/bin/bash
 
-if [[ "$SHELL" =~ 'zsh' ]]; then
-  log_trace 'Already have zsh'
-
-  return 0;
-elif ! brew install zsh; then
-  log_error $'Couldn\'t install zsh and I don\'t know how to manually do it'
-
-  exit 1
-fi
-
-zsh_loc='/usr/local/bin/zsh'
-
-if ! grep "$zsh_loc" /etc/shells; then
-  sudo sh -c "echo '$zsh_loc' >> /etc/shells"
-fi
-
-chsh -s "$zsh_loc"
-log_message 'You have zsh'
-
+export ZSH_INSTALL_COMMAND='brew install zsh'
+export ZSH_EXECUTABLE_LOCATION='/usr/local/bin/zsh'
 source "$SRC/shared/05-install-zsh"
 
 log_trace 'Setting homebrew token in local settings'
