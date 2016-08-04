@@ -10,7 +10,7 @@ I need a way to consistently setup a new unix environment:
 1. Installing `tmux` with my configurations
 1. Installing `neovim` with my configurations
 
-Right now these scrips work on both a bare Arch Linux install (guest) and a bare OSX El Capitan install (host).  
+Right now these scrips work on bare Arch and CentOS installs (guest) and a bare OSX El Capitan install (host).  
 `/shrug` I think(?) it's idempotent, but
 
 Additionally for OSX (or any future host):
@@ -35,7 +35,7 @@ Additionally for OSX (or any future host):
 
 ##### For Guests #####
 
-If your guest is a relatively clean install of arch linux the install _should_ just work
+If your guest is a relatively clean install of Arch or CentOS the install _should_ just work
 
 If you want to add a new operating system as a guest
 
