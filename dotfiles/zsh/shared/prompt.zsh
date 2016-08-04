@@ -11,10 +11,10 @@ function precmd {
   vcs_info
 
   # TODO: Base this off of prompt length
-  local last_cmd=$(fc -ln $((HISTCMD-1)))
+  local last_cmd="$(fc -ln $((HISTCMD-1)))"
   local last_cmd_text
   case $((${#${last_cmd}} > 50)) in
-    0) last_cmd_text="$last_cmd" ;;
+    0) last_cmd_text=last_cmd ;;
     1) last_cmd_text="..." ;;
   esac
 
