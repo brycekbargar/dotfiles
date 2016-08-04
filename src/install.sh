@@ -1,11 +1,14 @@
 #!/bin/bash
 
 pushd "$(dirname $0)"
-  git submodule update --init --recursive
   SRC="$(pwd)"
 
-  pushd "../dotfiles/"
-    DOTFILES="$(pwd)"
+  pushd '../'
+    git submodule update --init --recursive
+
+    pushd "dotfiles/"
+      DOTFILES="$(pwd)"
+    popd
   popd
 popd
 
