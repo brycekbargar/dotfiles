@@ -1,0 +1,4 @@
+#!/bin/bash
+
+
+ln -sf "$DOTFILES/ssh/authorized_keys" "$HOME/.ssh/authorized_keys"
