@@ -67,8 +67,13 @@ You should have an SSHKeys folder in LastPass for the private key encryption pas
 
 ### Running ###
 ```
-git clone https://github.com/brycekbargar/dotfiles.git
+# vagrant only
+sudo useradd -m -G wheel -U bryce
+sudo passwd bryce
+su - bryce
+# end vagrant
 
+git clone https://github.com/brycekbargar/dotfiles.git
 ./dotfiles/src/install.sh
 ```
 [0]: https://dotfiles.github.io/ 
