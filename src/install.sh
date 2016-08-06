@@ -4,6 +4,7 @@ pushd "$(dirname $0)"
   SRC="$(pwd)"
 
   pushd '../'
+    REPO="$(pwd)"
     git submodule update --init --recursive
 
     pushd "dotfiles/"
