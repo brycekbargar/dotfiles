@@ -2,3 +2,13 @@
 
 sudo pacman -Syu
 sudo pacman -S --needed base-devel
+
+pushd "$SRC/arch/package-query"
+  makepkg -si
+popd
+
+pushd "$SRC/arch/yaourt"
+  makepkg -si
+popd
+
+yaourt -Syu --devel --aur

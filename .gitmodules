@@ -7,3 +7,9 @@
 [submodule "dotfiles/nvim/vim-plug"]
 	path = dotfiles/nvim/vim-plug
 	url = https://github.com/junegunn/vim-plug.git
+[submodule "src/arch/package-query"]
+	path = src/arch/package-query
+	url = https://aur.archlinux.org/package-query.git
+[submodule "src/arch/yaourt"]
+	path = src/arch/yaourt
+	url = https://aur.archlinux.org/yaourt.git
