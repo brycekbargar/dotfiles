@@ -2,10 +2,10 @@
 
 export HOMEBREW_GITHUB_API_TOKEN="$(lpass show --password ApiKeys/HomebrewToken)"
 
-brew cask install atom
 brew cask install discord
 brew cask install dropbox
 brew cask install flux
+brew cask install gitbook-editor
 brew cask install google-chrome
 brew cask install iterm2
 brew cask install itsycal
