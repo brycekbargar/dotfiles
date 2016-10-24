@@ -20,4 +20,5 @@ brew cask install selfcontrol
 brew cask install sonos
 brew cask install tidal
 brew cask install virtualbox
+brew cask install virtualbox-extension-pack
 brew cask install ynab
