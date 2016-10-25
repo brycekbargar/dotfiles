@@ -1,0 +1,14 @@
+#!/bin/bash
+
+if ! brew install lastpass-cli --with-pinentry; then
+  log_error $'Couldn\'t install lpass'
+
+  exit 1
+fi
+
+if ! lpass login $LASTPASS_USERNAME; then
+  log_error $'Couldn\'t login to lpass'
+
+  exit 1
+fi
+

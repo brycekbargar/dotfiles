@@ -1,0 +1,24 @@
+#!/bin/bash
+
+export HOMEBREW_GITHUB_API_TOKEN="$(lpass show --password ApiKeys/HomebrewToken)"
+
+brew cask install caffeine
+brew cask install discord
+brew cask install dropbox
+brew cask install flux
+brew cask install gitbook-editor
+brew cask install google-chrome
+brew cask install insomnia
+brew cask install iterm2
+brew cask install itsycal
+brew cask install karabiner
+mkdir -p "$HOME/Library/Application Support/Karabiner"
+ln -sf "$DOTFILES/karabiner/private.xml" "$HOME/Library/Application Support/Karabiner/private.xml"
+brew cask install musescore
+brew cask install seil
+brew cask install selfcontrol
+brew cask install sonos
+brew cask install tidal
+brew cask install virtualbox
+brew cask install virtualbox-extension-pack
+brew cask install ynab
