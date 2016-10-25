@@ -13,3 +13,6 @@
 [submodule "src/arch/yaourt"]
 	path = src/arch/yaourt
 	url = https://aur.archlinux.org/yaourt.git
+[submodule "src/lastpass-cli"]
+	path = src/lastpass-cli
+	url = https://github.com/lastpass/lastpass-cli
