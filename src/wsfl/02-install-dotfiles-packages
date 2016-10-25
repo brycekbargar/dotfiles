@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sudo apt-get install openssl libcurl4-openssl-dev libxml2 libssl-dev libxml2-dev pinentry-curses xclip
+sudo apt-get --yes install openssl libcurl4-openssl-dev libxml2 libssl-dev libxml2-dev pinentry-curses xclip
 
 export PREFIX="/usr/local"
 pushd "$SRC/lastpass-cli"

@@ -1,5 +1,5 @@
 #!/bin/bash
 
-brew install git
+sudo apt-get --yes install git
 
 source "$SRC/shared/04-install-git"
