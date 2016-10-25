@@ -1,0 +1,7 @@
+#!/bin/bash
+
+source "$SRC/shared/05-install-zsh"
+
+grep 'shared-host' "$HOME/.zshrcfiles/local.zsh" &> /dev/null || \
+echo "antigen bundle brycekbargar/dotfiles dotfiles/zsh/shared-host" >>  "$HOME/.zshrcfiles/local.zsh"
+
