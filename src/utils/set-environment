@@ -2,17 +2,22 @@
 
 if which pacman; then
   log_trace $'We\'re on Arch'
-
   export ENVIRONMENT=arch
+
 elif which yum; then
   log_trace $'We\'re on CentOS'
-
   export ENVIRONMENT=centos
+
 elif which brew  || [[ "$OSTYPE" == "darwin"* ]]; then
   log_trace $'We\'re on a Mac'
-
   export ENVIRONMENT=osx
+
+elif grep 'Microsoft' /proc/version > /dev/null; then
+  log_trace $'We\'re on Windows (using bash)'
+  export ENVIRONMENT=wsfl
+
 fi
+
 
 if [ -z "$ENVIRONMENT" ]; then
   log_error $'Couldn\'t set the ENVIRONMENT'
