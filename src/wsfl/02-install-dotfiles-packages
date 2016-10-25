@@ -1,10 +1,23 @@
 #!/bin/bash
 
-if ! brew install lastpass-cli --with-pinentry; then
-  log_error $'Couldn\'t install lpass'
+sudo apt-get install openssl libcurl4-openssl-dev libxml2 libssl-dev libxml2-dev pinentry-curses xclip
 
-  exit 1
-fi
+export PREFIX="/usr/local"
+pushd "$SRC/lastpass-cli"
+  if ! make; then
+    log_error $'Couldn\'t build lpass'
+
+    exit 1
+  fi
+  if ! sudo make install; then
+    log_error $'Couldn\'t install lpass'
+
+    exit 1
+  fi
+  if ! sudo make install-doc; then
+    log_warning $'Couldn\'t install lpass manpages'
+  fi
+popd
 
 if ! lpass login $LASTPASS_USERNAME; then
   log_error $'Couldn\'t login to lpass'
