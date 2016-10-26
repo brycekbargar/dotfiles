@@ -3,19 +3,13 @@
 sudo apt-get --yes install openssl libcurl4-openssl-dev libxml2 libssl-dev libxml2-dev pinentry-curses xclip
 sudo apt-get --yes install --reinstall make
 
-export PREFIX="/usr/local"
 pushd "$SRC/lastpass-cli"
-  if ! make; then
-    log_error $'Couldn\'t build lpass'
-
-    exit 1
-  fi
-  if ! sudo make install; then
+  if ! sudo make install PREFIX=/usr/local; then
     log_error $'Couldn\'t install lpass'
 
     exit 1
   fi
-  if ! sudo make install-doc; then
+  if ! sudo make install-doc PREFIX=/usr/local; then
     log_warning $'Couldn\'t install lpass manpages'
   fi
 popd
