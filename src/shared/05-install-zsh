@@ -33,6 +33,6 @@ grep "$ENVIRONMENT" "$HOME/.zshrcfiles/local.zsh" &> /dev/null || \
 echo "antigen bundle brycekbargar/dotfiles dotfiles/zsh/$ENVIRONMENT" >>  "$HOME/.zshrcfiles/local.zsh"
 
 log_trace 'Linking antigen'
-ln -sf "$DOTFILES/zsh/antigen/antigen.zsh" "$HOME/.zshrcfiles/antigen.zsh"
+ln -sf "$LIB/antigen/antigen.zsh" "$HOME/.zshrcfiles/antigen.zsh"
 
 log_message 'zshrc setup'

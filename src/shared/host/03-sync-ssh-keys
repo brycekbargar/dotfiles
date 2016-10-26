@@ -19,7 +19,7 @@ create_ssh_key () {
 }
 
 dropbox_uploader () {
-  "$SRC/Dropbox-Uploader/"dropbox_uploader.sh -f "$DOTFILES/dropbox-uploader/.dropbox_uploader" $@
+  "$LIB/Dropbox-Uploader/"dropbox_uploader.sh -f "$DOTFILES/dropbox-uploader/.dropbox_uploader" $@
 }
 
 hostname=$(uname -n)

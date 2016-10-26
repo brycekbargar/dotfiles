@@ -3,11 +3,11 @@
 sudo pacman -Syu
 sudo pacman -S --needed base-devel
 
-pushd "$SRC/arch/package-query"
+pushd "$LIB/package-query"
   makepkg -si
 popd
 
-pushd "$SRC/arch/yaourt"
+pushd "$LIB/yaourt"
   makepkg -si
 popd
 

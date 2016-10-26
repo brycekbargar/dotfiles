@@ -6,6 +6,7 @@ pushd "$(dirname $0)"
   pushd '../'
     REPO="$(pwd)"
     git submodule update --init --recursive
+    LIB="$(pwd)/lib"
 
     pushd "dotfiles/"
       DOTFILES="$(pwd)"
