@@ -1,3 +1,3 @@
 #!/bin/bash
 
-source "$SRC/shared-guest/03-sync-ssh-keys"
+source "$SRC/shared/guest/03-sync-ssh-keys"
