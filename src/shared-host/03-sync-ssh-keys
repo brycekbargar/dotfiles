@@ -26,6 +26,8 @@ ln -sf "$DOTFILES/dropbox-uploader/.dropbox_uploader" "$HOME/.dropbox_uploader"
 
 hostname=$(uname -n)
 
+mkdir -p "$HOME/.ssh"
+
 if [ -e "$HOME/.ssh/$hostname" ] && [ -e "$HOME/.ssh/$hostname.pub" ]; then
   key_present='yes'
 fi
