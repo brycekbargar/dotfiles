@@ -5,3 +5,6 @@ source "$SRC/shared/05-install-zsh"
 grep 'shared-host' "$HOME/.zshrcfiles/local.zsh" &> /dev/null || \
 echo "antigen bundle brycekbargar/dotfiles dotfiles/zsh/shared-host" >>  "$HOME/.zshrcfiles/local.zsh"
 
+log_trace 'Symlinking ssh-add-expect script'
+sudo ln -sf "$DOTFILES/zsh/shared-host/ssh-add-expect" /usr/local/bin/ssh-add-expect
+

@@ -1,4 +1,3 @@
 #!/bin/bash
 
-sudo apt-get install --yes expect
 source "$SRC/shared/host/03-sync-ssh-keys"

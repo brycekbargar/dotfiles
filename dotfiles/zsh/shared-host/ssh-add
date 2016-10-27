@@ -12,9 +12,5 @@ function ssh-add (){
     return 1
   fi
 
-  if ! lpass show --password --clip "$target" > /dev/null 2>&1; then
-    lpass show --password "$target"; 
-  fi
-
-  expect ./ssh-add-expect -- "$HOME/.ssh/$target" "$(lpass show --password $target)"
+  expect /usr/local/bin/ssh-add-expect -- "$HOME/.ssh/$target" "$(lpass show --password $target)"
 }
