@@ -16,5 +16,5 @@ function ssh-add (){
     lpass show --password "$target"; 
   fi
 
-  /usr/bin/ssh-add "$HOME/.ssh/$target"
+  expect ./ssh-add-expect -- "$HOME/.ssh/$target" "$(lpass show --password $target)"
 }
