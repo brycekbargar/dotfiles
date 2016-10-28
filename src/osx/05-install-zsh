@@ -8,9 +8,8 @@ log_trace 'Setting homebrew token in local settings'
 grep 'HOMEBREW_GITHUB_API_TOKEN' "$HOME/.zshrcfiles/local.zsh" > /dev/null || \
 echo "export HOMEBREW_GITHUB_API_TOKEN=\"$(lpass show --password ApiKeys/HomebrewToken)\"" >>  "$HOME/.zshrcfiles/local.zsh"
 
-log_trace 'Setting lpass username in local settings'
-grep 'LASTPASS_USERNAME' "$HOME/.zshrcfiles/local.zsh" > /dev/null || \
-echo "export LASTPASS_USERNAME=\"$LASTPASS_USERNAME\"" >>  "$HOME/.zshrcfiles/local.zsh"
+grep "dotfiles/zsh/bsd" "$HOME/.zshrcfiles/local.zsh" &> /dev/null || \
+echo "antigen bundle brycekbargar/dotfiles dotfiles/zsh/bsd" >>  "$HOME/.zshrcfiles/local.zsh"
 
 pushd /usr/local/share/
 sudo chmod -R 755 zsh

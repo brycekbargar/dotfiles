@@ -10,6 +10,5 @@ log_trace 'Setting .bashrc to launch zsh on start'
 grep 'exec zsh' "$HOME/.bashrc" > /dev/null || \
 echo "exec zsh" >> "$HOME/.bashrc"
 
-log_trace 'Setting lpass username in local settings'
-grep 'LASTPASS_USERNAME' "$HOME/.zshrcfiles/local.zsh" > /dev/null || \
-echo "export LASTPASS_USERNAME=\"$LASTPASS_USERNAME\"" >>  "$HOME/.zshrcfiles/local.zsh"
+grep "dotfiles/zsh/linux" "$HOME/.zshrcfiles/local.zsh" &> /dev/null || \
+echo "antigen bundle brycekbargar/dotfiles dotfiles/zsh/linux" >>  "$HOME/.zshrcfiles/local.zsh"
