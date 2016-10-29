@@ -2,7 +2,7 @@
 
 export ZSH_INSTALL_COMMAND='sudo yum -y install zsh'
 export ZSH_EXECUTABLE_LOCATION='/usr/bin/zsh'
-source "$SRC/shared/05-install-zsh"
+source "$SRC/shared/04-install-zsh"
 
 grep "dotfiles/zsh/linux" "$HOME/.zshrcfiles/local.zsh" &> /dev/null || \
 echo "antigen bundle brycekbargar/dotfiles dotfiles/zsh/linux" >>  "$HOME/.zshrcfiles/local.zsh"

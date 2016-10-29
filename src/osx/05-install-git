@@ -1,0 +1,5 @@
+#!/bin/bash
+
+brew install git
+
+source "$SRC/shared/05-install-git"

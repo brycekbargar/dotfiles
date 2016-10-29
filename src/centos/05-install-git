@@ -2,4 +2,4 @@
 
 sudo yum -y install git
 
-source "$SRC/shared/04-install-git"
+source "$SRC/shared/05-install-git"

@@ -29,6 +29,7 @@ ln -sf "$DOTFILES/zsh/.zshenv" "$HOME/.zshenv"
 
 mkdir -p "$HOME/.zshrcfiles"
 touch "$HOME/.zshrcfiles/local.zsh"
+
 grep "dotfiles/zsh/$ENVIRONMENT" "$HOME/.zshrcfiles/local.zsh" &> /dev/null || \
 echo "antigen bundle brycekbargar/dotfiles dotfiles/zsh/$ENVIRONMENT" >>  "$HOME/.zshrcfiles/local.zsh"
 

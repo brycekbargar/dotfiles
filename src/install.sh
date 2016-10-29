@@ -27,11 +27,11 @@ source "$SRC/$ENVIRONMENT/02-install-dotfiles-packages"
 log_step "03 Sync SSH Keys"
 source "$SRC/$ENVIRONMENT/03-sync-ssh-keys"
 
-log_step "04 Install git"
-source "$SRC/$ENVIRONMENT/04-install-git"
+log_step "04 Install zsh"
+source "$SRC/$ENVIRONMENT/04-install-zsh"
 
-log_step "05 Install zsh"
-source "$SRC/$ENVIRONMENT/05-install-zsh"
+log_step "05 Install git"
+source "$SRC/$ENVIRONMENT/05-install-git"
 
 log_step "06 Install tmux"
 source "$SRC/$ENVIRONMENT/06-install-tmux"

@@ -4,7 +4,7 @@ sudo apt-get install --yes expect
 
 export ZSH_INSTALL_COMMAND='sudo apt-get --yes install zsh'
 export ZSH_EXECUTABLE_LOCATION='/usr/bin/zsh'
-source "$SRC/shared/host/05-install-zsh"
+source "$SRC/shared/host/04-install-zsh"
 
 log_trace 'Setting .bashrc to launch zsh on start'
 grep 'exec zsh' "$HOME/.bashrc" > /dev/null || \

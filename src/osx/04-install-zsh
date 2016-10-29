@@ -2,7 +2,7 @@
 
 export ZSH_INSTALL_COMMAND='brew install zsh'
 export ZSH_EXECUTABLE_LOCATION='/usr/local/bin/zsh'
-source "$SRC/shared/host/05-install-zsh"
+source "$SRC/shared/host/04-install-zsh"
 
 log_trace 'Setting homebrew token in local settings'
 grep 'HOMEBREW_GITHUB_API_TOKEN' "$HOME/.zshrcfiles/local.zsh" > /dev/null || \
