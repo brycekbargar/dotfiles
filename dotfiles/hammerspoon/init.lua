@@ -1,7 +1,9 @@
+-- log = hs.logger.new("Dotfiles", "debug")
+handled = true
+nextHandler = false
+
 isCtrlChord = false
 lastFlags = {}
-
-log = hs.logger.new("Dotfiles", "debug")
 
 numberRow = {["1"]=true,["2"]=true,["3"]=true,["4"]=true,["5"]=true,["6"]=true,["7"]=true,["8"]=true,["9"]=true,["0"]=true}
 numpad = {
@@ -11,75 +13,67 @@ numpad = {
   ["k"]="pad0"
 }
 eventtap = function(event)
+  -- I use Colemak, for the rare occasions someone else needs to use
+  -- my Mac I want to have it behave as close to default as possible
+  -- i.e. US Keyboard and normal Ctrl/Escape/Number keys.
   if hs.keycodes.currentLayout() ~= "Colemak" then
-    log.i("not Colemak. behave like normal", eventType)
-    return false
+    return nextHandler
   end
-
   local eventType = event:getType()
-  log.i("eventType", eventType) 
-
   if eventType == hs.eventtap.event.types.keyDown then
     local keyCode = hs.keycodes.map[event:getKeyCode()]
-    log.i("keyCode", keyCode)
-
     if keyCode == "escape" then
-      log.i("escape pressed")
-      return false
+      -- In Hammerspoon, returning false from this event continues 
+      -- up the handler chain. I've "renamed" false to nextHandler so it
+      -- looks kind of like connect.js
+      return nextHandler
     end
-
     if lastFlags["ctrl"] then
+      -- My ctrl key is ESC when just pressed, but it works like a 
+      -- ctrl key when used as part of a key combination (chord)
       isCtrlChord = true
-
-      log.i("chord. Parse the numpad")
+      -- I am superimposing a numpad over the home row by my right hand
+      -- When ctrl + a "numpad" key is pressed I want a number
       if numpad[keyCode] then
-        log.i("in numpad. send numkey")
         hs.eventtap.keyStroke({}, numpad[keyCode])
-	return true
+	-- In Hammerspoon, return true from this event stops further
+	-- handling by events. I've "renamed" true to handled so it
+	-- looks somewhat like winforms...
+        return handled
       end
-
-      return false
     end
-
-    log.i("no chord. Parse the numberrow -> symbols")
-    if not event:getFlags()["shift"] and numberRow[keyCode] then
-      log.i("on numberrow. send symbol")
+    -- My number row puts symbols by default, we're going to check
+    -- for any modifier keys, and if none are present we'll send
+    -- shift + the number that was pressed so we get a symbol
+    if not next(event:getFlags()) and numberRow[keyCode] then
       hs.eventtap.keyStroke({"shift"}, keyCode)
-      return true
+      return handled
     end
-
-    return false
   end
 
   if eventType == hs.eventtap.event.types.flagsChanged then
+    -- We want one "clock" cycle of lookbehind for any modifier key
+    -- changes, this just sets that up
     local newFlags = event:getFlags()
     local lastFlagsHasCtrl = lastFlags["ctrl"]
     local newFlagsHasCtrl = newFlags["ctrl"]
     lastFlags = newFlags
-
-    log.i("lastFlagsHasCtrl", lastFlagsHasCtrl)
-    log.i("newFlagsHasCtrl", newFlagsHasCtrl)
-
+    -- Whenever we press control without it being previously pressed
+    -- we're going to assume it's pressed alone and reset the
+    -- variable used to track if it's been part of a chord
     if not lastFlagsHasCtrl and newFlagsHasCtrl then
       isCtrlChord = false
-      log.i("ctrl pressed")
-      return false
+      return nextHandler
     end
-
-    if lastFlagsHasCtrl and not newFlagsHasCtrl and isCtrlChord then
-      log.i("ctrl released after chord. don't send escape")
-      return false
-    end
-
+    -- Whenever we release control and it hasn't been part of a chord
+    -- we should send ESC 
     if lastFlagsHasCtrl and not newFlagsHasCtrl and not isCtrlChord then
-      log.i("ctrl released. send escape here")
       hs.eventtap.keyStroke({}, "escape")
-      return true
+      return handled
     end
-
   end
 
-  return false
+  return nextHandler
 end
 
 watcher = hs.eventtap.new({hs.eventtap.event.types.flagsChanged, hs.eventtap.event.types.keyDown}, eventtap)
