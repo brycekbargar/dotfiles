@@ -13,14 +13,14 @@ I need a way to consistently setup a new unix environment:
 Right now these scrips work on bare Arch and CentOS installs (guest) and a bare OSX El Capitan install (host).  
 `/shrug` I think(?) it's idempotent, but
 
-Additionally for OSX (or any future host):
+Additionally for OSX and Windows Subsystem for Linux
 
 1. Downloading my identity SSH Keys (git, bitbucket, etc...)
 1. Creating or downloading an SSH Key for the host to be whitelisted by guests I own
 1. Installing various packages I use on a daily basis (chrome, sonos, iterm2, etc...)
 
 ##### Future Plans #####
-- Support bash on windows as a host
+- Use Fedora everywhere except servers so I don't have to manage osx, ubuntu and arch
 - Configurations for ansible/vagrant as I get better at provisioning dev environments
 
 ### Customization ###
