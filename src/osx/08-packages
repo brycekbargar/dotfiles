@@ -3,23 +3,16 @@
 export HOMEBREW_GITHUB_API_TOKEN="$(lpass show --password ApiKeys/HomebrewToken)"
 
 brew cask install caffeine
-brew cask install discord
 brew cask install dropbox
 brew cask install flux
-brew cask install gitbook-editor
 brew cask install google-chrome
 brew cask install hammerspoon
 mkdir -p "$HOME/.hammerspoon"
 ln -sf "$DOTFILES/hammerspoon/init.lua" "$HOME/.hammerspoon/init.lua"
-brew cask install insomnia
 brew cask install iterm2
 brew cask install itsycal
-brew cask install musescore
+brew cask install screenhero
 brew cask install selfcontrol
 brew cask install sonos
 brew cask install tidal
-brew cask install veertu-desktop
-ln -sf /Applications/Veertu\ Desktop.app /Applications/Veertu.app
-brew cask install vagrant
-vagrant plugin install vagrant-veertu
 brew cask install ynab
