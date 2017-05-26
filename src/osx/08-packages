@@ -13,6 +13,8 @@ brew cask install iterm2
 brew cask install itsycal
 brew cask install screenhero
 brew cask install selfcontrol
+brew cask install slack
+brew tap caskroom/drivers
 brew cask install sonos
 brew cask install tidal
 brew cask install ynab
