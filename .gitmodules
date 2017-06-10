@@ -7,12 +7,6 @@
 [submodule "dotfiles/nvim/vim-plug"]
 	path = lib/vim-plug
 	url = https://github.com/junegunn/vim-plug.git
-[submodule "src/arch/package-query"]
-	path = lib/package-query
-	url = https://aur.archlinux.org/package-query.git
-[submodule "src/arch/yaourt"]
-	path = lib/yaourt
-	url = https://aur.archlinux.org/yaourt.git
 [submodule "src/lastpass-cli"]
 	path = lib/lastpass-cli
 	url = https://github.com/lastpass/lastpass-cli

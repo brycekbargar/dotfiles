@@ -1,5 +1,0 @@
-#!/bin/bash
-
-sudo pacman -S neovim
-
-source "$SRC/shared/07-install-neovim"
