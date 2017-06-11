@@ -18,3 +18,20 @@ brew tap caskroom/drivers
 brew cask install sonos
 brew cask install tidal
 brew cask install ynab
+
+log_message 'Installing Karabiner Fork with multi-mappings'
+
+pushd "$LIB"
+  curl -LOk `curl https://api.github.com/repos/wwwjfy/karabiner-elements/releases/latest | awk '/browser_download_url/ { print $2 }' | sed 's/"//g'`
+
+  sudo hdiutil attach ./*.dmg
+  sudo installer -package /Volumes/Karabiner-Elements**/*.pkg -target /
+  sudo hdiutil detach /Volumes/Karabiner-Elements**
+
+  rm ./*.dmg
+popd
+
+mkdir -p "$HOME/.config/karabiner"
+ln -sf "$DOTFILES/karabiner/karabiner.json" "$HOME/.config/karabiner/karabiner.json"
+
+log_message 'Installed Karabiner!'
