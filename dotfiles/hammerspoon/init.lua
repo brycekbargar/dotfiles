@@ -5,7 +5,6 @@ nextHandler = false
 isCtrlChord = false
 lastFlags = {}
 
-numberRow = {["1"]=true,["2"]=true,["3"]=true,["4"]=true,["5"]=true,["6"]=true,["7"]=true,["8"]=true,["9"]=true,["0"]=true}
 numpad = {
   ["7"]="pad7",["8"]="pad8",["9"]="pad9",
   ["l"]="pad4",["u"]="pad5",["y"]="pad6",
@@ -42,13 +41,6 @@ eventtap = function(event)
         return handled
       end
     end
-    -- My number row puts symbols by default, we're going to check
-    -- for any modifier keys, and if none are present we'll send
-    -- shift + the number that was pressed so we get a symbol
-    if not next(event:getFlags()) and numberRow[keyCode] then
-      hs.eventtap.keyStroke({"shift"}, keyCode)
-      return handled
-    end
   end
 
   if eventType == hs.eventtap.event.types.flagsChanged then
@@ -64,12 +56,6 @@ eventtap = function(event)
     if not lastFlagsHasCtrl and newFlagsHasCtrl then
       isCtrlChord = false
       return nextHandler
-    end
-    -- Whenever we release control and it hasn't been part of a chord
-    -- we should send ESC 
-    if lastFlagsHasCtrl and not newFlagsHasCtrl and not isCtrlChord then
-      hs.eventtap.keyStroke({}, "escape")
-      return handled
     end
   end
 
