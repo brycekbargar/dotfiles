@@ -7,7 +7,8 @@ if ! which brew &> /dev/null; then
   brew cask
 fi
 
-if ! brew update && brew cleanup && brew doctor; then
+sudo chown -R $(whoami):admin /usr/local
+if ! brew update || ! brew upgrade || ! brew cleanup || ! brew doctor; then
   log_error $'You don\'t have homebrew'
 
   exit 1

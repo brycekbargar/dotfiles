@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if ! brew install lastpass-cli --with-pinentry; then
+if ! brew install lastpass-cli --with-pinentry && ! brew upgrade lastpass-cli; then
   log_error $'Couldn\'t install lpass'
 
   exit 1
