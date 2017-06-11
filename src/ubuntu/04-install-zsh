@@ -4,11 +4,8 @@ sudo apt install --yes expect
 
 export ZSH_INSTALL_COMMAND='sudo apt --yes install zsh'
 export ZSH_EXECUTABLE_LOCATION='/usr/bin/zsh'
-source "$SRC/shared/host/04-install-zsh"
+source "$SRC/shared/04-install-zsh"
 
 log_trace 'Setting .bashrc to launch zsh on start'
 grep 'exec zsh' "$HOME/.bashrc" > /dev/null || \
 echo "exec zsh" >> "$HOME/.bashrc"
-
-grep "dotfiles/zsh/linux" "$HOME/.zshrcfiles/local.zsh" &> /dev/null || \
-echo "antigen bundle brycekbargar/dotfiles dotfiles/zsh/linux" >>  "$HOME/.zshrcfiles/local.zsh"

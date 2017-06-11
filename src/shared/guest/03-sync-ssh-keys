@@ -1,7 +1,0 @@
-#!/bin/bash
-
-
-mkdir -p "$HOME/.ssh"
-chmod 700 "$HOME/.ssh" "$REPO" "$DOTFILES" "$DOTFILES/ssh"
-chmod 600 "$DOTFILES/ssh/authorized_keys"
-ln -sf "$DOTFILES/ssh/authorized_keys" "$HOME/.ssh/authorized_keys"
