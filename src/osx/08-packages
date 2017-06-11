@@ -2,6 +2,7 @@
 
 export HOMEBREW_GITHUB_API_TOKEN="$(lpass show --password ApiKeys/HomebrewToken)"
 
+brew cask install audacity
 brew cask install caffeine
 brew cask install dropbox
 brew cask install flux
@@ -11,6 +12,7 @@ mkdir -p "$HOME/.hammerspoon"
 ln -sf "$DOTFILES/hammerspoon/init.lua" "$HOME/.hammerspoon/init.lua"
 brew cask install iterm2
 brew cask install itsycal
+brew cask install piezo
 brew cask install screenhero
 brew cask install selfcontrol
 brew cask install slack
