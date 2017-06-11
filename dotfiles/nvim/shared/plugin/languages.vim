@@ -11,3 +11,10 @@ autocmd Filetype html
     \ softtabstop=4 
     \ shiftwidth=4 
     \ noexpandtab
+
+autocmd Filetype elm 
+  \ setlocal 
+    \ tabstop=4 
+    \ softtabstop=4 
+    \ shiftwidth=4 
+    \ expandtab
