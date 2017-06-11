@@ -12,3 +12,10 @@
     fuck = !git add -A && git commit --amend --no-edit
     sorry = !git add -A && git rebase --continue
     looog = !git loog 50
+[color "status"]
+    added = "#00ff5f"
+    changed = "#ff5faf"
+    untracked = "#ff5faf"
+[color "diff"]
+    new = "#00ff5f"
+    old = "#ff5faf"
