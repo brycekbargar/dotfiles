@@ -110,3 +110,9 @@ mv "$HOME/.ssh/Identity/"* "$HOME/.ssh/"
 rm -fdr "$HOME/.ssh/Identity/"
 
 log_message 'SSH Identity Keys are in sync'
+
+log_message 'Updating git remote to ssh'
+
+git remote set-url origin git@github.com:brycekbargar/dotfiles.git
+
+log_message 'Updated git remote'
