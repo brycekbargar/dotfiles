@@ -3,7 +3,7 @@ autoload -Uz vcs_info
 setopt prompt_subst
 
 zstyle ':vcs_info:*' enable git
-zstyle ':vcs_info:git:*' check-for-changes true
+zstyle ':vcs_info:git:*' check-for-changes false
 zstyle ':vcs_info:git:*' formats '[%b] %u'
 zstyle ':vcs_info:git:*' actionformats '[%b] (%a)'
 
