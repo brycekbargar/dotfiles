@@ -9,6 +9,8 @@ Plug 'scrooloose/syntastic'
 
 Plug 'sheerun/vim-polyglot'
 
+Plug 'elmcast/elm-vim'
+
 Plug 'brycekbargar/dotfiles', { 'rtp': 'dotfiles/nvim/shared' }
 
 call plug#end()
