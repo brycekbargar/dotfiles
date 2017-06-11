@@ -1,6 +1,6 @@
 #!/bin/zsh
 
-export LS_COLORS='di=1:fi=0:ln=31:pi=5:so=5:bd=5:cd=5:or=31:mi=0:ex=35'
+export LS_COLORS='di=1;36:ln=1;35:so=1;32:pi=1;33:ex=1;31;40:bd=0;40:cd=0;40:su=31:sg=31:tw=36:ow=36'
 
-alias ls='ls -lA --color'
+alias ls='ls -lhA --color'
 

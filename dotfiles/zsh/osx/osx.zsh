@@ -1,7 +1,7 @@
 #!/bin/zsh
 
 export CLICOLOR=1
-export LSCOLORS=Gxfxcxdxbxegedabagacad
+export LSCOLORS=GxFxCxDxBaxaxabxbxgxgx
 
-alias ls='ls -lA'
+alias ls='ls -lhA'
 
