@@ -17,6 +17,9 @@ brew cask install slack
 brew tap caskroom/drivers
 brew cask install sonos
 brew cask install tidal
+brew cask install vagrant
+brew cask install virtualbox
+mkdir -p "$HOME/Boxes"
 brew cask install ynab
 
 log_message 'Installing Karabiner Fork with multi-mappings'
