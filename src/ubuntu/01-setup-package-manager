@@ -1,0 +1,4 @@
+#!/bin/bash
+
+sudo apt --yes update
+sudo apt --yes upgrade

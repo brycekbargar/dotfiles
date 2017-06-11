@@ -1,8 +1,8 @@
 #!/bin/bash
 
-sudo apt-get install --yes expect
+sudo apt install --yes expect
 
-export ZSH_INSTALL_COMMAND='sudo apt-get --yes install zsh'
+export ZSH_INSTALL_COMMAND='sudo apt --yes install zsh'
 export ZSH_EXECUTABLE_LOCATION='/usr/bin/zsh'
 source "$SRC/shared/host/04-install-zsh"
 

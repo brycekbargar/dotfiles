@@ -4,9 +4,9 @@ if which brew > /dev/null || [[ "$OSTYPE" == "darwin"* ]]; then
   log_trace $'We\'re on a Mac'
   export ENVIRONMENT=osx
 
-elif grep 'Microsoft' /proc/version > /dev/null; then
-  log_trace $'We\'re on Windows (using bash)'
-  export ENVIRONMENT=wsfl
+elif which apt > /dev/null || grep 'Microsoft' /proc/version > /dev/null; then
+  log_trace $'We\'re on Ubuntu (possibly using windows...)'
+  export ENVIRONMENT=ubuntu
 
 fi
 

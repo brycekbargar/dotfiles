@@ -1,7 +1,7 @@
 #!/bin/bash
 
-sudo apt-get --yes install openssl libcurl4-openssl-dev libxml2 libssl-dev libxml2-dev pinentry-curses xclip cmake build-essential pkg-config
-sudo apt-get --yes install --reinstall make
+sudo apt --yes install openssl libcurl4-openssl-dev libxml2 libssl-dev libxml2-dev pinentry-curses xclip cmake build-essential pkg-config
+sudo apt --yes install --reinstall make
 
 pushd "$LIB/lastpass-cli"
   cmake . && make
