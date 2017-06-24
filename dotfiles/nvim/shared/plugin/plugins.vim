@@ -8,3 +8,6 @@ let g:syntastic_check_on_wq = 0
 " elm-vim
 let g:elm_format_autosave = 1
 let g:elm_syntastic_show_warnings = 1
+
+" vim-mustache-handlebars
+let g:mustache_abbreviations = 1
