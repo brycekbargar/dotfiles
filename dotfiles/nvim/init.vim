@@ -7,9 +7,6 @@ Plug 'vim-airline/vim-airline'
 
 Plug 'scrooloose/syntastic'
 
-Plug 'elmcast/elm-vim'
-Plug 'mustache/vim-mustache-handlebars'
-
 Plug 'sheerun/vim-polyglot'
 
 Plug 'brycekbargar/dotfiles', { 'rtp': 'dotfiles/nvim/shared' }
