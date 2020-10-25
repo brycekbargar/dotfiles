@@ -1,19 +1,14 @@
 #!/bin/bash
 
+# Jump to and resolve the full path to relevant folders
 pushd "$(dirname $0)"
   SRC="$(pwd)"
-
   pushd '../'
-    REPO="$(pwd)"
-    git submodule update --init --recursive
-    LIB="$(pwd)/lib"
-
-    pushd "dotfiles/"
-      DOTFILES="$(pwd)"
-    popd
+    DOTFILES="$(pwd)/dotfiles/"
   popd
 popd
 
+# TODO: Replace this with something less hand-rolled
 source "$SRC/utils/logging"
 
 log_step "01 Setup Package Manager"
