@@ -6,13 +6,8 @@
 [alias]
     # Todos las Cosas!
     todos = !git status && echo && git loog
-    m2m = !git m2 master
-    m2d = !git m2 $1 -d
-    m2md = !git m2 master -d
-    ca = !git add -A && git commit
     fuck = !git add -A && git commit --amend --no-edit
     sorry = !git add -A && git rebase --continue
-    looog = !git loog 50
     checokut = checkout
 [color "status"]
     added = "#00ff5f"

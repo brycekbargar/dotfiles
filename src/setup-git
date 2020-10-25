@@ -1,6 +1,5 @@
 #!/bin/bash
-
-sudo apt-get --yes install git
+log_step 'Ensuring git is configured'
 
 log_trace 'Symlinking  my gitconfig'
 sudo ln -sf "$DOTFILES/git/.gitconfig" "$HOME/.gitconfig"
@@ -24,4 +23,4 @@ for thisFileName in "$DOTFILES/git/bin/"*; do
     log_message "$thisFile symlinked"
 done
 
-log_message 'gitconfig setup'
+log_message 'Git is configured'

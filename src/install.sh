@@ -17,4 +17,6 @@ source "$SRC/install-antibody"
 
 source "$SRC/install-bitwarden"
 
+source "$SRC/setup-git"
+
 exit 0
