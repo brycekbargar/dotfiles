@@ -1,0 +1,41 @@
+#!/bin/bash
+log_step 'Ensuring zsh is installed and the default shell'
+
+log_trace 'Setting .bashrc to launch zsh on start'
+grep 'exec zsh' "$HOME/.bashrc" > /dev/null || \
+echo "exec zsh" >> "$HOME/.bashrc"
+
+if [[ "$SHELL" =~ 'zsh' ]]; then
+  log_trace 'Already have zsh'
+
+elif sh -c "sudo apt --yes install zsh"; then
+  zsh_loc="$(which zsh)"
+
+  if ! grep "$zsh_loc" /etc/shells > /dev/null; then
+    sudo sh -c "echo '$zsh_loc' >> /etc/shells"
+  fi
+
+  chsh -s "$zsh_loc"
+  log_message 'Zsh installed and the default shell'
+
+else
+  log_error $'Couldn\'t install zsh...'
+  exit 1
+
+fi
+
+log_step 'Ensuring zsh configs are linked'
+
+log_trace 'Linking my zshrc'
+ln -sf "$DOTFILES/zsh/.zshrc" "$HOME/.zshrc"
+# I hate going ~/.zs -> tab and then only getting ~/.zsh
+ln -sf "$DOTFILES/zsh/.zshrc" "$HOME/.zsh"
+
+log_trace 'Linking zshenv'
+ln -sf "$DOTFILES/zsh/.zshenv" "$HOME/.zshenv"
+
+log_trace 'Touching un-version controlled zsh config'
+mkdir -p "$HOME/.zshrcfiles"
+touch "$HOME/.zshrcfiles/local.zsh"
+
+log_message 'Zsh configs are linked'

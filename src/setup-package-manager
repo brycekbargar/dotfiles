@@ -1,0 +1,7 @@
+#!/bin/bash
+log_step "Ensuring apt is setup"
+
+sudo apt --yes update
+sudo apt --yes upgrade
+
+log_message 'Apt is setup'

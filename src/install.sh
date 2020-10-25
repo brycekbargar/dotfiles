@@ -11,8 +11,8 @@ popd
 # TODO: Replace this with something less hand-rolled
 source "$SRC/utils/logging"
 
-log_step "01 Setup Package Manager"
-source "$SRC/$ENVIRONMENT/01-setup-package-manager"
+source "$SRC/setup-package-manager"
+source "$SRC/install-zsh"
 
 log_step "02 Install Dotfiles Packages"
 source "$SRC/$ENVIRONMENT/02-install-dotfiles-packages"
@@ -20,7 +20,6 @@ source "$SRC/$ENVIRONMENT/02-install-dotfiles-packages"
 log_step "03 Sync SSH Keys"
 source "$SRC/$ENVIRONMENT/03-sync-ssh-keys"
 
-log_step "04 Install zsh"
 source "$SRC/$ENVIRONMENT/04-install-zsh"
 
 log_step "05 Install git"
