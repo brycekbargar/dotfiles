@@ -34,8 +34,12 @@ ln -sf "$DOTFILES/zsh/.zshrc" "$HOME/.zsh"
 log_trace 'Linking zshenv'
 ln -sf "$DOTFILES/zsh/.zshenv" "$HOME/.zshenv"
 
-log_trace 'Touching un-version controlled zsh config'
 mkdir -p "$HOME/.zshrcfiles"
+
+log_trace 'Linking antibody_plugins'
+ln -sf "$DOTFILES/zsh/.antibody_plugins" "$HOME/.zshrcfiles/.antibody_plugins"
+
+log_trace 'Touching un-version controlled zsh config'
 touch "$HOME/.zshrcfiles/local.zsh"
 
 log_message 'Zsh configs are linked'

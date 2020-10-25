@@ -1,6 +1,6 @@
 #!/bin/zsh
 
 source <(antibody init)
-antibody bundle < ~/.antibody_plugins
+antibody bundle < "$HOME/.zshrcfiles/.antibody_plugins"
 
 source "$HOME/.zshrcfiles/local.zsh"
