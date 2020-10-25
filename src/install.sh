@@ -14,9 +14,7 @@ pushd "$(dirname $0)"
   popd
 popd
 
-source "$SRC/utils/install-environment"
 source "$SRC/utils/logging"
-source "$SRC/utils/set-environment"
 
 log_step "01 Setup Package Manager"
 source "$SRC/$ENVIRONMENT/01-setup-package-manager"
