@@ -1,3 +1,0 @@
-#!/bin/bash
-
-source "$SRC/shared/03-sync-ssh-keys"

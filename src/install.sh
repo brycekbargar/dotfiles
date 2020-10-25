@@ -9,7 +9,7 @@ pushd "$(dirname $0)"
 popd
 
 # TODO: Replace this with something less hand-rolled
-source "$SRC/utils/logging"
+source "$SRC/logging"
 
 source "$SRC/setup-package-manager"
 source "$SRC/install-zsh"

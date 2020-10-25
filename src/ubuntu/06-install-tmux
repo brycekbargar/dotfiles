@@ -1,5 +1,0 @@
-#!/bin/bash
-
-sudo apt --yes install tmux
-
-source "$SRC/shared/06-install-tmux"

@@ -1,5 +1,0 @@
-#!/bin/bash
-
-sudo apt-get --yes install git
-
-source "$SRC/shared/05-install-git"

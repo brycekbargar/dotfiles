@@ -1,1 +1,0 @@
-OAUTH_ACCESS_TOKEN=$(lpass show --password DropboxAuth/OAUTH_ACCESS_TOKEN)
