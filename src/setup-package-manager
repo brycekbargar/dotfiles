@@ -1,7 +1,13 @@
 #!/bin/bash
 log_step "Ensuring apt is setup"
 
+log_trace 'Updating all apt packages'
 sudo apt --yes update
 sudo apt --yes upgrade
+sudo apt autoremove
+
+log_trace 'Installing base debian tools'
+sudo apt --yes install wget
+sudo apt --yes install unzip
 
 log_message 'Apt is setup'

@@ -1,0 +1,14 @@
+#!/bin/zsh
+
+bw () {
+  local BIN_BW=/usr/local/bin/bw
+  if [ ! -v 'BW_SESSION' ]; then
+    local SESSION=$BIN_BW unlock --raw
+    $BIN_BW sync --session "$SESSION"
+    $BIN_BW $@ --session "$SESSION"
+    $BIN_BW lock
+  else
+    $BIN_BW sync
+    $BIN_BW $@
+  fi
+}
