@@ -1,0 +1,6 @@
+#!/bin/bash
+log_step 'Ensuring antibody is installed'
+
+curl -sfL git.io/antibody | sh -s - -b /usr/local/bin
+
+log_message 'Antibody is installed'

@@ -1,7 +1,6 @@
 #!/bin/zsh
 
-source "$HOME/.zshrcfiles/antigen.zsh"
-source "$HOME/.zshrcfiles/local.zsh"
+source <(antibody init)
+antibody bundle < ~/.antibody_plugins
 
-antigen bundle brycekbargar/dotfiles dotfiles/zsh/shared
-antigen apply
+source "$HOME/.zshrcfiles/local.zsh"
