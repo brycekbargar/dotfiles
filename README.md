@@ -3,6 +3,7 @@
 ### Usage
 
 ```sh
+sudo apt update
 sudo apt install git
 
 mkdir ~/_src
