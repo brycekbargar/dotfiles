@@ -11,7 +11,7 @@ bw_linux_version = wget --server-response -q -O - "$bw_url" 2>&1 |
 mkdir -p "$HOME/downloads"
 if [ ! -f "$HOME/downloads/$bw_linux_version" ]; then
     log_trace 'Downloading latest bw executable'
-    wget --content-disposition "bw_url"
+    wget --content-disposition "$bw_url"
 
     log_trace 'Extracting executable to /usr/local/bin'
     unzip -o -p $bw_linux_version bw > "$HOME/downloads/bw"
