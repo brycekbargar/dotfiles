@@ -4,9 +4,9 @@ log_step 'Ensuring latest bitwarden is installed and configured'
 bw_url='https://vault.bitwarden.com/download/?app=cli&platform=linux'
 
 log_trace 'Getting latest bw file name'
-bw_linux_version = wget --server-response -q -O - "$bw_url" 2>&1 | 
+bw_linux_version=$(wget --server-response -q -O - "$bw_url" 2>&1 | 
     grep "Content-Disposition:" | tail -1 | 
-    awk -F"filename=" '{print $2}'
+    awk -F"filename=" '{print $2}')
 
 mkdir -p "$HOME/downloads"
 if [ ! -f "$HOME/downloads/$bw_linux_version" ]; then
@@ -20,6 +20,6 @@ if [ ! -f "$HOME/downloads/$bw_linux_version" ]; then
     sudo chmod +x /usr/local/bin/bw
 fi
 
-bw login brycekbargar@gmail.com
+/usr/local/bin/bw login brycekbargar@gmail.com
 
 log_message 'Latest bitwarden is installed and configured'
