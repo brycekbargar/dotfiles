@@ -20,6 +20,6 @@ if [ ! -f "$HOME/downloads/$bw_linux_version" ]; then
     sudo chmod +x /usr/local/bin/bw
 fi
 
-/usr/local/bin/bw login brycekbargar@gmail.com
+bw login brycekbargar@gmail.com
 
 log_message 'Latest bitwarden is installed and configured'

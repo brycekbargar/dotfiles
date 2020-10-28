@@ -6,7 +6,7 @@
 sudo apt update
 sudo apt install git
 
-mkdir ~/_src
+mkdir -p ~/_src
 cd ~/_src
 git clone https://github.com/brycekbargar/debian-dotfiles.git
 cd debian-dotfiles

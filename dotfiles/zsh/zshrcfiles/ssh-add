@@ -7,10 +7,12 @@ function ssh-add (){
     target=$(uname -n)
   fi
 
-  if [ ! -e "$HOME/.ssh/$target" ] || ! lpass ls | grep "$target" > /dev/null; then
+  local pw=$(bw list items --search "$target" --folderid 5f327073-d3b6-4940-9783-a9db0022589e | jq '.[0].login.password')
+
+  if [ ! -e "$HOME/.ssh/$target" ] || pw==null ; then
     echo $'Bad key name' >&2
     return 1
   fi
 
-  expect /usr/local/bin/ssh-add-expect -- "$HOME/.ssh/$target" "$(lpass show --password $target)"
+  expect ssh-add-expect -- "$HOME/.ssh/$target" "$pw"
 }

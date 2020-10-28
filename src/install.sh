@@ -12,10 +12,12 @@ popd
 source "$SRC/logging"
 
 source "$SRC/setup-package-manager"
+
 source "$SRC/install-zsh"
 source "$SRC/install-antibody"
 
 source "$SRC/install-bitwarden"
+source "$SRC/setup-ssh"
 
 source "$SRC/setup-git"
 

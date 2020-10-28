@@ -1,0 +1,18 @@
+#!/bin/bash
+log_step 'Ensuring ssh is enabled and ssh-keys are downloaded from bitwarden'
+
+log_trace 'Installing expect'
+sudo apt --yes install expect
+
+log_trace 'Installing openssh-client'
+sudo apt --yes install openssh-client
+mkdir -p "$HOME/.ssh"
+
+log_trace 'Downloading keys from bitwarden'
+keys="$(bw list items --folderid 5f327073-d3b6-4940-9783-a9db0022589e)"
+bash <(echo "$keys" | jq -r ' .[].attachments[] | "wget -O $HOME/.ssh/\(.fileName) \(.url|@sh)" ')
+
+log_trace 'Updating git remote to ssh'
+#git remote set-url origin git@github.com:brycekbargar/dotfiles.git
+
+log_message 'Ssh is enabled and ssh-keys are downloaded from bitwarden'
