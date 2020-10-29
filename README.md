@@ -4,7 +4,7 @@
 
 ```sh
 sudo apt update
-sudo apt install git
+sudo apt --yes install git
 
 mkdir -p ~/_src
 cd ~/_src

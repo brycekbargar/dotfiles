@@ -7,8 +7,6 @@ sudo apt --yes upgrade
 sudo apt autoremove
 
 log_trace 'Installing base debian tools'
-sudo apt --yes install wget
-sudo apt --yes install unzip
-sudo apt --yes install jq
+sudo apt --yes install wget unzip jq
 
 log_message 'Apt is setup'

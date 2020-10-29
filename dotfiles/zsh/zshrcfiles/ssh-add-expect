@@ -1,9 +1,0 @@
-#!/usr/bin/expect -f
-
-set target [lindex $argv 0]
-set password [lindex $argv 1]
-
-spawn ssh-add $target
-expect "Enter passphrase for $target:"
-send "$password\n";
-interact
