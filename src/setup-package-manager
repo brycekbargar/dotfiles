@@ -1,12 +1,16 @@
 #!/bin/bash
 log_step "Ensuring apt is setup"
 
+log_trace 'Linking repository sources'
+sudo ln -sf "$DOTFILES/apt/sources.list" "/etc/apt/sources.list"
+sudo ln -sf "$DOTFILES/apt/preferences" "/etc/apt/preferences"
+
 log_trace 'Updating all apt packages'
-sudo apt --yes update
-sudo apt --yes upgrade
-sudo apt autoremove
+sudo apt update
+sudo apt --yes full-upgrade
+sudo apt --yes autoremove
 
 log_trace 'Installing base debian tools'
-sudo apt --yes install wget unzip jq
+sudo apt --yes install wget unzip jq exa
 
 log_message 'Apt is setup'
