@@ -5,5 +5,5 @@ export LS_COLORS='di=1;36:ln=1;35:so=1;32:pi=1;33:ex=1;31;40:bd=0;40:cd=0;40:su=
 
 export LESS='--ignore-case --raw-control-chars -FRXK'
 export PAGER='less'
-export EDITOR='vi'
-export VISUAL='vi'
+export EDITOR='vim'
+export VISUAL='vim'

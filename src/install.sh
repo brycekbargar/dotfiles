@@ -20,5 +20,6 @@ source "$SRC/install-bitwarden"
 source "$SRC/setup-ssh"
 
 source "$SRC/setup-git"
+source "$SRC/install-vim"
 
 exit 0
