@@ -14,6 +14,9 @@ echo "export GIT_COMMITTER_NAME=bryce" >>  "$HOME/.zshrcfiles/local-pre-antibody
 grep "GIT_COMMITTER_EMAIL" "$HOME/.zshrcfiles/local-pre-antibody.zsh" &> /dev/null || \
 echo "export GIT_COMMITTER_EMAIL=brycekbargar@gmail.com" >>  "$HOME/.zshrcfiles/local-pre-antibody.zsh"
 
+git config --local --add user.email "brycekbargar@gmail.com"
+git config --local --add user.name "bryce"
+
 for thisFileName in "$DOTFILES/git/bin/"*; do
     thisFile=$(basename "$thisFileName")
     log_trace "Symlinking $thisFile"

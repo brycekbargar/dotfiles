@@ -19,6 +19,6 @@ log_trace 'Updating ssh file permissions'
 chmod 600 "$HOME"/.ssh/*
 
 log_trace 'Updating git remote to ssh'
-git remote set-url origin git@github.com:brycekbargar/dotfiles.git
+git remote set-url origin git@github.com:brycekbargar/debian-dotfiles.git
 
 log_message 'Ssh is enabled and ssh-keys are downloaded from bitwarden'
