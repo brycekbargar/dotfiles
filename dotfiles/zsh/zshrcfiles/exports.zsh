@@ -1,3 +1,4 @@
+# I understood what these meant at some point : /
 export TERM=xterm-256color
 export CLICOLOR=1
 export LSCOLORS=Gxfxcxdxbxegedabagacad
