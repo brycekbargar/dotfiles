@@ -22,4 +22,6 @@ source "$SRC/setup-ssh"
 source "$SRC/setup-git"
 source "$SRC/install-vim"
 
+source "$SRC/install-golang"
+
 exit 0
