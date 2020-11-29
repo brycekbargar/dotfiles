@@ -11,6 +11,6 @@ sudo apt --yes full-upgrade
 sudo apt --yes autoremove
 
 log_trace 'Installing base debian tools'
-sudo apt --yes install wget unzip jq exa
+sudo apt --yes install wget unzip jq exa procps
 
 log_message 'Apt is setup'
