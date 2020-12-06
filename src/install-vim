@@ -2,7 +2,7 @@
 log_step 'Ensuring vim is installed and minimally configure'
 
 log_trace 'Installing vim'
-sudo apt --yes install vim
+sudo apt --yes install vim-gtk
 
 log_trace 'Loading vim-sensible plugin'
 mkdir -p "$HOME/.vim/pack/tpope/start"
