@@ -23,5 +23,6 @@ source "$SRC/setup-git"
 source "$SRC/install-vim"
 
 source "$SRC/install-golang"
+source "$SRC/install-nodejs"
 
 exit 0

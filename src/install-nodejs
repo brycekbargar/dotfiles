@@ -1,0 +1,10 @@
+#!/bin/bash
+log_step 'Ensuring nodejs and npm are installed'
+
+sudo wget -qO /usr/local/bin/n https://raw.githubusercontent.com/tj/n/master/bin/n
+sudo chmod +x /usr/local/bin/n
+
+export N_PREFIX="$HOME/.n" 
+/usr/local/bin/n latest
+
+log_message 'Nodejs and npm are installed'
