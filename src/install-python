@@ -1,0 +1,21 @@
+#!/bin/bash
+log_step 'Ensuring python is installed'
+
+log_trace 'Installing pyenv deps'
+sudo apt --yes install make build-essential libssl-dev zlib1g-dev \
+libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm \
+libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
+
+log_trace 'Installing pyenv'
+mkdir -p "$HOME/.pyenv"
+pushd "$HOME/.pyenv"
+  if [ ! -e "README.md" ]; then
+    git clone https://github.com/pyenv/pyenv.git .
+  fi
+  git fetch --prune
+  git reset --hard origin/master
+  
+  src/configure && make -C src
+popd
+
+log_message 'Python is installed'
