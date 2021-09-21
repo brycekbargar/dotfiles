@@ -5,4 +5,4 @@ export PATH="$PYENV_ROOT/bin:$PYTHONUSERBASE/bin:$PATH"
 eval "$(pyenv init --path)"
 eval "$(pyenv init -)"
 
-pip install --user --upgrade pipenv
+pip install --quiet --user --upgrade pipenv
