@@ -8,3 +8,5 @@ export LESS='--ignore-case --raw-control-chars -FRXK'
 export PAGER='less'
 export EDITOR='vim'
 export VISUAL='vim'
+
+export INPUTRC="$(antibody path brycekbargar/debian-dotfiles)/dotfiles/zsh/.inputrc"
