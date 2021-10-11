@@ -22,6 +22,7 @@ source "$SRC/setup-ssh"
 source "$SRC/setup-git"
 source "$SRC/install-vim"
 
+source "$SRC/install-docker"
 source "$SRC/install-golang"
 source "$SRC/install-nodejs"
 source "$SRC/install-python"

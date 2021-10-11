@@ -10,7 +10,11 @@ sudo apt update
 sudo apt --yes full-upgrade
 sudo apt --yes autoremove
 
+
 log_trace 'Installing base debian tools'
-sudo apt --yes install wget unzip jq exa procps
+sudo apt --yes install wget unzip jq exa procps gnupg
+
+log_trace 'Installing apt over https dependencies'
+sudo apt --yes install apt-transport-https ca-certificates
 
 log_message 'Apt is setup'
