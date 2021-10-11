@@ -1,0 +1,5 @@
+#!/usr/bin/zsh
+
+function docker-start(){
+    sudo /etc/init.d/docker start
+}
