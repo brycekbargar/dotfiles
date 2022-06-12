@@ -1,0 +1,9 @@
+name: nvim
+channels:
+  - conda-forge
+  - nodefaults
+dependencies:
+  - python
+  - pynvim
+  - nodejs
+  - ninja # for building lua-language-server
