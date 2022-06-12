@@ -1,7 +1,0 @@
-#!/bin/bash
-log_step 'Ensuring antibody is installed'
-
-wget -qO - git.io/antibody | sudo sh -s - -b /usr/local/bin
-sudo chmod +x /usr/local/bin/antibody
-
-log_message 'Antibody is installed'
