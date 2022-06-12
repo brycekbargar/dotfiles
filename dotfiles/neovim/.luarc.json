@@ -1,0 +1,17 @@
+{
+    "$schema": "https://raw.githubusercontent.com/sumneko/vscode-lua/master/setting/schema.json",
+    "diagnostics.globals": [
+        "vim"
+    ],
+    "runtime": {
+        "pathStrict": false,
+        "version": "LuaJIT"
+    },
+    "telemetry.enable": true,
+    "workspace.library": [
+        "~/.local/share/nvim/site/pack/packer/start/",
+        "~/.local/share/nvim/site/pack/packer/opt",
+        "~/miniconda3/envs/nvim/squashfs-root/usr/lib/nvim",
+        "~/miniconda3/envs/nvim/squashfs-root/usr/share/nvim/runtime"
+    ]
+}
