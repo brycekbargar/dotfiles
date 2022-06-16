@@ -33,7 +33,7 @@ return function()
 				end,
 			},
 			json = prettier("json"),
-			jsonc = prettier("json5"),
+			jsonc = prettier("jsonc"),
 			yaml = prettier("yaml"),
 			markdown = prettier("markdown"),
 		},

@@ -34,11 +34,10 @@ return function()
 	lsp.sumneko_lua.setup({
 		on_attach = on_attach,
 		cmd = conda_run.exe({ n = "lua-language-server" }).list(),
-		root_dir = function(fname)
-			return util.root_pattern(".luarc.json")(fname)
-		end,
+		root_dir = util.root_pattern(".luarc.json"),
 		single_file_support = false,
 	})
+
 	lsp.jsonls.setup({
 		on_attach = on_attach,
 		cmd = conda_run.js({
@@ -49,6 +48,34 @@ return function()
 			provideFormatter = false,
 		},
 		root_dir = util.find_git_ancestor,
+	})
+
+	lsp.yamlls.setup({
+		on_attach = on_attach,
+		cmd = conda_run.js({
+			n = "yaml-language-server",
+		}).with_args({ "--stdio" }).list(),
+		root_dir = util.find_git_ancestor,
+		filetypes = { 'yaml', 'yaml.docker-compose', "yaml.ansible" },
+	})
+
+	lsp.ansiblels.setup({
+		on_attach = on_attach,
+		cmd = conda_run.js({
+			package = "@ansible/ansible-language-server",
+			n = "ansible-language-server",
+		}).with_args({ "--stdio" }).list(),
+		-- This is assuming:
+		--   1. There's a local conda env with ansible you want to use
+		--   2. There's a shim script to run ansible using that env
+		--   3. The ansiblels continues to assume ansible-lint and ansible are in the same venv
+		root_dir = util.root_pattern(".conda-ansible"),
+		config = {
+			ansible = {
+				path = ".conda-ansible",
+			},
+		},
+		single_file_support = false,
 	})
 
 	local id = vim.api.nvim_create_augroup("DiagnosticFloat", {})

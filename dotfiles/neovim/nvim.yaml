@@ -6,4 +6,5 @@ dependencies:
   - python
   - pynvim
   - nodejs
-  - ninja # for building lua-language-server
+  - ansible-lint
+  - yamllint

@@ -17,10 +17,13 @@ local conda_run = function(executable)
 	local m = {}
 	m.cmd = "conda"
 	m.exe = m.cmd
+	m.path = m.cmd
 	m.args = concat_args({ "run", "-n", "nvim", "--no-capture-output" }, executable)
+	m.arguments = m.args
 
 	function m.with_args(args)
 		m.args = concat_args(m.args, args)
+		m.arguments = m.args
 
 		return m
 	end
