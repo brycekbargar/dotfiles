@@ -1,9 +1,6 @@
-vim.keymap.set("n", "<leader>m", function()
+vim.keymap.set("n", "<leader>tm", function()
 	require("telescope.builtin").keymaps({ initial_mode = "insert" })
 end, { noremap = true, silent = true })
-vim.keymap.set("n", "<leader>t", function()
-	require("telescope").extensions.tele_tabby.list()
-end, { silent = true, noremap = true })
 
 return function()
 	local telescope = require("telescope")
@@ -23,5 +20,4 @@ return function()
 	})
 
 	telescope.load_extension("lsp_handlers")
-	telescope.load_extension("tele_tabby")
 end

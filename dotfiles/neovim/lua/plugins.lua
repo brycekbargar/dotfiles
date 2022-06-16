@@ -71,10 +71,9 @@ return require("packer").startup(function(use)
 		event = "VimEnter",
 		config = require("config.dressing"),
 	})
-	use({ "TC72/telescope-tele-tabby.nvim", as = "tele_tabby" })
 	use({
 		"nvim-telescope/telescope.nvim",
-		after = { "catppuccin", "lsp-handlers", "tele_tabby" },
+		after = { "catppuccin", "lsp-handlers" },
 		requires = "nvim-lua/plenary.nvim",
 		event = "VimEnter",
 		config = require("config.telescope"),
