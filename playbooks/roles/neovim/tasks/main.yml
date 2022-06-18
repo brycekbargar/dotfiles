@@ -1,0 +1,121 @@
+---
+- name: Clearing previous conda env
+  ansible.builtin.command: conda env remove --name nvim --quiet --yes
+  changed_when: false
+
+- name: Clearing previous nvim install
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  loop: "{{ nvim_data_directories }}"
+
+- name: Creating conda env
+  ansible.builtin.command: conda create --file "{{ source_config_path }}/environment.yaml" --quiet --yes
+  changed_when: false
+
+- name: Getting conda envs
+  ansible.builtin.command: conda env list --json
+  register: env_list
+  changed_when: false
+
+- name: Set nvim_env_path fact
+  ansible.builtin.set_fact:
+    nvim_env_path: "{{ env_list.stdout | from_json | community.general.json_query('envs[?ends_with(''nvim'')]') }}"
+
+- name: Downloading Neovim (for linux)
+  ansible.builtin.get_url:
+    url: https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage
+    dest: "{{ nvim_env_path }}"
+    mode: "0644"
+  when: ansible_distribution == "Debian"
+
+- name: Extracting Neovim (for linux)
+  ansible.builtin.command: "{{ nvim_env_path }}/nvim.appimage --appimage-extract"
+  when: ansible_distribution == "Debian"
+
+- name: Set nvim_binary fact (for linux)
+  ansible.builtin.set_fact:
+    nvim_binary: "{{ nvim_env_path }}/squashfs-root/AppRun"
+  when: ansible_distribution == "Debian"
+
+- name: Downloading Neovim (for macos)
+  ansible.builtin.unarchive:
+    remote_src: true
+    src: https://github.com/neovim/neovim/releases/download/nightly/nvim-macos.tar.gz
+    dest: "{{ nvim_env_path }}/nvim-macos"
+  when: ansible_distribution == "MacOSX" and ansible_architecture != "arm64"
+
+- name: Set nvim_binary fact (for macos)
+  ansible.builtin.set_fact:
+    nvim_binary: "{{ nvim_env_path }}/nvim_macos/nvim-osx64/bin/nvim"
+  when: ansible_distribution == "MacOSX" and ansible_architecture != "arm64"
+
+- name: Linking nvim binary
+  ansible.builtin.file:
+    src: "{{ nvim_binary }}"
+    dest: "{{ nvim_binary_path }}"
+    state: link
+  when: ansible_distribution == "Debian" or ansible_distribution == "MacOSX" and ansible_architecture != "arm64"
+
+- name: Installing Neovim (for macos m1)
+  community.general.homebrew:
+    name: neovim
+    state: head
+  when: ansible_distribution == "MacOSX" and ansible_architecture == "arm64"
+
+- name: Setting conda env variables
+  ansible.builtin.command: conda env config vars set --name nvim GOBIN="{{ nvim_env_path }}/bin" CARGO_INSTALL_ROOT="{{ nvim_env_path }}/bin"
+  changed_when: false
+
+- name: Installing stylua
+  ansible.builtin.command: conda run --name nvim --no-capture-output cargo install stylua
+  changed_when: false
+
+- name: Downloading lua lsp (for macos)
+  community.general.homebrew:
+    name: lua-language-server
+    state: latest
+  when: ansible_distribution == "MacOSX"
+
+- name: Finding latest lua lsp
+  ansible.builtin.uri:
+    url: https://api.github.com/repos/sumneko/lua-language-server/releases/latest
+    return_content: true
+  register: lua_lsp
+
+- name: Installing latest lua lsp (for linux)
+  loop: "{{ lua_lsp.json.assets }}"
+  when: ansible_distribution == "Debian" and "linux-x64.tar.gz" in item.name
+  ansible.builtin.unarchive:
+    remote_src: true
+    src: "{{ item.browser_download_url }}"
+    dest: "{{ nvim_env_path }}/lua-language-server"
+
+- name: Installing latest lua lsp (for macos)
+  loop: "{{ lua_lsp.json.assets }}"
+  when: ansible_distribution == "MacOSX" and "darwin-" ~ ansible_architecture|replace("x86_", "") ~ ".tar.gz" in item.name
+  ansible.builtin.unarchive:
+    remote_src: true
+    src: "{{ item.browser_download_url }}"
+    dest: "{{ nvim_env_path }}/lua-language-server"
+
+- name: Creating lua lsp shim
+  ansible.builtin.copy:
+    dest: "{{ nvim_env_path }}/bin/lua-language-server"
+    content: |
+      #/usr/bin/env bash
+      {{ nvim_env_path }}/lua-language-server/bin/lua-language-server $@
+    mode: 0744
+    force: true
+
+- name: Linking configuration
+  ansible.builtin.file:
+    src: "{{ source_config_path }}"
+    dest: "{{ target_config_path }}"
+    state: link
+
+- name: Syncing nvim configuration
+  ansible.builtin.command: nvim +PackerSync +qall
+  with_sequence:
+    count: 2
+  changed_when: true

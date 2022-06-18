@@ -1,0 +1,8 @@
+---
+source_config_path: "{{ playbook_path }}/../dot_config/nvim"
+target_config_path: "{{ lookup('env', 'XDG_CONFIG_HOME') }}/nvim"
+nvim_data_directories:
+  - "{{ lookup('env', 'XDG_DATA_HOME') }}/nvim"
+  - "{{ lookup('env', 'XDG_STATE_HOME') }}/nvim"
+  - "{{ lookup('env', 'XDG_CONFIG_HOME') }}/nvim"
+nvim_binary_path: "{{ lookup('env', 'HOME') }}/.local/bin/nvim"
