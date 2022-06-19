@@ -1,72 +1,107 @@
 ---
-- name: Ensure testing repo is present
+- name: Remove default repos
+  become: true
   ansible.builtin.apt_repository:
+    update_cache: false
+    install_python_apt: false
+    repo: "{{ item }}"
+    state: absent
+  loop:
+    - deb http://deb.debian.org/debian bullseye main
+    - deb http://deb.debian.org/debian bullseye-updates main
+    - deb http://security.debian.org/debian-security bullseye-security main
+    - deb http://ftp.debian.org/debian bullseye-backports main
+
+- name: Ensure testing repo is present
+  become: true
+  ansible.builtin.apt_repository:
+    update_cache: false
+    install_python_apt: false
     repo: deb http://deb.debian.org/debian testing main
     state: present
 
 - name: Ensure src repo is present
+  become: true
   ansible.builtin.apt_repository:
+    update_cache: false
+    install_python_apt: false
     repo: deb-src http://deb.debian.org/debian testing main
     state: present
 
 - name: Ensure backports repo is present
+  become: true
   ansible.builtin.apt_repository:
+    update_cache: false
+    install_python_apt: false
     repo: deb http://deb.debian.org/debian testing-backports main
     state: present
 
 - name: Ensure updates repo is present
+  become: true
   ansible.builtin.apt_repository:
+    update_cache: false
+    install_python_apt: false
     repo: deb http://deb.debian.org/debian testing-updates main
     state: present
 
 - name: Ensure security repo is present
+  become: true
   ansible.builtin.apt_repository:
+    update_cache: false
+    install_python_apt: false
     repo: deb http://security.debian.org/debian-security testing-security main contrib non-free
     state: present
 
 - name: Ensure sid is present
+  become: true
   ansible.builtin.apt_repository:
+    update_cache: false
+    install_python_apt: false
     repo: deb http://deb.debian.org/debian sid main
     state: present
 
+- name: Install gpg
+  become: true
+  ansible.builtin.apt:
+    update_cache: false
+    pkg:
+      - gnupg
+    state: latest
+
 - name: Add Docker GPG Key is present
+  become: true
   ansible.builtin.apt_key:
     url: https://download.docker.com/linux/debian/gpg
     state: present
 
 - name: Ensure docker repo is present
+  become: true
   ansible.builtin.apt_repository:
+    update_cache: false
+    install_python_apt: false
     repo: deb https://download.docker.com/linux/debian bullseye nightly
     state: present
 
 - name: Link preferences
+  become: true
   ansible.builtin.file:
-    become: true
     src: "{{ dotfiles }}/root/etc_apt_preferences"
     dest: "/etc/apt/preferences"
     state: link
 
-- name: Full system update
+- name: Full system upgrade
+  become: true
   ansible.builtin.apt:
     update_cache: true
     autoremove: true
     upgrade: full
 
-- name: Full system upgrade
-  ansible.builtin.apt:
-    update_cache: true
-    autoremove: true
-    only_upgrade: true
-    pkg: "*"
-    state: latest
-
 - name: Install required system packages
+  become: true
   ansible.builtin.apt:
     update_cache: true
     pkg:
       - apt-transport-https
       - ca-certificates
-      - curl
       - software-properties-common
-      - gnupg
     state: latest
