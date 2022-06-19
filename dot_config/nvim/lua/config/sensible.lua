@@ -3,6 +3,7 @@ vim.opt.ignorecase = true
 vim.opt.number = true
 vim.opt.cursorline = true
 vim.opt.wrap = false
+vim.opt.hidden = true
 
 local opts = { noremap = true, silent = true }
 vim.keymap.set("", "<Space>", ":", { noremap = true })
