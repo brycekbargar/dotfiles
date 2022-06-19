@@ -60,28 +60,6 @@
     repo: deb http://deb.debian.org/debian sid main
     state: present
 
-- name: Install gpg
-  become: true
-  ansible.builtin.apt:
-    update_cache: false
-    pkg:
-      - gnupg
-    state: latest
-
-- name: Add Docker GPG Key is present
-  become: true
-  ansible.builtin.apt_key:
-    url: https://download.docker.com/linux/debian/gpg
-    state: present
-
-- name: Ensure docker repo is present
-  become: true
-  ansible.builtin.apt_repository:
-    update_cache: false
-    install_python_apt: false
-    repo: deb https://download.docker.com/linux/debian bullseye nightly
-    state: present
-
 - name: Link preferences
   become: true
   ansible.builtin.file:
@@ -104,4 +82,18 @@
       - apt-transport-https
       - ca-certificates
       - software-properties-common
+      - gnupg
     state: latest
+
+- name: Add Docker GPG Key
+  become: true
+  ansible.builtin.apt_key:
+    url: https://download.docker.com/linux/debian/gpg
+    state: present
+
+- name: Ensure docker repo is present
+  become: true
+  ansible.builtin.apt_repository:
+    install_python_apt: false
+    repo: deb https://download.docker.com/linux/debian bullseye nightly
+    state: present
