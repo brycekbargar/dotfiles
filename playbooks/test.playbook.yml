@@ -28,4 +28,3 @@
     - name: Debugging fact
       ansible.builtin.debug:
         msg: "{{ nvim_env_path }}"
-    

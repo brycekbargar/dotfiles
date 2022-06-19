@@ -1,7 +1,13 @@
 ---
+- name: Getting existing conda envs
+  ansible.builtin.command: conda env list --json
+  register: pre_env_list
+  changed_when: false
+
 - name: Clearing previous conda env
   ansible.builtin.command: conda env remove --name nvim --quiet --yes
-  changed_when: false
+  with_items: "{{ pre_env_list.stdout | from_json |  community.general.json_query('envs') }}"
+  when: item.endswith('nvim')
 
 - name: Clearing previous nvim install
   ansible.builtin.file:
@@ -35,7 +41,9 @@
   when: ansible_distribution == "Debian"
 
 - name: Extracting Neovim (for linux)
-  ansible.builtin.command: "{{ nvim_env_path }}/nvim.appimage --appimage-extract"
+  ansible.builtin.command:
+    cmd: "{{ nvim_env_path }}/nvim.appimage --appimage-extract"
+    creates: "{{ nvim_env_path }}/squashfs-root"
   when: ansible_distribution == "Debian"
   args:
     chdir: "{{ nvim_env_path }}"
@@ -79,12 +87,14 @@
   when: ansible_distribution == "MacOSX" and ansible_architecture == "arm64"
 
 - name: Setting conda env variables
-  ansible.builtin.command: conda env config vars set --name nvim GOBIN="{{ nvim_env_path }}/bin" CARGO_INSTALL_ROOT="{{ nvim_env_path }}"
+  ansible.builtin.command:
+    cmd: conda env config vars set --name nvim GOBIN="{{ nvim_env_path }}/bin" CARGO_INSTALL_ROOT="{{ nvim_env_path }}"
   changed_when: false
 
 - name: Installing stylua
-  ansible.builtin.command: conda run --name nvim --no-capture-output cargo install stylua
-  changed_when: false
+  ansible.builtin.command:
+    cmd: conda run --name nvim --no-capture-output cargo install stylua
+    creates: "{{ nvim_env_path }}/bin/stylua"
 
 - name: Downloading lua lsp (for macos)
   community.general.homebrew:
