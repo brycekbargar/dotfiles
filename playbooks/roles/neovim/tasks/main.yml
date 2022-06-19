@@ -7,10 +7,13 @@
   ansible.builtin.file:
     path: "{{ item }}"
     state: absent
-  loop: "{{ nvim_data_directories }}"
+  loop:
+    - "{{ lookup('env', 'XDG_DATA_HOME') }}/nvim"
+    - "{{ lookup('env', 'XDG_STATE_HOME') }}/nvim"
+    - "{{ lookup('env', 'XDG_CONFIG_HOME') }}/nvim"
 
 - name: Creating conda env
-  ansible.builtin.command: conda create --file "{{ source_config_path }}/environment.yaml" --quiet --yes
+  ansible.builtin.command: conda create --file "{{ dotfiles }}/dot_config/nvim/environment.yaml" --quiet --yes
   changed_when: false
 
 - name: Getting conda envs
@@ -53,10 +56,11 @@
 - name: Linking nvim binary
   ansible.builtin.file:
     src: "{{ nvim_binary }}"
-    dest: "{{ nvim_binary_path }}"
+    dest: "{{ lookup('env', 'XDG_BIN_HOME') }}/nvim"
     state: link
   when: ansible_distribution == "Debian" or ansible_distribution == "MacOSX" and ansible_architecture != "arm64"
 
+# TODO: CHeck for and M1 binary release
 - name: Installing Neovim (for macos m1)
   community.general.homebrew:
     name: neovim
@@ -110,12 +114,12 @@
 
 - name: Linking configuration
   ansible.builtin.file:
-    src: "{{ source_config_path }}"
-    dest: "{{ target_config_path }}"
+    src: "{{ dotfiles }}/dot_config/nvim"
+    dest: "{{ lookup('env', 'XDG_CONFIG_HOME') }}/nvim"
     state: link
 
 - name: Syncing nvim configuration
-  ansible.builtin.command: nvim +PackerSync +qall
+  ansible.builtin.command: nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
   with_sequence:
     count: 2
   changed_when: true

@@ -1,0 +1,27 @@
+Package: *
+Pin: release a=testing-security
+Pin-Priority: 700
+
+Package: *
+Pin: release a=testing-backports
+Pin-Priority: 700
+
+Package: *
+Pin: release a=testing-updates
+Pin-Priority: 700
+
+Package: *
+Pin: release a=testing
+Pin-Priority: 700
+
+Package: *
+Pin: release a=stable
+Pin-Priority: 600
+
+Package: *
+Pin: release a=sid
+Pin-Priority: 200
+
+Package: *
+Pin: release a=unstable
+Pin-Priority: 200

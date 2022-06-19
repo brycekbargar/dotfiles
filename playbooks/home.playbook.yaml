@@ -1,6 +1,8 @@
 ---
 
 - hosts: localhost
+  vars: 
+    dotfiles: "{{ playbook_dir }}/../"
   roles:
     - debian
     - neovim
