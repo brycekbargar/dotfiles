@@ -23,7 +23,9 @@
 
 - name: Set nvim_env_path fact
   ansible.builtin.set_fact:
-    nvim_env_path: "{{ env_list.stdout | from_json | community.general.json_query('envs[?ends_with(''nvim'')]') }}"
+    nvim_env_path: "{{ item }}"
+  with_items: "{{ env_list.stdout | from_json |  community.general.json_query('envs') }}"
+  when: item.endswith('nvim')
 
 - name: Downloading Neovim (for linux)
   ansible.builtin.get_url:
