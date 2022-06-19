@@ -31,17 +31,26 @@
   ansible.builtin.get_url:
     url: https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage
     dest: "{{ nvim_env_path }}"
-    mode: "0644"
+    mode: "0755"
   when: ansible_distribution == "Debian"
 
 - name: Extracting Neovim (for linux)
   ansible.builtin.command: "{{ nvim_env_path }}/nvim.appimage --appimage-extract"
   when: ansible_distribution == "Debian"
+  args:
+    chdir: "{{ nvim_env_path }}"
 
 - name: Set nvim_binary fact (for linux)
   ansible.builtin.set_fact:
     nvim_binary: "{{ nvim_env_path }}/squashfs-root/AppRun"
   when: ansible_distribution == "Debian"
+
+- name: Making Neovim directory (for macos)
+  ansible.builtin.file:
+    path: "{{ nvim_env_path }}/nvim-macos"
+    state: directory
+    mode: "0755"
+  when: ansible_distribution == "MacOSX" and ansible_architecture != "arm64"
 
 - name: Downloading Neovim (for macos)
   ansible.builtin.unarchive:
@@ -70,7 +79,7 @@
   when: ansible_distribution == "MacOSX" and ansible_architecture == "arm64"
 
 - name: Setting conda env variables
-  ansible.builtin.command: conda env config vars set --name nvim GOBIN="{{ nvim_env_path }}/bin" CARGO_INSTALL_ROOT="{{ nvim_env_path }}/bin"
+  ansible.builtin.command: conda env config vars set --name nvim GOBIN="{{ nvim_env_path }}/bin" CARGO_INSTALL_ROOT="{{ nvim_env_path }}"
   changed_when: false
 
 - name: Installing stylua
@@ -89,17 +98,17 @@
     return_content: true
   register: lua_lsp
 
-- name: Installing latest lua lsp (for linux)
-  loop: "{{ lua_lsp.json.assets }}"
-  when: ansible_distribution == "Debian" and "linux-x64.tar.gz" in item.name
-  ansible.builtin.unarchive:
-    remote_src: true
-    src: "{{ item.browser_download_url }}"
-    dest: "{{ nvim_env_path }}/lua-language-server"
+- name: Making lua lsp directory
+  ansible.builtin.file:
+    path: "{{ nvim_env_path }}/lua-language-server"
+    state: directory
+    mode: "0755"
 
-- name: Installing latest lua lsp (for macos)
+- name: Installing latest lua lsp
   loop: "{{ lua_lsp.json.assets }}"
-  when: ansible_distribution == "MacOSX" and "darwin-" ~ ansible_architecture|replace("x86_", "") ~ ".tar.gz" in item.name
+  when: >
+    (ansible_distribution == "Debian" and "linux-x64.tar.gz" in item.name)
+    or (ansible_distribution == "MacOSX" and "darwin-" ~ ansible_architecture|replace("x86_", "") ~ ".tar.gz" in item.name)
   ansible.builtin.unarchive:
     remote_src: true
     src: "{{ item.browser_download_url }}"
@@ -111,7 +120,7 @@
     content: |
       #/usr/bin/env bash
       {{ nvim_env_path }}/lua-language-server/bin/lua-language-server $@
-    mode: 0744
+    mode: "0755"
     force: true
 
 - name: Linking configuration
