@@ -13,7 +13,7 @@
     - "{{ lookup('env', 'XDG_CONFIG_HOME') }}/nvim"
 
 - name: Creating conda env
-  ansible.builtin.command: conda env create --file "{{ dotfiles }}/dot_config/nvim/environment.yaml" --quiet
+  ansible.builtin.command: conda env create --file "{{ dotfiles }}/dot_config/nvim/environment.yml" --quiet
   changed_when: false
 
 - name: Getting conda envs
