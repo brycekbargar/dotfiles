@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-sudo apt --yes install git zsh python3-apt
+sudo apt --yes install git zsh
 
 git clone -b "${DOTFILES_BRANCH:-main}" https://github.com/brycekbargar/dotfiles.git ~/_src/dotfiles
 ln -s ~/_src/dotfiles/HOME/dot_zshenv ~/.zshenv
