@@ -1,21 +1,21 @@
 #!/usr/bin/zsh
 
 export \
-    XDG_CONFIG_HOME = "$HOME/.config" \
-    XDG_CACHE_HOME  = "$HOME/.cache" \
-    XDG_DATA_HOME   = "$HOME/.local/share" \
-    XDG_STATE_HOME  = "$HOME/.local/state" \
-    XDG_BIN_HOME    = "$HOME/.local/bin"
+    XDG_CONFIG_HOME="$HOME/.config" \
+    XDG_CACHE_HOME="$HOME/.cache" \
+    XDG_DATA_HOME="$HOME/.local/share" \
+    XDG_STATE_HOME="$HOME/.local/state" \
+    XDG_BIN_HOME="$HOME/.local/bin"
 
 export \
-    CARGO_HOME         = "$XDG_CACHE_HOME/cargo" \
-    CARGO_TARGET_DIR   = "$XDG_STATE_HOME/cargo" \
-    CARGO_INSTALL_ROOT = "$XDG_BIN_HOME/.."  # /bin is created by cargo
+    CARGO_HOME="$XDG_CACHE_HOME/cargo" \
+    CARGO_TARGET_DIR="$XDG_STATE_HOME/cargo" \
+    CARGO_INSTALL_ROOT="$XDG_BIN_HOME/.."  # /bin is created by cargo
 export \
-    CONDA_ROOT         = "$XDG_STATE_HOME/conda" \
-    CONDA_PKGS_DIR     = "$XDG_CACHE_HOME/conda" \
-    CONDA_ENVS_PATH    = "$XDG_STATE_HOME/conda:$XDG_DATA_HOME/conda" \
-export ZDOTDIR         = "$XDG_CONFIG_HOME/zsh"
+    CONDA_ROOT="$XDG_STATE_HOME/conda" \
+    CONDA_PKGS_DIR="$XDG_CACHE_HOME/conda" \
+    CONDA_ENVS_PATH="$XDG_STATE_HOME/conda:$XDG_DATA_HOME/conda" \
+export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 
 typeset -aU path
 path=($XDG_BIN_HOME $path)
