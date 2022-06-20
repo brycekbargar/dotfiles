@@ -82,6 +82,7 @@
       - apt-transport-https
       - ca-certificates
       - software-properties-common
+      - build-essential
       - gnupg
     state: latest
 

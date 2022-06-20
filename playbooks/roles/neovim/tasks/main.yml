@@ -48,14 +48,9 @@
   args:
     chdir: "{{ nvim_env_path }}"
 
-- name: Set nvim_binary fact (for linux)
-  ansible.builtin.set_fact:
-    nvim_binary: "{{ nvim_env_path }}/squashfs-root/AppRun"
-  when: ansible_distribution == "Debian"
-
 - name: Making Neovim directory (for macos)
   ansible.builtin.file:
-    path: "{{ nvim_env_path }}/nvim-macos"
+    path: "{{ nvim_env_path }}/squashfs-root/usr"
     state: directory
     mode: "0755"
   when: ansible_distribution == "MacOSX" and ansible_architecture != "arm64"
@@ -64,43 +59,50 @@
   ansible.builtin.unarchive:
     remote_src: true
     src: https://github.com/neovim/neovim/releases/download/nightly/nvim-macos.tar.gz
-    dest: "{{ nvim_env_path }}/nvim-macos"
-  when: ansible_distribution == "MacOSX" and ansible_architecture != "arm64"
-
-- name: Set nvim_binary fact (for macos)
-  ansible.builtin.set_fact:
-    nvim_binary: "{{ nvim_env_path }}/nvim_macos/nvim-osx64/bin/nvim"
+    dest: "{{ nvim_env_path }}/squashfs-root/usr"
   when: ansible_distribution == "MacOSX" and ansible_architecture != "arm64"
 
 - name: Linking nvim binary
   ansible.builtin.file:
-    src: "{{ nvim_binary }}"
+    src: "{{ nvim_env_path }}/squashfs-root/usr/bin/nvim"
     dest: "{{ lookup('env', 'XDG_BIN_HOME') }}/nvim"
     state: link
   when: ansible_distribution == "Debian" or ansible_distribution == "MacOSX" and ansible_architecture != "arm64"
 
-# TODO: CHeck for and M1 binary release
+# TODO: CHeck for M1 binary releases
 - name: Installing Neovim (for macos m1)
   community.general.homebrew:
     name: neovim
     state: head
   when: ansible_distribution == "MacOSX" and ansible_architecture == "arm64"
 
+- name: Finding latest wsl clipboard
+  ansible.builtin.uri:
+    url: https://api.github.com/repos/equalsraf/win32yank/releases/latest
+    return_content: true
+  register: win32yank
+  when: ansible_distribution == "Debian"
+
+- name: Installing latest wsl clipboard
+  loop: "{{ win32yank.json.assets }}"
+  when: ansible_distribution == "Debian" and "x64.zip" in item.name
+  ansible.builtin.unarchive:
+    remote_src: true
+    src: "{{ item.browser_download_url }}"
+    dest: "{{ nvim_env_path }}/bin"
+    include:
+      - "win32yank.exe"
+    mode: "0755"
+
 - name: Setting conda env variables
   ansible.builtin.command:
-    cmd: conda env config vars set --name nvim GOBIN="{{ nvim_env_path }}/bin" CARGO_INSTALL_ROOT="{{ nvim_env_path }}"
+    cmd: "conda env config vars set --name nvim GOBIN='{{ nvim_env_path }}/bin' CARGO_INSTALL_ROOT='{{ nvim_env_path }}'"
   changed_when: false
 
 - name: Installing stylua
   ansible.builtin.command:
     cmd: conda run --name nvim --no-capture-output cargo install stylua
     creates: "{{ nvim_env_path }}/bin/stylua"
-
-- name: Downloading lua lsp (for macos)
-  community.general.homebrew:
-    name: lua-language-server
-    state: latest
-  when: ansible_distribution == "MacOSX"
 
 - name: Finding latest lua lsp
   ansible.builtin.uri:
@@ -140,7 +142,8 @@
     state: link
 
 - name: Syncing nvim configuration
-  ansible.builtin.command: nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
+  ansible.builtin.command:
+    cmd: "nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'"
   with_sequence:
     count: 2
-  changed_when: true
+  changed_when: false

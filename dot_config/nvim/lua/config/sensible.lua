@@ -4,6 +4,7 @@ vim.opt.number = true
 vim.opt.cursorline = true
 vim.opt.wrap = false
 vim.opt.hidden = true
+vim.opt.clipboard = "unnamedplus"
 
 local opts = { noremap = true, silent = true }
 vim.keymap.set("", "<Space>", ":", { noremap = true })
