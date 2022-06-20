@@ -13,7 +13,7 @@ export \
     CARGO_INSTALL_ROOT="$XDG_BIN_HOME/.."  # /bin is created by cargo
 export \
     CONDA_ROOT="$XDG_STATE_HOME/conda" \
-    CONDA_PKGS_DIR="$XDG_CACHE_HOME/conda" \
+    CONDA_PKGS_DIRS="$XDG_CACHE_HOME/conda" \
     CONDA_ENVS_PATH="$XDG_STATE_HOME/conda:$XDG_DATA_HOME/conda" \
 export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 
