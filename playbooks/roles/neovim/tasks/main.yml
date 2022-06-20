@@ -41,14 +41,14 @@
   with_items: "{{ env_list.stdout | from_json |  community.general.json_query('envs') }}"
   when: item.endswith('nvim')
 
-- name: Downloading Neovim (for linux)
+- name: Downloading Neovim (for wsl)
   ansible.builtin.get_url:
     url: https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage
     dest: "{{ nvim_env_path }}"
     mode: "0755"
   when: ansible_distribution == "Debian"
 
-- name: Extracting Neovim (for linux)
+- name: Extracting Neovim (for wsl)
   ansible.builtin.command:
     cmd: "{{ nvim_env_path }}/nvim.appimage --appimage-extract"
     creates: "{{ nvim_env_path }}/squashfs-root"
@@ -84,20 +84,20 @@
     state: head
   when: ansible_distribution == "MacOSX" and ansible_architecture == "arm64"
 
-- name: Finding latest wsl clipboard
+- name: Finding latest clipboard (wsl)
   ansible.builtin.uri:
     url: https://api.github.com/repos/equalsraf/win32yank/releases/latest
     return_content: true
   register: win32yank
   when: ansible_distribution == "Debian"
 
-- name: Installing latest wsl clipboard
+- name: Installing latest clipboard (wsl)
   loop: "{{ win32yank.json.assets }}"
   when: ansible_distribution == "Debian" and "x64.zip" in item.name
   ansible.builtin.unarchive:
     remote_src: true
     src: "{{ item.browser_download_url }}"
-    dest: "{{ nvim_env_path }}/bin"
+    dest: "{{ lookup('env', 'XDG_BIN_HOME') }}"
     include:
       - "win32yank.exe"
     mode: "0755"
@@ -152,6 +152,5 @@
 - name: Syncing nvim configuration
   ansible.builtin.command:
     cmd: "nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'"
-  with_sequence:
-    count: 2
-  changed_when: false
+  with_sequence: count=2
+  changed_when: true

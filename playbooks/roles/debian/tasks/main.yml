@@ -84,6 +84,7 @@
       - software-properties-common
       - build-essential
       - gnupg
+      - unzip
     state: latest
 
 - name: Add Docker GPG Key
