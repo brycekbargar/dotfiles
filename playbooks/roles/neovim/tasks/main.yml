@@ -148,9 +148,3 @@
     src: "{{ dotfiles }}/dot_config/nvim"
     dest: "{{ lookup('env', 'XDG_CONFIG_HOME') }}/nvim"
     state: link
-
-- name: Syncing nvim configuration
-  ansible.builtin.command:
-    cmd: "nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'"
-  with_sequence: count=2
-  changed_when: true
