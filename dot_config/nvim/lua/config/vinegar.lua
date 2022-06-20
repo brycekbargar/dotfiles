@@ -1,5 +1,3 @@
-vim.g.netrw_preview = 1
-vim.g.netrw_liststyle = 3
-vim.g.netrw_winsize = 25
-
+vim.g.netrw_preview = 0
+vim.g.netrw_alto = 1
 return function() end
