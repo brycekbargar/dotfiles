@@ -6,16 +6,6 @@ export XDG_DATA_HOME="$HOME"/.local/share
 export XDG_STATE_HOME="$HOME"/.local/state
 export XDG_BIN_HOME="$HOME"/.local/bin
 
-export AWS_SHARED_CREDENTIALS_FILE="$XDG_CONFIG_HOME"/aws/credentials export AWS_CONFIG_FILE="$XDG_CONFIG_HOME"/aws/config
-export CARGO_HOME="$XDG_DATA_HOME"/cargo export CARGO_INSTALL_ROOT="$HOME"/.local
-export CONDARC="$XDG_CONFIG_HOME"/conda/condarc
-export DOCKER_CONFIG="$XDG_CONFIG_HOME"/docker
-export GOPATH="$XDG_DATA_HOME"/go GOBIN="$XDG_BIN_HOME"
-export MINIKUBE_HOME="$XDG_DATA_HOME"/minikube
-export MYPY_CACHE_DIR="$XDG_CACHE_HOME"/mypy
-export PSQLRC="$XDG_CONFIG_HOME"/pg/psqlrc export PSQL_HISTORY="$XDG_STATE_HOME"/psql_history export PGPASSFILE="$XDG_CONFIG_HOME"/pg/pgpass export PGSERVICEFILE="$XDG_CONFIG_HOME"/pg/pg_service.conf
-export PYENV_ROOT="$XDG_DATA_HOME"/pyenv export WORKON_HOME="$XDG_DATA_HOME/virtualenvs"
-export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME"/ripgrep/config
 export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 
 typeset -aU path
