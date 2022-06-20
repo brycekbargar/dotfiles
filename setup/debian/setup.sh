@@ -14,7 +14,7 @@ echo '#!/usr/bin/zsh' > ~/.config/zsh/.zshrc
 
 pushd /tmp
 	curl -O --proto '=https' --tlsv1.2 -sSf  https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-	bash Miniconda3-latest-Linux-x86_64.sh -b
+	bash Miniconda3-latest-Linux-x86_64.sh -b -p "$HOME/.local/share/conda"
 popd
 
-/usr/bin/zsh -c "~/miniconda3/bin/conda init zsh"
+/usr/bin/zsh -c "$HOME/.local/share/conda/bin/conda init zsh"
