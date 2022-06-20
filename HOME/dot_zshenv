@@ -1,16 +1,17 @@
 #!/usr/bin/zsh
 
-export XDG_CONFIG_HOME="$HOME"/.config
-export XDG_CACHE_HOME="$HOME"/.cache
-export XDG_DATA_HOME="$HOME"/.local/share
-export XDG_STATE_HOME="$HOME"/.local/state
-export XDG_BIN_HOME="$HOME"/.local/bin
+export \
+    XDG_CONFIG_HOME = "$HOME/.config" \
+    XDG_CACHE_HOME  = "$HOME/.cache" \
+    XDG_DATA_HOME   = "$HOME/.local/share" \
+    XDG_STATE_HOME  = "$HOME/.local/state" \
+    XDG_BIN_HOME    = "$HOME/.local/bin"
 
 export \
-    CARGO_HOME="$XDG_CACHE_HOME/cargo" \
-	CARGO_TARGET_DIR="$XDG_STATE_HOME/cargo" \
-	CARGO_INSTALL_ROOT="$XDG_BIN_HOME/.."  # /bin is created by cargo
-export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
+    CARGO_HOME         = "$XDG_CACHE_HOME/cargo" \
+    CARGO_TARGET_DIR   = "$XDG_STATE_HOME/cargo" \
+    CARGO_INSTALL_ROOT = "$XDG_BIN_HOME/.."  # /bin is created by cargo
+export ZDOTDIR         = "$XDG_CONFIG_HOME/zsh"
 
 typeset -aU path
 path=($XDG_BIN_HOME $path)
