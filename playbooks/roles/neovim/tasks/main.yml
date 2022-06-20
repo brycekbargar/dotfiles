@@ -4,10 +4,16 @@
   register: pre_env_list
   changed_when: false
 
-- name: Clearing previous conda env
-  ansible.builtin.command: conda env remove --name nvim --quiet --yes
+- name: Set nvim_env_path fact
+  ansible.builtin.set_fact:
+    pre_nvim_env_path: "{{ item }}"
   with_items: "{{ pre_env_list.stdout | from_json |  community.general.json_query('envs') }}"
   when: item.endswith('nvim')
+
+- name: Clearing previous conda env
+  ansible.builtin.command:
+    cmd: "conda env remove --name nvim --quiet --yes"
+    removes: "{{ pre_nvim_env_path }}"
 
 - name: Clearing previous nvim install
   ansible.builtin.file:
@@ -19,13 +25,15 @@
     - "{{ lookup('env', 'XDG_CONFIG_HOME') }}/nvim"
 
 - name: Creating conda env
-  ansible.builtin.command: conda env create --file "{{ dotfiles }}/dot_config/nvim/environment.yml" --quiet
-  changed_when: false
+  ansible.builtin.command:
+    cmd: "conda env create --file '{{ dotfiles }}/dot_config/nvim/environment.yml' --quiet"
+    creates: "{{ pre_nvim_env_path }}"
 
 - name: Getting conda envs
-  ansible.builtin.command: conda env list --json
+  ansible.builtin.command:
+    cmd: "conda env list --json"
   register: env_list
-  changed_when: false
+  changed_when: true
 
 - name: Set nvim_env_path fact
   ansible.builtin.set_fact:
