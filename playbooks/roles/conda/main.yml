@@ -1,7 +1,7 @@
 ---
 - name: Ensure channels
   ansible.builtin.blockinfile:
-    path: "{{ lookup('env', 'XDG_CONFIG_HOME')/.condarc }}"
+    path: "{{ lookup('env', 'XDG_CONFIG_HOME')/conda/.condarc }}"
     marker: "# {mark} ANSIBLE MANAGED CHANNELS"
     state: present
     insertafter: "channels:"
@@ -15,7 +15,7 @@
 
 - name: Update/install base env
   ansible.builtin.command:
-    cmd: "conda env update --name base --file '{{ dotfiles }}/dot_local/etc/conda/environment.yml --prune --yes"
+    cmd: "conda env update --name base --file '{{ dotfiles }}/XDG_CONFIG_HOME/conda/environment.yml --prune --yes"
   changed_when: true
 
 - name: Clean conda

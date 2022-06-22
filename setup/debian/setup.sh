@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 mkdir -p ~/.local/var
 mkdir -p ~/.local/etc/zsh
+mkdir -p ~/.local/etc/conda
 mkdir ~/.local/share
 mkdir ~/.local/var/cache
 mkdir ~/.local/var/lib
@@ -12,6 +13,7 @@ ln -s ~/_src/dotfiles/HOME/dot_zshenv ~/.zshenv
 cat > ~/.local/etc/zsh/.zshrc << EOF
 #!/usr/bin/zsh
 EOF
+cp ~/_src/dotfiles/XDG_CONFIG_HOME/conda/.condarc ~/.local/etc/conda/.condarc
 
 pushd /tmp
 	curl -O --proto '=https' --tlsv1.2 -sSf  https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh

@@ -20,7 +20,7 @@
 
 - name: Creating conda env
   ansible.builtin.command:
-    cmd: "conda env create --file '{{ dotfiles }}/dot_config/nvim/environment.yml' --quiet"
+    cmd: "conda env create --file '{{ dotfiles }}/XDG_CONFIG_HOME/nvim/environment.yml' --experimental-solver libmamba --quiet"
     creates: "{{ nvim_env_path }}"
 
 - name: Downloading Neovim (for wsl)
@@ -61,7 +61,7 @@
 
 - name: Setting conda env variables
   ansible.builtin.command:
-    cmd: "conda env config vars set --name nvim GOBIN='{{ nvim_env_path }}/bin' CARGO_INSTALL_ROOT='{{ nvim_env_path }}'"
+    cmd: "conda env config vars set --name nvim CARGO_INSTALL_ROOT='{{ nvim_env_path }}'"
   changed_when: false
 
 - name: Installing stylua
@@ -102,6 +102,6 @@
 
 - name: Linking configuration
   ansible.builtin.file:
-    src: "{{ dotfiles }}/dot_config/nvim"
+    src: "{{ dotfiles }}/XDG_CONFIG_HOME/nvim"
     dest: "{{ lookup('env', 'XDG_CONFIG_HOME') }}/nvim"
     state: link

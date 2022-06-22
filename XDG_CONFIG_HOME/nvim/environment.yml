@@ -6,6 +6,5 @@ dependencies:
   - python
   - pynvim
   - nodejs
-  - rust
   - ansible-lint
   - yamllint
