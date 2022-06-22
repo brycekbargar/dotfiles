@@ -1,19 +1,13 @@
 ---
-- name: Getting existing conda envs
-  ansible.builtin.command: conda env list --json
-  register: pre_env_list
-  changed_when: false
-
+# TODO: Make a default or var?
 - name: Set nvim_env_path fact
   ansible.builtin.set_fact:
-    pre_nvim_env_path: "{{ item }}"
-  with_items: "{{ pre_env_list.stdout | from_json |  community.general.json_query('envs') }}"
-  when: item.endswith('nvim')
+    nvim_env_path: "{{ lookup('env', 'CONDA_ROOT') }}/envs/nvim"
 
 - name: Clearing previous conda env
   ansible.builtin.command:
     cmd: "conda env remove --name nvim --quiet --yes"
-    removes: "{{ pre_nvim_env_path }}"
+    removes: "{{ nvim_env_path }}"
 
 - name: Clearing previous nvim install
   ansible.builtin.file:
@@ -27,19 +21,7 @@
 - name: Creating conda env
   ansible.builtin.command:
     cmd: "conda env create --file '{{ dotfiles }}/dot_config/nvim/environment.yml' --quiet"
-    creates: "{{ pre_nvim_env_path }}"
-
-- name: Getting conda envs
-  ansible.builtin.command:
-    cmd: "conda env list --json"
-  register: env_list
-  changed_when: true
-
-- name: Set nvim_env_path fact
-  ansible.builtin.set_fact:
-    nvim_env_path: "{{ item }}"
-  with_items: "{{ env_list.stdout | from_json |  community.general.json_query('envs') }}"
-  when: item.endswith('nvim')
+    creates: "{{ nvim_env_path }}"
 
 - name: Downloading Neovim (for wsl)
   ansible.builtin.get_url:
@@ -61,28 +43,21 @@
     path: "{{ nvim_env_path }}/squashfs-root/usr"
     state: directory
     mode: "0755"
-  when: ansible_distribution == "MacOSX" and ansible_architecture != "arm64"
+  when: ansible_distribution == "MacOSX"
 
 - name: Downloading Neovim (for macos)
   ansible.builtin.unarchive:
     remote_src: true
-    src: https://github.com/neovim/neovim/releases/download/nightly/nvim-macos.tar.gz
+    src: https://github.com/neovim/neovim/releases/download/nightly/nvim-macos-universal.tar.gz
     dest: "{{ nvim_env_path }}/squashfs-root/usr"
-  when: ansible_distribution == "MacOSX" and ansible_architecture != "arm64"
+  when: ansible_distribution == "MacOSX"
 
 - name: Linking nvim binary
   ansible.builtin.file:
     src: "{{ nvim_env_path }}/squashfs-root/usr/bin/nvim"
     dest: "{{ lookup('env', 'XDG_BIN_HOME') }}/nvim"
     state: link
-  when: ansible_distribution == "Debian" or ansible_distribution == "MacOSX" and ansible_architecture != "arm64"
-
-# TODO: CHeck for M1 binary releases
-- name: Installing Neovim (for macos m1)
-  community.general.homebrew:
-    name: neovim
-    state: head
-  when: ansible_distribution == "MacOSX" and ansible_architecture == "arm64"
+  when: ansible_distribution == "Debian" or ansible_distribution == "MacOSX"
 
 - name: Setting conda env variables
   ansible.builtin.command:
