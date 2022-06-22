@@ -1,16 +1,16 @@
 #!/usr/bin/zsh
 
 export \
-    XDG_CONFIG_HOME="$HOME/.config" \
-    XDG_CACHE_HOME="$HOME/.cache" \
+    XDG_CONFIG_HOME="$HOME/.local/etc" \
     XDG_DATA_HOME="$HOME/.local/share" \
-    XDG_STATE_HOME="$HOME/.local/state" \
+    XDG_CACHE_HOME="$HOME/.local/var/cache" \
+    XDG_STATE_HOME="$HOME/.local/var/lib" \
     XDG_BIN_HOME="$HOME/.local/bin"
 
 export \
     CARGO_HOME="$XDG_CACHE_HOME/cargo" \
     CARGO_TARGET_DIR="$XDG_STATE_HOME/cargo" \
-    CARGO_INSTALL_ROOT="$XDG_BIN_HOME/.."  # /bin is created by cargo
+    CARGO_INSTALL_ROOT="$XDG_BIN_HOME/.."  # /bin is assumed by cargo
 export \
     CONDA_ROOT="$XDG_STATE_HOME/conda" \
     CONDA_PKGS_DIRS="$XDG_CACHE_HOME/conda" \
@@ -18,9 +18,6 @@ export \
 export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 
 typeset -aU path
-path=($XDG_BIN_HOME $path)
 # Remove windows paths in wsl
-path=(${path[@]:#*/mnt/c/Users/`whoami`*})
-path=(${path[@]:#*/mnt/c/Windows})
-path=(${path[@]:#*/mnt/c/Windows/System32/*})
-path=(${path[@]:#*/mnt/c/Program Files/*})
+path=(${path[@]:#*/mnt/c/*})
+path=($XDG_BIN_HOME $path "/mnt/c/Users/`id -un`/scoop/shims/" "/mnt/c/Windows/system32")
