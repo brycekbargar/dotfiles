@@ -15,6 +15,10 @@ export \
     CONDA_ROOT="$XDG_STATE_HOME/conda" \
     CONDA_PKGS_DIRS="$XDG_CACHE_HOME/conda" \
     CONDA_ENVS_PATH="$XDG_STATE_HOME/conda:$XDG_DATA_HOME/conda" \
+export \
+    GOPATH="$XDG_STATE_HOME/go" \
+    GOMODCACHE="$XDG_CACHE_HOME/go-mod" \
+    GOBIN="$XDG_BIN_HOME"
 export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 
 typeset -aU path

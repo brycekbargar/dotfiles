@@ -7,15 +7,39 @@
     insertafter: "channels:"
     block: |
       - conda-forge
+      # TODO: Make this a var
 
 - name: Update conda
   ansible.builtin.command:
     cmd: "conda update --name base conda --yes"
   changed_when: true
 
+- name: Install libmamba solver
+  ansible.builtin.command:
+    cmd: "conda install --name base conda-libmamba-solver"
+  changed_when: false
+
+- name: Update libmamba solver
+  ansible.builtin.command:
+    cmd: "conda update --name base conda-libmamba-solver"
+  changed_when: true
+
 - name: Update/install base env
   ansible.builtin.command:
-    cmd: "conda env update --name base --file '{{ dotfiles }}/XDG_CONFIG_HOME/conda/environment.yml' --prune"
+    cmd: |
+      conda env update --name base \
+        --file '{{ dotfiles }}/XDG_CONFIG_HOME/conda/environment.yml' \
+        --update-deps --update-all --force-reinstall
+        --experimental-solver=libmamba --prune
+  changed_when: false
+  # TODO: Tag this to trigger on-demand
+
+- name: Update/install base env
+  ansible.builtin.command:
+    cmd: |
+      conda env update --name base \
+        --file '{{ dotfiles }}/XDG_CONFIG_HOME/conda/environment.yml' \
+        --experimental-solver=libmamba --prune
   changed_when: true
 
 - name: Clean conda

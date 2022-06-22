@@ -1,0 +1,9 @@
+#!/usr/bin/zsh
+ENVIRONMENT="$CONDA_ROOT/$1"
+if [[ ! -e "$ENVIRONMENT" ]];
+    >&2 echo "Conda environment $1 does not exist"
+	exit 1
+fi
+conda env config vars set --name $1 CARGO_INSTALL_ROOT="$ENVIRONMENT"  # /bin is assumed
+conda env config vars set --name $1 GOBIN="$ENVIRONMENT/bin"
+

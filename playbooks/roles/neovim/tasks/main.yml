@@ -61,7 +61,7 @@
 
 - name: Setting conda env variables
   ansible.builtin.command:
-    cmd: "conda env config vars set --name nvim CARGO_INSTALL_ROOT='{{ nvim_env_path }}'"
+    cmd: "{{ dotfiles }}/XDG_CONFIG_HOME/conda/common.postcreate nvim"
   changed_when: false
 
 - name: Installing stylua
