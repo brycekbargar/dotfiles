@@ -84,24 +84,6 @@
     state: head
   when: ansible_distribution == "MacOSX" and ansible_architecture == "arm64"
 
-- name: Finding latest clipboard (wsl)
-  ansible.builtin.uri:
-    url: https://api.github.com/repos/equalsraf/win32yank/releases/latest
-    return_content: true
-  register: win32yank
-  when: ansible_distribution == "Debian"
-
-- name: Installing latest clipboard (wsl)
-  loop: "{{ win32yank.json.assets }}"
-  when: ansible_distribution == "Debian" and "x64.zip" in item.name
-  ansible.builtin.unarchive:
-    remote_src: true
-    src: "{{ item.browser_download_url }}"
-    dest: "{{ lookup('env', 'XDG_BIN_HOME') }}"
-    include:
-      - "win32yank.exe"
-    mode: "0755"
-
 - name: Setting conda env variables
   ansible.builtin.command:
     cmd: "conda env config vars set --name nvim GOBIN='{{ nvim_env_path }}/bin' CARGO_INSTALL_ROOT='{{ nvim_env_path }}'"
