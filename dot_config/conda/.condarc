@@ -1,0 +1,6 @@
+channels:
+channel_priority: strict
+add_pip_as_python_dependency: False
+auto_update_conda: false
+changeps1: False
+auto_stack: 1

@@ -8,10 +8,13 @@
       ansible.builtin.command:
         cmd: "apt install python3-apt --yes"
       changed_when: true
-    - block:
-        - import_role:
+    - name: Run roles
+      block:
+        - ansible.builtin.import_role:
             name: debian
-        - import_role:
+        - ansible.builtin.import_role:
+            name: conda
+        - ansible.builtin.import_role:
             name: neovim
       always:
         - name: Remove python3-apt
