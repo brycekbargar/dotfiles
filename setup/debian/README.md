@@ -9,6 +9,7 @@ curl --proto '=https' --tlsv1.2 -sSf  https://raw.githubusercontent.com/brycekba
 
 exec zsh
 cd ~/_src/dotfiles
+conda activate dotfiles
 ansible-playbook playbooks/home.playbook.yml --ask-become-pass
 ```
 
