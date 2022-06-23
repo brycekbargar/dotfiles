@@ -5,6 +5,5 @@ channels:
 dependencies:
   - python
   - pynvim
-  - nodejs
   - ansible-lint
   - yamllint

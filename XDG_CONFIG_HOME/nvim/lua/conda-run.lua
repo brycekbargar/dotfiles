@@ -45,9 +45,9 @@ end
 
 function M.js(t)
 	if t.package then
-		return conda_run({ "npm", "exec", "--yes", "--package=" .. t.package, "--", t.n })
+		return conda_run({ "npm", "exec", "--yes", "--package=" .. t.package .. "@latest", "--", t.n })
 	end
-	return conda_run({ "npm", "exec", "--yes", "--", t.n })
+	return conda_run({ "npm", "exec", "--yes", "--", t.n .. "@latest" })
 end
 
 return M

@@ -6,4 +6,5 @@ if [[ ! -e "$ENVIRONMENT" ]];
 fi
 conda env config vars set --name $1 CARGO_INSTALL_ROOT="$ENVIRONMENT"  # /bin is assumed
 conda env config vars set --name $1 GOBIN="$ENVIRONMENT/bin"
+conda env config vars set --name $1 NPM_CONFIG_PREFIX="$ENVIRONMENT"  # /bin is assumed
 

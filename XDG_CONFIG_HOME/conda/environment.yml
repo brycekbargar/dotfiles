@@ -6,4 +6,5 @@ dependencies:
   - python
   - rust
   - go
+  - nodejs
   - conda-libmamba-solver
