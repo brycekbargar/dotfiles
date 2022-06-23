@@ -29,6 +29,12 @@
     dest: "{{ lookup('env', 'XDG_CONFIG_HOME') }}/starship.toml"
     state: link
 
+- name: Link inputrc
+  ansible.builtin.file:
+    src: "{{ dotfiles }}/XDG_CONFIG_HOME/.inputrc"
+    dest: "{{ lookup('env', 'XDG_CONFIG_HOME') }}/.inputrc"
+    state: link
+
 - name: Link .myzsh files
   ansible.builtin.file:
     src: "{{ dotfiles }}/ZDOTDIR/{{ item }}"

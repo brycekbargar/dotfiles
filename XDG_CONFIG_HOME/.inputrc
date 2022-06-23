@@ -1,0 +1,9 @@
+$include /etc/inputrc
+
+set colored-stats on
+
+set editing-mode vi
+set keyseq-timeout 1
+set show-mode-in-prompt on
+set vi-cmd-mode-string [<]
+set vi-ins-mode-string [>]
