@@ -64,10 +64,15 @@
     cmd: "{{ dotfiles }}/XDG_CONFIG_HOME/conda/common.postcreate nvim"
   changed_when: false
 
-- name: Installing stylua
+- name: Installing cargo deps
   ansible.builtin.command:
-    cmd: conda run --name nvim --no-capture-output cargo install stylua
+    cmd: |
+      conda run --name nvim --no-capture-output \
+      cargo install {{ item }} --locked
     creates: "{{ nvim_env_path }}/bin/stylua"
+  with_items:
+    - "stylua"
+    - "taplo-cli --features lsp"
 
 - name: Finding latest lua lsp
   ansible.builtin.uri:

@@ -35,6 +35,16 @@ return function()
 			json = prettier("json"),
 			jsonc = prettier("jsonc"),
 			yaml = prettier("yaml"),
+			toml = {
+				function()
+					local stylua = conda_run.exe({ n = "taplo" }).with_args({
+						"fmt",
+						"-",
+					})
+					stylua.stdin = true
+					return stylua
+				end,
+			},
 			["yaml.ansible"] = prettier("yaml"),
 			markdown = prettier("markdown"),
 		},

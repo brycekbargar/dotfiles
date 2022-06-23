@@ -1,1 +1,94 @@
 "$schema" = 'https://starship.rs/config-schema.json'
+
+add_newline = false
+
+format = """
+$aws\
+$kubernetes\
+$fill\
+$nodejs\
+$golang\
+$terraform\
+$custom.conda\
+$python\
+$line_break\
+$battery\
+$status\
+$directory\
+$git_state\
+$line_break\
+$character"""
+
+right_format = """
+$git_status\
+$git_branch\
+"""
+
+[fill]
+symbol = " "
+
+[custom.conda]
+command = "echo ''"
+format = " conda [$output]($style)"
+
+# TODO: Disable all of these
+"""
+$username\
+$hostname\
+$localip\
+$shlvl\
+$singularity\
+$vcsh\
+$git_commit\
+$git_metrics\
+$hg_branch\
+$docker_context\
+$package\
+$buf\
+$c\
+$cmake\
+$cobol\
+$container\
+$daml\
+$dart\
+$deno\
+$dotnet\
+$elixir\
+$elm\
+$erlang\
+$haskell\
+$helm\
+$java\
+$julia\
+$kotlin\
+$lua\
+$nim\
+$ocaml\
+$perl\
+$php\
+$pulumi\
+$purescript\
+$rlang\
+$red\
+$ruby\
+$rust\
+$scala\
+$swift\
+$vlang\
+$vagrant\
+$zig\
+$nix_shell\
+$conda\
+$spack\
+$memory_usage\
+$gcloud\
+$openstack\
+$azure\
+$env_var\
+$crystal\
+$sudo\
+$cmd_duration\
+$jobs\
+$time\
+$shell\
+"""

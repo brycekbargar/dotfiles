@@ -56,7 +56,15 @@ return function()
 			n = "yaml-language-server",
 		}).with_args({ "--stdio" }).list(),
 		root_dir = util.find_git_ancestor,
-		filetypes = { 'yaml', 'yaml.docker-compose', "yaml.ansible" },
+		filetypes = { "yaml", "yaml.docker-compose", "yaml.ansible" },
+	})
+
+	lsp.taplo.setup({
+		on_attach = on_attach,
+		cmd = conda_run.exe({
+			n = "taplo",
+		}).with_args({ "lsp", "stdio" }).list(),
+		root_dir = util.find_git_ancestor,
 	})
 
 	lsp.ansiblels.setup({
