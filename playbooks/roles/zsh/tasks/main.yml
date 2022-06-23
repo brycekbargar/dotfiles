@@ -46,3 +46,9 @@
     - "functions"
     - "zshrc.d"
     - ".zsh_plugins.txt"
+
+- name: chsh
+  become: true
+  ansible.builtin.command: "usermod --shell /usr/bin/zsh {{ ansible_env.USER }}"
+  changed_when: false
+  # TODO: Is it always /usr/bin/zsh?
