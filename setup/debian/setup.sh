@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 mkdir -p ~/.local/var
-mkdir -p ~/.local/etc/zsh
-mkdir -p ~/.local/etc/conda
+mkdir -p ~/.local/etc
 mkdir ~/.local/share
+mkdir ~/.local/etc/zsh
+mkdir ~/.local/etc/conda
 mkdir ~/.local/var/cache
 mkdir ~/.local/var/lib
 mkdir ~/.local/bin
