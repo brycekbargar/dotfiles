@@ -8,26 +8,6 @@
     block: |
       source "$ZDOTDIR/.myzshrc"
 
-- name: Download zephyr
-  ansible.builtin.git:
-    repo: "https://github.com/mattmc3/zephyr"
-    version: "HEAD"
-    force: true
-    dest: "{{ lookup('env', 'ZDOTDIR') }}/.zephyr"
-    single_branch: true
-    depth: 1
-
-- name: Download zephyr deps
-  ansible.builtin.git:
-    repo: "https://github.com/{{ item }}"
-    version: "HEAD"
-    force: true
-    dest: "{{ lookup('env', 'ZDOTDIR') }}/.zephyr/.external/{{ item }}"
-    single_branch: true
-    depth: 1
-  with_items:
-    - "zsh-users/zsh-completions"
-
 - name: Download antidote
   ansible.builtin.git:
     repo: "https://github.com/mattmc3/antidote.git"
@@ -43,10 +23,17 @@
     creates: "{{ lookup('env', 'XDG_BIN_HOME') }}/starship"
   changed_when: true
 
+- name: Link starship config
+  ansible.builtin.file:
+    src: "{{ dotfiles }}/XDG_CONFIG_HOME/starship.toml"
+    dest: "{{ lookup('env', 'XDG_CONFIG_HOME') }}/starship.toml"
+    state: link
+
 - name: Link .myzsh files
   ansible.builtin.file:
     src: "{{ dotfiles }}/ZDOTDIR/{{ item }}"
     dest: "{{ lookup('env', 'ZDOTDIR') }}/{{ item }}"
+    force: true
     state: link
   with_items:
     - ".myzshrc"

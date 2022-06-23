@@ -1,8 +1,12 @@
-# TODO: Figure out the relationship between zephyr and antidote
-# (they're by the same human)
+# Thanks mattmc3
+zshzoo/manpage-colorizer
+zshzoo/setopts
+zshzoo/terminal
+zshzoo/history
+zshzoo/zfunctions
+zshzoo/zshrc.d
+zsh-users/zsh-completions
+
 zdharma-continuum/fast-syntax-highlighting
 Cloudstek/zsh-plugin-appup
 xorkevin/code-review-zsh
-
-# Completions
-conda-incubator/conda-zsh-completion

@@ -1,19 +1,5 @@
 #!/usr/bin/zsh
 
-# https://github.com/mattmc3/zephyr
-zephyr_plugins=(
-  environment
-  terminal
-  editor
-  history
-  directory
-  zfunctions
-  confd
-  completions
-)
-zstyle ':zephyr:load' plugins $zephyr_plugins
-source "$ZDOTDIR/.zephyr/zephyr.zsh"
-
 #https://getantidote.github.io/
 if [[ ! $ZDOTDIR/.zsh_plugins.zsh -nt $ZDOTDIR/.zsh_plugins.txt ]]; then
   [[ -e $ZDOTDIR/.zsh_plugins.txt ]] || touch $ZDOTDIR/.zsh_plugins.txt
