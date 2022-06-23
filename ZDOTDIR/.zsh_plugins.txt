@@ -1,12 +1,17 @@
-# Thanks mattmc3
+# Thanks mattmc3 for "zsh sensible"
 zshzoo/manpage-colorizer
 zshzoo/setopts
 zshzoo/terminal
 zshzoo/history
 zshzoo/zfunctions
 zshzoo/zshrc.d
-zsh-users/zsh-completions
 
+# Actual plugins
 zdharma-continuum/fast-syntax-highlighting
 Cloudstek/zsh-plugin-appup
 xorkevin/code-review-zsh
+kalsowerus/zsh-bitwarden
+aperezdc/zsh-notes
+
+# Completions
+zsh-users/zsh-completions

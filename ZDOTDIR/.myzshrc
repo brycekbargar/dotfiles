@@ -1,17 +1,21 @@
 #!/usr/bin/zsh
 
-#https://getantidote.github.io/
-if [[ ! $ZDOTDIR/.zsh_plugins.zsh -nt $ZDOTDIR/.zsh_plugins.txt ]]; then
-  [[ -e $ZDOTDIR/.zsh_plugins.txt ]] || touch $ZDOTDIR/.zsh_plugins.txt
-  (
+# https://getantidote.github.io/
+if [[ ! $XDG_STATE_HOME/.zsh_plugins.zsh -nt $ZDOTDIR/.zsh_plugins.txt ]]; then
 	zstyle ':antidote:bundle' use-friendly-names 'yes'
     source $ZDOTDIR/.antidote/antidote.zsh
-    antidote bundle <$ZDOTDIR/.zsh_plugins.txt >$ZDOTDIR/.zsh_plugins.zsh
-  )
+    antidote bundle <$ZDOTDIR/.zsh_plugins.txt >$XDG_STATE_HOME/.zsh_plugins.zsh
 fi
-source $ZDOTDIR/.zsh_plugins.zsh
+source $XDG_STATE_HOME/.zsh_plugins.zsh
 
-#https://starship.rs/
+
+#####
+
+bindkey -v
+export KEYTIMEOUT=1
+
+#####
+
+
+# https://starship.rs/
 eval "$(starship init zsh)"
-
-cd "$HOME"

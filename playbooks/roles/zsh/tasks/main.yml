@@ -1,12 +1,21 @@
 ---
+- name: Link .myzsh files
+  ansible.builtin.file:
+    src: "{{ dotfiles }}/ZDOTDIR"
+    dest: "{{ lookup('env', 'ZDOTDIR') }}"
+    force: true
+    state: link
+
 - name: Load additional .zshrc files
   ansible.builtin.blockinfile:
     path: "{{ lookup('env', 'ZDOTDIR') }}/.zshrc"
     marker: "# {mark} ANSIBLE MANAGED .myzshrc"
-    state: present
+    create: true
+    mode: "0644"
     insertbefore: "BOF"
     block: |
       source "$ZDOTDIR/.myzshrc"
+    state: present
 
 - name: Download antidote
   ansible.builtin.git:
@@ -17,11 +26,26 @@
     single_branch: true
     depth: 1
 
-- name: Install starship
+- name: Init conda (again)
   ansible.builtin.command:
-    cmd: "conda run -n base cargo install starship --locked"
+    cmd: "conda init zsh"
+  changed_when: false
+
+- name: Install starship (pipe to bash)
+  ansible.builtin.shell:
+    cmd: |
+      curl --proto '=https' --tlsv1.2 -sSf  \
+      https://starship.rs/install.sh | sh
     creates: "{{ lookup('env', 'XDG_BIN_HOME') }}/starship"
   changed_when: true
+  # starship 1.8 fails to built with rust 1.61 on debian b/c linking
+- name: Install starship
+  ansible.builtin.command:
+    cmd: |
+      conda run --name base --no-capture-output \
+      cargo install starship --locked
+    creates: "{{ lookup('env', 'XDG_BIN_HOME') }}/starship"
+  when: false
 
 - name: Link starship config
   ansible.builtin.file:
@@ -29,26 +53,26 @@
     dest: "{{ lookup('env', 'XDG_CONFIG_HOME') }}/starship.toml"
     state: link
 
-- name: Link inputrc
-  ansible.builtin.file:
-    src: "{{ dotfiles }}/XDG_CONFIG_HOME/.inputrc"
-    dest: "{{ lookup('env', 'XDG_CONFIG_HOME') }}/.inputrc"
-    state: link
+- name: whoami fact
+  become: false
+  ansible.builtin.set_fact:
+    whoami: "{{ ansible_user_id }}"
 
-- name: Link .myzsh files
-  ansible.builtin.file:
-    src: "{{ dotfiles }}/ZDOTDIR/{{ item }}"
-    dest: "{{ lookup('env', 'ZDOTDIR') }}/{{ item }}"
-    force: true
-    state: link
-  with_items:
-    - ".myzshrc"
-    - "functions"
-    - "zshrc.d"
-    - ".zsh_plugins.txt"
-
-- name: chsh
+- name: chsh to zsh
   become: true
-  ansible.builtin.command: "usermod --shell /usr/bin/zsh {{ ansible_env.USER }}"
-  changed_when: false
+  ansible.builtin.user:
+    name: "{{ whoami }}"
+    shell: "/usr/bin/zsh"
   # TODO: Is it always /usr/bin/zsh?
+
+- name: Start zsh in wsl
+  ansible.builtin.blockinfile:
+    path: "{{ lookup('env', 'HOME') }}/.bashrc"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK"
+    create: true
+    mode: "0644"
+    block: |
+      exec /usr/bin/zsh --login
+    state: present
+  # TODO: Is it always /usr/bin/zsh?
+  when: ansible_distribution == "Debian"
