@@ -68,11 +68,13 @@
   ansible.builtin.shell:
     cmd: |
       conda run --name nvim --no-capture-output \
-      cargo install {{ item }} --locked
-    creates: "{{ nvim_env_path }}/bin/stylua"
+      cargo install {{ item.pkg }} --locked
+    creates: "{{ nvim_env_path }}/bin/{{item.exe}}"
   with_items:
-    - "stylua"
-    - "taplo-cli --features lsp"
+    - pkg: "stylua"
+      exe: "stylua"
+    - pkg: "taplo-cli --features lsp"
+      exe: "taplo"
 
 - name: Finding latest lua lsp
   ansible.builtin.uri:

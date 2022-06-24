@@ -83,6 +83,8 @@
       - ca-certificates
       - software-properties-common
       - build-essential
+      - pkg-config
+      - libssl-dev
       - gnupg
       - unzip
     state: latest
