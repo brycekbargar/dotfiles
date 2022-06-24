@@ -65,7 +65,7 @@
   changed_when: false
 
 - name: Installing cargo deps
-  ansible.builtin.command:
+  ansible.builtin.shell:
     cmd: |
       conda run --name nvim --no-capture-output \
       cargo install {{ item }} --locked
