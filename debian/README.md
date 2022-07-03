@@ -6,7 +6,7 @@
 sudo apt update
 sudo apt install curl --yes
 export DOTFILES_BRANCH=ansible-rewrite && curl --proto '=https' --tlsv1.2 -sSf  https://raw.githubusercontent.com/brycekbargar/dotfiles/"$DOTFILES_BRANCH"/setup/debian/setup.sh | bash
-exec zsh
+exec zsh --profile
 
 rm -fdr "$ZDOTDIR"
 cd ~/_src/dotfiles

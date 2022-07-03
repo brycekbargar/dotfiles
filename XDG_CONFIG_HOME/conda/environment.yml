@@ -1,5 +1,6 @@
-name: base
+name: stacked
 channels:
+  - conda-forge/dev
   - conda-forge
   - nodefaults
 dependencies:
@@ -7,4 +8,3 @@ dependencies:
   - rust
   - go
   - nodejs
-  - conda-libmamba-solver
