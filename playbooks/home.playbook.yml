@@ -2,6 +2,7 @@
 - hosts: localhost
   vars:
     dotfiles: "{{ playbook_dir }}/.."
+    debian: "{{ playbook_dir }}/../debian"
   tasks:
     - name: Install python3-apt
       become: true
@@ -10,6 +11,8 @@
       changed_when: true
     - name: Run roles
       block:
+        - ansible.builtin.import_role:
+            name: prepare
         - ansible.builtin.import_role:
             name: debian
         - ansible.builtin.import_role:

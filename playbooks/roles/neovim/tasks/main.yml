@@ -16,7 +16,7 @@
   loop:
     - "{{ lookup('env', 'XDG_DATA_HOME') }}/nvim"
     - "{{ lookup('env', 'XDG_STATE_HOME') }}/nvim"
-    - "{{ lookup('env', 'XDG_CONFIG_HOME') }}/nvim"
+    - "{{ lookup('env', 'XDG_CONFIG_HOME') }}/nvim/plugin"
 
 - name: Creating conda env
   ansible.builtin.command:
@@ -59,16 +59,10 @@
     state: link
   when: ansible_distribution == "Debian" or ansible_distribution == "MacOSX"
 
-- name: Setting conda env variables
-  ansible.builtin.command:
-    cmd: "{{ dotfiles }}/XDG_CONFIG_HOME/conda/common.postcreate nvim"
-  changed_when: false
-
 - name: Installing cargo deps
   ansible.builtin.shell:
     cmd: |
-      conda run --name nvim --no-capture-output \
-      cargo install {{ item.pkg }} --locked
+      condstall --name nvim --with rust --yes -- {{ item.pkg }} --locked
     creates: "{{ nvim_env_path }}/bin/{{item.exe}}"
   with_items:
     - pkg: "stylua"
@@ -106,9 +100,3 @@
       {{ nvim_env_path }}/lua-language-server/bin/lua-language-server $@
     mode: "0755"
     force: true
-
-- name: Linking configuration
-  ansible.builtin.file:
-    src: "{{ dotfiles }}/XDG_CONFIG_HOME/nvim"
-    dest: "{{ lookup('env', 'XDG_CONFIG_HOME') }}/nvim"
-    state: link
