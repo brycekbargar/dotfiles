@@ -1,0 +1,89 @@
+#!/usr/bin/env zsh
+# TODO: Make a function
+
+local INSTALL_TYPE
+local NAME
+local YES
+local QUIET
+local GLOBAL=true
+
+# parse argv variables
+while [[ "$#" -gt 0 ]]; do
+	case "$1" in
+        -n | --name)
+            NAME="$2"
+            GLOBAL=false
+            shift 2
+        ;;
+        -w | --with)
+            INSTALL_TYPE="$2"
+            shift 2
+        ;;
+
+        -g | --global)
+            GLOBAL=true
+            shift 1
+        ;;
+        -y | --yes)
+            YES=true
+            shift 1
+        ;;
+        -q | --quiet)
+            QUIET=true
+            shift 1
+        ;;
+
+        *)
+            error "Unknown option: $1"
+            exit 1
+        ;;
+
+        --)
+            shift 1
+            break
+        ;;
+
+  esac
+done
+
+# TODO: Error handing and param validation
+
+local CMD
+case $INSTALL_TYPE in
+    conda)
+        if [[ -z "$NAME" || $GLOBAL == true ]]
+            NAME=installers-conda
+        fi
+        CMD="conda install --name $NAME --experimental-solver=libmamba $@"
+    ;;
+
+    rust)
+        CMD="conda run --name installers-rust cargo install $@"
+        if [[ -n "$NAME" ]]
+            CMD="export CARGO_INSTALL_ROOT='$CONDA_ROOT/$NAME' $CMD"
+        fi
+    ;;
+
+    go)
+        CMD="conda run --name go go install $@"
+        if [[ -n "$NAME" ]]
+            CMD="export GOBIN='$CONDA_ROOT/$NAME/bin' $CMD"
+        fi
+    ;;
+
+esac
+
+if [[ -z $YES ]]
+    echo "Running:"
+    echo "$CMD"
+    vared -p 'ok? (Y/n)' -c OK
+    if [[ "$OK" != Y ]]
+        exit 1
+    fi
+fi
+
+if [[ -n $QUIET ]]
+    $CMD > /dev/null
+else
+    $CMD
+fi

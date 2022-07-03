@@ -34,7 +34,7 @@ path=(
     $XDG_BIN_HOME 
     "$CARGO_HOME/bin"
     "$GOPATH/bin"
-    "$CONDA_SYSTEM/global/bin"
+    "$CONDA_SYSTEM/installers-conda/bin"
     $path
     "/mnt/c/Users/`id -un`/scoop/shims/"
     "/mnt/c/Windows/system32")
