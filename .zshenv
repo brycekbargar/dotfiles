@@ -13,10 +13,9 @@ export \
 export \
     CONDARC="$XDG_CONFIG_HOME/.condarc" \
     CONDA_ROOT="$XDG_STATE_HOME/conda" \
-    CONDA_BASE="$XDG_DATA_HOME/conda/base" \
     CONDA_SYSTEM="$XDG_DATA_HOME/conda/system" \
     CONDA_PKGS_DIRS="$XDG_CACHE_HOME/conda" \
-    CONDA_ENVS_PATH="$CONDA_ROOT:$CONDA_SYSTEM:$CONDA_BASE" \
+    CONDA_ENVS_PATH="$CONDA_ROOT:$CONDA_SYSTEM:$XDG_DATA_HOME/conda/base" \
 export \
     GOPATH="$XDG_STATE_HOME/go" \
     GOMODCACHE="$XDG_CACHE_HOME/go-mod" \
