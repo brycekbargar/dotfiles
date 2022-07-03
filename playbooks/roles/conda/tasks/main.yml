@@ -32,8 +32,10 @@
 
 - name: Create system environments
   ansible.builtin.command:
-    cmd: "conda create --prefix {{ lookup('env', 'CONDA_SYSTEM') }}/{{ item.name }} {{ item.pkgs }} --yes"
+    cmd: "conda create --name {{ item.name }} {{ item.pkgs }} --yes"
     creates: "{{ lookup('env', 'CONDA_SYSTEM') }}/{{ item.name }}"
+  environment:
+    CONDA_ROOT: "{{ lookup('env', 'CONDA_SYSTEM') }}"
   with_items:
     - name: "installers-conda"
       pkgs: ""
@@ -48,7 +50,7 @@
 
 - name: Update system environments
   ansible.builtin.command:
-    cmd: "conda update --name {{ item.name }} --all --yes"
+    cmd: "conda update --name {{ item }} --all --yes"
   changed_when: true
   with_items:
     - "installers-conda"

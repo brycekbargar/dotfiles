@@ -59,6 +59,11 @@
     state: link
   when: ansible_distribution == "Debian" or ansible_distribution == "MacOSX"
 
+- name: Update nvim npm
+  ansible.builtin.command:
+    cmd: "conda run --name nvim npm install -g npm@latest"
+  changed_when: true
+
 - name: Installing cargo deps
   ansible.builtin.shell:
     cmd: |
