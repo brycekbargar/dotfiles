@@ -1,7 +1,7 @@
 ---
 - name: Make condarc from template
   ansible.builtin.copy:
-    src: "{{ lookup('env', 'XDG_CONFIG_HOME/template.condarc') }}"
+    src: "{{ dotfiles }}/XDG_CONFIG_HOME/template.condarc"
     dest: "{{ lookup('env', 'CONDARC') }}"
     mode: "0644"
 

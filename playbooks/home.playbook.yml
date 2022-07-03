@@ -4,6 +4,8 @@
     dotfiles: "{{ playbook_dir }}/.."
     debian: "{{ playbook_dir }}/../debian"
   tasks:
+    - ansible.builtin.import_role:
+       name: prepare
     - name: Install python3-apt
       become: true
       ansible.builtin.command:
@@ -11,8 +13,6 @@
       changed_when: true
     - name: Run roles
       block:
-        - ansible.builtin.import_role:
-            name: prepare
         - ansible.builtin.import_role:
             name: debian
         - ansible.builtin.import_role:

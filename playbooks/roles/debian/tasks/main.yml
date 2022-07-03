@@ -56,6 +56,8 @@
       - libssl-dev
       - gnupg
       - unzip
+    # TODO: Figure out why ansible doesn't respect preferences
+    default_release: testing
     state: latest
 
 - name: Add Docker GPG Key
