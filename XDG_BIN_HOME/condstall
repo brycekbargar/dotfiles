@@ -58,14 +58,14 @@ case $INSTALL_TYPE in
     ;;
 
     rust)
-        CMD="conda run --name installers-rust cargo install $@"
+        CMD="conda run --name installers-rust --no-capture-output cargo install $@"
         if [[ -n "$NAME" ]]
             CMD="export CARGO_INSTALL_ROOT='$CONDA_ROOT/$NAME' $CMD"
         fi
     ;;
 
     go)
-        CMD="conda run --name go go install $@"
+        CMD="conda run --name installers-go --no-capture-output go install $@"
         if [[ -n "$NAME" ]]
             CMD="export GOBIN='$CONDA_ROOT/$NAME/bin' $CMD"
         fi
