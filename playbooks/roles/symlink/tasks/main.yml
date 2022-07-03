@@ -1,0 +1,9 @@
+---
+- name: Link dotfiles
+  ansible.builtin.file:
+    src: "{{ dotfiles }}/{{ item }}"
+    dest: "{{ lookup('env', item }}"
+    state: link
+  with_items:
+    - "XDG_CONFIG_HOME"
+    - "XDG_BIN_HOME"

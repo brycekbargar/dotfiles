@@ -63,7 +63,7 @@
 - name: Link preferences
   become: true
   ansible.builtin.file:
-    src: "{{ dotfiles }}/root/etc_apt_preferences"
+    src: "{{ debian }}/etc/apt/preferences"
     dest: "/etc/apt/preferences"
     state: link
 
