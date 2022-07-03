@@ -5,7 +5,6 @@ mkdir ~/.local/share
 mkdir ~/.local/var
 mkdir ~/.local/var/cache
 mkdir ~/.local/var/lib
-mkdir ~/.local/bin
 
 sudo apt --yes install git zsh
 git clone -b "${DOTFILES_BRANCH:-main}" https://github.com/brycekbargar/dotfiles.git ~/_src/dotfiles
