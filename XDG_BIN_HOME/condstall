@@ -24,6 +24,7 @@ while [[ "$#" -gt 0 ]]; do
             GLOBAL=true
             shift 1
         ;;
+        # TODO: Allow installing to "current" environment
         -y | --yes)
             YES=true
             shift 1
