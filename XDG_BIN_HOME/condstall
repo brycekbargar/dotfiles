@@ -2,7 +2,7 @@
 # TODO: Make a function
 
 local INSTALL_TYPE
-local NAME
+local ENVIRONMENT
 local YES
 local QUIET
 local GLOBAL=true
@@ -11,7 +11,7 @@ local GLOBAL=true
 while [[ "$#" -gt 0 ]]; do
 	case "$1" in
         -n | --name)
-            NAME="$2"
+            ENVIRONMENT="$2"
             GLOBAL=false
             shift 2
         ;;
@@ -35,7 +35,7 @@ while [[ "$#" -gt 0 ]]; do
         ;;
 
         *)
-            error "Unknown option: $1"
+            >&2 echo "Unknown option: $1"
             exit 1
         ;;
 
@@ -52,39 +52,48 @@ done
 local CMD
 case $INSTALL_TYPE in
     conda)
-        if [[ -z "$NAME" || $GLOBAL == true ]]
-            NAME=installers-conda
+        if [[ -z "$ENVIRONMENT" || $GLOBAL == true ]]
+        then
+            ENVIRONMENT=installers-conda
         fi
-        CMD="conda install --name $NAME --experimental-solver=libmamba $@"
+        CMD="conda install --name $ENVIRONMENT --experimental-solver=libmamba $@"
     ;;
 
     rust)
         CMD="conda run --name installers-rust --no-capture-output cargo install $@"
-        if [[ -n "$NAME" ]]
-            CMD="export CARGO_INSTALL_ROOT='$CONDA_ROOT/$NAME' $CMD"
+        if [[ -n "$ENVIRONMENT" ]]
+        then
+            CMD="export CARGO_INSTALL_ROOT='$CONDA_ROOT/$ENVIRONMENT' $CMD"
         fi
     ;;
 
     go)
         CMD="conda run --name installers-go --no-capture-output go install $@"
-        if [[ -n "$NAME" ]]
-            CMD="export GOBIN='$CONDA_ROOT/$NAME/bin' $CMD"
+        if [[ -n "$ENVIRONMENT" ]]
+        then
+            CMD="export GOBIN='$CONDA_ROOT/$ENVIRONMENT/bin' $CMD"
         fi
+    ;;
+
+    *)
+        >&2 echo "Unknown installer: $INSTALL_TYPE"
+        exit 1
     ;;
 
 esac
 
+if [[ -n $QUIET ]]
+then
+    CMD="$CMD > /dev/null"
+fi
+
 if [[ -z $YES ]]
-    echo "Running:"
-    echo "$CMD"
-    vared -p 'ok? (Y/n)' -c OK
+then
+    vared -p 'Y/n:' -r "$CMD" -c OK
     if [[ "$OK" != Y ]]
+    then
         exit 1
     fi
 fi
 
-if [[ -n $QUIET ]]
-    $CMD > /dev/null
-else
-    $CMD
-fi
+eval $CMD
