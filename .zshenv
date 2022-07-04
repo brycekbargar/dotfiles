@@ -9,7 +9,7 @@ export \
 
 export \
     CONDA_BASE="$XDG_DATA_HOME/conda/base" \
-    CONDA_SYSTEM="$XDG_DATA_HOME/conda/system"
+    CONDA_SYSTEM="$XDG_DATA_HOME/conda/system" \
     CONDA_ROOT="$XDG_STATE_HOME/conda"
 export \
     CONDARC="$XDG_CONFIG_HOME/.condarc" \
