@@ -7,19 +7,24 @@ export \
     XDG_STATE_HOME="$HOME/.local/var/lib" \
     XDG_BIN_HOME="$HOME/.local/bin"
 
+# Non-standard conda env variables
 export \
-    CARGO_HOME="$XDG_CACHE_HOME/cargo" \
-    CARGO_TARGET_DIR="$XDG_STATE_HOME/cargo"
+    CONDA_BASE="$XDG_DATA_HOME/conda/base" \
+    CONDA_SYSTEM="$XDG_DATA_HOME/conda/system"
+# Standard conda env variables
 export \
     CONDARC="$XDG_CONFIG_HOME/.condarc" \
     CONDA_ROOT="$XDG_STATE_HOME/conda" \
-    CONDA_SYSTEM="$XDG_DATA_HOME/conda/system" \
     CONDA_PKGS_DIRS="$XDG_CACHE_HOME/conda" \
-    CONDA_ENVS_PATH="$CONDA_ROOT:$CONDA_SYSTEM:$XDG_DATA_HOME/conda/base" \
+    CONDA_ENVS_PATH="$CONDA_ROOT:$CONDA_SYSTEM:$CONDA_BASE"
+export \
+    CARGO_HOME="$XDG_CACHE_HOME/cargo" \
+    CARGO_TARGET_DIR="$XDG_STATE_HOME/cargo" \
+    CARGO_CACHE_RUSTC_INFO=0 \
+    CARGO_INCREMENTAL=1
 export \
     GOPATH="$XDG_STATE_HOME/go" \
-    GOMODCACHE="$XDG_CACHE_HOME/go-mod" \
-    GOBIN="$XDG_BIN_HOME"
+    GOMODCACHE="$XDG_CACHE_HOME/go-mod"
 export \
     NPM_CONFIG_CACHE="$XDG_CACHE_HOME/npm" \
     NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/.npmrc" \

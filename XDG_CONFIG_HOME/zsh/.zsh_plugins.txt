@@ -1,10 +1,8 @@
 # Thanks mattmc3 for "zsh sensible"
-zshzoo/manpage-colorizer
-zshzoo/setopts
-zshzoo/terminal
-zshzoo/history
-zshzoo/zfunctions
-zshzoo/zshrc.d
+mattmc3/zephyr path:plugins/colors
+mattmc3/zephyr path:plugins/environment
+mattmc3/zephyr path:plugins/directory
+mattmc3/zephyr path:plugins/history
 
 # Actual plugins
 zdharma-continuum/fast-syntax-highlighting
@@ -14,4 +12,5 @@ kalsowerus/zsh-bitwarden
 aperezdc/zsh-notes
 
 # Completions
+mattmc3/zephyr path:plugins/completions
 zsh-users/zsh-completions

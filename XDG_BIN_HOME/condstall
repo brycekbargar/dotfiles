@@ -34,14 +34,14 @@ while [[ "$#" -gt 0 ]]; do
             shift 1
         ;;
 
-        *)
-            >&2 echo "Unknown option: $1"
-            exit 1
-        ;;
-
         --)
             shift 1
             break
+        ;;
+
+        *)
+            >&2 echo "Unknown option: $1"
+            exit 1
         ;;
 
   esac
@@ -63,7 +63,7 @@ case $INSTALL_TYPE in
         CMD="conda run --name installers-rust --no-capture-output cargo install $@"
         if [[ -n "$ENVIRONMENT" ]]
         then
-            CMD="export CARGO_INSTALL_ROOT='$CONDA_ROOT/$ENVIRONMENT' $CMD"
+            CMD="CARGO_INSTALL_ROOT='$CONDA_ROOT/$ENVIRONMENT' $CMD"
         fi
     ;;
 
@@ -71,7 +71,7 @@ case $INSTALL_TYPE in
         CMD="conda run --name installers-go --no-capture-output go install $@"
         if [[ -n "$ENVIRONMENT" ]]
         then
-            CMD="export GOBIN='$CONDA_ROOT/$ENVIRONMENT/bin' $CMD"
+            CMD="GOBIN='$CONDA_ROOT/$ENVIRONMENT/bin' $CMD"
         fi
     ;;
 
