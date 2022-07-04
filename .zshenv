@@ -7,14 +7,12 @@ export \
     XDG_STATE_HOME="$HOME/.local/var/lib" \
     XDG_BIN_HOME="$HOME/.local/bin"
 
-# Non-standard conda env variables
 export \
     CONDA_BASE="$XDG_DATA_HOME/conda/base" \
     CONDA_SYSTEM="$XDG_DATA_HOME/conda/system"
-# Standard conda env variables
+    CONDA_ROOT="$XDG_STATE_HOME/conda"
 export \
     CONDARC="$XDG_CONFIG_HOME/.condarc" \
-    CONDA_ROOT="$XDG_STATE_HOME/conda" \
     CONDA_PKGS_DIRS="$XDG_CACHE_HOME/conda" \
     CONDA_ENVS_PATH="$CONDA_ROOT:$CONDA_SYSTEM:$CONDA_BASE"
 export \
