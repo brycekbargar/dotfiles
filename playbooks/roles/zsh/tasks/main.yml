@@ -25,10 +25,25 @@
     single_branch: true
     depth: 1
 
+- name: Install starship (pipe)
+  ansible.builtin.get_url:
+    url: https://starship.rs/install.sh
+    dest: /tmp/starship.sh
+    mode: 0755
+    force: true
+
+- name: Install starship (to bash)
+  ansible.builtin.command:
+    cmd: |
+      ./starship.sh --bin-dir "{{ lookup('env', 'XDG_BIN_HOME') }}" --yes
+    chdir: /tmp
+    creates: "{{ lookup('env', 'XDG_BIN_HOME') }}/starship"
+  # starship 1.8 fails to built with rust 1.61 on debian b/c linking
+
 - name: Install starship (cargo)
   ansible.builtin.command:
     cmd: condstall --with rust --global --yes -- starship --locked
-  changed_when: true
+  when: false
 
 - name: whoami fact
   become: false
