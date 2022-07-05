@@ -1,0 +1,5 @@
+#!/usr/bin/zsh
+
+function bw {
+    condax nodejs --package @bitwarden/cli@latest --yes -- bw $@
+}

@@ -1,0 +1,26 @@
+#!/usr/bin/env zsh
+# TODO: Make a function
+
+local RUNTIME=$1
+shift 1
+
+# TODO: Error handing and param validation
+
+local CMD
+case $RUNTIME in
+    nodejs)
+        CMD="conda run --name runtimes-nodejs --no-capture-output npm exec $@"
+    ;;
+
+    python)
+        CMD="conda run --name runtimes-python --no-capture-output pipx run $@"
+    ;;
+
+    *)
+        >&2 echo "Unknown runtime: $RUNTIME"
+        exit 1
+    ;;
+
+esac
+
+eval $CMD
