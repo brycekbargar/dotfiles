@@ -24,7 +24,6 @@ let g:netrw_altfile = 1
 if !has('nvim')
     set hidden
     set belloff=all
-    set display=lastline,msgsep
     set hlsearch
     set wildoptions=pum,tagfile
     set backupdir=$XDG_STATE_HOME/vim/backup
