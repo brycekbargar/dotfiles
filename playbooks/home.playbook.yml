@@ -20,9 +20,9 @@
         - ansible.builtin.import_role:
             name: zsh
         - ansible.builtin.import_role:
-            name: neovim
-        - ansible.builtin.import_role:
             name: vim
+        - ansible.builtin.import_role:
+            name: neovim
       always:
         - name: Remove python3-apt
           become: true

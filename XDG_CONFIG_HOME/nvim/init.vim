@@ -1,13 +1,11 @@
-set timeoutlen = 400
+set timeoutlen=400
 set ignorecase
 set smartcase
 set number
 set cursorline
 set cmdheight=2
-set hlsearch
 set nowrap
-set hidden
-set tabstop = 4
+set tabstop=4
 
 noremap <silent> ' <Nop>
 let g:mapleader = "'"
@@ -24,6 +22,16 @@ let g:netrw_alto = 1
 let g:netrw_altfile = 1
 
 if !has('nvim')
+    set hidden
+    set belloff=all
+    set display=lastline,msgsep
+    set hlsearch
+    set wildoptions=pum,tagfile
+    set backupdir=$XDG_STATE_HOME/vim/backup
+    set directory=$XDG_STATE_HOME/vim/swap
+    set undodir=$XDG_STATE_HOME/vim/undo
+    set viewoptions+=unix,slash
+
     nnoremap <silent> <leader>f :Sleuth<CR>
 endif
 
@@ -37,14 +45,12 @@ if has('nvim')
         \'python.plugin',
         \'rst.plugin',
         \'toml.plugin'
-    ]
+    \]
 endif
 
 if has('nvim') || !exists('g:EDITOR')
-    set listchars=tab:→·,trail:·,nbsp+,space:·,eol:↴
-
     set completeopt-=preview
-    set completeopt+=longest,menuone,noselect
+    set completeopt+=menuone,noinsert,noselect
     set shortmess+=c
     nnoremap <silent> <leader>lm :MUcompleteAutoToggle<CR>
     let g:mucomplete#enable_auto_at_startup = 1
@@ -54,20 +60,22 @@ if has('nvim') || !exists('g:EDITOR')
     packadd! polyglot
 endif
 
-if !has('nvim') || !exists('g:EDITOR')
-    packadd! catpuccin
+if !has('nvim') && !exists('g:EDITOR')
+    set termguicolors
+    packadd! catppuccin-vim
     colorscheme catppuccin_frappe
 endif
 
 if has('nvim')
-    lua << EOF
-	vim.g.loaded_python_provider = 0 -- disable python2
-	-- TODO: Figure out how to load providers from the conda env
-	-- Also TODO: Do these even do anything worthwhile in 202X?
-	vim.g.loaded_ruby_provider = 0
-	vim.g.loaded_perl_provider = 0
-	vim.g.loaded_node_provider = 0
-	vim.g.loaded_python3_provider = 0
-	require("plugins")
-    EOF
-end
+lua <<LUA
+    vim.g.loaded_python_provider = 0 -- disable python2
+    -- TODO: Figure out how to load providers from the conda env
+    -- Also TODO: Do these even do anything worthwhile in 202X?
+    vim.g.loaded_ruby_provider = 0
+    vim.g.loaded_perl_provider = 0
+    vim.g.loaded_node_provider = 0
+    vim.g.loaded_python3_provider = 0
+
+    require("plugins")
+LUA
+endif

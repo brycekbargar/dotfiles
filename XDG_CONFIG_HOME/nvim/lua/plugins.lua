@@ -43,11 +43,6 @@ return require("packer").startup(function(use)
 		"gbrlsnchs/telescope-lsp-handlers.nvim",
 		as = "lsp-handlers",
 	})
-	use({
-		"lifepillar/vim-mucomplete",
-		after = "lspconfig",
-		config = require("config.mucomplete"),
-	})
 
 	-- Fanciness
 	use({
