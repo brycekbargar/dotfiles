@@ -1,0 +1,20 @@
+---
+- name: Install vim
+  become: true
+  ansible.builtin.apt:
+    update_cache: true
+    pkg: "vim"
+    state: latest
+  when: ansible_distribution == "Debian"
+
+- name: Link common plugins
+  ansible.builtin.file:
+    src: "{{ nvim_plugin_root }}/common"
+    dest: "{{ lookup('env', 'HOME') }}/.vim/pack/common"
+    state: link
+
+- name: Linking .vimrc
+  ansible.builtin.file:
+    src: "{{ lookup('env', 'XDG_CONFIG_HOME') }}/nvim/init.vim"
+    dest: "{{ lookup('env', 'HOME') }}/.vim/vimrc"
+    state: link

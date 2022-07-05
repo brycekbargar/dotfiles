@@ -5,7 +5,7 @@
     debian: "{{ playbook_dir }}/../debian"
   tasks:
     - ansible.builtin.import_role:
-       name: prepare
+        name: prepare
     - name: Install python3-apt
       become: true
       ansible.builtin.command:
@@ -21,6 +21,8 @@
             name: zsh
         - ansible.builtin.import_role:
             name: neovim
+        - ansible.builtin.import_role:
+            name: vim
       always:
         - name: Remove python3-apt
           become: true

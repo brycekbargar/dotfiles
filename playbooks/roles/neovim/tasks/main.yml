@@ -57,7 +57,6 @@
     src: "{{ nvim_env_path }}/squashfs-root/usr/bin/nvim"
     dest: "{{ lookup('env', 'XDG_BIN_HOME') }}/nvim"
     state: link
-  when: ansible_distribution == "Debian" or ansible_distribution == "MacOSX"
 
 - name: Update nvim npm
   ansible.builtin.command:
@@ -68,7 +67,7 @@
   ansible.builtin.shell:
     cmd: |
       condstall --name nvim --with rust --yes -- {{ item.pkg }} --locked
-    creates: "{{ nvim_env_path }}/bin/{{item.exe}}"
+    creates: "{{ nvim_env_path }}/bin/{{ item.exe }}"
   with_items:
     - pkg: "stylua"
       exe: "stylua"
@@ -106,7 +105,7 @@
     mode: "0755"
     force: true
 
-- name: Installing Packer
+- name: Add packer plugin
   ansible.builtin.git:
     repo: "https://github.com/wbthomason/packer.nvim"
     version: "HEAD"
@@ -114,6 +113,28 @@
     dest: "{{ nvim_plugin_root }}/packer/start/packer.nvim"
     single_branch: true
     depth: 1
+
+- name: Add common plugins
+  ansible.builtin.git:
+    repo: "{{ item.repo }}"
+    version: "HEAD"
+    force: true
+    dest: "{{ nvim_plugin_root }}/common/{{ item.dest }}"
+    single_branch: true
+    depth: 1
+  with_items:
+    - repo: "https://github.com/tpope/vim-sensible"
+      dest: "start/sensible"
+    - repo: "https://github.com/tpope/vim-vinegar"
+      dest: "start/vinegar"
+    - repo: "https://github.com/tpope/vim-sleuth"
+      dest: "start/sleuth"
+    - repo: "https://github.com/lifepillar/vim-mucomplete"
+      dest: "opt/mucomplete"
+    - repo: "https://github.com/sheerun/vim-polyglot"
+      dest: "opt/polyglot"
+    - repo: "https://github.com/catppuccin/vim"
+      dest: "opt/catppuccin"
 
 - name: PackerSync
   ansible.builtin.command:

@@ -1,12 +1,10 @@
 return require("packer").startup(function(use)
 	use({ "wbthomason/packer.nvim" })
+	use({ "nvim-lua/plenary.nvim" })
 
-	-- My plugins here
-	-- Base
-	use({ "tpope/vim-sensible", config = require("config.sensible") })
-	use({ "tpope/vim-vinegar", config = require("config.vinegar") })
-	use({ "tpope/vim-sleuth", event = "VimEnter", config = require("config.sleuth") })
-	use({ "catppuccin/nvim", as = "catppuccin", config = require("config.catppuccin") })
+	-- Theme
+	use({ 
+		"catppuccin/nvim", as = "catppuccin", config = require("config.catppuccin") })
 
 	-- Editor
 	use({
