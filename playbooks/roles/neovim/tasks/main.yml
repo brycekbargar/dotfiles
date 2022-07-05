@@ -106,6 +106,15 @@
     mode: "0755"
     force: true
 
+- name: Installing Packer
+  ansible.builtin.git:
+    repo: "https://github.com/wbthomason/packer.nvim"
+    version: "HEAD"
+    force: true
+    dest: "{{ nvim_plugin_root }}/packer/start/packer.nvim"
+    single_branch: true
+    depth: 1
+
 - name: PackerSync
   ansible.builtin.command:
     cmd: |
