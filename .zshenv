@@ -23,10 +23,6 @@ export \
 export \
     GOPATH="$XDG_STATE_HOME/go" \
     GOMODCACHE="$XDG_CACHE_HOME/go-mod"
-export \
-    NPM_CONFIG_CACHE="$XDG_CACHE_HOME/npm" \
-    NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/.npmrc" \
-    NPM_CONFIG_INIT_MODULES="$XDG_CONFIG_HOME/npm/.npm.init.js" \
 export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 
 typeset -aU path

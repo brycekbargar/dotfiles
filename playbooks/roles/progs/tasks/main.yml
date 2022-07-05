@@ -6,11 +6,20 @@
     pkg:
       - less
       - man
-      - jq
-      - fd-find
     state: latest
   when: ansible_distribution == "Debian"
 # TODO: Fix on homebrew
+
+- name: Installing conda progs
+  ansible.builtin.shell:
+    cmd: |
+      condstall --with conda --global --yes -- {{ item.pkg }}
+    creates: "{{ lookup('env', 'CONDA_SYSTEM') }}/installers-conda/bin/{{ item.exe }}"
+  with_items:
+    - pkg: "fd-find"
+      exe: "fd"
+    - pkg: "jq"
+      exe: "jq"
 
 - name: Installing cargo progs
   ansible.builtin.shell:
