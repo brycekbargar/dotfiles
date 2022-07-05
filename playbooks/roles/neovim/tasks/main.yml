@@ -1,8 +1,9 @@
 ---
 # TODO: Make a default or var?
-- name: Set nvim_env_path fact
+- name: Set facts
   ansible.builtin.set_fact:
     nvim_env_path: "{{ lookup('env', 'CONDA_ENVS') }}/nvim"
+    nvim_plugin_root: "{{ lookup('env', 'XDG_STATE_HOME') }}/nvim/site/pack"
 
 - name: Clearing previous conda env
   ansible.builtin.command:

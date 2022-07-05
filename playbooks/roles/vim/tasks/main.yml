@@ -9,7 +9,7 @@
 
 - name: Link common plugins
   ansible.builtin.file:
-    src: "{{ nvim_plugin_root }}/common"
+    src: "{{ lookup('env', 'XDG_STATE_HOME') }}/nvim/site/pack/common"
     dest: "{{ lookup('env', 'HOME') }}/.vim/pack/common"
     state: link
 
