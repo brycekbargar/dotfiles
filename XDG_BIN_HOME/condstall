@@ -63,7 +63,7 @@ case $INSTALL_TYPE in
         CMD="conda run --name installers-rust --no-capture-output cargo install $@"
         if [[ -n "$ENVIRONMENT" ]]
         then
-            CMD="CARGO_INSTALL_ROOT='$CONDA_ROOT/$ENVIRONMENT' $CMD"
+            CMD="CARGO_INSTALL_ROOT='$CONDA_ENVS/$ENVIRONMENT' $CMD"
         fi
     ;;
 
@@ -71,7 +71,7 @@ case $INSTALL_TYPE in
         CMD="conda run --name installers-go --no-capture-output go install $@"
         if [[ -n "$ENVIRONMENT" ]]
         then
-            CMD="GOBIN='$CONDA_ROOT/$ENVIRONMENT/bin' $CMD"
+            CMD="GOBIN='$CONDA_ENVS/$ENVIRONMENT/bin' $CMD"
         fi
     ;;
 

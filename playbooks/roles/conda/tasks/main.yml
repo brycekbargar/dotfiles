@@ -32,9 +32,7 @@
 
 - name: Create system environments
   ansible.builtin.shell:
-    cmd: |
-      CONDA_ROOT="{{ lookup('env', 'CONDA_SYSTEM') }}" \
-      conda create --name {{ item.name }} {{ item.pkgs }} --yes
+    cmd: "CONDA_ENVS_PATH='{{ lookup('env', 'CONDA_SYSTEM') }}' conda create --name {{ item.name }} {{ item.pkgs }} --yes"
     creates: "{{ lookup('env', 'CONDA_SYSTEM') }}/{{ item.name }}"
   with_items:
     - name: "installers-conda"
