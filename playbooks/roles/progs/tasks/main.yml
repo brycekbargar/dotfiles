@@ -1,12 +1,16 @@
 ---
 - name: Installing default progs
-  ansible.builtin.package:
-    name: "{{ item }}"
+  become: true
+  ansible.builtin.apt:
+    update_cache: true
+    pkg:
+      - less
+      - man
+      - jq
+      - fd-find
     state: latest
-  with_items:
-    - less
-    - man
-    - jq
+  when: ansible_distribution == "Debian"
+# TODO: Fix on homebrew
 
 - name: Installing cargo progs
   ansible.builtin.shell:
@@ -20,14 +24,16 @@
       exe: "bat"
     - pkg: "ripgrep"
       exe: "rg"
-    - pkg: "fd-find"
-      exe: "fd"
+    - pkg: "git-delta"
+      exe: "delta"
+   #- pkg: "fd-find"
+   #  exe: "fd"
 
 - name: Installing go progs
   ansible.builtin.shell:
     cmd: |
       condstall --with go --global --yes -- github.com/{{ item.pkg }}
-    creates: "{{ GOPATH }}/bin/{{ item.exe }}"
+    creates: "{{ lookup('env', 'GOPATH') }}/bin/{{ item.exe }}"
   with_items:
     - pkg: "junegunn/fzf@latest"
       exe: "fzf"

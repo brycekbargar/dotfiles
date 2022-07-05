@@ -1,0 +1,42 @@
+#!/usr/bin/zsh
+
+function lss {
+    if [[ -d $1 ]]
+    then
+		local cutoff = ${LSS_CUTOFF:-30}
+		local exa_ls='exa --all --group-directories-first'
+		local exa_long="$exa_ls --long --binary --extended --octal-permissions"
+
+		local items = fdfind --hidden --no-ignore --max-depth 1 --exec echo \; $1 | wc -l
+		if [[ $items -gt $cutoff ]]
+		then
+		    eval "$exa_ls --grid"
+			return
+		fi
+
+		local subitems = fdfind --hidden --no-ignore --max-depth 4 --exec echo \; $1 | wc -l
+		if [[ $subitems -le $cutoff ]]
+		then
+		    eval "$exa_long --tree --level=4"
+			return
+		fi
+
+		subitems = fdfind --hidden --no-ignore --max-depth 3 --exec echo \; $1 | wc -l
+		if [[ $subitems -le $cutoff ]]
+		then
+		    eval "$exa_long --tree --level=3"
+			return
+		fi
+
+		subitems = fdfind --hidden --no-ignore --max-depth 2 --exec echo \; $1 | wc -l
+		if [[ $subitems -le $cutoff ]]
+		then
+		    eval "$exa_long --tree --level=2"
+			return
+		fi
+
+		eval "$exa_long --oneline"
+    else
+	    bat $1
+	fi
+}
