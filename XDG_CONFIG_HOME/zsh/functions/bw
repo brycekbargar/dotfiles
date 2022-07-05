@@ -1,5 +1,6 @@
 #!/usr/bin/zsh
 
 function bw {
-    condax nodejs --package @bitwarden/cli@latest --yes -- bw $@
+    # TODO: Update once bw fixed the versioning
+    condax nodejs --package @bitwarden/cli@1.22.1 --yes -- bw $@
 }

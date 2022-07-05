@@ -42,4 +42,4 @@ path=(
     "/mnt/c/Windows/system32")
 
 typeset -aU fpath
-fpath=("$ZDOTDIR/functions $fpath)
+fpath=("$ZDOTDIR/functions" $fpath)

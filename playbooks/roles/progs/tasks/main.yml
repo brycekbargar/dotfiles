@@ -1,0 +1,33 @@
+---
+- name: Installing default progs
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - less
+    - man
+    - jq
+
+- name: Installing cargo progs
+  ansible.builtin.shell:
+    cmd: |
+      condstall --with rust --global --yes -- {{ item.pkg }} --locked
+    creates: "{{ lookup('env', 'CARGO_HOME') }}/bin/{{ item.exe }}"
+  with_items:
+    - pkg: "exa --no-default-features"
+      exe: "exa"
+    - pkg: "bat"
+      exe: "bat"
+    - pkg: "ripgrep"
+      exe: "rg"
+    - pkg: "fd-find"
+      exe: "fd"
+
+- name: Installing go progs
+  ansible.builtin.shell:
+    cmd: |
+      condstall --with go --global --yes -- github.com/{{ item.pkg }}
+    creates: "{{ GOPATH }}/bin/{{ item.exe }}"
+  with_items:
+    - pkg: "junegunn/fzf@latest"
+      exe: "fzf"

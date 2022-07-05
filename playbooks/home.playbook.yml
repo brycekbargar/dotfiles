@@ -23,6 +23,8 @@
             name: vim
         - ansible.builtin.import_role:
             name: neovim
+        - ansible.builtin.import_role:
+            name: progs
       always:
         - name: Remove python3-apt
           become: true
