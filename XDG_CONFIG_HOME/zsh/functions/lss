@@ -37,6 +37,9 @@ function lss {
 	fi
 
 	eval "$exa_long $1"
+    elif [[ "$1" =~ ".+\.(md|markdown)" ]]
+    then
+	mdcat $1
     else
 	bat $1
     fi

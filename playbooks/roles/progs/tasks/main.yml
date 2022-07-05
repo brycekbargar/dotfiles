@@ -35,6 +35,8 @@
       exe: "rg"
     - pkg: "git-delta"
       exe: "delta"
+    - pkg: "mdcat"
+      exe: "mdcat"
    #- pkg: "fd-find"
    #  exe: "fd"
 
