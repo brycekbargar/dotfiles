@@ -1,42 +1,43 @@
 #!/usr/bin/zsh
 
 function lss {
-    if [[ -d $1 ]]
+
+    if [[ -d "${1:-$PWD}" ]]
     then
-		local cutoff = ${LSS_CUTOFF:-30}
-		local exa_ls='exa --all --group-directories-first'
-		local exa_long="$exa_ls --long --binary --extended --octal-permissions"
+	local cutoff=${LSS_CUTOFF:-35}
+	local exa_ls='exa --all --group-directories-first --ignore-glob=.git'
+	local exa_long="$exa_ls --long --binary --extended --octal-permissions"
 
-		local items = fdfind --hidden --no-ignore --max-depth 1 --exec echo \; $1 | wc -l
-		if [[ $items -gt $cutoff ]]
-		then
-		    eval "$exa_ls --grid"
-			return
-		fi
+	local items=$(fdfind --hidden --no-ignore --max-depth 1 --exec echo \; . $1 | wc -l)
+	if [[ $items -gt $cutoff ]]
+	then
+		eval "$exa_ls --grid $1"
+		return
 
-		local subitems = fdfind --hidden --no-ignore --max-depth 4 --exec echo \; $1 | wc -l
-		if [[ $subitems -le $cutoff ]]
-		then
-		    eval "$exa_long --tree --level=4"
-			return
-		fi
-
-		subitems = fdfind --hidden --no-ignore --max-depth 3 --exec echo \; $1 | wc -l
-		if [[ $subitems -le $cutoff ]]
-		then
-		    eval "$exa_long --tree --level=3"
-			return
-		fi
-
-		subitems = fdfind --hidden --no-ignore --max-depth 2 --exec echo \; $1 | wc -l
-		if [[ $subitems -le $cutoff ]]
-		then
-		    eval "$exa_long --tree --level=2"
-			return
-		fi
-
-		eval "$exa_long --oneline"
-    else
-	    bat $1
 	fi
+
+	# TODO: Refactor this
+	local subitems=$(fdfind --hidden --no-ignore --exclude .git --max-depth 4 --exec echo \; . $1 | wc -l)
+	if [[ $subitems -le $cutoff ]]
+	then
+		eval "$exa_long --tree --level=4 $1"
+		return
+	fi
+	subitems=$(fdfind --hidden --no-ignore --exclude .git --max-depth 3 --exec echo \; . $1 | wc -l)
+	if [[ $subitems -le $cutoff ]]
+	then
+		eval "$exa_long --tree --level=3 $1"
+		return
+	fi
+	subitems=$(fdfind --hidden --no-ignore --exclude .git --max-depth 2 --exec echo \; . $1 | wc -l)
+	if [[ $subitems -le $cutoff ]]
+	then
+		eval "$exa_long --tree --level=2 $1"
+		return
+	fi
+
+	eval "$exa_long $1"
+    else
+	bat $1
+    fi
 }
