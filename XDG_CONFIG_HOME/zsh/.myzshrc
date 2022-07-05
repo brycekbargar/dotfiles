@@ -17,7 +17,7 @@ export KEYTIMEOUT=1
 
 setopt NO_BEEP
 
-autoload "$ZDOTDIR/functions/*"
+autoload -Uz $ZDOTDIR/functions/*(.:t)
 # Other custom settings here
 
 #####
