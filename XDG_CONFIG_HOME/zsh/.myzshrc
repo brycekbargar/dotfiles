@@ -16,6 +16,8 @@ bindkey -v
 export KEYTIMEOUT=1
 
 setopt NO_BEEP
+
+autoload "$ZDOTDIR/functions/*"
 # Other custom settings here
 
 #####

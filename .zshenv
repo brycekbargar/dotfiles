@@ -40,3 +40,6 @@ path=(
     $path
     "/mnt/c/Users/`id -un`/scoop/shims/"
     "/mnt/c/Windows/system32")
+
+typeset -aU fpath
+fpath=("$ZDOTDIR/functions $fpath)

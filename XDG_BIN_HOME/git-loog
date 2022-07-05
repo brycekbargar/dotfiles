@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+#
+# git log x2
+#
+# Logs prettily with a given length
+# TODO: Remove the hardcoded hex colors
+# TODO: Relearn what this means and improve the output format
+
+HASH="%C(#ff5faf)%h%Creset"
+RELATIVE_TIME="%C(#00ff5f)(%ar)%Creset"
+AUTHOR="%C(bold #875fff)%an%Creset"
+REFS="%C(#5fafff)%d%Creset"
+SUBJECT="%C(#dfff87)%s%Creset"
+
+FORMAT="$HASH $RELATIVE_TIME $AUTHOR $REFS $SUBJECT "
+
+git log --graph --abbrev-commit --date=relative --pretty="tformat:${FORMAT}" -n ${1:-15}
