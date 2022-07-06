@@ -1,6 +1,4 @@
 nvim/plugin/
 zsh/.zshrc
-Bitwarden\ CLI
-thefuck
 **/__pycache__
 .condarc

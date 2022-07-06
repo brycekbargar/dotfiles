@@ -8,7 +8,9 @@ export \
     NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/.npmrc" \
     NPM_CONFIG_INIT_MODULES="$XDG_CONFIG_HOME/npm/.npm.init.js" \
 export \
-    PIPX_HOME=$XDG_STATE_HOME/pipx
+    PIPX_HOME="$XDG_STATE_HOME/pipx"
+export \
+    BITWARDENCLI_APPDATA_DIR="$XDG_DATA_HOME/bw"
 
 export PAGER='/usr/bin/less'
 export LESS='--ignore-case --raw-control-chars -FRXK'
