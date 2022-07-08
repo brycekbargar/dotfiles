@@ -2,5 +2,5 @@
 
 function bw {
     # TODO: Update once bw fixed the versioning
-    condax nodejs --package @bitwarden/cli@1.22.1 --yes -- bw $@
+    condax nodejs --package @bitwarden/cli --yes -- bw $@
 }
