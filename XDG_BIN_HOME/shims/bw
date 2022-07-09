@@ -1,0 +1,3 @@
+# vi: ft=zsh
+
+condax nodejs --package @bitwarden/cli --yes -- bw $@

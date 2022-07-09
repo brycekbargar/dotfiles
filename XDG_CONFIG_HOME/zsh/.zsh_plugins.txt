@@ -1,16 +1,23 @@
+# vi: ft=text
+
 # Thanks mattmc3 for "zsh sensible"
 mattmc3/zephyr path:plugins/colors
 mattmc3/zephyr path:plugins/environment
 mattmc3/zephyr path:plugins/directory
 mattmc3/zephyr path:plugins/history
 
+# Autoloading of my configs
+mattmc3/zshrc.d
+mattmc3/zfunctions
+
 # Actual plugins
 zdharma-continuum/fast-syntax-highlighting
 Cloudstek/zsh-plugin-appup
 xorkevin/code-review-zsh
-kalsowerus/zsh-bitwarden
 aperezdc/zsh-notes
 
-# Completions
-mattmc3/zephyr path:plugins/completions
+# Additional Completions
 zsh-users/zsh-completions
+
+# Load/cache Completions
+mattmc3/zephyr path:plugins/completions

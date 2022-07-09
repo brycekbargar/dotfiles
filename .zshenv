@@ -38,4 +38,5 @@ path=(
     "/mnt/c/Windows/system32")
 
 typeset -aU fpath
-fpath=("$ZDOTDIR/functions" $fpath)
+fpath=("$XDG_BIN_HOME/shims" $fpath)
+autoload -Uz $XDG_BIN_HOME/shims/*(.:t)

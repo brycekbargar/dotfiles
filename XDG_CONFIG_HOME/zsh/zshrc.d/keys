@@ -1,0 +1,6 @@
+# vi: ft=zsh
+
+bindkey -v
+export KEYTIMEOUT=1
+
+setopt NO_BEEP

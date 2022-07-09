@@ -1,5 +1,0 @@
-#!/usr/bin/zsh
-
-function fuck {
-    condax python --spec thefuck fuck
-}

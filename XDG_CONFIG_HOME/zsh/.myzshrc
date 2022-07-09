@@ -1,5 +1,5 @@
-#!/usr/bin/zsh
-
+# vi: ft=zsh
+#
 # https://getantidote.github.io/
 if [[ ! $XDG_STATE_HOME/.zsh_plugins.zsh -nt $ZDOTDIR/.zsh_plugins.txt ]]; then
     zstyle ':antidote:bundle' use-friendly-names 'yes'
@@ -8,20 +8,6 @@ if [[ ! $XDG_STATE_HOME/.zsh_plugins.zsh -nt $ZDOTDIR/.zsh_plugins.txt ]]; then
 fi
 autoload -Uz "$XDG_BIN_HOME/antidote/functions/antidote"
 source $XDG_STATE_HOME/.zsh_plugins.zsh
-
-
-#####
-
-bindkey -v
-export KEYTIMEOUT=1
-
-setopt NO_BEEP
-
-autoload -Uz $ZDOTDIR/functions/*(.:t)
-# Other custom settings here
-
-#####
-
 
 # https://starship.rs/
 eval "$(starship init zsh)"

@@ -10,7 +10,7 @@ export \
 export \
     PIPX_HOME="$XDG_STATE_HOME/pipx"
 export \
-    BITWARDENCLI_APPDATA_DIR="$XDG_DATA_HOME/bw"
+    BITWARDENCLI_APPDATA_DIR="$XDG_STATE_HOME/bw"
 
 export PAGER='/usr/bin/less'
 export LESS='--ignore-case --raw-control-chars -FRXK'

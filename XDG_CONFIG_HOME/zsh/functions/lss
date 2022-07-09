@@ -1,14 +1,12 @@
-#!/usr/bin/zsh
+# vi: ft=zsh
 
-function lss {
-
-    if [[ -d "${1:-$PWD}" ]]
-    then
+if [[ -d "${1:-$PWD}" ]]
+then
 	local cutoff=${LSS_CUTOFF:-35}
 	local exa_ls='exa --all --group-directories-first --ignore-glob=.git'
 	local exa_long="$exa_ls --long --binary --extended --octal-permissions"
 
-	local items=$(fd--hidden --no-ignore --max-depth 1 --exec echo \; . $1 | wc -l)
+	local items=$(fd --hidden --no-ignore --max-depth 1 --exec echo \; . $1 | wc -l)
 	if [[ $items -gt $cutoff ]]
 	then
 		eval "$exa_ls --grid $1"
@@ -37,10 +35,9 @@ function lss {
 	fi
 
 	eval "$exa_long $1"
-    elif [[ "$1" =~ ".+\.(md|markdown)" ]]
-    then
+elif [[ "$1" =~ ".+\.(md|markdown)" ]]
+then
 	mdcat $1
-    else
+else
 	bat $1
-    fi
-}
+fi
