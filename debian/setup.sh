@@ -18,6 +18,5 @@ popd
 	source <(~/.local/share/conda/base/bin/conda shell.zsh hook)
 	cd ~/_src/dotfiles
 	conda env create --file environment.yml --quiet
-	conda activate dotfiles
-	ansible-playbook playbooks/home.playbook.yml --ask-become-pass
+	./tea.sh
 EOF
