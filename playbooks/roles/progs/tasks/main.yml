@@ -21,7 +21,12 @@
     - pkg: "jq"
       exe: "jq"
 
-- name: Installing cargo progs
+- name: Updating conda progs
+  ansible.builtin.command:
+    cmd: "conda update --name installers-conda --all --yes"
+  changed_when: true
+
+- name: Installing/updating cargo progs
   ansible.builtin.shell:
     cmd: |
       condstall --with rust --global --yes -- {{ item.pkg }} --locked
@@ -39,8 +44,9 @@
       exe: "mdcat"
    #- pkg: "fd-find"
    #  exe: "fd"
+  changed_when: true
 
-- name: Installing go progs
+- name: Installing/updating go progs
   ansible.builtin.shell:
     cmd: |
       condstall --with go --global --yes -- github.com/{{ item.pkg }}
@@ -48,3 +54,4 @@
   with_items:
     - pkg: "junegunn/fzf@latest"
       exe: "fzf"
+  changed_when: true

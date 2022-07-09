@@ -35,11 +35,12 @@
 - name: Install starship (to bash)
   ansible.builtin.command:
     cmd: |
-      ./starship.sh --bin-dir "{{ lookup('env', 'XDG_BIN_HOME') }}" --yes
+      ./starship.sh --bin-dir "{{ lookup('env', 'XDG_BIN_HOME') }}" --yes --platform unknown-linux-gnu
     chdir: /tmp
     creates: "{{ lookup('env', 'XDG_BIN_HOME') }}/starship"
-  # starship 1.8 fails to built with rust 1.61 on debian b/c linking
+  changed_when: true
 
+  # starship 1.8 fails to built with rust 1.61 on debian b/c linking
 - name: Install starship (cargo)
   ansible.builtin.command:
     cmd: condstall --with rust --global --yes -- starship --locked

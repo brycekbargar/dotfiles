@@ -51,7 +51,7 @@
     cmd: "conda update --name {{ item }} --all --yes"
   changed_when: true
   with_items:
-    - "installers-conda"
+    #- "installers-conda" Conda has nothing to update besides the installed bins
     - "installers-rust"
     - "installers-go"
     - "runtimes-python"
