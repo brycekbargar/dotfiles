@@ -2,10 +2,13 @@ set timeoutlen=400
 set ignorecase
 set smartcase
 set number
+set hidden
 set cursorline
 set cmdheight=2
 set nowrap
 set tabstop=4
+set scrolloff=15
+set list
 
 noremap <silent> ' <Nop>
 let g:mapleader = "'"
@@ -17,14 +20,16 @@ nnoremap <silent> <Right> :vertical resize +4<CR>
 nnoremap <silent> <Up> :resize +4<CR>
 nnoremap <silent> <Down> :resize -4<CR>
 
+nnoremap <silent> <leader>l! :set list!<CR>
+
 let g:netrw_preview = 0
 let g:netrw_alto = 1
 let g:netrw_altfile = 1
 
 if !has('nvim')
-    set hidden
     set belloff=all
     set hlsearch
+    set autoread
     set wildoptions=pum,tagfile
     set backupdir=$XDG_STATE_HOME/vim/backup
     set directory=$XDG_STATE_HOME/vim/swap
