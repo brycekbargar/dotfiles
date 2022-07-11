@@ -1,0 +1,18 @@
+# vi: ft=zsh
+
+if [[ -z "$BW_SESSION" ]]
+then
+	>&2 echo "Vault is locked, run bw-unlock"
+	return 1
+fi
+
+bw list items \
+| jq -r '.[] 
+	| [	.folderId // "/", 
+		.name, .login.uris[0].uri // "", 
+		.login.username // "", 
+		.id ] 
+	| @tsv' \
+| column -t -s $'\t' \
+| fzf --with-nth 1..-2 \
+| awk '{print $NF}'

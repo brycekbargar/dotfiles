@@ -1,0 +1,26 @@
+# vi: ft=zsh
+
+
+if ! (env | grep --quiet --ignore-case SSH_AUTH_SOCK)
+then
+	>&2 echo "Could not open a connection to your authentication agent."
+	return 1
+fi
+
+if [[ -z "$1" ]]
+then
+	>&2 echo 'Usage: bw-ssh-add "$(bw-fzf)" or bw-ssh-add "$ITEMID"'
+	return 1
+fi
+
+local item=$(bw get item "$1")
+
+if [[ "$?" > 0 ]]
+then
+	>&2 echo "Couldn't find '$1'"
+	return 1
+fi
+
+echo "$item" | jq -r '.login.password' | clip.exe
+ssh-add =(bw get attachment "$(echo "$item" | jq -r '.name')" --itemid "$1" --raw)
+echo "" | clip.exe

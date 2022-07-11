@@ -1,0 +1,18 @@
+# vi: ft=zsh
+
+local pw="$(bw generate -ulns --length 31)"
+
+echo "$pw" | clip.exe
+ssh-keygen -f "$HOME/.ssh/$1" -t rsa -b 4096 -C "${2:-brycekbargar@gmail.com}"
+echo "" | clip.exe
+
+local itemid=$(
+	bw get template item \
+	| jq --arg NAME "$1" --arg PW "$pw" \
+		| '.name = $NAME | .notes = "" | .folderId="5f327073-d3b6-4940-9783-a9db0022589e" | .login = { "password": $PW }' \
+	| bw encode | bw create item \
+	| jq -r ' .id ' \
+)
+
+bw create attachment --file "$HOME/.ssh/$1" --itemid "$itemid" > /dev/null
+bw create attachment --file "$HOME/.ssh/$1.pub" --itemid "$itemid" > /dev/null
