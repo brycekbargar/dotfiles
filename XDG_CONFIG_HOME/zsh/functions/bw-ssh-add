@@ -1,6 +1,5 @@
 # vi: ft=zsh
 
-
 if ! (env | grep --quiet --ignore-case SSH_AUTH_SOCK)
 then
 	>&2 echo "Could not open a connection to your authentication agent."
