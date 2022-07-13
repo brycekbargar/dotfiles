@@ -1,19 +1,53 @@
 #!/usr/bin/env zsh
 # TODO: Make a function
 
-local RUNTIME=$1
-shift 1
+local RUNTIME
+local PACKAGE
+
+while [[ "$#" -gt 0 ]]; do
+	case "$1" in
+        -u | --using)
+            RUNTIME="$2"
+            shift 2
+        ;;
+        -p | --package)
+            PACKAGE="$2"
+            shift 2
+        ;;
+
+        --)
+            shift 1
+            break
+        ;;
+
+        *)
+            >&2 echo "Unknown option: $1"
+            exit 1
+        ;;
+
+  esac
+doneshift 1
 
 # TODO: Error handing and param validation
 
 local CMD
 case $RUNTIME in
     nodejs)
-        CMD="conda run --name runtimes-nodejs --no-capture-output npm exec $@"
+        CMD="conda run --name runtimes-nodejs --no-capture-output npm exec --yes"
+		if [[ -z "$PACKAGE" ]]
+		then
+			CMD="$CMD --package='$PACKAGE'"
+		fi
+		CMD="$CMD -- $@"
     ;;
 
     python)
-        CMD="conda run --name runtimes-python --no-capture-output pipx run $@"
+        CMD="conda run --name runtimes-python --no-capture-output pipx run"
+		if [[ -z "$PACKAGE" ]]
+		then
+			CMD="$CMD --spec '$PACKAGE'"
+		fi
+		CMD="$CMD $@"
     ;;
 
     *)
