@@ -1,16 +1,15 @@
 ---
-- name: Installing default progs
+- name: Installing default tools
   become: true
   ansible.builtin.apt:
     update_cache: true
     pkg:
-      - less
       - man
     state: latest
   when: ansible_distribution == "Debian"
 # TODO: Fix on homebrew
 
-- name: Installing conda progs
+- name: Installing conda tools
   ansible.builtin.shell:
     cmd: |
       condstall --with conda --global --yes -- {{ item.pkg }}
@@ -18,15 +17,13 @@
   with_items:
     - pkg: "fd-find"
       exe: "fd"
-    - pkg: "jq"
-      exe: "jq"
 
-- name: Updating conda progs
+- name: Updating conda tools
   ansible.builtin.command:
     cmd: "conda update --name installers-conda --all --yes"
   changed_when: true
 
-- name: Installing/updating cargo progs
+- name: Installing/updating cargo tools
   ansible.builtin.shell:
     cmd: |
       condstall --with rust --global --yes -- {{ item.pkg }} --locked
@@ -46,7 +43,7 @@
    #  exe: "fd"
   changed_when: true
 
-- name: Installing/updating go progs
+- name: Installing/updating go tools
   ansible.builtin.shell:
     cmd: |
       condstall --with go --global --yes -- github.com/{{ item.pkg }}
@@ -54,4 +51,6 @@
   with_items:
     - pkg: "junegunn/fzf@latest"
       exe: "fzf"
+    - pkg: "itchyny/gojq@latest"
+      exe: "gojq"
   changed_when: true
