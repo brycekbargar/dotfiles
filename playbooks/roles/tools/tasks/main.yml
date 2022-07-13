@@ -51,6 +51,6 @@
   with_items:
     - pkg: "junegunn/fzf@latest"
       exe: "fzf"
-    - pkg: "itchyny/gojq@latest"
+    - pkg: "itchyny/gojq/cmd/gojq@latest"
       exe: "gojq"
   changed_when: true
