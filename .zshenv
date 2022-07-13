@@ -17,7 +17,8 @@ export \
     CONDA_ENVS_PATH="$CONDA_ENVS:$CONDA_SYSTEM:$CONDA_BASE"
 export \
     CARGO_HOME="$XDG_CACHE_HOME/cargo" \
-    CARGO_TARGET_DIR="$XDG_STATE_HOME/cargo" \
+    CARGO_TARGET_DIR="$XDG_CACHE_HOME/cargo-gen" \
+    CARGO_INSTALL_ROOT="$XDG_STATE_HOME/cargo" \
     CARGO_CACHE_RUSTC_INFO=0 \
     CARGO_INCREMENTAL=1
 export \
@@ -30,7 +31,7 @@ typeset -aU path
 path=(${path[@]:#*/mnt/c/*})
 path=(
     $XDG_BIN_HOME 
-    "$CARGO_HOME/bin"
+    "$CARGO_INSTALL_ROOT/bin"
     "$GOPATH/bin"
     "$CONDA_SYSTEM/installers-conda/bin"
     $path
