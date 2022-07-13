@@ -1,3 +1,4 @@
+" defaults
 set timeoutlen=400
 set ignorecase
 set smartcase
@@ -6,7 +7,7 @@ set hidden
 set cursorline
 set cmdheight=2
 set nowrap
-set tabstop=4
+set shiftwidth=4
 set scrolloff=15
 set list
 
@@ -38,7 +39,9 @@ if !has('nvim')
 
     nnoremap <silent> <leader>f :Sleuth<CR>
 endif
+" end defaults
 
+" shared plugin conf
 if has('nvim')
     let g:polyglot_disabled = [
 	\'bash.plugin',
@@ -52,19 +55,19 @@ if has('nvim')
     \]
 endif
 
-if has('nvim') || !exists('g:EDITOR')
-    set completeopt-=preview
-    set completeopt+=menuone,noinsert,noselect
-    set shortmess+=c
-    nnoremap <silent> <leader>lm :MUcompleteAutoToggle<CR>
-    let g:mucomplete#enable_auto_at_startup = 1
-    packadd! mucomplete
+set completeopt-=preview
+set completeopt+=menuone,noinsert,noselect
+set shortmess+=c
+nnoremap <silent> <leader>lm :MUcompleteAutoToggle<CR>
+let g:mucomplete#enable_auto_at_startup = 1
+packadd! mucomplete
 
-    let g:polyglot_disabled = ['sensible']
-    packadd! polyglot
-endif
+let g:polyglot_disabled = ['sensible']
+packadd! polyglot
+" end shared plugin conf
 
-if !has('nvim') && !exists('g:EDITOR')
+" individual config
+if !has('nvim')
     set termguicolors
     packadd! catppuccin-vim
     colorscheme catppuccin_frappe
@@ -83,3 +86,4 @@ lua <<LUA
     require("plugins")
 LUA
 endif
+" end individual config

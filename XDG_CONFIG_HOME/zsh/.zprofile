@@ -14,6 +14,6 @@ export \
 
 export PAGER='/usr/bin/less'
 export LESS='--ignore-case --raw-control-chars -FRXK'
-export EDITOR='/usr/bin/vim --cmd "let g:EDITOR=1"'
+export EDITOR='/usr/bin/vim'
 export SUDO_EDIT="$EDITOR"
-export VISUAL='/usr/bin/vim'
+export VISUAL="$EDITOR"
