@@ -29,7 +29,7 @@
 & scoop install windows-terminal
 & scoop install extras/vcredist2019
 & sudo scoop install Cascadia-Code 
-$df_terminal_settings = Resolve-Path ([System.IO.Path]::Combine($PSScriptRoot, "APPDATA" "Microsoft", "Windows Terminal", "settings.json"))
+$df_terminal_settings = Resolve-Path ([System.IO.Path]::Combine($PSScriptRoot, "terminal.json"))
 $ln_terminal_settings = Resolve-Path ([System.IO.Path]::Combine("$env:LOCALAPPDATA", "Microsoft", "Windows Terminal", "settings.json"))
 & sudo New-Item -Path "$ln_terminal_settings" -ItemType SymbolicLink -Value "$df_terminal_settings" -Force
 Install-Module PSReadLine -AllowPrerelease -Force
