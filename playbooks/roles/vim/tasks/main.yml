@@ -33,7 +33,7 @@
     - repo: "https://github.com/tpope/vim-sleuth"
       dest: "start/sleuth"
     - repo: "https://github.com/lifepillar/vim-mucomplete"
-      dest: "opt/mucomplete"
+      dest: "start/mucomplete"
     - repo: "https://github.com/sheerun/vim-polyglot"
       dest: "opt/polyglot"
     - repo: "https://github.com/catppuccin/vim"

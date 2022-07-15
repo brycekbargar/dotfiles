@@ -23,25 +23,40 @@ nnoremap <silent> <Down> :resize -4<CR>
 
 nnoremap <silent> <leader>l! :set list!<CR>
 
-let g:netrw_preview = 0
-let g:netrw_alto = 1
-let g:netrw_altfile = 1
-
 if !has('nvim')
     set belloff=all
     set hlsearch
     set autoread
     set wildoptions=pum,tagfile
-    set backupdir=$XDG_STATE_HOME/vim/backup
-    set directory=$XDG_STATE_HOME/vim/swap
-    set undodir=$XDG_STATE_HOME/vim/undo
+	if empty($XDG_STATE_HOME)
+		set backupdir=$HOME/.vim/state/backup
+		set directory=$HOME/.vim/state/swap
+		set undodir=$HOME/.vim/state/undo
+	else
+		set backupdir=$XDG_STATE_HOME/vim/backup
+		set directory=$XDG_STATE_HOME/vim/swap
+		set undodir=$XDG_STATE_HOME/vim/undo
+	endif
     set viewoptions+=unix,slash
-
-    nnoremap <silent> <leader>f :Sleuth<CR>
 endif
 " end defaults
 
-" shared plugin conf
+
+
+" plugin conf
+" vinegar
+let g:netrw_preview = 0
+let g:netrw_alto = 1
+let g:netrw_altfile = 1
+
+" mucomplete
+set completeopt-=preview
+set completeopt+=menuone,noinsert,noselect
+set shortmess+=c
+nnoremap <silent> <leader>lm :MUcompleteAutoToggle<CR>
+let g:mucomplete#enable_auto_at_startup = 1
+
+" polyglot
 if has('nvim')
     let g:polyglot_disabled = [
 	\'bash.plugin',
@@ -54,24 +69,16 @@ if has('nvim')
         \'toml.plugin'
     \]
 endif
-
-set completeopt-=preview
-set completeopt+=menuone,noinsert,noselect
-set shortmess+=c
-nnoremap <silent> <leader>lm :MUcompleteAutoToggle<CR>
-let g:mucomplete#enable_auto_at_startup = 1
-packadd! mucomplete
-
 let g:polyglot_disabled = ['sensible']
-packadd! polyglot
-" end shared plugin conf
 
-" individual config
 if !has('nvim')
     set termguicolors
     packadd! catppuccin-vim
     colorscheme catppuccin_frappe
 endif
+" end plugin conf
+
+
 
 if has('nvim')
 lua <<LUA
@@ -86,4 +93,3 @@ lua <<LUA
     require("plugins")
 LUA
 endif
-" end individual config
