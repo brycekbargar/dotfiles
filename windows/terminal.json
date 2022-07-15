@@ -1,0 +1,103 @@
+{
+    "$schema": "https://aka.ms/terminal-profiles-schema",
+    "multiLinePasteWarning": false,
+    "copyOnSelect": true,
+    "useAcrylicInTabRow": true,
+    "confirmCloseAllTabs": false,
+    "defaultProfile": "{58ad8b0c-3ef8-5f4d-bc6f-13e4c00f2530}",
+    "profiles": {
+        "defaults": {
+            "font": {
+                "face": "Cascadia Code PL",
+                "size": 14,
+                "weight": "semi-bold"
+            },
+            "opacity": 75,
+            "useAcrylic": true,
+            "bellStyle": "none"
+        },
+        "list": [
+            {
+                "commandline": "powershell.exe",
+                "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
+                "hidden": true,
+                "name": "Windows PowerShell"
+            },
+            {
+                "commandline": "cmd.exe",
+                "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
+                "hidden": true,
+                "name": "Command Prompt"
+            },
+            {
+                "guid": "{b453ae62-4e3d-5e58-b989-0a998ec441b8}",
+                "hidden": true,
+                "name": "Azure Cloud Shell",
+                "source": "Windows.Terminal.Azure"
+            },
+            {
+                "colorScheme": "Catppuccin",
+                "guid": "{58ad8b0c-3ef8-5f4d-bc6f-13e4c00f2530}",
+                "hidden": false,
+                "name": "Debian",
+                "source": "Windows.Terminal.Wsl"
+            },
+            {
+                "colorScheme": "Campbell Powershell",
+                "guid": "{574e775e-4f2a-5b96-ac1e-a2962a402336}",
+                "hidden": false,
+                "name": "PowerShell",
+                "source": "Windows.Terminal.PowershellCore",
+                "startingDirectory": "%USERPROFILE%\\_tsrc"
+            }
+        ]
+    },
+    "schemes": [
+        {
+            "name": "Catppuccin",
+            "cursorColor": "#F5E0DC",
+            "selectionBackground": "#575268",
+            "background": "#1E1D2E",
+            "foreground": "#D9E0EE",
+            "black": "#6E6C7E",
+            "red": "#F28FAD",
+            "green": "#ABE9B3",
+            "yellow": "#FAE3B0",
+            "blue": "#96CDFB",
+            "purple": "#F5C2E7",
+            "cyan": "#89DCEB",
+            "white": "#C3BAC6",
+            "brightBlack": "#988BA2",
+            "brightRed": "#F28FAD",
+            "brightGreen": "#ABE9B3",
+            "brightYellow": "#FAE380",
+            "brightBlue": "#96CDFB",
+            "brightPurple": "#F5C2E7",
+            "brightCyan": "#89DCEB",
+            "brightWhite": "#D9E0EE"
+        },
+        {
+            "name": "Campbell Powershell",
+            "background": "#012456",
+            "black": "#0C0C0C",
+            "blue": "#0037DA",
+            "brightBlack": "#767676",
+            "brightBlue": "#3B78FF",
+            "brightCyan": "#61D6D6",
+            "brightGreen": "#16C60C",
+            "brightPurple": "#B4009E",
+            "brightRed": "#E74856",
+            "brightWhite": "#F2F2F2",
+            "brightYellow": "#F9F1A5",
+            "cursorColor": "#FFFFFF",
+            "cyan": "#3A96DD",
+            "foreground": "#CCCCCC",
+            "green": "#13A10E",
+            "purple": "#881798",
+            "red": "#C50F1F",
+            "selectionBackground": "#FFFFFF",
+            "white": "#CCCCCC",
+            "yellow": "#C19C00"
+        }
+    ]
+}
