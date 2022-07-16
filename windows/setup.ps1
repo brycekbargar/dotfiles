@@ -34,6 +34,7 @@ $ln_terminal_settings = Resolve-Path ([System.IO.Path]::Combine("$env:LOCALAPPDA
 & sudo New-Item -Path "$ln_terminal_settings" -ItemType SymbolicLink -Value "$df_terminal_settings" -Force
 Install-Module PSReadLine -AllowPrerelease -Force
 
+# vim
 function LatestVimPlugin {
     param (
         $repo,
@@ -49,10 +50,10 @@ function LatestVimPlugin {
         }
 }
 & scoop install vim
-New-Item "~/.vim/state/backup" -ItemType Directory -Force | Out-Null
-New-Item "~/.vim/state/swap" -ItemType Directory -Force | Out-Null
-New-Item "~/.vim/state/undo" -ItemType Directory -Force | Out-Null
-New-Item "~/.vim/pack/common" -ItemType Directory -Force | Out-Null
+New-Item "~/.vim/state/backup" -ItemType Directory -Force
+New-Item "~/.vim/state/swap" -ItemType Directory -Force
+New-Item "~/.vim/state/undo" -ItemType Directory -Force
+New-Item "~/.vim/pack/common" -ItemType Directory -Force
 Push-Location "~/.vim/pack/common/"
     LatestVimPlugin "https://github.com/tpope/vim-sensible" "start/sensible"
     LatestVimPlugin "https://github.com/tpope/vim-vinegar" "start/vinegar"
@@ -64,4 +65,8 @@ Pop-Location
 $df_vimrc = Resolve-Path ([System.IO.Path]::Combine($PSScriptRoot, ".." "XDG_CONFIG_HOME", "nvim", "init.vim"))
 $ln_vimrc = Resolve-Path ("~/.vim/vimrc")
 & sudo New-Item -Path $ln_vimrc -ItemType SymbolicLink -Value df_vimrc -Force
+
+# wsl
+& scoop install win32yank
+& sudo wsl --install --distribution Debian
 
