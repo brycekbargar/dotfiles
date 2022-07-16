@@ -5,7 +5,7 @@ local RUNTIME
 local PACKAGE
 
 while [[ "$#" -gt 0 ]]; do
-	case "$1" in
+    case "$1" in
         -u | --using)
             RUNTIME="$2"
             shift 2
@@ -25,8 +25,8 @@ while [[ "$#" -gt 0 ]]; do
             exit 1
         ;;
 
-  esac
-doneshift 1
+    esac
+done
 
 # TODO: Error handing and param validation
 
@@ -34,7 +34,7 @@ local CMD
 case $RUNTIME in
     nodejs)
         CMD="conda run --name runtimes-nodejs --no-capture-output npm exec --yes"
-		if [[ -z "$PACKAGE" ]]
+		if [[ -n "$PACKAGE" ]]
 		then
 			CMD="$CMD --package='$PACKAGE'"
 		fi
@@ -43,7 +43,7 @@ case $RUNTIME in
 
     python)
         CMD="conda run --name runtimes-python --no-capture-output pipx run"
-		if [[ -z "$PACKAGE" ]]
+		if [[ -n "$PACKAGE" ]]
 		then
 			CMD="$CMD --spec '$PACKAGE'"
 		fi
