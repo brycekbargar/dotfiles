@@ -1,4 +1,5 @@
 nvim/plugin/
 zsh/.zshrc
+zsh/.p10k.zsh
 **/__pycache__
 .condarc
