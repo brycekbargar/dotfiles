@@ -1,5 +1,3 @@
-# vi: ft=zsh
-
 export FZF_DEFAULT_OPS="\
 --no-mouse --cycle --scroll-off=3
 --exit-0"

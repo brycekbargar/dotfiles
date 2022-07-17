@@ -1,3 +1,1 @@
-# vi: ft=zsh
-
 autoload -Uz promptinit && promptinit && prompt powerlevel10k

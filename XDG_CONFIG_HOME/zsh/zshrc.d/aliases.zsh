@@ -1,3 +1,1 @@
-# vi: ft=zsh
-
 export jq=gojq
