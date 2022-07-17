@@ -1,1 +1,1 @@
-export jq=gojq
+alias jq=gojq
