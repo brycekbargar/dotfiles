@@ -8,7 +8,7 @@
     insertbefore: "BOF"
     block: |
       cd ~/
-      source "$ZDOTDIR/.myzshrc"
+      source "$ZDOTDIR/myrc.zsh"
     state: present
   # TODO: Parameterize this
 
