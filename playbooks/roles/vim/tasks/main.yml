@@ -38,6 +38,8 @@
       dest: "opt/polyglot"
     - repo: "https://github.com/catppuccin/vim"
       dest: "opt/catppuccin-vim"
+    - repo: "https://github.com/tpope/vim-flagship"
+      dest: "opt/flagship"
 
 - name: Linking .vimrc
   ansible.builtin.file:

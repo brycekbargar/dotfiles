@@ -61,6 +61,7 @@ Push-Location "~/.vim/pack/common/"
     LatestVimPlugin "https://github.com/lifepillar/vim-mucomplete" "start/mucomplete"
     LatestVimPlugin "https://github.com/sheerun/vim-polyglot" "opt/polyglot"
     LatestVimPlugin "https://github.com/catppuccin/vim" "opt/catppuccin-vim"
+    LatestVimPlugin "https://github.com/tpope/vim-flagship" "opt/flagship"
 Pop-Location
 $df_vimrc = Resolve-Path ([System.IO.Path]::Combine($PSScriptRoot, ".." "XDG_CONFIG_HOME", "nvim", "init.vim"))
 $ln_vimrc = Resolve-Path ("~/.vim/vimrc")

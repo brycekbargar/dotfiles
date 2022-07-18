@@ -11,6 +11,10 @@ set shiftwidth=4
 set scrolloff=15
 set list
 
+let g:netrw_preview = 0
+let g:netrw_alto = 1
+let g:netrw_altfile = 1
+
 noremap <silent> ' <Nop>
 let g:mapleader = "'"
 let g:maplocalleader = "'"
@@ -44,19 +48,12 @@ endif
 
 
 " plugin conf
-" vinegar
-let g:netrw_preview = 0
-let g:netrw_alto = 1
-let g:netrw_altfile = 1
-
-" mucomplete
 set completeopt-=preview
 set completeopt+=menuone,noinsert,noselect
 set shortmess+=c
 nnoremap <silent> <leader>lm :MUcompleteAutoToggle<CR>
 let g:mucomplete#enable_auto_at_startup = 1
 
-" polyglot
 if has('nvim')
     let g:polyglot_disabled = [
 	\'bash.plugin',
@@ -70,11 +67,14 @@ if has('nvim')
     \]
 endif
 let g:polyglot_disabled = ['sensible']
+packadd! polyglot
 
 if !has('nvim')
+    packadd! flagship
+
     set termguicolors
     packadd! catppuccin-vim
-    colorscheme catppuccin_frappe
+    colorscheme catppuccin_latte
 endif
 " end plugin conf
 
