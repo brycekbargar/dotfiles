@@ -1,9 +1,9 @@
 # scoop buckets
 & scoop bucket add extras
 & scoop bucket add nerd-fonts
+& scoop bucket add versions
 & scoop update
 # scoop tools
-& scoop install 7zip
 & scoop install sudo
 & scoop install aria2
 # scoop checkup
@@ -14,11 +14,11 @@
 & scoop cleanup *
 
 # colemak
-& scoop install Resolve-Path ([System.IO.Path]::Combine($PSScriptRoot, "scoop", "colemak.json")
+& scoop install Resolve-Path ([System.IO.Path]::Combine($PSScriptRoot, "scoop", "colemak.json"))
 
 # autohotkey
 & scoop install autohotkey
-& scoop install Resolve-Path ([System.IO.Path]::Combine($PSScriptRoot, "scoop", "autohotkey-shim.json")
+& scoop install Resolve-Path ([System.IO.Path]::Combine($PSScriptRoot, "scoop", "autohotkey-shim.json"))
 
 # vscode
 & scoop install vscode
@@ -63,7 +63,7 @@ Push-Location "~/.vim/pack/common/"
     LatestVimPlugin "https://github.com/catppuccin/vim" "opt/catppuccin-vim"
     LatestVimPlugin "https://github.com/tpope/vim-flagship" "opt/flagship"
 Pop-Location
-$df_vimrc = Resolve-Path ([System.IO.Path]::Combine($PSScriptRoot, ".." "XDG_CONFIG_HOME", "nvim", "init.vim"))
+$df_vimrc = Resolve-Path ([System.IO.Path]::Combine($PSScriptRoot, "..", "XDG_CONFIG_HOME", "nvim", "init.vim"))
 $ln_vimrc = Resolve-Path ("~/.vim/vimrc")
 & sudo New-Item -Path $ln_vimrc -ItemType SymbolicLink -Value df_vimrc -Force
 
