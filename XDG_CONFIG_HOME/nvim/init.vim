@@ -10,6 +10,7 @@ set nowrap
 set shiftwidth=4
 set scrolloff=15
 set list
+set mouse=
 
 let g:netrw_preview = 0
 let g:netrw_alto = 1
@@ -67,6 +68,7 @@ if has('nvim')
     \]
 endif
 let g:polyglot_disabled = ['sensible']
+let g:polyglot_disabled = ['autoindent']
 packadd! polyglot
 
 if !has('nvim')
