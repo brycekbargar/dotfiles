@@ -34,9 +34,10 @@ if !has('nvim')
     set autoread
     set wildoptions=pum,tagfile
 	if empty($XDG_STATE_HOME)
-		set backupdir=$HOME/.vim/state/backup
-		set directory=$HOME/.vim/state/swap
-		set undodir=$HOME/.vim/state/undo
+		# windows is weird
+		set backupdir=$HOME/vimfiles/state/backup
+		set directory=$HOME/vimfiles/state/swap
+		set undodir=$HOME/vimfiles/state/undo
 	else
 		set backupdir=$XDG_STATE_HOME/vim/backup
 		set directory=$XDG_STATE_HOME/vim/swap
