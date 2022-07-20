@@ -20,7 +20,7 @@ scoop install pwsh-beta
 ##### In powershell 7
 
 ```powershell
-git clone -b ansible-rewrite https://github.com/brycekbargar/dotfiles.git $home\_src\dotfiles
+git clone -b main https://github.com/brycekbargar/dotfiles.git $home\_src\dotfiles
 Set-Location $home\_src\dotfiles\windows
 .\setup.ps1
 ```
