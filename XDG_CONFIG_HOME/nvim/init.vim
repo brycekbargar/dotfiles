@@ -7,6 +7,7 @@ set hidden
 set cursorline
 set cmdheight=2
 set nowrap
+set tabstop=4
 set shiftwidth=4
 set scrolloff=15
 set list
