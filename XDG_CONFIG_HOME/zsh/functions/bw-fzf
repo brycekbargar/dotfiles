@@ -7,7 +7,7 @@ then
 fi
 
 bw list items \
-| jq -r '.[] 
+| gojq -r '.[] 
 	| [	.folderId // "/", 
 		.name, .login.uris[0].uri // "", 
 		.login.username // "", 
