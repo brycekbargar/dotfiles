@@ -31,7 +31,7 @@
 & scoop install extras/vcredist2019
 & sudo scoop install Cascadia-Code 
 $df_terminal_settings = [System.IO.Path]::Combine("$PSScriptRoot", "terminal.json")
-$ln_terminal_settings = [System.IO.Path]::Combine("$env:LOCALAPPDATA", "Microsoft", "Windows Terminal", "settings.json")
+$ln_terminal_settings = [System.IO.Path]::Combine("$env:LOCALAPPDATA", "Packages", "Microsoft.WindowsTerminal_8wekyb3d8bbwe", "LocalState", "settings.json")
 & sudo New-Item -Path "$ln_terminal_settings" -ItemType SymbolicLink -Value "$df_terminal_settings" -Force
 $df_profile = [System.IO.Path]::Combine("$PSScriptRoot", "profile.ps1")
 $ln_profile = [System.IO.Path]::Combine("$HOME", "Documents", "PowerShell", "profile.ps1")
@@ -72,7 +72,7 @@ $ln_vimrc = [System.IO.Path]::Combine("$HOME", "_vimrc")
 
 # wsl
 & scoop install win32yank
-& sudo wsl --install --distribution Debian
+& sudo wsl --update
 
 # random stuff
 & scoop install flux
