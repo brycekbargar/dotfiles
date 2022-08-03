@@ -1,0 +1,17 @@
+[delta "catppuccin"]
+    # author: https://github.com/brycekbargar
+    dark = true
+
+    file-style = omit
+
+    hunk-header-decoration-style = catppuccin-palatte.overlay2 box
+    hunk-header-file-style = catppuccin-palatte.blue
+    hunk-header-line-number-style = catppuccin-palatte.lavender
+    hunk-header-style = file line-number syntax
+
+    minus-style = catppuccin-palatte.crust catppuccin-palatte.maroon
+    minus-emph-style = catppuccin-palatte.mantle catppuccin-palatte.red
+    plus-style = catppuccin-palatte.crust catppuccin-palatte.teal
+    plus-emph-style = catppuccin-palatte.mantle catppuccin-palatte.green
+    zero-style = syntax catppuccin-palatte.base
+

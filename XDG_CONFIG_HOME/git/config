@@ -1,10 +1,14 @@
+[include]
+    path = ./delta.catppuccin.frappe.gitconfig
+    path = ./delta.catppuccin.gitconfig
+
 [core]
     pager = delta
 
 [delta]
+    features = catppuccin
+    syntax-theme = catppuccin-frappe
     navigate = true
-    side-by-side = true
-    line-numbers = true
 [interactive]
     diffFilter = delta --color-only
 [add.interactive]
@@ -13,7 +17,7 @@
     colorMoved = default
 
 [merge]
-    tool = vimdiff
+    toolssss = vimdiff
     conflictstyle = diff3
 [mergetool]
     prompt = false
