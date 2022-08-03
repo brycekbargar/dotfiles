@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+condax --using nodejs --package @bitwarden/tiged@latest -- degit "$@"

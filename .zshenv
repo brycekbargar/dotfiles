@@ -29,14 +29,11 @@ typeset -aU path
 # Remove windows paths in wsl
 path=(${path[@]:#*/mnt/c/*})
 path=(
-    $XDG_BIN_HOME 
+    "$XDG_BIN_HOME"
+    "$XDG_BIN_HOME/shims"
     "$CARGO_HOME/bin"
     "$GOPATH/bin"
     "$CONDA_SYSTEM/installers-conda/bin"
     $path
     "/mnt/c/Users/`id -un`/scoop/shims/"
     "/mnt/c/Windows/system32")
-
-typeset -aU fpath
-fpath=("$XDG_BIN_HOME/shims" $fpath)
-autoload -Uz $XDG_BIN_HOME/shims/*(.:t)

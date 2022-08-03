@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+if [[ -p /dev/stdin ]]
+then
+	cat /dev/stdin | gojq "$@"
+else
+	gojq "$@"
+fi

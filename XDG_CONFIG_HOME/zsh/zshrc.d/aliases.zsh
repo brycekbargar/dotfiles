@@ -1,1 +1,1 @@
-alias jq=gojq
+
