@@ -4,9 +4,11 @@
 
     file-style = omit
 
-    hunk-header-decoration-style = catppuccin-palatte.overlay2 box
-    hunk-header-file-style = catppuccin-palatte.blue
-    hunk-header-line-number-style = catppuccin-palatte.lavender
+    # There isn't great background support for hunk headers
+    # So this is using a hardcoded mocha palette for now
+    hunk-header-decoration-style = "#b4befe" box
+    hunk-header-file-style = "#bac2de"
+    hunk-header-line-number-style = "#a6adc8"
     hunk-header-style = file line-number syntax
 
     minus-style = catppuccin-palatte.crust catppuccin-palatte.maroon

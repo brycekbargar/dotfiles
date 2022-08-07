@@ -8,6 +8,8 @@
 [delta]
     features = catppuccin
     syntax-theme = catppuccin-frappe
+    side-by-side = true
+    line-numbers = false
     navigate = true
 [interactive]
     diffFilter = delta --color-only
