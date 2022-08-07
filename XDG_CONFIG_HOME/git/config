@@ -31,3 +31,6 @@
     sorry = !git add -A && git rebase --continue
 	# I can never type this correctly
     checokut = checkout
+
+[pretty]
+    catppuccin-frappe="%C(#ca9ee6 #303446)%h %C(#a6d189)(%ar) %C(#ef9f76)%an %C(#85c1dc)%d %C(#c6d0f5)%<|(100)%s %C(reset)"

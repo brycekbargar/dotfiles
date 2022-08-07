@@ -3,15 +3,10 @@
 # git log x2
 #
 # Logs prettily with a given length
-# TODO: Remove the hardcoded hex colors
-# TODO: Relearn what this means and improve the output format
 
-HASH="%C(bold magenta)%h%Creset"
-RELATIVE_TIME="%C(green)(%ar)%Creset"
-AUTHOR="%C(yellow)%an%Creset"
-REFS="%C(blue)%d%Creset"
-SUBJECT="%C(bold white)%s%Creset"
-
-FORMAT="$HASH $RELATIVE_TIME $AUTHOR $REFS $SUBJECT"
-
-git log --graph --abbrev-commit --date=relative --pretty="tformat:${FORMAT}" -n ${1:-15}
+git log \
+	--graph \
+	--abbrev-commit \
+	--date=relative \
+	--pretty=catppuccin-frappe \
+	-n ${1:-15}
