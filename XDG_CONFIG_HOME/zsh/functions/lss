@@ -1,43 +1,60 @@
 # vi: ft=zsh
 
+if [[ "$1" =~ ".+\.(md|markdown)" ]]
+then
+	mdcat "$@"
+	return $?
+elif [[ -e "$1" && ! -d "$1" ]]
+then
+	bat "$@"
+	return $?
+fi
+
 if [[ -d "${1:-$PWD}" ]]
 then
 	local cutoff=${LSS_CUTOFF:-35}
-	local exa_ls='exa --all --group-directories-first --ignore-glob=.git'
-	local exa_long="$exa_ls --long --binary --extended --octal-permissions"
 
+	local exa_ls='exa --all --group-directories-first --ignore-glob=.git'
 	local items=$(fd --hidden --no-ignore --max-depth 1 --exec echo \; . $1 | wc -l)
 	if [[ $items -gt $cutoff ]]
 	then
-		eval "$exa_ls --grid $1"
+		eval "$exa_ls --grid $@"
 		return
 
 	fi
 
 	# TODO: Refactor this
+	local exa_long="$exa_ls --long --binary --extended --octal-permissions"
 	local subitems=$(fd --hidden --no-ignore --exclude .git --max-depth 4 --exec echo \; . $1 | wc -l)
 	if [[ $subitems -le $cutoff ]]
 	then
-		eval "$exa_long --tree --level=4 $1"
+		eval "$exa_long --tree --level=4 $@"
 		return
 	fi
 	subitems=$(fd --hidden --no-ignore --exclude .git --max-depth 3 --exec echo \; . $1 | wc -l)
 	if [[ $subitems -le $cutoff ]]
 	then
-		eval "$exa_long --tree --level=3 $1"
+		eval "$exa_long --tree --level=3 $@"
 		return
 	fi
 	subitems=$(fd --hidden --no-ignore --exclude .git --max-depth 2 --exec echo \; . $1 | wc -l)
 	if [[ $subitems -le $cutoff ]]
 	then
-		eval "$exa_long --tree --level=2 $1"
+		eval "$exa_long --tree --level=2 $@"
 		return
 	fi
 
-	eval "$exa_long $1"
-elif [[ "$1" =~ ".+\.(md|markdown)" ]]
-then
-	mdcat $1
-else
-	bat $1
+	eval "$exa_long $@"
+
+	return $?
 fi
+
+rg \
+	--max-columns=$(($COLUMNS - 15)) \
+	--max-columns-preview \
+	--before-context=2 \
+	--after-context=1 \
+	--context-separator="〰〰" \
+	--field-match-separator=" ｜ " \
+	--field-context-separator=" ｜ " \
+	"$@"

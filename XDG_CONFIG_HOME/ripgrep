@@ -1,13 +1,4 @@
---max-columns=150
---max-columns-preview
-
 --smart-case
-
---before-context=2
---after-context=1
---context-separator=〰〰
---field-match-separator= ｜ 
---field-context-separator= ｜ 
 
 --colors=line:none
 --colors=line:fg:0xba,0xc2,0xde
