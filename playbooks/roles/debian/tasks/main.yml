@@ -59,16 +59,3 @@
     # TODO: Figure out why ansible doesn't respect preferences
     default_release: testing
     state: latest
-
-- name: Add Docker GPG Key
-  become: true
-  ansible.builtin.apt_key:
-    url: https://download.docker.com/linux/debian/gpg
-    state: present
-
-- name: Ensure docker repo is present
-  become: true
-  ansible.builtin.apt_repository:
-    install_python_apt: false
-    repo: deb https://download.docker.com/linux/debian bullseye nightly
-    state: present
