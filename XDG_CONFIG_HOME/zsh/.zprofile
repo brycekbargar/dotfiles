@@ -9,8 +9,9 @@ export \
 export \
     BITWARDENCLI_APPDATA_DIR="$XDG_STATE_HOME/bw"
 
+export COLORTERM="truecolor"
 export PAGER='/usr/bin/less'
 export LESS='--ignore-case --raw-control-chars -FRXK'
-export EDITOR='/usr/bin/vim'
+export EDITOR='vim'
 export SUDO_EDIT="$EDITOR"
 export VISUAL="$EDITOR"
