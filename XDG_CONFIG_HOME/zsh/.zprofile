@@ -8,6 +8,8 @@ export \
     PIPX_HOME="$XDG_STATE_HOME/pipx"
 export \
     BITWARDENCLI_APPDATA_DIR="$XDG_STATE_HOME/bw"
+export \
+    RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgrep"
 
 export COLORTERM="truecolor"
 export PAGER='/usr/bin/less'
