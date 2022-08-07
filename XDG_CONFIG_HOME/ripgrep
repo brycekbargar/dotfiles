@@ -1,5 +1,7 @@
 --smart-case
 
+--glob=!.git/*
+
 --colors=line:none
 --colors=line:fg:0xba,0xc2,0xde
 --colors=path:none

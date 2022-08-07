@@ -17,14 +17,9 @@
 		<dict>
 			<key>settings</key>
 			<dict>
-				<!--
-				Bat doesn't respect backgroundColor 
-				(I think because syntect doesn't do it for single lines?)
-				This is a workaround in conjunction with the setting to highlight all lines
-				-->
 				<key>lineHighlight</key>
-				<!--Frappe Base-->
-				<string>#303446</string>
+				<!--Frappe Surface0-->
+				<string>#414559</string>
 				<key>background</key>
 				<!--Frappe Base-->
 				<string>#303446</string>
@@ -32,8 +27,8 @@
 				<!--Frappe Text-->
 				<string>#c6d0f5</string>
 				<key>gutterForeground</key>
-				<!--Mocha Subtext1-->
-				<string>#bac2de</string>
+				<!--Frapee Subtext1-->
+				<string>#b5bfe2</string>
 			</dict>
 		</dict>
 		<!-- Highlighting is all Frappe

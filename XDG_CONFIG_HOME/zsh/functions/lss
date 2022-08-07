@@ -6,7 +6,7 @@ then
 	return $?
 elif [[ -e "$1" && ! -d "$1" ]]
 then
-	bat "$@"
+	bat "$@" --highlight-line=1:
 	return $?
 fi
 
@@ -50,6 +50,7 @@ then
 fi
 
 rg \
+	--pretty \
 	--max-columns=$(($COLUMNS - 15)) \
 	--max-columns-preview \
 	--before-context=2 \
@@ -57,4 +58,5 @@ rg \
 	--context-separator="〰〰" \
 	--field-match-separator=" ｜ " \
 	--field-context-separator=" ｜ " \
-	"$@"
+	"$@" \
+	| less

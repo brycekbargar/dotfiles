@@ -1,0 +1,13 @@
+# vi: ft=zsh
+
+#https://gist.github.com/gnanderson/d74079d16714bb8b2822a7a07cc883d4
+rg  \
+	--line-number \
+	--no-column \
+	--no-heading \
+	--follow \
+	"$@" \
+	| awk -F  ":" '/1/ {start = $2<5 ? 0 : $2 - 5; print $1 " " $2 " " start }' \
+	| fzf \
+		--preview 'bat --theme="catppuccin-frappe-fzf" --color=always --highlight-line={2} {1}' \
+		--preview-window '+{3}-5'
