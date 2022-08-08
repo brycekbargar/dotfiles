@@ -25,19 +25,19 @@ then
 
 	# TODO: Refactor this
 	local exa_long="$exa_ls --long --binary --extended --octal-permissions"
-	local subitems=$(fd --hidden --no-ignore --exclude .git --max-depth 4 --exec echo \; . $1 | wc -l)
+	local subitems=$(fd --hidden --follow --no-ignore --exclude .git --max-depth 4 --exec echo \; . $1 | wc -l)
 	if [[ $subitems -le $cutoff ]]
 	then
 		eval "$exa_long --tree --level=4 $@"
 		return
 	fi
-	subitems=$(fd --hidden --no-ignore --exclude .git --max-depth 3 --exec echo \; . $1 | wc -l)
+	subitems=$(fd --hidden --follow --no-ignore --exclude .git --max-depth 3 --exec echo \; . $1 | wc -l)
 	if [[ $subitems -le $cutoff ]]
 	then
 		eval "$exa_long --tree --level=3 $@"
 		return
 	fi
-	subitems=$(fd --hidden --no-ignore --exclude .git --max-depth 2 --exec echo \; . $1 | wc -l)
+	subitems=$(fd --hidden --follow --no-ignore --exclude .git --max-depth 2 --exec echo \; . $1 | wc -l)
 	if [[ $subitems -le $cutoff ]]
 	then
 		eval "$exa_long --tree --level=2 $@"
@@ -49,7 +49,22 @@ then
 	return $?
 fi
 
+# TODO: Send params to both rg and fd
+local fd_rg=$(mktemp)
+
+fd \
+	--hidden \
+	--follow \
+	--strip-cwd-prefix \
+	--color always \
+	--exclude .git \
+	"$1" \
+	>> "$fd_rg"
+
+echo "" >> "$fd_rg"
+
 rg \
+	--hidden \
 	--pretty \
 	--max-columns=$(($COLUMNS - 15)) \
 	--max-columns-preview \
@@ -58,5 +73,16 @@ rg \
 	--context-separator="〰〰" \
 	--field-match-separator=" ｜ " \
 	--field-context-separator=" ｜ " \
-	"$@" \
-	| less
+	--colors="line:none" \
+	--colors="line:fg:0x94,0x9c,0xbb" \
+	--colors="path:none" \
+	--colors="path:fg:0xf2,0xd5,0xcf" \
+	--colors="match:none" \
+	--colors="match:bg:0x8c,0xaa,0xee" \
+	--colors="match:fg:0x23,0x26,0x34" \
+	"$1" \
+	>> "$fd_rg"
+
+bat $fd_rg --plain
+
+unset fd_rg
