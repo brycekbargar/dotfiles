@@ -7,6 +7,11 @@
 [color "diff"]
     oldMoved = dim red
     newMoved = dim green
+[pager]
+    status = true
+    blame = true
+    log = true
+    diff = true
 
 [merge]
     toolssss = vimdiff
@@ -23,5 +28,5 @@
     checokut = checkout
 
 [pretty]
-    catppuccin-frappe="%C(#f4b8e4 #303446)%h %C(#a6d189)(%ar) %C(#e5c890)%an %C(#85c1dc)%d %C(#c6d0f5)%<|(100)%s %C(reset)"
+    catppuccin-frappe="%C(#f4b8e4)%h %C(#a6d189)(%ar) %C(#e5c890)%an %C(#8caaee)%d %C(#c6d0f5)%s %C(reset)"
 

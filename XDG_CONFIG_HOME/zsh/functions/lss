@@ -2,15 +2,15 @@
 
 if [[ "$1" =~ ".+\.(md|markdown)" ]]
 then
-	mdcat "$@"
+	mdcat "$1"
 	return $?
 elif [[ -e "$1" && ! -d "$1" ]]
 then
-	bat "$@" --highlight-line=1:
+	bat "$1"
 	return $?
 fi
 
-if [[ -d "${1:-$PWD}" ]]
+if [[ -z "$1" || (-d "$1" && "$1" = */ )]]
 then
 	local cutoff=${LSS_CUTOFF:-35}
 
@@ -18,7 +18,7 @@ then
 	local items=$(fd --hidden --no-ignore --max-depth 1 --exec echo \; . $1 | wc -l)
 	if [[ $items -gt $cutoff ]]
 	then
-		eval "$exa_ls --grid $@"
+		eval "$exa_ls --grid $1"
 		return
 
 	fi
@@ -28,37 +28,40 @@ then
 	local subitems=$(fd --hidden --follow --no-ignore --exclude .git --max-depth 4 --exec echo \; . $1 | wc -l)
 	if [[ $subitems -le $cutoff ]]
 	then
-		eval "$exa_long --tree --level=4 $@"
+		eval "$exa_long --tree --level=4 $1"
 		return
 	fi
 	subitems=$(fd --hidden --follow --no-ignore --exclude .git --max-depth 3 --exec echo \; . $1 | wc -l)
 	if [[ $subitems -le $cutoff ]]
 	then
-		eval "$exa_long --tree --level=3 $@"
+		eval "$exa_long --tree --level=3 $1"
 		return
 	fi
 	subitems=$(fd --hidden --follow --no-ignore --exclude .git --max-depth 2 --exec echo \; . $1 | wc -l)
 	if [[ $subitems -le $cutoff ]]
 	then
-		eval "$exa_long --tree --level=2 $@"
+		eval "$exa_long --tree --level=2 $1"
 		return
 	fi
 
-	eval "$exa_long $@"
+	eval "$exa_long $1"
 
 	return $?
 fi
 
-# TODO: Send params to both rg and fd
 local fd_rg=$(mktemp)
+
+echo "\e[38;2;242;213;207mmatched files\033[0m" >> "$fd_rg"
 
 fd \
 	--hidden \
 	--follow \
 	--strip-cwd-prefix \
-	--color always \
+	--color never \
 	--exclude .git \
+	--max-depth 2 \
 	"$1" \
+	| rg --context=0 --color=always $1 \
 	>> "$fd_rg"
 
 echo "" >> "$fd_rg"
@@ -66,23 +69,10 @@ echo "" >> "$fd_rg"
 rg \
 	--hidden \
 	--pretty \
-	--max-columns=$(($COLUMNS - 15)) \
-	--max-columns-preview \
-	--before-context=2 \
-	--after-context=1 \
-	--context-separator="〰〰" \
-	--field-match-separator=" ｜ " \
-	--field-context-separator=" ｜ " \
-	--colors="line:none" \
-	--colors="line:fg:0x94,0x9c,0xbb" \
-	--colors="path:none" \
-	--colors="path:fg:0xf2,0xd5,0xcf" \
-	--colors="match:none" \
-	--colors="match:bg:0x8c,0xaa,0xee" \
-	--colors="match:fg:0x23,0x26,0x34" \
+	--max-depth=2 \
 	"$1" \
 	>> "$fd_rg"
 
-bat $fd_rg --plain
+bat $fd_rg --plain --paging=never
 
 unset fd_rg

@@ -11,7 +11,7 @@
 
     file-style = omit
 
-    hunk-header-decoration-style = catppuccin-frappe.lavender ol ul
+    hunk-header-decoration-style = catppuccin-frappe.lavender ol
     hunk-header-file-style = catppuccin-frappe.rosewater
     hunk-header-line-number-style = catppuccin-frappe.rosewater
     hunk-header-style = file line-number syntax
