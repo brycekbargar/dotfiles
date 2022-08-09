@@ -49,30 +49,4 @@ then
 	return $?
 fi
 
-local fd_rg=$(mktemp)
-
-echo "\e[38;2;242;213;207mmatched files\033[0m" >> "$fd_rg"
-
-fd \
-	--hidden \
-	--follow \
-	--strip-cwd-prefix \
-	--color never \
-	--exclude .git \
-	--max-depth 2 \
-	"$1" \
-	| rg --context=0 --color=always $1 \
-	>> "$fd_rg"
-
-echo "" >> "$fd_rg"
-
-rg \
-	--hidden \
-	--pretty \
-	--max-depth=2 \
-	"$1" \
-	>> "$fd_rg"
-
-bat $fd_rg --plain --paging=never
-
-unset fd_rg
+rg_fd $1 27 8
