@@ -1,0 +1,22 @@
+# vi: ft=zsh
+
+fd  \
+	"$@" \
+	| fzf \
+		--preview '
+		([[ -d {} ]] && \
+			exa \
+				--all \
+				--ignore-glob=.git \
+				--long \
+				--binary \
+				--extended \
+				--octal-permissions \
+				--color=always \
+				{} \
+		) || \
+		bat \
+			--no-config \
+			--theme="catppuccin-frappe-fzf" \
+			--color=always {}' \
+		--preview-window '60%,+{2}+3/3,~3'

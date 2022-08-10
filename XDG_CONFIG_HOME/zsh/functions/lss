@@ -49,4 +49,4 @@ then
 	return $?
 fi
 
-rg_fd $1 27 8
+rg-fd $1 27 8
