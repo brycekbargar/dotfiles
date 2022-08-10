@@ -2,13 +2,14 @@
 
 local fd_opts="--fixed-strings --hidden --follow --strip-cwd-prefix --color never"
 {
-	rg --hidden --pretty --max-depth=3 --sortr=path --fixed-strings "$1" \
-		| awk -v limit="${2:-25}" '
-			BEGIN {c=0}
-			{if(NR > limit) c++}
-			{if(NR <= limit) print}
-			END {if(c > 0) print "...and", c, "more..."}
-			';
+	rg \
+		--hidden \
+		--pretty \
+		--max-depth=3 \
+		--sortr=path \
+		--fixed-strings \
+		"$1" \
+		| stump 25;
 	echo -n "\n\e[38;2;242;213;207mdirectories/files\033[0m";
 	echo
 	{
@@ -16,13 +17,7 @@ local fd_opts="--fixed-strings --hidden --follow --strip-cwd-prefix --color neve
 		fd $(echo $fd_opts) --exact-depth 2 "$1";
 		fd $(echo $fd_opts) --exact-depth 3 "$1";
 	} \
-		| awk -v limit="${3:-5}" '
-			BEGIN {c=0}
-			{if(NR > limit) c++}
-			{if(NR <= limit) print}
-			END {if(c > 0) print "...and", c, "more..."}
-			END {if(NR == 0) print "none matched"}
-			' \
+		| stump 5 "none matched" \
 		| tac \
 		| rg --context=0 --color=always --passthrough "$1";
 } \

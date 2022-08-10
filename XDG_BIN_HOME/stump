@@ -1,0 +1,17 @@
+#!/usr/bin/zsh
+
+local lines=$(($(tput lines) - 10))
+
+cat /dev/stdin \
+| awk \
+	-v limit="${1:-$lines}" \
+	-v nores="$2" \
+	'
+	BEGIN {c=0}
+	{if(NR > limit) c++}
+	{if(NR <= limit) print}
+	END {if(c > 0) print "...and", c, "more lines..."}
+	END {if(NR == 0 && nores != "") print nores}
+	'
+
+unset $lines
