@@ -9,7 +9,7 @@ local fd_opts="--fixed-strings --hidden --follow --strip-cwd-prefix --color neve
 		--sortr=path \
 		--fixed-strings \
 		"$1" \
-		| stump 25;
+		| stump ${2-:25};
 	echo -n "\n\e[38;2;242;213;207mdirectories/files\033[0m";
 	echo
 	{
@@ -17,10 +17,10 @@ local fd_opts="--fixed-strings --hidden --follow --strip-cwd-prefix --color neve
 		fd $(echo $fd_opts) --exact-depth 2 "$1";
 		fd $(echo $fd_opts) --exact-depth 3 "$1";
 	} \
-		| stump 5 "none matched" \
+		| stump ${3-:5} "none matched" \
 		| tac \
 		| rg --context=0 --color=always --passthrough "$1";
 } \
-| bat --plain
+| bat -pp
 
 unset fd_opts

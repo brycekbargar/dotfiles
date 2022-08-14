@@ -10,7 +10,7 @@ then
 	return $?
 fi
 
-if [[ -z "$1" || (-d "$1" && "$1" = */ )]]
+if [[ -z "$1" || (-d "$1" && "$1" = */* )]]
 then
 	local cutoff=${LSS_CUTOFF:-35}
 
@@ -49,4 +49,6 @@ then
 	return $?
 fi
 
-rg-fd $1 27 8
+local lines=$(($(tput lines) - 10 - 6))
+rg-fd $1 $lines 6 
+unset lines
