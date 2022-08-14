@@ -1,14 +1,4 @@
 ---
-- name: Installing default tools
-  become: true
-  ansible.builtin.apt:
-    update_cache: true
-    pkg:
-      - man
-    state: latest
-  when: ansible_distribution == "Debian"
-# TODO: Fix on homebrew
-
 - name: Installing conda tools
   ansible.builtin.shell:
     cmd: |
