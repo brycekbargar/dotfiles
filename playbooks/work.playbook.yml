@@ -1,0 +1,12 @@
+---
+- hosts: localhost
+  vars:
+    dotfiles: "{{ playbook_dir }}/.."
+  roles:
+    - prepare
+    - macos
+    - conda
+    - zsh
+    - vim
+    - neovim
+    - tools
