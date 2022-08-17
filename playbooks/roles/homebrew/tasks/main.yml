@@ -1,7 +1,7 @@
 ---
 - name: Create homebrew environment
   ansible.builtin.shell:
-    cmd: "CONDA_ENVS_PATH='{{ lookup('env', 'CONDA_SYSTEM') }}' conda create --name installers-homebrew ruby=2.6.8 --yes"
+    cmd: "CONDA_ENVS_PATH='{{ lookup('env', 'CONDA_SYSTEM') }}' conda create --name installers-homebrew ruby=2.6 --yes"
     creates: "{{ lookup('env', 'CONDA_SYSTEM') }}/homebrew"
 
 - name: Update homebrew environment

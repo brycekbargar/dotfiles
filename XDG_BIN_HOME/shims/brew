@@ -1,9 +1,7 @@
 #!/usr/bin/env bash
 
-local cask_opts="--greedy --no-binaries --no-quarantine --appdir='$XDG_PKG_HOME/homebrew-cask/apps' --fontdir='$XDG_PKG_HOME/homebrew-cask/fonts'"
-
 conda run --name installers-homebrew --no-capture-output \
-	HOMEBREW_CASK_OPTS="$cask_opts" \
+	HOMEBREW_CASK_OPTS="--greedy --no-binaries --no-quarantine --appdir='$XDG_PKG_HOME/homebrew-cask/apps' --fontdir='$XDG_PKG_HOME/homebrew-cask/fonts'" \
 	HOMEBREW_AUTOREMOVE=1 \
 	HOMEBREW_BOOTSNAP=1 \
 	HOMEBREW_FORCE_BREWED_CURL=1 \
@@ -15,6 +13,4 @@ conda run --name installers-homebrew --no-capture-output \
 	HOMEBREW_NO_INSTALL_UPGRADE=1 \
 	HOMEBREW_VERBOSE_USING_DOTS=1 \
 	HOMEBREW_USE_RUBY_FROM_PATH=1 \
-	brew "$@"
-
-unset cask_opts
+	"$HOMEBREW_PREFIX/bin/brew" "$@"

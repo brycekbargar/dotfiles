@@ -8,5 +8,5 @@ then
 		--ask-become-pass
 else
 	conda run --name dotfiles --no-capture-output \
-		ansible-playbook playbooks/work.playbook.yml \
+		ansible-playbook playbooks/work.playbook.yml
 fi

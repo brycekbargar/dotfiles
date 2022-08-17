@@ -61,6 +61,7 @@
   ansible.builtin.file:
     src: "{{ item.src }}"
     dest: "{{ lookup('env', 'XDG_PKG_HOME') }}/{{ item.installer }}"
+    force: true
     state: link
   with_items:
     - src: "{{ lookup('env', 'CONDA_SYSTEM') }}/installers-conda/bin"

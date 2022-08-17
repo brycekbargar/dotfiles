@@ -4,7 +4,7 @@ mkdir ~/.local/share
 mkdir ~/.local/var
 mkdir ~/.local/var/cache
 mkdir ~/.local/var/lib
-mkdir ~/.local/var/opt
+mkdir ~/.local/opt
 
 git clone -b "${DOTFILES_BRANCH:-main}" https://github.com/brycekbargar/dotfiles.git ~/_src/dotfiles
 ln -s ~/_src/dotfiles/.zshenv ~/.zshenv
