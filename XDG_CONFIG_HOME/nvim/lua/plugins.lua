@@ -3,9 +3,7 @@ return require("packer").startup(function(use)
 	use({ "nvim-lua/plenary.nvim" })
 
 	-- Theme
-	use({ 
-		"catppuccin/nvim", as = "catppuccin", config = require("config.catppuccin") })
-
+	use({ "catppuccin/nvim", as = "catppuccin", config = require("config.catppuccin") })
 	-- Editor
 	use({
 		"nvim-treesitter/nvim-treesitter",
@@ -23,6 +21,10 @@ return require("packer").startup(function(use)
 		"mhartington/formatter.nvim",
 		cmd = { "Format", "FormatWrite" },
 		config = require("config.neoformat"),
+	})
+	use({
+		"fladson/vim-kitty",
+		event = "BufEnter",
 	})
 
 	-- LSP

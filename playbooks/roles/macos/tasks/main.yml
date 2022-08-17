@@ -1,1 +1,9 @@
 ---
+- name: Install macos tools
+  community.general.homebrew:
+    name:
+      - zsh
+      - homebrew/cask/kitty
+      - homebrew/cask/karabiner-elements
+      - homebrew/cask-fonts/font-cascadia-code-pl
+    state: present
