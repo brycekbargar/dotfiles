@@ -1,0 +1,54 @@
+---
+- name: Create homebrew environment
+  ansible.builtin.shell:
+    cmd: "CONDA_ENVS_PATH='{{ lookup('env', 'CONDA_SYSTEM') }}' conda create --name installers-homebrew ruby=2.6.8 --yes"
+    creates: "{{ lookup('env', 'CONDA_SYSTEM') }}/homebrew"
+
+- name: Update homebrew environment
+  ansible.builtin.command:
+    cmd: "conda update --name installers-homebrew --all --yes"
+  changed_when: true
+
+- name: Download homebrew
+  ansible.builtin.git:
+    repo: "https://github.com/Homebrew/brew.git"
+    version: "HEAD"
+    force: true
+    dest: "{{ lookup('env', 'CONDA_SYSTEM') }}/installers-homebrew/brew"
+    single_branch: true
+    depth: 1
+
+- name: Link homebrew bin
+  ansible.builtin.file:
+    src: "{{ lookup('env', 'CONDA_SYSTEM') }}/installers-homebrew/brew/bin"
+    dest: "{{ lookup('env', 'XDG_PKG_HOME') }}/homebrew"
+    state: link
+
+- name: Set shellenv
+  ansible.builtin.command:
+    cmd: "conda env config vars set {{ item.var }}={{ item.value }}"
+  with_items:
+    - var: HOMEBREW_PREFIX
+      value: "{{ lookup('env', 'CONDA_SYSTEM') }}/installers-homebrew/brew"
+    - var: HOMEBREW_CELLAR
+      value: "{{ lookup('env', 'CONDA_SYSTEM') }}/installers-homebrew/brew/Cellar"
+    - var: HOMEBREW_REPOSITORY
+      value: "{{ lookup('env', 'CONDA_SYSTEM') }}/installers-homebrew/brew"
+  changed_when: true
+
+- name: First time install homebrew
+  ansible.builtin.command:
+    cmd: "brew update --force --quiet"
+  changed_when: false
+
+- name: Brew dependencies
+  community.general.homebrew:
+    name:
+      - curl
+      - git
+    state: present
+
+- name: Full brew update/upgrade
+  community.general.homebrew:
+    update_homebrew: true
+    upgrade_all: true

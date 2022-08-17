@@ -42,3 +42,14 @@ path=(
     $path
     "/mnt/c/Users/`id -un`/scoop/shims/"
     "/mnt/c/Windows/system32")
+
+typeset -aU fpath
+fpath=(
+    "$CONDA_PREFIX/installers-homebrew/share/zsh/site-functions"
+    $fpath)
+
+typeset -aU cdpath
+cdpath=(
+   $cdpath
+   "~/_src"
+   "~/code")

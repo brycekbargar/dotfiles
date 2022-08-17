@@ -7,4 +7,5 @@ dependencies:
   - pynvim
   - nodejs
   - ansible-lint
+  - ansible-core
   - yamllint
