@@ -35,5 +35,4 @@
   become: true
   ansible.builtin.user:
     name: "{{ whoami }}"
-    shell: "/usr/bin/zsh"
-  # TODO: Is it always /usr/bin/zsh? maybe a var?
+    shell: "{{ zsh }}"

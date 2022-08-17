@@ -6,7 +6,9 @@
     - prepare
     - debian
     - conda
-    - zsh
+    - role: zsh
+      vars:
+        zsh: "/usr/bin/zsh"
     - vim
     - neovim
     - tools

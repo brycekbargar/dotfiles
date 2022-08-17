@@ -7,7 +7,9 @@
     - conda
     - homebrew
     - macos
-    - zsh
+    - role: zsh
+      vars:
+        zsh: "{{ lookup('env', 'XDG_PKG_HOME') }}/homebrew/zsh"
     - vim
     - neovim
     - tools
