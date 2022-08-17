@@ -51,11 +51,24 @@
     cmd: "conda update --name {{ item }} --all --yes"
   changed_when: true
   with_items:
-    #- "installers-conda" Conda has nothing to update besides the installed bins
+    - "installers-conda"
     - "installers-rust"
     - "installers-go"
     - "runtimes-python"
     - "runtimes-nodejs"
+
+- name: Link installer bins
+  ansible.builtin.file:
+    src: "{{ item.src }}"
+    dest: "{{ lookup('env', 'XDG_PKG_HOME') }}/{{ item.installer }}"
+    state: link
+  with_items:
+    - src: "{{ lookup('env', 'CONDA_SYSTEM') }}/installers-conda/bin"
+      installer: "conda"
+    - src: "{{ lookup('env', 'CARGO_HOME') }}/bin"
+      installer: "cargo"
+    - src: "{{ lookup('env', 'GOPATH') }}/bin"
+      installer: "go"
 
 - name: Update base npm
   ansible.builtin.command:

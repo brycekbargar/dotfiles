@@ -5,7 +5,8 @@ export \
     XDG_DATA_HOME="$HOME/.local/share" \
     XDG_CACHE_HOME="$HOME/.local/var/cache" \
     XDG_STATE_HOME="$HOME/.local/var/lib" \
-    XDG_BIN_HOME="$HOME/.local/bin"
+    XDG_BIN_HOME="$HOME/.local/bin" \
+    XDG_PKG_HOME="$HOME/.local/opt"
 
 export \
     CONDA_BASE="$XDG_DATA_HOME/conda/base" \
@@ -31,9 +32,9 @@ path=(${path[@]:#*/mnt/c/*})
 path=(
     "$XDG_BIN_HOME"
     "$XDG_BIN_HOME/shims"
-    "$CARGO_HOME/bin"
-    "$GOPATH/bin"
-    "$CONDA_SYSTEM/installers-conda/bin"
+    "$XDG_PKG_HOME/cargo"
+    "$XDG_PKG_HOME/go"
+    "$XDG_PKG_HOME/conda"
     $path
     "/mnt/c/Users/`id -un`/scoop/shims/"
     "/mnt/c/Windows/system32")
