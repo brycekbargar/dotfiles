@@ -1,16 +1,14 @@
 ---
-- name: Install vim
-  become: true
-  ansible.builtin.apt:
-    update_cache: true
-    pkg: "vim"
-    state: latest
-  when: ansible_distribution == "Debian"
+- name: Instal vim
+  ansible.builtin.command:
+    cmd: "condstall --global --with conda --yes -- vim"
+    creates: "{{ lookup('env', 'CONDA_SYSTEM' ) }}/installers-conda/bin/vim"
 
 - name: Ensure vim dirs
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
+    mode: 0644
   with_items:
     - "{{ lookup('env', 'XDG_STATE_HOME') }}/vim/backup"
     - "{{ lookup('env', 'XDG_STATE_HOME') }}/vim/swap"
