@@ -24,7 +24,11 @@ export \
 export \
     GOPATH="$XDG_STATE_HOME/go" \
     GOMODCACHE="$XDG_CACHE_HOME/go-mod"
-export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
+export \
+    ZDOTDIR="$XDG_CONFIG_HOME/zsh"
+export \
+    HOMEBREW_LOGS="$XDG_STATE_HOME/homebrew" \
+    HOMEBREW_CACHE="$XDG_CACHE_HOME/homebrew"
 
 typeset -aU path
 # Remove windows paths in wsl
