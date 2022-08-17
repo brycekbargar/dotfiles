@@ -4,6 +4,6 @@
 
 ```bash
 xcode-select --install
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/brycekbargar/dotfiles/main/macos/setup.sh)"
+DOTFILES_BRANCH=macos /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/brycekbargar/dotfiles/$DOTFILES_BRANCH/macos/setup.sh)"
 ```
 
