@@ -52,7 +52,7 @@
   changed_when: false
 
 - name: Brew Dr.
-  ansible.builtin.cmd:
+  ansible.builtin.command:
     cmd: brew doctor
     register: brew_doctor
   changed_when: true
