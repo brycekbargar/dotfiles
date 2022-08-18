@@ -56,7 +56,7 @@ case $INSTALL_TYPE in
         then
             ENVIRONMENT=installers-conda
         fi
-        CMD="conda install --name $ENVIRONMENT --experimental-solver=libmamba --yes $@"
+        CMD="conda install --name $ENVIRONMENT --yes $@"
     ;;
 
     rust)
