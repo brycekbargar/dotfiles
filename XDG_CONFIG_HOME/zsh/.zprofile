@@ -11,9 +11,3 @@ export \
 export \
     RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgrep"
 
-export COLORTERM="truecolor"
-export PAGER='/usr/bin/less'
-export LESS='--ignore-case --raw-control-chars -FRXK'
-export EDITOR='vim'
-export SUDO_EDIT="$EDITOR"
-export VISUAL="$EDITOR"
