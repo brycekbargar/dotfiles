@@ -7,6 +7,8 @@
   with_items:
     - pkg: "fd-find"
       exe: "fd"
+      distro: "Debian"
+  when: item.distro == "" || ansible_distribution == item.distro
 
 - name: Updating conda tools
   ansible.builtin.command:
@@ -21,17 +23,24 @@
   with_items:
     - pkg: "exa --no-default-features"
       exe: "exa"
+      distro: ""
     - pkg: "bat"
       exe: "bat"
+      distro: ""
     - pkg: "ripgrep"
       exe: "rg"
+      distro: ""
     - pkg: "git-delta"
       exe: "delta"
+      distro: ""
     - pkg: "mdcat"
       exe: "mdcat"
-   #- pkg: "fd-find"
-   #  exe: "fd"
+      distro: ""
+    - pkg: "fd-find"
+      exe: "fd"
+      distro: "MacOSX"
   changed_when: true
+  when: item.distro == "" || ansible_distribution == item.distro
 
 - name: Installing/updating go tools
   ansible.builtin.shell:
