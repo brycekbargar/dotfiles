@@ -24,5 +24,7 @@ popd
 	source <(~/.local/share/conda/base/bin/conda shell.zsh hook)
 	cd ~/_src/dotfiles
 	conda env create --file environment.yml --quiet
+	unsetopt HASH_CMDS
+	hash -r
 	./tea.sh
 EOF

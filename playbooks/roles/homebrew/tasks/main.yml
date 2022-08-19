@@ -1,60 +1,73 @@
 ---
 - name: Create homebrew environment
   ansible.builtin.shell:
-    cmd: "CONDA_ENVS_PATH='{{ lookup('env', 'CONDA_SYSTEM') }}' conda create --name installers-homebrew ruby=2.7 c-compiler cxx-compiler --yes"
+    cmd: "CONDA_ENVS_PATH='{{ lookup('env', 'CONDA_SYSTEM') }}' conda create --name installers-homebrew ruby=2.7 compilers --yes"
     creates: "{{ lookup('env', 'CONDA_SYSTEM') }}/homebrew"
+
+- name: Set homebrew prefix
+  ansible.builtin.set_fact:
+    brew_prefix: "{{ item.path }}"
+  loop:
+    - arch: "x86_64"
+      path: "/usr/local"
+    - arch: "arm64"
+      path: "/opt/homebrew"
+  when: ansible_architecture == item.arch
 
 - name: Download homebrew
   ansible.builtin.git:
     repo: "https://github.com/Homebrew/brew.git"
     version: "HEAD"
     force: true
-    dest: "{{ lookup('env', 'CONDA_SYSTEM') }}/installers-homebrew/brew"
+    dest: "{{ brew_prefix }}"
     single_branch: true
     depth: 1
-
-- name: Link homebrew bin
-  ansible.builtin.file:
-    src: "{{ lookup('env', 'CONDA_SYSTEM') }}/installers-homebrew/brew/bin"
-    dest: "{{ lookup('env', 'XDG_PKG_HOME') }}/homebrew"
-    state: link
 
 - name: Set shellenv
   ansible.builtin.command:
     cmd: |
       conda env config vars set \
-      {{ item.var }}={{ lookup('env', 'CONDA_SYSTEM') }}/installers-homebrew/{{ item.value }}
+      {{ item.var }}=brew_prefix/{{ item.value }}
   with_items:
     - var: HOMEBREW_PREFIX
-      value: brew
+      value: ""
     - var: HOMEBREW_CELLAR
-      value: brew/Cellar
+      value: Cellar
     - var: HOMEBREW_REPOSITORY
-      value: brew
+      value: ""
   changed_when: true
+
+- name: Link homebrew bin
+  ansible.builtin.file:
+    src: "{{ brew_prefix }}/bin"
+    dest: "{{ lookup('env', 'XDG_PKG_HOME') }}/brew"
+    state: link
 
 - name: First time install homebrew
   ansible.builtin.shell:
     cmd: |
       conda run --name installers-homebrew \
+      HOMEBREW_NO_AUTO_UPDATE=1 \
       HOMEBREW_NO_ENV_FILTERING=1 \
       HOMEBREW_USE_RUBY_FROM_PATH=1 \
-      {{ lookup('env', 'CONDA_SYSTEM') }}/installers-homebrew/brew/bin/brew update --force --quiet
+      {{ lookup('env', 'XDG_PKG_HOME') }}/brew/brew update --force --quiet
   changed_when: false
 
 - name: First time brew deps
   ansible.builtin.shell:
     cmd: |
       conda run --name installers-homebrew \
+      HOMEBREW_NO_AUTO_UPDATE=1 \
       HOMEBREW_NO_ENV_FILTERING=1 \
       HOMEBREW_USE_RUBY_FROM_PATH=1 \
-      {{ lookup('env', 'CONDA_SYSTEM') }}/installers-homebrew/brew/bin/brew install curl git --quiet
+      {{ lookup('env', 'XDG_PKG_HOME') }}/brew/brew install curl git --quiet
   changed_when: false
 
 - name: Brew Dr.
   ansible.builtin.command:
     cmd: brew doctor
-    register: brew_doctor
+  register: brew_doctor
+  retries: 2
   changed_when: true
 
 - name: Brew Dr. stdout
