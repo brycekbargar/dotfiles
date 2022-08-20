@@ -23,8 +23,6 @@
       ./configure \
         --prefix="{{ lookup('env', 'MACPORTS_PREFIX') }}" \
         --with-unsupported-prefix \
-        --bindir="{{ lookup('env', 'XDG_PKG_HOME') }}/ports" \
-        --sbindir="{{ lookup('env', 'XDG_PKG_HOME') }}/ports" \
         --enable-readline \
         --with-no-root-privileges \
         --with-applications-dir="{{ lookup('env', 'XDG_STATE_HOME') }}/macports/Applications"
@@ -50,6 +48,13 @@
     chdir: "{{ lookup('env', 'XDG_DATA_HOME') }}/macports/base"
   changed_when: true
 
+- name: Link macports bin dir
+  ansible.builtin.file:
+    path: "{{ lookup('env', 'MACPORTS_PREFIX') }}/bin"
+    dest: "{{ lookup('env', 'XDG_PKG_HOME') }}/ports"
+    state: link
+  changed_when: true
+
 - name: Use git ports
   ansible.builtin.blockinfile:
     path: "{{ lookup('env', 'MACPORTS_PREFIX') }}/etc/macports/sources.conf"
@@ -63,3 +68,4 @@
   ansible.builtin.command:
     cmd: "port -u upgrade outdated"
   changed_when: true
+

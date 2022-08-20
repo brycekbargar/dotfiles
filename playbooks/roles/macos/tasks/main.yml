@@ -1,9 +1,12 @@
 ---
 - name: Install macos tools
-  community.general.homebrew:
-    name:
-      - zsh
-      - homebrew/cask/kitty
-      - homebrew/cask/karabiner-elements
-      - homebrew/cask-fonts/font-cascadia-code-pl
-    state: present
+  ansible.builtin.command:
+    cmd: "port install -t -v {{ item.name }} {{ item.variants }}"
+  with_items:
+    - name: zsh
+      variants: ""
+    - name: less
+      variants: "+pcre"
+    - name: git
+      variants: ""
+  changed_when: true
