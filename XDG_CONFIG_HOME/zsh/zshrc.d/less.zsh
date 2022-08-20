@@ -4,10 +4,10 @@ then
 else
 	export PAGER="$XDG_PKG_HOME/homebrew/less"
 fi
-export LESS="--quit-at-eof \
+export LESS=" \
   --quit-if-one-screen \
   --ignore-case \
-  --lesskey-src='$XDG_CONFIG_HOME/.lesskey' \
+  --lesskey-src=$XDG_CONFIG_HOME/.lesskey$ \
   --SILENT \
   --RAW-CONTROL-CHARS \
   --squeeze-blank-lines \

@@ -45,5 +45,5 @@ if [[ -z "$1" ]]
 then
 	eval $cmd 2>&1 | bat -plhelp
 else
-	eval $cmd 2>&1 | rg --context=6 --no-line-number --pretty $1 | bat -plhelp
+	eval $cmd 2>&1 | rg --context=6 --no-line-number --pretty "$@" | bat -plhelp
 fi
