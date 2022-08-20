@@ -26,13 +26,9 @@
     single_branch: true
     depth: 1
 
-- name: whoami fact
-  become: false
-  ansible.builtin.set_fact:
-    whoami: "{{ ansible_user_id }}"
-
 - name: chsh to zsh
   become: true
   ansible.builtin.user:
     name: "{{ whoami }}"
     shell: "{{ zsh }}"
+  when: ansible_distribution == "Debian"

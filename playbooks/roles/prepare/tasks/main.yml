@@ -7,3 +7,8 @@
   with_items:
     - "XDG_CONFIG_HOME"
     - "XDG_BIN_HOME"
+
+- name: whoami fact
+  become: false
+  ansible.builtin.set_fact:
+    whoami: "{{ ansible_user_id }}"
