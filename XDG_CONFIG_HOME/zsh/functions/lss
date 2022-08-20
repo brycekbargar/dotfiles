@@ -10,9 +10,11 @@ then
 	return $?
 fi
 
+local lines=$(($(tput lines) - 5))
+
 if [[ -z "$1" || (-d "$1" && "$1" = */* )]]
 then
-	local cutoff=${LSS_CUTOFF:-35}
+	local cutoff=${LSS_CUTOFF:-$lines}
 
 	local exa_ls='exa --all --group-directories-first --ignore-glob=.git'
 	local items=$(fd --hidden --no-ignore --max-depth 1 --exec echo \; . $1 | wc -l)
@@ -49,6 +51,5 @@ then
 	return $?
 fi
 
-local lines=$(($(tput lines) - 10 - 6))
-rg-fd $1 $lines 6 
+rg-fd $1 $((lines - 11)) 6
 unset lines
