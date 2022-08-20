@@ -27,19 +27,18 @@ export \
 export \
     ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 export \
-    HOMEBREW_LOGS="$XDG_STATE_HOME/homebrew" \
-    HOMEBREW_CACHE="$XDG_CACHE_HOME/homebrew"
+    MACPORTS_PREFIX="$XDG_STATE_HOME/macports"
 
 typeset -aU path
 # Remove windows paths in wsl
 path=(${path[@]:#*/mnt/c/*})
 path=(
-    "$XDG_BIN_HOME"
     "$XDG_BIN_HOME/shims"
+    "$XDG_BIN_HOME"
     "$XDG_PKG_HOME/cargo"
     "$XDG_PKG_HOME/go"
     "$XDG_PKG_HOME/conda"
-    "$XDG_PKG_HOME/brew"
+    "$XDG_PKG_HOME/ports"
     $path
     "/mnt/c/Users/`id -un`/scoop/shims/"
     "/mnt/c/Windows/system32")

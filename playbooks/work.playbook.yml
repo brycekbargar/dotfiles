@@ -5,11 +5,11 @@
   roles:
     - prepare
     - conda
-    - homebrew
+    - macports
     - macos
     - role: zsh
       vars:
-        zsh: "{{ lookup('env', 'XDG_PKG_HOME') }}/homebrew/zsh"
+        zsh: "{{ lookup('env', 'XDG_PKG_HOME') }}/ports/zsh"
     - vim
     - neovim
     - tools
