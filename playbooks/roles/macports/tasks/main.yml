@@ -4,7 +4,7 @@
     repo: "https://github.com/macports/macports-base.git"
     version: "HEAD"
     force: true
-    dest: "{{ lookup('env', 'XDG_DATA_HOME') }}/macport/base"
+    dest: "{{ lookup('env', 'XDG_DATA_HOME') }}/macports/base"
     single_branch: true
     depth: 1
 
@@ -18,14 +18,15 @@
     depth: 1
 
 - name: Configure macports
-  ansible.builtin.script:
+  ansible.builtin.command:
     cmd: |
       ./configure \
         --prefix="{{ lookup('env', 'MACPORTS_PREFIX') }}" \
         --with-unsupported-prefix \
         --enable-readline \
         --with-no-root-privileges \
-        --with-applications-dir="{{ lookup('env', 'XDG_STATE_HOME') }}/macports/Applications"
+        --with-macports-user="{{ whoami }}" \
+        --with-applications-dir="{{ lookup('env', 'XDG_STATE_HOME') }}/macports/Applications" \
         --with-frameworks-dir="{{ lookup('env', 'XDG_STATE_HOME') }}/macports/Frameworks"
     chdir: "{{ lookup('env', 'XDG_DATA_HOME') }}/macports/base"
   changed_when: true
