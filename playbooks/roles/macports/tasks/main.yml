@@ -7,6 +7,7 @@
     dest: "{{ lookup('env', 'XDG_DATA_HOME') }}/macports/base"
     single_branch: true
     depth: 1
+  register: macports_core
 
 - name: Latest ports
   ansible.builtin.git:
@@ -19,42 +20,45 @@
 
 - name: Configure macports
   ansible.builtin.command:
-    cmd: |
-      ./configure \
-        --prefix="{{ lookup('env', 'MACPORTS_PREFIX') }}" \
-        --with-unsupported-prefix \
-        --enable-readline \
-        --with-no-root-privileges \
-        --with-macports-user="{{ whoami }}" \
-        --with-applications-dir="{{ lookup('env', 'XDG_STATE_HOME') }}/macports/Applications" \
-        --with-frameworks-dir="{{ lookup('env', 'XDG_STATE_HOME') }}/macports/Frameworks"
+    cmd: >
+      ./configure
+      --enable-readline
+      --with-unsupported-prefix
+      --prefix="{{ lookup('env', 'MACPORTS_PREFIX') }}"
+      --with-no-root-privileges
+      --with-macports-user="{{ whoami }}"
+      --with-applications-dir="{{ lookup('env', 'XDG_STATE_HOME') }}/macports/Applications"
+      --with-frameworks-dir="{{ lookup('env', 'XDG_STATE_HOME') }}/macports/Frameworks"
     chdir: "{{ lookup('env', 'XDG_DATA_HOME') }}/macports/base"
+  when: macports_core.changed
   changed_when: true
 
 - name: Make macports
   ansible.builtin.command:
     cmd: "make"
     chdir: "{{ lookup('env', 'XDG_DATA_HOME') }}/macports/base"
+  when: macports_core.changed
   changed_when: true
 
 - name: Make install macports
   ansible.builtin.command:
     cmd: "make install"
     chdir: "{{ lookup('env', 'XDG_DATA_HOME') }}/macports/base"
+  when: macports_core.changed
   changed_when: true
 
 - name: Make distclean macports
   ansible.builtin.command:
     cmd: "make distclean"
     chdir: "{{ lookup('env', 'XDG_DATA_HOME') }}/macports/base"
+  when: macports_core.changed
   changed_when: true
 
 - name: Link macports bin dir
   ansible.builtin.file:
-    path: "{{ lookup('env', 'MACPORTS_PREFIX') }}/bin"
+    src: "{{ lookup('env', 'MACPORTS_PREFIX') }}/bin"
     dest: "{{ lookup('env', 'XDG_PKG_HOME') }}/ports"
     state: link
-  changed_when: true
 
 - name: Use git ports
   ansible.builtin.blockinfile:
@@ -62,8 +66,13 @@
     search_string: |
       rsync://rsync.macports.org/macports/release/tarballs/ports.tar [default]
     line: |
-      file://{{ lookup('env', 'XDG_DATA_HOME' }}/macports/ports [default]
+      file://{{ lookup('env', 'XDG_DATA_HOME') }}/macports/ports [default]
     state: present
+
+- name: Sync ports
+  ansible.builtin.command:
+    cmd: "port sync"
+  changed_when: true
 
 - name: Update all deps
   ansible.builtin.command:

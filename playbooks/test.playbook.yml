@@ -1,30 +1,11 @@
 ---
-
 - hosts: localhost
   vars:
     dotfiles: "{{ playbook_dir }}/../"
-  tasks:
-    - name: Getting conda envs
-      ansible.builtin.command: conda env list --json
-      register: env_list
-      changed_when: false
-
-    - name: Debugging env_list
-      ansible.builtin.debug:
-        msg: "{{ env_list }}"
-
-    - name: Debugging env_list.stdout
-      ansible.builtin.debug:
-        msg: "{{ item }}"
-      with_items: "{{ env_list.stdout | from_json |  community.general.json_query('envs') }}"
-      when: item.endswith('nvim')
-
-    - name: Set nvim_env_path fact
-      ansible.builtin.set_fact:
-        nvim_env_path: "{{ item }}"
-      with_items: "{{ env_list.stdout | from_json |  community.general.json_query('envs') }}"
-      when: item.endswith('nvim')
-
-    - name: Debugging fact
-      ansible.builtin.debug:
-        msg: "{{ nvim_env_path }}"
+  roles:
+    - prepare
+    - macports
+    - macos
+    - role: zsh
+      vars:
+        zsh: "{{ lookup('env', 'XDG_PKG_HOME') }}/ports/zsh"
