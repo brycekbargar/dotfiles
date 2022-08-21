@@ -49,7 +49,7 @@
 - name: Downloading Neovim (for macos)
   ansible.builtin.unarchive:
     remote_src: true
-    src: https://github.com/neovim/neovim/releases/download/nightly/nvim-macos-universal.tar.gz
+    src: https://github.com/neovim/neovim/releases/download/nightly/nvim-macos.tar.gz
     dest: "{{ nvim_env_path }}/squashfs-root/usr"
   when: ansible_distribution == "MacOSX"
 

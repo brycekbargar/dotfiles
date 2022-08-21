@@ -37,6 +37,7 @@ path=(
     "$XDG_PKG_HOME/go"
     "$XDG_PKG_HOME/conda"
     "$XDG_PKG_HOME/ports"
+    "$XDG_PKG_HOME/gports"
     $path
     "/mnt/c/Users/`id -un`/scoop/shims/"
     "/mnt/c/Windows/system32")

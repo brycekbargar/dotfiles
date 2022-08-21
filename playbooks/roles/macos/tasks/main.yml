@@ -9,4 +9,8 @@
       variants: ""
     - name: git
       variants: ""
+    - name: gnutar
+      variants: ""
+    - name: coreutils
+      variants: ""
   changed_when: true

@@ -51,6 +51,13 @@
     dest: "{{ lookup('env', 'XDG_PKG_HOME') }}/ports"
     state: link
 
+- name: Link macports gnu bin dir
+  ansible.builtin.file:
+    src: "{{ lookup('env', 'XDG_STATE_HOME') }}/macports/libexec/gnubin"
+    dest: "{{ lookup('env', 'XDG_PKG_HOME') }}/gports"
+    force: true
+    state: link
+
 - name: Sync ports
   ansible.builtin.command:
     cmd: "port sync"

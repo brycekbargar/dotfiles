@@ -8,7 +8,7 @@
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
-    mode: 0644
+    mode: 0755
   with_items:
     - "{{ lookup('env', 'XDG_STATE_HOME') }}/vim/backup"
     - "{{ lookup('env', 'XDG_STATE_HOME') }}/vim/swap"
