@@ -7,48 +7,12 @@
     dest: "{{ lookup('env', 'XDG_DATA_HOME') }}/macports"
     single_branch: true
     depth: 1
-  register: macports_core
-
-- name: Configure macports
-  ansible.builtin.command:
-    cmd: >
-      ./configure
-      --enable-readline
-      --with-unsupported-prefix
-      --prefix="{{ lookup('env', 'XDG_STATE_HOME') }}/macports"
-      --with-no-root-privileges
-      --with-macports-user="{{ whoami }}"
-      --with-applications-dir="{{ lookup('env', 'XDG_STATE_HOME') }}/macports/Applications"
-      --with-frameworks-dir="{{ lookup('env', 'XDG_STATE_HOME') }}/macports/Frameworks"
-    chdir: "{{ lookup('env', 'XDG_DATA_HOME') }}/macports"
-  when: macports_core.changed
-  changed_when: true
-
-- name: Make macports
-  ansible.builtin.command:
-    cmd: "make"
-    chdir: "{{ lookup('env', 'XDG_DATA_HOME') }}/macports"
-  when: macports_core.changed
-  changed_when: true
-
-- name: Make install macports
-  ansible.builtin.command:
-    cmd: "make install"
-    chdir: "{{ lookup('env', 'XDG_DATA_HOME') }}/macports"
-  when: macports_core.changed
-  changed_when: true
-
-- name: Make distclean macports
-  ansible.builtin.command:
-    cmd: "make distclean"
-    chdir: "{{ lookup('env', 'XDG_DATA_HOME') }}/macports"
-  when: macports_core.changed
-  changed_when: true
+  notify: "macports updated"
 
 - name: Link macports bin dirs
   ansible.builtin.file:
-    src: "{{ lookup('env', 'XDG_STATE_HOME') }}/{{ item.ports_bin }}"
-    dest: "{{ lookup('env', 'XDG_PKG_HOME') }}/{{ item.pkg_bin }}"
+    src: "{{ lookup('env', 'XDG_STATE_HOME') }}/{{ item.ports }}"
+    dest: "{{ lookup('env', 'XDG_PKG_HOME') }}/{{ item.pkg }}"
     state: link
   with_items:
     - ports: "macports/bin"

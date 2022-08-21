@@ -1,13 +1,14 @@
 ---
 - name: Update conda
   ansible.builtin.command:
-    cmd: "conda update --name base conda --yes"
-  changed_when: false
+    cmd: "conda update --name base conda --all --yes"
+  register: conda_base_update
+  changed_when: "'The following packages will be' in conda_base_update.stdout"
 
 - name: Install libmamba
   ansible.builtin.command:
     cmd: "conda install --name base conda-libmamba-solver --yes"
-  changed_when: false
+    creates: "{{ lookup('env', 'CONDA_BASE') }}/lib/cmake/libmamba"
 
 # condarc has libmamba as default solver so it goes second
 - name: Make condarc from template
@@ -25,11 +26,6 @@
     block: |
       - conda-forge
       # TODO: Make this a var
-
-- name: Update base
-  ansible.builtin.command:
-    cmd: "conda update --name base --all --yes"
-  changed_when: true
 
 - name: Create system environments
   ansible.builtin.shell:
@@ -50,7 +46,8 @@
 - name: Update system environments
   ansible.builtin.command:
     cmd: "conda update --name {{ item }} --all --yes"
-  changed_when: true
+  register: conda_system_update
+  changed_when: "'The following packages will be' in conda_system_update.stdout"
   with_items:
     - "installers-conda"
     - "installers-rust"
@@ -75,9 +72,11 @@
 - name: Update base npm
   ansible.builtin.command:
     cmd: "conda run --name runtimes-nodejs npm install -g npm@latest"
-  changed_when: true
+  register: conda_npm_update
+  changed_when: "'changed 16 packages' not in conda_npm_update.stdout"
 
 - name: Clean conda
   ansible.builtin.command:
     cmd: "conda clean --packages --yes"
-  changed_when: true
+  register: conda_clean
+  changed_when: "'There are no unused package(s) to remove.' not in conda_clean.stdout"
