@@ -26,8 +26,6 @@ export \
     GOMODCACHE="$XDG_CACHE_HOME/go-mod"
 export \
     ZDOTDIR="$XDG_CONFIG_HOME/zsh"
-export \
-    MACPORTS_PREFIX="$XDG_STATE_HOME/macports"
 
 typeset -aU path
 # Remove windows paths in wsl

@@ -6,7 +6,7 @@
     - name: zsh
       variants: ""
     - name: less
-      variants: "+pcre"
+      variants: ""
     - name: git
       variants: ""
   changed_when: true
