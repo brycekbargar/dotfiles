@@ -1,16 +1,16 @@
 ---
+- name: Sync and update ports
+  community.general.macports:
+    selfupdate: yes
+    upgrade: yes
+
 - name: Install macos tools
-  ansible.builtin.command:
-    cmd: "port install -t -v {{ item.name }} {{ item.variants }}"
-  with_items:
-    - name: zsh
-      variants: ""
-    - name: less
-      variants: ""
-    - name: git
-      variants: ""
-    - name: gnutar
-      variants: ""
-    - name: coreutils
-      variants: ""
-  changed_when: true
+  community.general.macports:
+    name: "{{ ports }}"
+    vars:
+      ports:
+        - zsh
+        - git
+        - gnutar
+        - coreutils
+    state: installed

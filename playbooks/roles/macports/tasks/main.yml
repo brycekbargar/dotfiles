@@ -45,25 +45,13 @@
   when: macports_core.changed
   changed_when: true
 
-- name: Link macports bin dir
+- name: Link macports bin dirs
   ansible.builtin.file:
-    src: "{{ lookup('env', 'XDG_STATE_HOME') }}/macports/bin"
-    dest: "{{ lookup('env', 'XDG_PKG_HOME') }}/ports"
+    src: "{{ lookup('env', 'XDG_STATE_HOME') }}/{{ item.ports_bin }}"
+    dest: "{{ lookup('env', 'XDG_PKG_HOME') }}/{{ item.pkg_bin }}"
     state: link
-
-- name: Link macports gnu bin dir
-  ansible.builtin.file:
-    src: "{{ lookup('env', 'XDG_STATE_HOME') }}/macports/libexec/gnubin"
-    dest: "{{ lookup('env', 'XDG_PKG_HOME') }}/gports"
-    force: true
-    state: link
-
-- name: Sync ports
-  ansible.builtin.command:
-    cmd: "port sync"
-  changed_when: true
-
-- name: Update all deps
-  ansible.builtin.command:
-    cmd: "port -u upgrade outdated"
-  changed_when: true
+  with_items:
+    - ports: "macports/bin"
+      pkg: "ports"
+    - ports: "macports/libexec/gnubin"
+      pkg: "gports"
