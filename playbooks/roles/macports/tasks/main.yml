@@ -7,7 +7,48 @@
     dest: "{{ lookup('env', 'XDG_BIN_HOME') }}/macports"
     single_branch: true
     depth: 1
-  notify: "macports-base updated"
+  register: macports_base
+
+- name: Configure macports
+  ansible.builtin.command:
+    cmd: >
+      ./configure
+      --enable-readline
+      --with-applications-dir="{{ lookup('env', 'XDG_STATE_HOME') }}/macports/Applications"
+      --with-frameworks-dir="{{ lookup('env', 'XDG_STATE_HOME') }}/macports/Frameworks"
+    chdir: "{{ lookup('env', 'XDG_BIN_HOME') }}/macports"
+  when: macports_base.changed
+  changed_when: true
+
+- name: Make macports
+  ansible.builtin.command:
+    cmd: "make"
+    chdir: "{{ lookup('env', 'XDG_BIN_HOME') }}/macports"
+  when: macports_base.changed
+  changed_when: true
+
+- name: Make install macports
+  become: true
+  ansible.builtin.command:
+    cmd: "make install"
+    chdir: "{{ lookup('env', 'XDG_BIN_HOME') }}/macports"
+  when: macports_base.changed
+  changed_when: true
+
+- name: Make distclean macports
+  ansible.builtin.command:
+    cmd: "make distclean"
+    chdir: "{{ lookup('env', 'XDG_BIN_HOME') }}/macports"
+  when: macports_base.changed
+  changed_when: true
+
+- name: Update conf to binary only
+  become: true
+  ansible.builtin.lineinfile:
+    path: "/opt/local/etc/macports/etc/macports/.conf"
+    regexp: "^#buildfromsource.*$"
+    line: "buildfromsource never"
+  when: macports_base.changed
 
 - name: Latest ports
   ansible.builtin.git:
@@ -17,7 +58,16 @@
     dest: "{{ lookup('env', 'XDG_DATA_HOME') }}/macports"
     single_branch: true
     depth: 1
-  notify: "macports-ports updated"
+  register: macports_ports
+
+- name: Update conf to local ports
+  become: true
+  ansible.builtin.lineinfile:
+    path: "/opt/local/etc/macports/sources.conf"
+    search_string: >
+      rsync://rsync.macports.org/macports/release/tarballs/ports.tar [default]
+    line: >
+      file://{{ lookup('env', 'XDG_DATA_HOME') }}/macports [default]
 
 - name: Link macports bin dirs
   ansible.builtin.file:

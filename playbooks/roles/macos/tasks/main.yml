@@ -4,6 +4,7 @@
   community.general.macports:
     selfupdate: true
     upgrade: true
+  when: macports_base.changed or macports_ports.changed
 
 - name: Install/replace macos tools
   become: true
