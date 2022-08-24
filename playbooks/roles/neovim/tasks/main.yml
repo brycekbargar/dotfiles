@@ -51,6 +51,8 @@
     remote_src: true
     src: https://github.com/neovim/neovim/releases/download/nightly/nvim-macos.tar.gz
     dest: "{{ nvim_env_path }}/squashfs-root/usr"
+    extra_opts:
+      - "--strip-components=1"
   when: ansible_distribution == "MacOSX"
 
 - name: Linking nvim binary
