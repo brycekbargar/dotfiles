@@ -21,11 +21,12 @@
 
 - name: Link macports bin dirs
   ansible.builtin.file:
-    src: "opt/local/bin/{{ item.ports }}"
+    src: "/opt/local/{{ item.ports }}"
     dest: "{{ lookup('env', 'XDG_PKG_HOME') }}/{{ item.pkg }}"
     state: link
+    force: true
   with_items:
-    - ports: "macports/bin"
+    - ports: "bin"
       pkg: "ports"
-    - ports: "macports/libexec/gnubin"
+    - ports: "libexec/gnubin"
       pkg: "gports"

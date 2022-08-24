@@ -33,6 +33,7 @@
   changed_when: true
 
 - name: Update conf to binary only
+  become: true
   ansible.builtin.lineinfile:
     path: "{{ lookup('env', 'XDG_BIN_HOME') }}/macports/etc/macports/.conf"
     regexp: "^#buildfromsource.*$"
@@ -40,6 +41,7 @@
   listen: "macports-ports updated"
 
 - name: Update conf to local ports
+  become: true
   ansible.builtin.lineinfile:
     path: "{{ lookup('env', 'XDG_BIN_HOME') }}/macports/etc/macports/sources.conf"
     search_string: >

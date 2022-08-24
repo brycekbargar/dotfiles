@@ -1,5 +1,6 @@
 ---
 - name: Sync and update ports
+  become: true
   community.general.macports:
     selfupdate: true
     upgrade: true
