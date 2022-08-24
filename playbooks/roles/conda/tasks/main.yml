@@ -3,7 +3,7 @@
   ansible.builtin.command:
     cmd: "conda update --name base conda --all --yes"
   register: conda_base_update
-  changed_when: "'The following packages will be' in conda_base_update.stdout"
+  changed_when: "'packages will be' in conda_base_update.stdout"
 
 - name: Install libmamba
   ansible.builtin.command:
@@ -28,9 +28,11 @@
       # TODO: Make this a var
 
 - name: Create system environments
-  ansible.builtin.shell:
-    cmd: "CONDA_ENVS_PATH='{{ lookup('env', 'CONDA_SYSTEM') }}' conda create --name {{ item.name }} {{ item.pkgs }} --yes"
+  ansible.builtin.command:
+    cmd: "conda create --name {{ item.name }} {{ item.pkgs }} --yes"
     creates: "{{ lookup('env', 'CONDA_SYSTEM') }}/{{ item.name }}"
+  environment:
+    CONDA_ENVS_PATH: "{{ lookup('env', 'CONDA_SYSTEM') }}"
   with_items:
     - name: "installers-conda"
       pkgs: ""
@@ -47,9 +49,9 @@
   ansible.builtin.command:
     cmd: "conda update --name {{ item }} --all --yes"
   register: conda_system_update
-  changed_when: "'The following packages will be' in conda_system_update.stdout"
+  changed_when: "'packages will be' in conda_system_update.stdout"
   with_items:
-    - "installers-conda"
+    # - "installers-conda" #  Updated in the tools role
     - "installers-rust"
     - "installers-go"
     - "runtimes-python"
