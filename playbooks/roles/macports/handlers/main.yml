@@ -4,33 +4,47 @@
     cmd: >
       ./configure
       --enable-readline
-      --with-unsupported-prefix
-      --prefix="{{ lookup('env', 'XDG_STATE_HOME') }}/macports"
-      --with-no-root-privileges
-      --with-macports-user="{{ whoami }}"
       --with-applications-dir="{{ lookup('env', 'XDG_STATE_HOME') }}/macports/Applications"
       --with-frameworks-dir="{{ lookup('env', 'XDG_STATE_HOME') }}/macports/Frameworks"
-    chdir: "{{ lookup('env', 'XDG_DATA_HOME') }}/macports"
-  listen: "macports updated"
+    chdir: "{{ lookup('env', 'XDG_BIN_HOME') }}/macports"
+  listen: "macports-base updated"
   changed_when: true
 
 - name: Make macports
   ansible.builtin.command:
     cmd: "make"
-    chdir: "{{ lookup('env', 'XDG_DATA_HOME') }}/macports"
-  listen: "macports updated"
+    chdir: "{{ lookup('env', 'XDG_BIN_HOME') }}/macports"
+  listen: "macports-base updated"
   changed_when: true
 
 - name: Make install macports
+  become: true
   ansible.builtin.command:
     cmd: "make install"
-    chdir: "{{ lookup('env', 'XDG_DATA_HOME') }}/macports"
-  listen: "macports updated"
+    chdir: "{{ lookup('env', 'XDG_BIN_HOME') }}/macports"
+  listen: "macports-base updated"
   changed_when: true
 
 - name: Make distclean macports
   ansible.builtin.command:
     cmd: "make distclean"
-    chdir: "{{ lookup('env', 'XDG_DATA_HOME') }}/macports"
-  listen: "macports updated"
+    chdir: "{{ lookup('env', 'XDG_BIN_HOME') }}/macports"
+  listen: "macports-base updated"
   changed_when: true
+
+- name: Update conf to binary only
+  ansible.builtin.lineinfile:
+    path: "{{ lookup('env', 'XDG_BIN_HOME') }}/macports/etc/macports/.conf"
+    regexp: "^#buildfromsource.*$"
+    line_string: "buildfromsource never"
+  listen: "macports-ports updated"
+
+- name: Update conf to local ports
+  ansible.builtin.lineinfile:
+    path: "{{ lookup('env', 'XDG_BIN_HOME') }}/macports/etc/macports/sources.conf"
+    search_string: >
+      rsync://rsync.macports.org/macports/release/tarballs/ports.tar [default]
+    line_string: >
+      file://{{ lookup('env', 'XDG_DATA_HOME') }}/macports [default]
+  listen: "macports-ports updated"
+

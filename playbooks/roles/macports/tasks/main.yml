@@ -1,17 +1,27 @@
 ---
-- name: Latest macports
+- name: Latest base
   ansible.builtin.git:
     repo: "https://github.com/macports/macports-base.git"
+    version: "HEAD"
+    force: true
+    dest: "{{ lookup('env', 'XDG_BIN_HOME') }}/macports"
+    single_branch: true
+    depth: 1
+  notify: "macports-base updated"
+
+- name: Latest ports
+  ansible.builtin.git:
+    repo: "https://github.com/macports/macports-ports.git"
     version: "HEAD"
     force: true
     dest: "{{ lookup('env', 'XDG_DATA_HOME') }}/macports"
     single_branch: true
     depth: 1
-  notify: "macports updated"
+  notify: "macports-ports updated"
 
 - name: Link macports bin dirs
   ansible.builtin.file:
-    src: "{{ lookup('env', 'XDG_STATE_HOME') }}/{{ item.ports }}"
+    src: "opt/local/bin/{{ item.ports }}"
     dest: "{{ lookup('env', 'XDG_PKG_HOME') }}/{{ item.pkg }}"
     state: link
   with_items:
