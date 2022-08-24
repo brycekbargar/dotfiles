@@ -2,13 +2,12 @@
 - hosts: localhost
   vars:
     dotfiles: "{{ playbook_dir }}/.."
+    zsh: "/usr/bin/zsh"
   roles:
     - prepare
     - debian
     - conda
-    - role: zsh
-      vars:
-        zsh: "/usr/bin/zsh"
+    - zsh
     - vim
     - neovim
     - tools

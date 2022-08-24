@@ -3,44 +3,30 @@
   ansible.builtin.shell:
     cmd: |
       condstall --with conda --global --yes -- {{ item.pkg }}
-    creates: "{{ lookup('env', 'CONDA_SYSTEM') }}/installers-conda/bin/{{ item.exe }}"
+    creates: "{{ lookup('env', 'CONDA_SYSTEM') }}/installers-conda/bin/{{ item.exe | default(item.pkg) }}"
   with_items:
     - pkg: "fd-find"
       exe: "fd"
-      distro: "Debian"
-  when: item.distro == "" || ansible_distribution == item.distro
 
 - name: Updating conda tools
   ansible.builtin.command:
     cmd: "conda update --name installers-conda --all --yes"
-  changed_when: true
+  register: conda_tools_update
+  changed_when: "'packages will be' in conda_tools_update.stdout"
 
 - name: Installing/updating cargo tools
   ansible.builtin.shell:
     cmd: |
       condstall --with rust --global --yes -- {{ item.pkg }} --locked
-    creates: "{{ lookup('env', 'CARGO_HOME') }}/bin/{{ item.exe }}"
+    creates: "{{ lookup('env', 'CARGO_HOME') }}/bin/{{ item.exe | default(item.pkg) }}"
   with_items:
-    - pkg: "exa --no-default-features"
-      exe: "exa"
-      distro: ""
+    - pkg: "exa"
     - pkg: "bat"
-      exe: "bat"
-      distro: ""
     - pkg: "ripgrep"
       exe: "rg"
-      distro: ""
     - pkg: "git-delta"
       exe: "delta"
-      distro: ""
     - pkg: "mdcat"
-      exe: "mdcat"
-      distro: ""
-    - pkg: "fd-find"
-      exe: "fd"
-      distro: "MacOSX"
-  changed_when: true
-  when: item.distro == "" || ansible_distribution == item.distro
 
 - name: Installing/updating go tools
   ansible.builtin.shell:
@@ -52,4 +38,3 @@
       exe: "fzf"
     - pkg: "itchyny/gojq/cmd/gojq@latest"
       exe: "gojq"
-  changed_when: true

@@ -26,6 +26,12 @@
     single_branch: true
     depth: 1
 
+- name: Allow chsh to zsh
+  become: true
+  ansible.builtin.lineinfile:
+    path: "/private/etc/shells"
+    line: "{{ zsh }}"
+
 - name: chsh to zsh
   become: true
   ansible.builtin.user:

@@ -36,7 +36,7 @@
   ansible.builtin.lineinfile:
     path: "{{ lookup('env', 'XDG_BIN_HOME') }}/macports/etc/macports/.conf"
     regexp: "^#buildfromsource.*$"
-    line_string: "buildfromsource never"
+    line: "buildfromsource never"
   listen: "macports-ports updated"
 
 - name: Update conf to local ports
@@ -44,7 +44,7 @@
     path: "{{ lookup('env', 'XDG_BIN_HOME') }}/macports/etc/macports/sources.conf"
     search_string: >
       rsync://rsync.macports.org/macports/release/tarballs/ports.tar [default]
-    line_string: >
+    line: >
       file://{{ lookup('env', 'XDG_DATA_HOME') }}/macports [default]
   listen: "macports-ports updated"
 
