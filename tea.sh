@@ -2,7 +2,7 @@
 echo "go make some tea"
 
 playbook="playbooks/home.playbook.yml"
-[ "$(id -un)" = "katherine.bargar" ] && playbook="playbooks/work.playbook.yml"
+[ "$(id -un)" = "user" ] && playbook="playbooks/work.playbook.yml"
 
 ANSIBLE_CONFIG="$(pwd)/playbooks/ansible.cfg" \
 conda run --name dotfiles --no-capture-output \
