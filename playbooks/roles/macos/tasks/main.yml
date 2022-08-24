@@ -1,16 +1,18 @@
 ---
 - name: Sync and update ports
   community.general.macports:
-    selfupdate: yes
-    upgrade: yes
+    selfupdate: true
+    upgrade: true
 
-- name: Install macos tools
+- name: Install/replace macos tools
+  become: true
   community.general.macports:
-    name: "{{ ports }}"
-    vars:
-      ports:
-        - zsh
-        - git
-        - gnutar
-        - coreutils
+    name:
+      - zsh
+      - bash
+      - git
+      - gutils-suite
+      - less
+      - unzip
+      - vim
     state: installed

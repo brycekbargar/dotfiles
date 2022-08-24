@@ -31,4 +31,3 @@
   ansible.builtin.user:
     name: "{{ whoami }}"
     shell: "{{ zsh }}"
-  when: ansible_distribution == "Debian"

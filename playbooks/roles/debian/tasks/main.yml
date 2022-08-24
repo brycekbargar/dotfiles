@@ -65,6 +65,7 @@
           - libssl-dev
           - gnupg
           - unzip
+          - vim
         # TODO: Figure out why ansible doesn't respect preferences
         default_release: testing
         state: latest
