@@ -45,7 +45,7 @@
 - name: Update conf to binary only
   become: true
   ansible.builtin.lineinfile:
-    path: "/opt/local/etc/macports/etc/macports/.conf"
+    path: "/opt/local/etc/macports/macports.conf"
     regexp: "^#buildfromsource.*$"
     line: "buildfromsource never"
   when: macports_base.changed
@@ -64,10 +64,8 @@
   become: true
   ansible.builtin.lineinfile:
     path: "/opt/local/etc/macports/sources.conf"
-    search_string: >
-      rsync://rsync.macports.org/macports/release/tarballs/ports.tar [default]
-    line: >
-      file://{{ lookup('env', 'XDG_DATA_HOME') }}/macports [default]
+    regexp: "$rsync.*$"
+    line: "file://{{ lookup('env', 'XDG_DATA_HOME') }}/macports [default]"
 
 - name: Link macports bin dirs
   ansible.builtin.file:
