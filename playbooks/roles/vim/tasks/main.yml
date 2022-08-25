@@ -3,7 +3,7 @@
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
-    mode: "644"
+    mode: "755"
     recurse: true
   with_items:
     - "{{ lookup('env', 'XDG_STATE_HOME') }}/vim/backup"
