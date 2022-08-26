@@ -35,7 +35,7 @@
         "source": "Windows.Terminal.Azure"
       },
       {
-        "colorScheme": "Catppuccin Mocha",
+        "colorScheme": "Catppuccin Macchiato",
         "guid": "{58ad8b0c-3ef8-5f4d-bc6f-13e4c00f2530}",
         "hidden": false,
         "name": "Debian",
@@ -52,31 +52,31 @@
   },
   "schemes": [
     {
-      "name": "Catppuccin Mocha",
+          "name": "Catppuccin Macchiato",
 
-      "cursorColor": "#F5E0DC",
-      "selectionBackground": "#F5E0DC",
+    "cursorColor": "#F4DBD6",
+    "selectionBackground": "#F4DBD6",
 
-      "background": "#1E1E2E",
-      "foreground": "#CDD6F4",
+    "background": "#24273A",
+    "foreground": "#CAD3F5",
 
-      "black": "#45475A",
-      "red": "#F38BA8",
-      "green": "#A6E3A1",
-      "yellow": "#F9E2AF",
-      "blue": "#89B4FA",
-      "purple": "#F5C2E7",
-      "cyan": "#94E2D5",
-      "white": "#BAC2DE",
+    "black": "#494D64",
+    "red": "#ED8796",
+    "green": "#A6DA95",
+    "yellow": "#EED49F",
+    "blue": "#8AADF4",
+    "purple": "#F5BDE6",
+    "cyan": "#8BD5CA",
+    "white": "#B8C0E0",
 
-      "brightBlack": "#585B70",
-      "brightRed": "#F38BA8",
-      "brightGreen": "#A6E3A1",
-      "brightYellow": "#F9E2AF",
-      "brightBlue": "#89B4FA",
-      "brightPurple": "#F5C2E7",
-      "brightCyan": "#94E2D5",
-      "brightWhite": "#A6ADC8"
+    "brightBlack": "#5B6078",
+    "brightRed": "#ED8796",
+    "brightGreen": "#A6DA95",
+    "brightYellow": "#EED49F",
+    "brightBlue": "#8AADF4",
+    "brightPurple": "#F5BDE6",
+    "brightCyan": "#8BD5CA",
+    "brightWhite": "#A5ADCB"
     }
   ]
 }
