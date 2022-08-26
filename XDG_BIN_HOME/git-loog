@@ -8,5 +8,5 @@ git log \
 	--graph \
 	--abbrev-commit \
 	--date=relative \
-	--pretty=catppuccin-frappe \
+	--pretty=longref \
 	-n ${1:-15}
