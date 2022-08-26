@@ -1,10 +1,8 @@
 # vi: ft=zsh
-
 rg  \
-	--no-config \
 	--line-number \
 	"$@" \
 	| fzf \
 		--delimiter : \
-		--preview 'bat --no-config --theme="catppuccin-frappe-fzf" --color=always --highlight-line={2} {1}' \
+		--preview 'bat --color=always --highlight-line={2} {1}' \
 		--preview-window '60%,+{2}+3/3,~3'

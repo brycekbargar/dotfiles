@@ -1,9 +1,11 @@
-if [ "$(uname -s)" = "Linux" ]
-then
-	export PAGER='/usr/bin/less'
-else
-	export PAGER="$XDG_PKG_HOME/homebrew/less"
-fi
+# Usually the longest one is the one we want
+export PAGER="$(\
+	type -a less \
+	| awk '{ print length, $NF }' \
+	| sort -n -r \
+	| awk 'NR==1{ print $2 }'\
+)"
+
 export LESS=" \
   --quit-if-one-screen \
   --ignore-case \

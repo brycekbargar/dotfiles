@@ -1,0 +1,18 @@
+[delta]
+    syntax-theme = base16
+    line-numbers = false
+    side-by-side = true
+    navigate = true
+
+    file-style = omit
+
+    hunk-header-decoration-style = box
+    hunk-header-file-style = "#f4dbd6"
+    hunk-header-line-number-style = "#f4dbd6"
+
+    map-styles = dim red => black red ul,dim green => black green ul
+    minus-style = black magenta
+    minus-emph-style = black red
+    plus-style = black cyan
+    plus-emph-style = black green
+    zero-style = syntax

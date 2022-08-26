@@ -9,8 +9,7 @@ export \
 export \
     BITWARDENCLI_APPDATA_DIR="$XDG_STATE_HOME/bw"
 export \
-    RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgrep"
-export \
     KITTY_CONFIG_DIRECTORY="$XDG_CONFIG_HOME" \
     KITTY_CACHE_DIRECTORY="$XDG_CACHE_HOME/kitty"
 
+export COLORTERM="truecolor"

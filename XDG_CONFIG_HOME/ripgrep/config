@@ -1,0 +1,11 @@
+--smart-case
+--glob=!.git/*
+
+--colors=line:none
+--colors=line:fg:white
+--colors=line:style:bold
+--colors=path:none
+--colors=path:fg:0xf4,0xdb,0xd6
+--colors=path:style:underline
+--colors=match:none
+--colors=match:fg:blue

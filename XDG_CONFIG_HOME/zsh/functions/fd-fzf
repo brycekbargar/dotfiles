@@ -15,8 +15,5 @@ fd  \
 				--color=always \
 				{} \
 		) || \
-		bat \
-			--no-config \
-			--theme="catppuccin-frappe-fzf" \
-			--color=always {}' \
+		bat --color=always {}' \
 		--preview-window '60%,+{2}+3/3,~3'
