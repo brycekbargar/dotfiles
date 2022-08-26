@@ -78,7 +78,7 @@ if !has('nvim')
 
     set termguicolors
     packadd! catppuccin-vim
-    colorscheme catppuccin_latte
+    colorscheme catppuccin_mocha
 endif
 " end plugin conf
 

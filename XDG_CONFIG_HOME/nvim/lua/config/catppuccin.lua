@@ -13,6 +13,7 @@ return function()
 				colored_indent_levels = true,
 			},
 			-- lightline = true,
+			-- markdown = true,
 			-- disable defaults
 			cmp = false,
 			gitsigns = false,
@@ -21,13 +22,14 @@ return function()
 			},
 			dashboard = false,
 			bufferline = false,
-			markdown = false,
 			notify = false,
 			telekasten = false,
 			symbols_outline = false,
+			vimwiki = false,
+			beacon = false,
 		},
 	})
 
-	vim.g.catppuccin_flavour = "macchiato"
+	vim.g.catppuccin_flavour = "frappe"
 	vim.cmd([[colorscheme catppuccin]])
 end
