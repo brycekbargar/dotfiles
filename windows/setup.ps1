@@ -1,6 +1,5 @@
 # scoop buckets
 & scoop bucket add extras
-& scoop bucket add nerd-fonts
 & scoop update
 # scoop tools
 & scoop install sudo
@@ -29,7 +28,6 @@
 # windows terminal
 & scoop install windows-terminal
 & scoop install extras/vcredist2019
-& sudo scoop install Cascadia-Code 
 $df_terminal_settings = [System.IO.Path]::Combine("$PSScriptRoot", "terminal.json")
 $ln_terminal_settings = [System.IO.Path]::Combine("$env:LOCALAPPDATA", "Packages", "Microsoft.WindowsTerminal_8wekyb3d8bbwe", "LocalState", "settings.json")
 & sudo New-Item -Path "$ln_terminal_settings" -ItemType SymbolicLink -Value "$df_terminal_settings" -Force

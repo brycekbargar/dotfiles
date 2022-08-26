@@ -12,14 +12,13 @@ Set-ExecutionPolicy RemoteSigned -Scope LocalMachine
 
 ```powershell
 irm get.scoop.sh | iex
-scoop install git
-scoop bucket add versions
-scoop install pwsh-beta
+scoop install pwsh
 ```
 
 ##### In powershell 7
 
 ```powershell
+scoop install git
 git clone -b main https://github.com/brycekbargar/dotfiles.git $home\_src\dotfiles
 Set-Location $home\_src\dotfiles\windows
 .\setup.ps1
