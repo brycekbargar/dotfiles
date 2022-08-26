@@ -99,6 +99,11 @@
     src: "{{ item.browser_download_url }}"
     dest: "{{ nvim_env_path }}/lua-language-server"
 
+- name: Verifying latest lua lsp
+  ansible.builtin.stat:
+    path: "{{ nvim_env_path }}/lua-language-server/bin/lua-language-server"
+  register: lua_lsp
+
 - name: Creating lua lsp shim
   ansible.builtin.copy:
     dest: "{{ nvim_env_path }}/bin/lua-language-server"
@@ -107,6 +112,7 @@
       {{ nvim_env_path }}/lua-language-server/bin/lua-language-server $@
     mode: "0755"
     force: true
+  when: lua_lsp.stat.exists and lua_lsp.stat.executable
 
 - name: Add packer plugin
   ansible.builtin.git:
@@ -128,3 +134,8 @@
     cmd: |
       nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
   changed_when: true
+
+- name: Latest lua lsp failed
+  ansible.builtin.fail:
+    msg: "Lua LSP not available and executable"
+  when: not lua_lsp.stat.exists or not lua_lsp.stat.executable
