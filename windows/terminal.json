@@ -9,7 +9,7 @@
   "profiles": {
     "defaults": {
       "font": {
-        "face": "Cascadia Code PL",
+        "face": "CaskaydiaCove NF",
         "size": 14,
         "weight": "semi-bold"
       },
