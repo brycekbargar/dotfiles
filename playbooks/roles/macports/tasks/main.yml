@@ -58,7 +58,6 @@
     dest: "{{ lookup('env', 'XDG_DATA_HOME') }}/macports"
     single_branch: true
     depth: 1
-  register: macports_ports
 
 - name: Update conf to local ports
   become: true

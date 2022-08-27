@@ -72,12 +72,14 @@
       installer: "go"
 
 - name: Update base npm
+  ignore_errors: true
   ansible.builtin.command:
     cmd: "conda run --name runtimes-nodejs npm install -g npm@latest"
   register: conda_npm_update
   changed_when: "'changed 16 packages' not in conda_npm_update.stdout"
 
 - name: Clean conda
+  ignore_errors: true
   ansible.builtin.command:
     cmd: "conda clean --packages --yes"
   register: conda_clean

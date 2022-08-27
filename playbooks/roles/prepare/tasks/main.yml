@@ -12,3 +12,8 @@
   become: false
   ansible.builtin.set_fact:
     whoami: "{{ ansible_user_id }}"
+
+- name: Soft become check
+  become: true
+  ansible.builtin.debug:
+    msg: "You have sudo privs"
