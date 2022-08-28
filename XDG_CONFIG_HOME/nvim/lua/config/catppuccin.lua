@@ -13,6 +13,7 @@ return function()
 				colored_indent_levels = true,
 			},
 			markdown = true,
+			notify = true,
 			-- lightline = true,
 			-- disable defaults
 			cmp = false,
@@ -23,7 +24,6 @@ return function()
 			},
 			dashboard = false,
 			bufferline = false,
-			notify = false,
 			telekasten = false,
 			symbols_outline = false,
 			vimwiki = false,

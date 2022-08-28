@@ -50,6 +50,12 @@ return require("packer").startup(function(use)
 		config = require("config.dressing"),
 	})
 	use({
+		"rcarriga/nvim-notify",
+		after = "catppuccin",
+		event = "VimEnter",
+		config = require("config.notify"),
+	})
+	use({
 		"ibhagwan/fzf-lua",
 		event = "VimEnter",
 		requires = { "kyazdani42/nvim-web-devicons" },

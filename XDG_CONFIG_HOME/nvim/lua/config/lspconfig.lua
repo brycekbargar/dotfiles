@@ -10,6 +10,8 @@ return function()
 	local conda_run = require("conda-run")
 
 	local on_attach = function(client, bufnr)
+		vim.notify("LSP Active", "INFO", { title = "LSP | " .. client.name })
+
 		if client.server_capabilities.completionProvider then
 			vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
 		end
