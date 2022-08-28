@@ -35,7 +35,7 @@
     CONDA_ENVS_PATH: "{{ lookup('env', 'CONDA_SYSTEM') }}"
   with_items:
     - name: "installers-conda"
-      pkgs: ""
+      pkgs: "micromamba"
     - name: "installers-rust"
       pkgs: "rust openssl"
     - name: "installers-go"

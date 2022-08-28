@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-conda run --name runtimes-python --no-capture-output pipx run "$@"
+micromamba run --prefix "$CONDA_SYSTEM/runtimes-python" pipx run "$@"

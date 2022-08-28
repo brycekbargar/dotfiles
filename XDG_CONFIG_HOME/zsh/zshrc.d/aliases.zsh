@@ -1,0 +1,1 @@
+alias umamba="micromamba"
