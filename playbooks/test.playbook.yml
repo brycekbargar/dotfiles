@@ -4,8 +4,4 @@
     dotfiles: "{{ playbook_dir }}/../"
   roles:
     - prepare
-    - macports
-    - macos
-    - role: zsh
-      vars:
-        zsh: "{{ lookup('env', 'XDG_PKG_HOME') }}/ports/zsh"
+    - neovim

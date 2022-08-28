@@ -4,9 +4,7 @@
   ansible.builtin.set_fact:
     nvim_env_path: "{{ lookup('env', 'CONDA_ENVS') }}/nvim"
     nvim_plugin_root: "{{ lookup('env', 'XDG_DATA_HOME') }}/nvim/site/pack"
-    lua_lsp: |
-      {{ 'linux-x64.tar.gz' if ansible_distribution == 'Debian'
-      else 'darwin-' ~ ansible_architecture | replace('x86_', '') ~ '.tar.gz' }}
+    lua_lsp_pattern: "{{ ('linux-x64.tar.gz' if ansible_distribution == 'Debian' else 'darwin-' ~ ansible_architecture | replace('86_', '') ~ '.tar.gz') }}"
 
 - name: Clearing previous conda env
   ansible.builtin.command:
@@ -99,18 +97,17 @@
     src: "{{ item.browser_download_url }}"
     dest: "{{ nvim_env_path }}/lua-language-server"
   loop: "{{ lua_lsp.json.assets }}"
-  when: lua_lsp in item.name
+  when: "item.name.endswith(lua_lsp_pattern)"
 
 - name: Verifying latest lua lsp
   ansible.builtin.stat:
     path: "{{ nvim_env_path }}/lua-language-server/bin/lua-language-server"
-  register: lua_lsp
+  register: lua_lsp_exe
 
 - name: Latest lua lsp failed
-  ignore_errors: true
   ansible.builtin.fail:
-    msg: "Lua LSP not available and executable, expected to download {{ lua_lsp }}"
-  when: not lua_lsp.stat.exists or not lua_lsp.stat.executable
+    msg: "Lua LSP not available and executable, expected to download {{ lua_lsp_pattern }} but got {{ lua_lsp_exe.stat }}"
+  when: not lua_lsp_exe.stat.exists or not lua_lsp_exe.stat.executable
 
 - name: Creating lua lsp shim
   ansible.builtin.copy:
@@ -120,7 +117,6 @@
       {{ nvim_env_path }}/lua-language-server/bin/lua-language-server $@
     mode: "0755"
     force: true
-  when: lua_lsp.stat.exists and lua_lsp.stat.executable
 
 - name: Add packer plugin
   ansible.builtin.git:
