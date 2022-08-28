@@ -33,10 +33,13 @@ return function()
 
 	lsp.jsonls.setup({
 		on_attach = on_attach,
-		cmd = conda_run.js({
-			package = "vscode-langservers-extracted",
-			n = "vscode-json-language-server",
-		}).with_args({ "--stdio" }).list(),
+		cmd = conda_run
+			.js({
+				package = "vscode-langservers-extracted",
+				n = "vscode-json-language-server",
+			})
+			.with_args({ "--stdio" })
+			.list(),
 		init_options = {
 			provideFormatter = false,
 		},
@@ -45,27 +48,36 @@ return function()
 
 	lsp.yamlls.setup({
 		on_attach = on_attach,
-		cmd = conda_run.js({
-			n = "yaml-language-server",
-		}).with_args({ "--stdio" }).list(),
+		cmd = conda_run
+			.js({
+				n = "yaml-language-server",
+			})
+			.with_args({ "--stdio" })
+			.list(),
 		root_dir = util.find_git_ancestor,
 		filetypes = { "yaml", "yaml.docker-compose", "yaml.ansible" },
 	})
 
 	lsp.taplo.setup({
 		on_attach = on_attach,
-		cmd = conda_run.exe({
-			n = "taplo",
-		}).with_args({ "lsp", "stdio" }).list(),
+		cmd = conda_run
+			.exe({
+				n = "taplo",
+			})
+			.with_args({ "lsp", "stdio" })
+			.list(),
 		root_dir = util.find_git_ancestor,
 	})
 
 	lsp.ansiblels.setup({
 		on_attach = on_attach,
-		cmd = conda_run.js({
-			package = "@ansible/ansible-language-server",
-			n = "ansible-language-server",
-		}).with_args({ "--stdio" }).list(),
+		cmd = conda_run
+			.js({
+				package = "@ansible/ansible-language-server",
+				n = "ansible-language-server",
+			})
+			.with_args({ "--stdio" })
+			.list(),
 		-- This is assuming:
 		--   1. There's a local conda env with ansible
 		--   2. There's a shim script to run ansible using that env
@@ -77,6 +89,17 @@ return function()
 			},
 		},
 		single_file_support = false,
+	})
+
+	lsp.pyright.setup({
+		on_attach = on_attach,
+		cmd = conda_run
+			.js({
+				package = "pyright",
+				n = "pyright-langserver",
+			})
+			.with_args({ "--stdio" })
+			.list(),
 	})
 
 	local id = vim.api.nvim_create_augroup("DiagnosticFloat", {})
