@@ -7,16 +7,17 @@ return function()
 			native_lsp = {
 				enabled = true,
 			},
-			telescope = true,
+			lsp_trouble = false,
 			indent_blankline = {
 				enabled = true,
 				colored_indent_levels = true,
 			},
+			markdown = true,
 			-- lightline = true,
-			-- markdown = true,
 			-- disable defaults
 			cmp = false,
 			gitsigns = false,
+			telescope = false,
 			nvimtree = {
 				enabled = false,
 			},

@@ -56,6 +56,13 @@ return require("packer").startup(function(use)
 		config = require("config.fzf"),
 	})
 	use({
+		"folke/trouble.nvim",
+		after = "catppuccin",
+		event = "VimEnter",
+		requires = "kyazdani42/nvim-web-devicons",
+		config = require("config.trouble"),
+	})
+	use({
 		"itchyny/lightline.vim",
 		after = "catppuccin",
 		config = require("config.lightline"),
