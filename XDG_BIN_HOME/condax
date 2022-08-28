@@ -1,28 +1,24 @@
-#!/usr/bin/env zsh
-# TODO: Make a function
-
-local RUNTIME
-local PACKAGE
+#!/usr/bin/env bash
 
 while [[ "$#" -gt 0 ]]; do
     case "$1" in
-        -u | --using)
-            RUNTIME="$2"
-            shift 2
+    -u | --using)
+        RUNTIME="$2"
+        shift 2
         ;;
-        -p | --package)
-            PACKAGE="$2"
-            shift 2
-        ;;
-
-        --)
-            shift 1
-            break
+    -p | --package)
+        PACKAGE="$2"
+        shift 2
         ;;
 
-        *)
-            >&2 echo "Unknown option: $1"
-            exit 1
+    --)
+        shift 1
+        break
+        ;;
+
+    *)
+        echo >&2 "Unknown option: $1"
+        exit 1
         ;;
 
     esac
@@ -30,31 +26,28 @@ done
 
 # TODO: Error handing and param validation
 
-local CMD
 case $RUNTIME in
-    nodejs)
-        CMD="conda run --name runtimes-nodejs --no-capture-output npm exec --yes"
-		if [[ -n "$PACKAGE" ]]
-		then
-			CMD="$CMD --package='$PACKAGE'"
-		fi
-		CMD="$CMD -- $@"
+nodejs)
+    CMD="conda run --name runtimes-nodejs --no-capture-output npm exec --yes"
+    if [[ -n "$PACKAGE" ]]; then
+        CMD="$CMD --package='$PACKAGE'"
+    fi
+    CMD="$CMD -- $@"
     ;;
 
-    python)
-        CMD="conda run --name runtimes-python --no-capture-output pipx run"
-		if [[ -n "$PACKAGE" ]]
-		then
-			CMD="$CMD --spec '$PACKAGE'"
-		fi
-		CMD="$CMD $@"
+python)
+    CMD="conda run --name runtimes-python --no-capture-output pipx run"
+    if [[ -n "$PACKAGE" ]]; then
+        CMD="$CMD --spec '$PACKAGE'"
+    fi
+    CMD="$CMD $@"
     ;;
 
-    *)
-        >&2 echo "Unknown runtime: $RUNTIME"
-        exit 1
+*)
+    echo >&2 "Unknown runtime: $RUNTIME"
+    exit 1
     ;;
 
 esac
 
-eval $CMD
+eval "$CMD"

@@ -79,6 +79,15 @@
     - pkg: "taplo-cli --features lsp"
       exe: "taplo"
 
+- name: Installing go deps
+  ansible.builtin.command:
+    cmd: |
+      condstall --name nvim --with go --yes -- {{ item.pkg }}
+    creates: "{{ nvim_env_path }}/bin/{{ item.exe }}"
+  with_items:
+    - pkg: "mvdan.cc/sh/v3/cmd/shfmt@latest"
+      exe: "bash-language-server"
+
 - name: Finding latest lua lsp
   ansible.builtin.uri:
     url: https://api.github.com/repos/sumneko/lua-language-server/releases/latest

@@ -104,6 +104,16 @@ return function()
 			.list(),
 	})
 
+	lsp.bashls.setup({
+		on_attach = on_attach,
+		cmd = conda_run
+			.js({
+				n = "bash-language-server",
+			})
+			.with_args({ "start" })
+			.list(),
+	})
+
 	local id = vim.api.nvim_create_augroup("DiagnosticFloat", {})
 	vim.api.nvim_create_autocmd({ "CursorHold" }, {
 		pattern = "*",

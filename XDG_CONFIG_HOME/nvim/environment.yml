@@ -11,3 +11,4 @@ dependencies:
   - ansible-lint
   - ansible-core
   - yamllint
+  - shellcheck

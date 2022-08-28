@@ -75,6 +75,23 @@ return function()
 				end,
 			},
 
+			sh = {
+				function()
+					local shiftwidth = vim.opt.shiftwidth:get()
+					local expandtab = vim.opt.expandtab:get()
+
+					if not expandtab then
+						shiftwidth = 0
+					end
+
+					local shfmt = conda_run.exe({ n = "shfmt" }).with_args({
+						"-i",
+						shiftwidth,
+					})
+					shfmt.stdin = true
+					return shfmt
+				end,
+			},
 		},
 	})
 end
