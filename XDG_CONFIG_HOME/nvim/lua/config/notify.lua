@@ -1,5 +1,13 @@
 return function()
 	local notify = require("notify")
-	notify.setup({})
+	notify.setup({
+		max_width = 100,
+		max_height = 50,
+		render = "minimal",
+		stages = "fade",
+		on_open = function(win)
+			vim.api.nvim_win_set_option(win, "wrap", true)
+		end,
+	})
 	vim.notify = notify
 end

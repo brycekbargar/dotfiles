@@ -4,6 +4,7 @@ return function()
 	local format = require("formatter")
 	local util = require("formatter.util")
 	local conda_run = require("conda-run")
+
 	local function prettier(parser)
 		return {
 			function()
@@ -18,6 +19,7 @@ return function()
 			end,
 		}
 	end
+
 	format.setup({
 		filetype = {
 			lua = {
@@ -32,9 +34,13 @@ return function()
 					return stylua
 				end,
 			},
+
 			json = prettier("json"),
 			jsonc = prettier("jsonc"),
 			yaml = prettier("yaml"),
+			["yaml.ansible"] = prettier("yaml"),
+			markdown = prettier("markdown"),
+
 			toml = {
 				function()
 					local stylua = conda_run.exe({ n = "taplo" }).with_args({
@@ -45,8 +51,30 @@ return function()
 					return stylua
 				end,
 			},
-			["yaml.ansible"] = prettier("yaml"),
-			markdown = prettier("markdown"),
+
+			python = {
+				function()
+					local isort = conda_run.exe({ n = "isort" }).with_args({
+						"--profile",
+						"black",
+						"--quiet",
+						"-",
+					})
+					isort.stdin = true
+					return isort
+				end,
+				function()
+					local black = conda_run.exe({ n = "black" }).with_args({
+						"--stdin-filename",
+						util.escape_path(util.get_current_buffer_file_path()),
+						"--quiet",
+						"-",
+					})
+					black.stdin = true
+					return black
+				end,
+			},
+
 		},
 	})
 end

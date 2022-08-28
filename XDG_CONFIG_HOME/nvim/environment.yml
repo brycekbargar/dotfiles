@@ -5,6 +5,8 @@ channels:
 dependencies:
   - python
   - pynvim
+  - black
+  - isort
   - nodejs
   - ansible-lint
   - ansible-core
