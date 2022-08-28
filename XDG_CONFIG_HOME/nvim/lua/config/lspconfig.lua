@@ -17,18 +17,11 @@ return function()
 			vim.api.nvim_buf_set_option(bufnr, "tagfunc", "v:lua.vim.lsp.tagfunc")
 		end
 
+		local fzf = require("fzf-lua")
 		local bufopts = { noremap = true, silent = true, buffer = bufnr }
-		vim.keymap.set("n", "<leader>l", vim.lsp.buf.hover, bufopts)
-		vim.keymap.set("n", "<leader>le", function()
-			require("telescope.builtin").diagnostics({ bufnr = bufnr })
-		end, bufopts)
-		vim.keymap.set("n", "<leader>ld", vim.lsp.buf.declaration, bufopts)
-		vim.keymap.set("n", "<leader>lD", vim.lsp.buf.definition, bufopts)
-		vim.keymap.set("n", "<leader>li", vim.lsp.buf.type_definition, bufopts)
-		vim.keymap.set("n", "<leader>lI", vim.lsp.buf.implementation, bufopts)
-		vim.keymap.set("n", "<leader>lu", vim.lsp.buf.references, bufopts)
-		vim.keymap.set("n", "<leader>lr", vim.lsp.buf.rename, bufopts)
-		vim.keymap.set("n", "<leader>la", vim.lsp.buf.code_action, bufopts)
+		vim.keymap.set("n", "<leader>t", vim.lsp.buf.hover, bufopts)
+		vim.keymap.set("n", "<leader>tR", vim.lsp.buf.rename, bufopts)
+		vim.keymap.set("n", "<leader>ta", vim.lsp.buf.code_action, bufopts)
 	end
 
 	lsp.sumneko_lua.setup({

@@ -8,6 +8,6 @@
   "telemetry.enable": true,
   "workspace.library": [
     "$XDG_DATA_HOME/nvim/site/pack/packer/",
-    "~/miniconda3/envs/nvim/squashfs-root/usr"
+    "$CONDA_ENVS/nvim/squashfs-root/usr"
   ]
 }

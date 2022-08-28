@@ -1,6 +1,7 @@
 return require("packer").startup(function(use)
 	use({ "wbthomason/packer.nvim" })
 	use({ "nvim-lua/plenary.nvim" })
+	use({ "kyazdani42/nvim-web-devicons" })
 
 	-- Theme
 	use({ "catppuccin/nvim", as = "catppuccin", config = require("config.catppuccin") })
@@ -41,10 +42,6 @@ return require("packer").startup(function(use)
 		event = "LspAttach",
 		config = require("config.dinosaur"),
 	})
-	use({
-		"gbrlsnchs/telescope-lsp-handlers.nvim",
-		as = "lsp-handlers",
-	})
 
 	-- Fanciness
 	use({
@@ -53,11 +50,10 @@ return require("packer").startup(function(use)
 		config = require("config.dressing"),
 	})
 	use({
-		"nvim-telescope/telescope.nvim",
-		after = { "catppuccin", "lsp-handlers" },
-		requires = "nvim-lua/plenary.nvim",
+		"ibhagwan/fzf-lua",
 		event = "VimEnter",
-		config = require("config.telescope"),
+		requires = { "kyazdani42/nvim-web-devicons" },
+		config = require("config.fzf"),
 	})
 	use({
 		"itchyny/lightline.vim",
