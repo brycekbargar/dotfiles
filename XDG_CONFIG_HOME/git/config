@@ -19,6 +19,7 @@
     todos = !git status && git loog
     fuck = !git add -A && git commit --amend --no-edit
     sorry = !git add -A && git rebase --continue
+    loog = "!f() { git log --graph --abbrev-commit --date=relative --pretty=longref -n ${1:-15}; }; f"
 	# I can never type this correctly
     checokut = checkout
 
