@@ -26,6 +26,12 @@ export \
     GOMODCACHE="$XDG_CACHE_HOME/go-mod"
 export \
     ZDOTDIR="$XDG_CONFIG_HOME/zsh"
+export \
+    NPM_CONFIG_CACHE="$XDG_CACHE_HOME/npm" \
+    NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/.npmrc" \
+    NPM_CONFIG_INIT_MODULES="$XDG_CONFIG_HOME/npm/.npm.init.js" \
+export \
+    PIPX_HOME="$XDG_STATE_HOME/pipx"
 
 typeset -aU path
 # Remove windows paths in wsl
