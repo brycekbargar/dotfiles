@@ -39,7 +39,7 @@
     - name: "installers-rust"
       pkgs: "rust openssl"
     - name: "installers-go"
-      pkgs: "go"
+      pkgs: "go go-cgo"
     - name: "runtimes-python"
       pkgs: "python pipx"
     - name: "runtimes-nodejs"

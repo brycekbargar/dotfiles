@@ -10,7 +10,7 @@ return function()
 	local conda_run = require("conda-run")
 
 	local on_attach = function(client, bufnr)
-		vim.notify(client.name.. " active", "INFO", { title = "LspInfo" })
+		vim.notify(client.name .. " active", "INFO", { title = "LspInfo" })
 
 		if client.server_capabilities.completionProvider then
 			vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
@@ -50,24 +50,14 @@ return function()
 
 	lsp.yamlls.setup({
 		on_attach = on_attach,
-		cmd = conda_run
-			.js({
-				n = "yaml-language-server",
-			})
-			.with_args({ "--stdio" })
-			.list(),
+		cmd = conda_run.js({ n = "yaml-language-server" }).with_args({ "--stdio" }).list(),
 		root_dir = util.find_git_ancestor,
 		filetypes = { "yaml", "yaml.docker-compose", "yaml.ansible" },
 	})
 
 	lsp.taplo.setup({
 		on_attach = on_attach,
-		cmd = conda_run
-			.exe({
-				n = "taplo",
-			})
-			.with_args({ "lsp", "stdio" })
-			.list(),
+		cmd = conda_run.exe({ n = "taplo" }).with_args({ "lsp", "stdio" }).list(),
 		root_dir = util.find_git_ancestor,
 	})
 
@@ -106,12 +96,16 @@ return function()
 
 	lsp.bashls.setup({
 		on_attach = on_attach,
-		cmd = conda_run
-			.js({
-				n = "bash-language-server",
-			})
-			.with_args({ "start" })
-			.list(),
+		cmd = conda_run.js({ n = "bash-language-server" }).with_args({ "start" }).list(),
+	})
+
+	lsp.terraformls.setup({
+		on_attach = on_attach,
+		cmd = conda_run.exe({ n = "terraform-ls" }).with_args({ "serve" }).list(),
+	})
+	lsp.tflint.setup({
+		on_attach = on_attach,
+		cmd = conda_run.exe({ n = "tflint" }).with_args({ "--langserver" }).list(),
 	})
 
 	local id = vim.api.nvim_create_augroup("DiagnosticFloat", {})

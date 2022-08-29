@@ -3,12 +3,12 @@ channels:
   - conda-forge
   - nodefaults
 dependencies:
-  - python
-  - pynvim
+  - ansible-lint
+  - ansible-core
   - black
   - isort
   - nodejs
-  - ansible-lint
-  - ansible-core
-  - yamllint
+  - python
   - shellcheck
+  - terraform
+  - yamllint

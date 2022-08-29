@@ -87,6 +87,10 @@
   with_items:
     - pkg: "mvdan.cc/sh/v3/cmd/shfmt@latest"
       exe: "bash-language-server"
+    - pkg: "github.com/hashicorp/terraform-ls@latest"
+      exe: "terraform-ls"
+    - pkg: "github.com/terraform-linters/tflint@latest"
+      exe: "tflint"
 
 - name: Finding latest lua lsp
   ansible.builtin.uri:

@@ -92,6 +92,18 @@ return function()
 					return shfmt
 				end,
 			},
+
+			terraform = {
+				function()
+					local terraform = conda_run.exe({ n = "terraform" }).with_args({
+						"fmt",
+						"-",
+					})
+					terraform.stdin = true
+					return terraform
+				end,
+			},
+
 		},
 	})
 end
