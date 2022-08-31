@@ -92,6 +92,7 @@ return function()
 			})
 			.with_args({ "--stdio" })
 			.list(),
+		single_file_support = false,
 	})
 
 	lsp.bashls.setup({
@@ -106,6 +107,17 @@ return function()
 	lsp.tflint.setup({
 		on_attach = on_attach,
 		cmd = conda_run.exe({ n = "tflint" }).with_args({ "--langserver" }).list(),
+	})
+
+	lsp.dockerls.setup({
+		on_attach = on_attach,
+		cmd = conda_run
+			.js({
+				package = "dockerfile-language-server-nodejs",
+				n = "docker-langserver",
+			})
+			.with_args({ "--stdio" })
+			.list(),
 	})
 
 	local id = vim.api.nvim_create_augroup("DiagnosticFloat", {})
