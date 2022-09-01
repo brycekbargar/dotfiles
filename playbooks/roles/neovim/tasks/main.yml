@@ -68,29 +68,28 @@
     cmd: "conda run --name nvim npm install -g npm@latest"
   changed_when: true
 
-- name: Installing cargo deps
-  ansible.builtin.command:
-    cmd: |
-      condstall --name nvim --with rust --yes -- {{ item.pkg }} --locked
-    creates: "{{ nvim_env_path }}/bin/{{ item.exe }}"
+- name: Installing tools
+  condstall:
+    package: "{{ item.pkg }}"
+    binary: "{{ item.exe | default('') }}"
+    installer: "{{ item.with }}"
+    target: "nvim"
+    state: present
   with_items:
     - pkg: "stylua"
-      exe: "stylua"
+      with: "rust"
     - pkg: "taplo-cli --features lsp"
       exe: "taplo"
-
-- name: Installing go deps
-  ansible.builtin.command:
-    cmd: |
-      condstall --name nvim --with go --yes -- {{ item.pkg }}
-    creates: "{{ nvim_env_path }}/bin/{{ item.exe }}"
-  with_items:
+      with: "rust"
     - pkg: "mvdan.cc/sh/v3/cmd/shfmt@latest"
-      exe: "bash-language-server"
+      exe: "shfmt"
+      with: "go"
     - pkg: "github.com/hashicorp/terraform-ls@latest"
       exe: "terraform-ls"
+      with: "go"
     - pkg: "github.com/terraform-linters/tflint@latest"
       exe: "tflint"
+      with: "go"
 
 - name: Finding latest lua lsp
   ansible.builtin.uri:

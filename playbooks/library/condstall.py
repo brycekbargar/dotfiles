@@ -102,7 +102,7 @@ class Installer(ABC):
         self.target = target
 
     @abstractmethod
-    def install_cmd(self, package: str) -> list[str]:
+    def install_cmd(self, package: list[str]) -> list[str]:
         ...
 
     def install_env(self, target_prefix: pathlib.Path) -> dict:
@@ -133,8 +133,8 @@ class CondaInstaller(Installer):
             target = "installers-conda"
         super(CondaInstaller, self).__init__(target)
 
-    def install_cmd(self, package: str) -> list[str]:
-        return ["conda", "install", "--name", self.target, "--yes", package]
+    def install_cmd(self, package: list[str]) -> list[str]:
+        return ["conda", "install", "--name", self.target, "--yes"] + package
 
     def updated(self, stdout: str) -> bool:
         return "packages will be" in stdout
@@ -144,13 +144,16 @@ class CondaInstaller(Installer):
 
 
 class RustInstaller(Installer):
-    def install_cmd(self, package: str) -> list[str]:
-        return self._conda_run("installers-rust") + [
-            "cargo",
-            "install",
-            package,
-            "--locked",
-        ]
+    def install_cmd(self, package: list[str]) -> list[str]:
+        return (
+            self._conda_run("installers-rust")
+            + [
+                "cargo",
+                "install",
+                "--locked",
+            ]
+            + package
+        )
 
     def install_env(self, target_prefix: pathlib.Path) -> dict:
         if self.target == "global":
@@ -165,12 +168,15 @@ class RustInstaller(Installer):
 
 
 class GoInstaller(Installer):
-    def install_cmd(self, package: str) -> list[str]:
-        return self._conda_run("installers-go") + [
-            "go",
-            "install",
-            package,
-        ]
+    def install_cmd(self, package: list[str]) -> list[str]:
+        return (
+            self._conda_run("installers-go")
+            + [
+                "go",
+                "install",
+            ]
+            + package
+        )
 
     def install_env(self, target_prefix: pathlib.Path) -> dict:
         if self.target == "global":
@@ -208,12 +214,16 @@ def main():
         installed_binary_version="",
     )
 
+    install_type: str
+    package_args: str
     result["used_installer"] = install_type = module.params["installer"]
-    result["installed_package"] = package = module.params["package"]
-    target = module.params["target"]
-    binary = module.params["binary"]
+    result["installed_package"] = package_args = module.params["package"]
+    package = package_args.split()
+
+    target: str = module.params["target"]
+    binary: str = module.params["binary"]
     if binary is None or len(binary) == 0:
-        binary = package
+        binary = package[0]
 
     match install_type:
         case "conda":

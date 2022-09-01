@@ -51,7 +51,7 @@
   register: conda_system_update
   changed_when: "'packages will be' in conda_system_update.stdout"
   with_items:
-    # - "installers-conda" #  Updated in the tools role
+    - "installers-conda"
     - "installers-rust"
     - "installers-go"
     - "runtimes-python"

@@ -1,40 +1,29 @@
 ---
-- name: Installing conda tools
-  ansible.builtin.shell:
-    cmd: |
-      condstall --with conda --global --yes -- {{ item.pkg }}
-    creates: "{{ lookup('env', 'CONDA_SYSTEM') }}/installers-conda/bin/{{ item.exe | default(item.pkg) }}"
+- name: Installing tools
+  condstall:
+    package: "{{ item.pkg }}"
+    binary: "{{ item.exe | default('') }}"
+    installer: "{{ item.with }}"
+    state: present
   with_items:
     - pkg: "fd-find"
       exe: "fd"
-
-- name: Updating conda tools
-  ansible.builtin.command:
-    cmd: "conda update --name installers-conda --all --yes"
-  register: conda_tools_update
-  changed_when: "'packages will be' in conda_tools_update.stdout"
-
-- name: Installing/updating cargo tools
-  ansible.builtin.shell:
-    cmd: |
-      condstall --with rust --global --yes -- {{ item.pkg }} --locked
-    creates: "{{ lookup('env', 'CARGO_HOME') }}/bin/{{ item.exe | default(item.pkg) }}"
-  with_items:
-    - pkg: "exa"
-    - pkg: "bat"
+      with: "{{ 'conda' if ansible_distribution == 'Debian' else 'rust' }}"
+    - pkg: "exa --no-default-features"
+      with: "rust"
     - pkg: "ripgrep"
       exe: "rg"
+      with: "rust"
     - pkg: "git-delta"
       exe: "delta"
+      with: "rust"
+    - pkg: "bat"
+      with: "rust"
     - pkg: "mdcat"
-
-- name: Installing/updating go tools
-  ansible.builtin.shell:
-    cmd: |
-      condstall --with go --global --yes -- github.com/{{ item.pkg }}
-    creates: "{{ lookup('env', 'GOPATH') }}/bin/{{ item.exe }}"
-  with_items:
-    - pkg: "junegunn/fzf@latest"
+      with: "rust"
+    - pkg: "github.com/junegunn/fzf@latest"
       exe: "fzf"
-    - pkg: "itchyny/gojq/cmd/gojq@latest"
+      with: "go"
+    - pkg: "github.com/itchyny/gojq/cmd/gojq@latest"
       exe: "gojq"
+      with: "go"
