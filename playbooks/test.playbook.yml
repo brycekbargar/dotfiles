@@ -2,6 +2,14 @@
 - hosts: localhost
   vars:
     dotfiles: "{{ playbook_dir }}/../"
-  roles:
-    - prepare
-    - neovim
+  tasks:
+    - name: Install fzf
+      condstall:
+        installer: "conda"
+        package: "fd-find"
+        binary: "fd"
+        state: present
+      register: testout
+    - name: dump test output
+      debug:
+        msg: "{{ testout }}"
