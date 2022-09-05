@@ -1,29 +1,21 @@
 ---
-# TODO: Make a default or var?
-- name: Set facts
-  ansible.builtin.set_fact:
-    nvim_env_path: "{{ lookup('env', 'CONDA_ENVS') }}/nvim"
-    nvim_plugin_root: "{{ lookup('env', 'XDG_DATA_HOME') }}/nvim/site/pack"
-    lua_lsp_pattern: "{{ ('linux-x64.tar.gz' if ansible_distribution == 'Debian' else 'darwin-' ~ ansible_architecture | replace('86_', '') ~ '.tar.gz') }}"
-
-- name: Clearing previous conda env
-  ansible.builtin.command:
-    cmd: "conda env remove --name nvim --quiet --yes"
-    removes: "{{ nvim_env_path }}"
-
-- name: Clearing previous nvim install
-  ansible.builtin.file:
-    path: "{{ item }}"
-    state: absent
-  loop:
-    - "{{ lookup('env', 'XDG_DATA_HOME') }}/nvim"
-    - "{{ lookup('env', 'XDG_STATE_HOME') }}/nvim"
-    - "{{ lookup('env', 'XDG_CONFIG_HOME') }}/nvim/plugin"
-
 - name: Creating conda env
   ansible.builtin.command:
-    cmd: "conda env create --file '{{ dotfiles }}/XDG_CONFIG_HOME/nvim/environment.yml' --experimental-solver libmamba --quiet"
+    cmd: "conda env create --file '{{ dotfiles }}/XDG_CONFIG_HOME/nvim/environment.yml' --quiet"
     creates: "{{ nvim_env_path }}"
+  register: nvim_conda_create
+
+- name: Updating conda env
+  ansible.builtin.command:
+    cmd: "conda env update --file '{{ dotfiles }}/XDG_CONFIG_HOME/nvim/environment.yml' --quiet --prune"
+  register: nvim_conda_update
+  changed_when: "'packages will be' in nvim_conda_update.stdout"
+  when: not nvim_conda_create.changed
+
+- name: Removing Neovim directory
+  ansible.builtin.file:
+    path: "{{ nvim_env_path }}/squashfs-root"
+    state: absent
 
 - name: Downloading Neovim (for wsl)
   ansible.builtin.get_url:
@@ -39,6 +31,12 @@
   when: ansible_distribution == "Debian"
   args:
     chdir: "{{ nvim_env_path }}"
+
+- name: Removing Neovim AppImage (for wsl)
+  ansible.builtin.file:
+    path: "{{ nvim_env_path }}/nvim.appimage"
+    state: absent
+  when: ansible_distribution == "Debian"
 
 - name: Making Neovim directory (for macos)
   ansible.builtin.file:
@@ -66,7 +64,8 @@
   ignore_errors: true
   ansible.builtin.command:
     cmd: "conda run --name nvim npm install -g npm@latest"
-  changed_when: true
+  register: nvim_npm_update
+  changed_when: "'changed 16 packages' not in nvim_npm_update.stdout"
 
 - name: Installing tools
   condstall:
@@ -97,7 +96,12 @@
     return_content: true
   register: lua_lsp
 
-- name: Making lua lsp directory
+- name: Removing lua lsp directory
+  ansible.builtin.file:
+    path: "{{ nvim_env_path }}/lua-language-server"
+    state: absent
+
+- name: Creating lua lsp directory
   ansible.builtin.file:
     path: "{{ nvim_env_path }}/lua-language-server"
     state: directory
@@ -135,14 +139,14 @@
     repo: "https://github.com/wbthomason/packer.nvim"
     version: "HEAD"
     force: true
-    dest: "{{ nvim_plugin_root }}/packer/start/packer.nvim"
+    dest: "{{ lookup('env', 'XDG_DATA_HOME') }}/nvim/site/pack/packer/start/packer.nvim"
     single_branch: true
     depth: 1
 
 - name: Link common plugins
   ansible.builtin.file:
     src: "{{ lookup('env', 'HOME') }}/.vim/pack/common"
-    dest: "{{ nvim_plugin_root }}/common"
+    dest: "{{ lookup('env', 'XDG_DATA_HOME') }}/nvim/site/pack/common"
     state: link
 
 - name: PackerSync
@@ -150,3 +154,4 @@
     cmd: |
       nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
   changed_when: true
+  when: nvim_conda_create.changed

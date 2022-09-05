@@ -73,4 +73,6 @@ return require("packer").startup(function(use)
 		after = "catppuccin",
 		config = require("config.lightline"),
 	})
+
+	require('packer').sync()
 end)
