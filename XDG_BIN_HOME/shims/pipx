@@ -1,3 +1,10 @@
 #!/usr/bin/env bash
 
+if [ "$1" != "run" ]; then
+	echo >&2 "only pipx run is supported"
+	micromamba run --prefix "$CONDA_SYSTEM/runtimes-python" pipx run --help
+	exit 1
+fi
+
+shift
 micromamba run --prefix "$CONDA_SYSTEM/runtimes-python" pipx run "$@"
