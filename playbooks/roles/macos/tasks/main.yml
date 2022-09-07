@@ -8,16 +8,50 @@
 - name: Install/replace macos tools
   become: true
   community.general.macports:
-    name:
-      - bash
-      - git
-      - gnutar
-      - gutils-suite
-      - less
-      - unzip
-      - vim
-      - zsh
+    name: item
     state: installed
+  register: macos_tools
+  with_items:
+    - bash
+    - git
+    - less
+    - unzip
+    - vim
+    - zsh
+
+- name: Link macos tools
+  ansible.builtin.file:
+    src: "/opt/local/bin/{{ item.item }}"
+    dest: "{{ lookup('env', 'XDG_PKG_HOME') }}/ports/{{ item.item }}"
+    state: link
+  with_items: "{{ macos_tools.results }}"
+
+- name: Link additional binaries
+  ansible.builtin.file:
+    src: "/opt/local/bin/{{ item }}"
+    dest: "{{ lookup('env', 'XDG_PKG_HOME') }}/ports/{{ item }}"
+    state: link
+  with_items:
+    - vimdiff
+
+- name: Install gnu tools
+  become: true
+  community.general.macports:
+    name:
+      - coreutils
+      - diffutils
+      - findutils
+      - gawk
+      - grep
+      - gsed
+      - gtime
+    state: installed
+
+- name: Link gnu bin dir
+  ansible.builtin.file:
+    src: "/opt/local/libexec/gnubin"
+    dest: "{{ lookup('env', 'XDG_PKG_HOME') }}/gports"
+    state: link
 
 - name: Install kitty
   ansible.builtin.shell:

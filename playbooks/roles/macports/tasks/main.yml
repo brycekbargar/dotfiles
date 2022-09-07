@@ -1,79 +1,20 @@
 ---
-- name: Latest base
-  ansible.builtin.git:
-    repo: "https://github.com/macports/macports-base.git"
-    version: "HEAD"
-    force: true
-    dest: "{{ lookup('env', 'XDG_BIN_HOME') }}/macports"
-    single_branch: true
-    depth: 1
-  register: macports_base
-
-- name: Configure macports
-  ansible.builtin.command:
-    cmd: >
-      ./configure
-      --enable-readline
-      --with-applications-dir="{{ lookup('env', 'XDG_STATE_HOME') }}/macports/Applications"
-      --with-frameworks-dir="{{ lookup('env', 'XDG_STATE_HOME') }}/macports/Frameworks"
-    chdir: "{{ lookup('env', 'XDG_BIN_HOME') }}/macports"
-  when: macports_base.changed
-  changed_when: true
-
-- name: Make macports
-  ansible.builtin.command:
-    cmd: "make"
-    chdir: "{{ lookup('env', 'XDG_BIN_HOME') }}/macports"
-  when: macports_base.changed
-  changed_when: true
-
-- name: Make install macports
-  become: true
-  ansible.builtin.command:
-    cmd: "make install"
-    chdir: "{{ lookup('env', 'XDG_BIN_HOME') }}/macports"
-  when: macports_base.changed
-  changed_when: true
-
-- name: Make distclean macports
-  ansible.builtin.command:
-    cmd: "make distclean"
-    chdir: "{{ lookup('env', 'XDG_BIN_HOME') }}/macports"
-  when: macports_base.changed
-  changed_when: true
-
 - name: Update conf to binary only
   become: true
   ansible.builtin.lineinfile:
     path: "/opt/local/etc/macports/macports.conf"
     regexp: "^#buildfromsource.*$"
     line: "buildfromsource never"
-  when: macports_base.changed
 
-- name: Latest ports
-  ansible.builtin.git:
-    repo: "https://github.com/macports/macports-ports.git"
-    version: "HEAD"
-    force: true
-    dest: "{{ lookup('env', 'XDG_DATA_HOME') }}/macports"
-    single_branch: true
-    depth: 1
-
-- name: Update conf to local ports
+- name: Update conf application dir
   become: true
   ansible.builtin.lineinfile:
-    path: "/opt/local/etc/macports/sources.conf"
-    regexp: "$rsync.*$"
-    line: "file://{{ lookup('env', 'XDG_DATA_HOME') }}/macports [default]"
+    path: "/opt/local/etc/macports/macports.conf"
+    regexp: "^#applications_dir.*$"
+    line: "applications_dir {{ lookup('env', 'XDG_PKG_HOME') }}/apps"
 
-- name: Link macports bin dirs
+- name: Make port available
   ansible.builtin.file:
-    src: "/opt/local/{{ item.ports }}"
-    dest: "{{ lookup('env', 'XDG_PKG_HOME') }}/{{ item.pkg }}"
+    src: "/opt/local/bin/port"
+    dest: "{{ lookup('env', 'XDG_PKG_HOME') }}/ports/port"
     state: link
-    force: true
-  with_items:
-    - ports: "bin"
-      pkg: "ports"
-    - ports: "libexec/gnubin"
-      pkg: "gports"
