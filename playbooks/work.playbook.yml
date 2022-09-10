@@ -5,9 +5,8 @@
     zsh: "{{ lookup('env', 'XDG_PKG_HOME') }}/ports/zsh"
   roles:
     - prepare
-    - conda
-    - macports
     - macos
+    - conda
     - zsh
     - vim
     - tools
