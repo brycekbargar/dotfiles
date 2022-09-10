@@ -1,8 +1,8 @@
 ---
-- name: Make port available
+- name: Make ports available
   ansible.builtin.file:
-    src: "/opt/local/bin/port"
-    dest: "{{ lookup('env', 'XDG_PKG_HOME') }}/ports/port"
+    src: "/opt/local/bin"
+    dest: "{{ lookup('env', 'XDG_PKG_HOME') }}/ports"
     state: link
 
 - name: Sync and update ports
@@ -14,31 +14,13 @@
 - name: Install/replace macos tools
   become: true
   community.general.macports:
-    name: item
+    name:
+      - bash
+      - less
+      - unzip
+      - vim
+      - zsh
     state: installed
-  register: macos_tools
-  with_items:
-    - bash
-    - less
-    - unzip
-    - vim
-    - zsh
-
-- name: Link macos tools
-  ansible.builtin.file:
-    src: "/opt/local/bin/{{ item.item }}"
-    dest: "{{ lookup('env', 'XDG_PKG_HOME') }}/ports/{{ item.item }}"
-    state: link
-  with_items: "{{ macos_tools.results }}"
-
-- name: Link additional binaries
-  ansible.builtin.file:
-    src: "/opt/local/bin/{{ item }}"
-    dest: "{{ lookup('env', 'XDG_PKG_HOME') }}/ports/{{ item }}"
-    state: link
-  with_items:
-    - vimdiff
-    - git
 
 - name: Install gnu tools
   become: true
