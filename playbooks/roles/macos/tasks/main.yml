@@ -40,12 +40,3 @@
     src: "/opt/local/libexec/gnubin"
     dest: "{{ lookup('env', 'XDG_PKG_HOME') }}/gports"
     state: link
-
-- name: Install kitty
-  ansible.builtin.shell:
-    cmd: >
-      curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
-      installer="nightly"
-      launch="n"
-      dest="{{ lookup('env', 'XDG_PKG_HOME') }}/apps"
-    creates: "{{ lookup('env', 'XDG_PKG_HOME') }}/apps/kitty.app"
