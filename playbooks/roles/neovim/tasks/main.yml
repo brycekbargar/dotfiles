@@ -5,9 +5,14 @@
     creates: "{{ nvim_env_path }}"
   register: nvim_conda_create
 
-- name: Updating conda env
+- name: Updating conda env definition
   ansible.builtin.command:
     cmd: "conda env update --file '{{ dotfiles }}/XDG_CONFIG_HOME/nvim/environment.yml' --quiet --prune"
+  when: not nvim_conda_create.changed
+
+- name: Updating conda env
+  ansible.builtin.command:
+    cmd: "conda update --name nvim --all --yes"
   register: nvim_conda_update
   changed_when: "'packages will be' in nvim_conda_update.stdout"
   when: not nvim_conda_create.changed

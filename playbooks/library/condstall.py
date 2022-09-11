@@ -37,7 +37,6 @@ options:
         required: true
         type: str
         choices: 
-            - conda
             - rust
             - go
     target:
@@ -96,7 +95,7 @@ installed_binary_version:
 """
 
 
-class Installer(ABC):
+class Toolchain(ABC):
     def __init__(self, target: str):
         super().__init__()
         self.target = target
@@ -127,26 +126,10 @@ class Installer(ABC):
         ]
 
 
-class CondaInstaller(Installer):
-    def __init__(self, target: str):
-        if target == "global":
-            target = "installers-conda"
-        super(CondaInstaller, self).__init__(target)
-
-    def install_cmd(self, package: list[str]) -> list[str]:
-        return ["conda", "install", "--name", self.target, "--yes"] + package
-
-    def updated(self, stdout: str) -> bool:
-        return "packages will be" in stdout
-
-    def global_bin_path(self, binary: str) -> pathlib.Path:
-        raise Exception("conda global path is an environment")
-
-
-class RustInstaller(Installer):
+class RustToolchain(Toolchain):
     def install_cmd(self, package: list[str]) -> list[str]:
         return (
-            self._conda_run("installers-rust")
+            self._conda_run("toolchains-rust")
             + [
                 "cargo",
                 "install",
@@ -167,10 +150,10 @@ class RustInstaller(Installer):
         return pathlib.Path(os.environ["CARGO_HOME"]).joinpath("bin", binary)
 
 
-class GoInstaller(Installer):
+class GoToolchain(Toolchain):
     def install_cmd(self, package: list[str]) -> list[str]:
         return (
-            self._conda_run("installers-go")
+            self._conda_run("toolchains-go")
             + [
                 "go",
                 "install",
@@ -226,12 +209,10 @@ def main():
         binary = package[0]
 
     match install_type:
-        case "conda":
-            installer = CondaInstaller(target)
         case "rust":
-            installer = RustInstaller(target)
+            installer = RustToolchain(target)
         case "go":
-            installer = GoInstaller(target)
+            installer = GoToolchain(target)
         case err:
             raise Exception(f"unexpected installer {err}")
 
@@ -250,6 +231,7 @@ def main():
         (_, installed, _) = module.run_command(
             install_cmd, check_rc=True, environ_update=env
         )
+        result["stdout"] = installed
         result["changed"] = installer.updated(installed)
 
         bin_path = (
@@ -261,7 +243,7 @@ def main():
             [bin_path, "--version"],
             check_rc=True,
         )
-        result["installed_binary_version"] = version.strip()
+        result["msg"] = result["installed_binary_version"] = version.strip()
     except BaseException as err:
         module.fail_json(f"{type(err)=}: {err=}", **result)
 

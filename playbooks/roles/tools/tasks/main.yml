@@ -8,7 +8,7 @@
   with_items:
     - pkg: "fd-find"
       exe: "fd"
-      with: "{{ 'conda' if ansible_distribution == 'Debian' else 'rust' }}"
+      with: rust
     - pkg: "exa --no-default-features"
       with: "rust"
     - pkg: "ripgrep"

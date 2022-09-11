@@ -1,0 +1,6 @@
+---
+name: runtimes-nodejs
+channels:
+  - nodefaults
+dependencies:
+  - nodejs

@@ -15,7 +15,7 @@ end
 
 local conda_run = function(executable)
 	local m = {}
-	m.cmd = "micromamba"
+	m.cmd = "umamba"
 	m.exe = m.cmd
 	m.path = m.cmd
 	m.args = concat_args({ "run", "-p", vim.env.CONDA_ENVS .. "/nvim" }, executable)

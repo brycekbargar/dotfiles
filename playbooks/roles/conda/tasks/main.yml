@@ -1,19 +1,7 @@
 ---
-- name: Update conda
-  ansible.builtin.command:
-    cmd: "conda update --name base conda --all --yes"
-  register: conda_base_update
-  changed_when: "'packages will be' in conda_base_update.stdout"
-
-- name: Install libmamba
-  ansible.builtin.command:
-    cmd: "conda install --name base conda-libmamba-solver --yes"
-    creates: "{{ lookup('env', 'CONDA_BASE') }}/lib/cmake/libmamba"
-
-# condarc has libmamba as default solver so it goes second
 - name: Make condarc from template
   ansible.builtin.copy:
-    src: "{{ dotfiles }}/XDG_CONFIG_HOME/template.condarc"
+    src: "{{ dotfiles }}/XDG_CONFIG_HOME/conda/template"
     dest: "{{ lookup('env', 'CONDARC') }}"
     mode: "0644"
 
@@ -27,49 +15,64 @@
       - conda-forge
       # TODO: Make this a var
 
+- name: Update conda
+  ansible.builtin.command:
+    cmd: "conda update --name base conda --all --yes"
+  register: conda_base_update
+  changed_when: "'packages will be' in conda_base_update.stdout"
+
+- name: Install mamba
+  ansible.builtin.command:
+    cmd: "conda install --name base conda-libmamba-solver micromamba --yes"
+    creates: "{{ lookup('env', 'CONDA_BASE') }}/bin/micromamba"
+
+- name: Linking umamba binary
+  ansible.builtin.file:
+    src: "{{ lookup('env', 'CONDA_BASE') }}/bin/micromamba"
+    dest: "{{ lookup('env', 'XDG_BIN_HOME') }}/umamba"
+    state: link
+
+- name: Ensure libmamba
+  ansible.builtin.lineinfile:
+    path: "{{ lookup('env', 'CONDARC') }}"
+    line: "experimental_solver: libmamba"
+    state: present
+
 - name: Create system environments
   ansible.builtin.command:
-    cmd: "conda create --name {{ item.name }} {{ item.pkgs }} --yes"
-    creates: "{{ lookup('env', 'CONDA_SYSTEM') }}/{{ item.name }}"
+    cmd: "conda env create --file {{ item }}"
+    creates: "{{ lookup('env', 'CONDA_SYSTEM') }}/{{ item | basename | splitext | first }}"
   environment:
     CONDA_ENVS_PATH: "{{ lookup('env', 'CONDA_SYSTEM') }}"
-  with_items:
-    - name: "installers-conda"
-      pkgs: "micromamba"
-    - name: "installers-rust"
-      pkgs: "rust openssl"
-    - name: "installers-go"
-      pkgs: "go go-cgo"
-    - name: "runtimes-python"
-      pkgs: "python pipx"
-    - name: "runtimes-nodejs"
-      pkgs: "nodejs"
+  with_fileglob:
+    - "{{ lookup('env', 'XDG_CONFIG_HOME') }}/conda/*.yml"
+
+- name: Update system environments definitions
+  ansible.builtin.command:
+    cmd: "conda env update --file {{ item }} --prune"
+  changed_when: true
+  with_fileglob:
+    - "{{ lookup('env', 'XDG_CONFIG_HOME') }}/conda/*.yml"
 
 - name: Update system environments
   ansible.builtin.command:
-    cmd: "conda update --name {{ item }} --all --yes"
+    cmd: "conda update --name {{ item | basename | splitext | first }} --all --yes"
   register: conda_system_update
   changed_when: "'packages will be' in conda_system_update.stdout"
-  with_items:
-    - "installers-conda"
-    - "installers-rust"
-    - "installers-go"
-    - "runtimes-python"
-    - "runtimes-nodejs"
+  with_fileglob:
+    - "{{ lookup('env', 'XDG_CONFIG_HOME') }}/conda/*.yml"
 
-- name: Link installer bins
+- name: Link toolchain bins
   ansible.builtin.file:
     src: "{{ item.src }}"
-    dest: "{{ lookup('env', 'XDG_PKG_HOME') }}/{{ item.installer }}"
+    dest: "{{ lookup('env', 'XDG_PKG_HOME') }}/{{ item.toolchain }}"
     force: true
     state: link
   with_items:
-    - src: "{{ lookup('env', 'CONDA_SYSTEM') }}/installers-conda/bin"
-      installer: "conda"
     - src: "{{ lookup('env', 'CARGO_HOME') }}/bin"
-      installer: "cargo"
+      toolchain: "rust"
     - src: "{{ lookup('env', 'GOPATH') }}/bin"
-      installer: "go"
+      toolchain: "go"
 
 - name: Update base npm
   ignore_errors: true

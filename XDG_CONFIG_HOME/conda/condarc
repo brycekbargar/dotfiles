@@ -1,4 +1,8 @@
 channels:
+# BEGIN ANSIBLE MANAGED CHANNELS
+- conda-forge
+# TODO: Make this a var
+# END ANSIBLE MANAGED CHANNELS
 channel_priority: strict
 add_pip_as_python_dependency: false
 auto_activate_base: false

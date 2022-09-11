@@ -1,0 +1,10 @@
+---
+name: toolchains-rust
+channels:
+  - conda-forge/label/rust_dev
+  - nodefaults
+dependencies:
+  - rust
+  - openssl
+  - compilers
+

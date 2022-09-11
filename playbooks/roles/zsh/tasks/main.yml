@@ -12,7 +12,7 @@
     state: present
   # TODO: Parameterize this
 
-- name: Init conda (again)
+- name: Init conda
   ansible.builtin.command:
     cmd: "conda init zsh"
   changed_when: false

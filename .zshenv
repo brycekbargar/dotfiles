@@ -13,7 +13,7 @@ export \
     CONDA_SYSTEM="$XDG_DATA_HOME/conda/system" \
     CONDA_ENVS="$XDG_STATE_HOME/conda"
 export \
-    CONDARC="$XDG_CONFIG_HOME/.condarc" \
+    CONDARC="$XDG_CONFIG_HOME/conda/condarc" \
     CONDA_PKGS_DIRS="$XDG_CACHE_HOME/conda" \
     CONDA_ENVS_PATH="$CONDA_ENVS:$CONDA_SYSTEM:$CONDA_BASE"
 export \
@@ -39,9 +39,8 @@ path=(${path[@]:#*/mnt/c/*})
 path=(
     "$XDG_BIN_HOME/shims"
     "$XDG_BIN_HOME"
-    "$XDG_PKG_HOME/cargo"
+    "$XDG_PKG_HOME/rust"
     "$XDG_PKG_HOME/go"
-    "$XDG_PKG_HOME/conda"
     "$XDG_PKG_HOME/ports"
     "$XDG_PKG_HOME/gports"
     $path
