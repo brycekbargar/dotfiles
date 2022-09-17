@@ -7,4 +7,10 @@ if [ ! -f "$repo/.pre-commit-config.yaml" ] && [ ! -f "$repo/lefthook.yml" ]; th
 	exit 0
 fi
 
+if [ -f "$repo/.pre-commit-config.yaml" ] && [ ! -f "$repo/lefthook.yml" ]; then
+	echo -e >&2 "\n\033[0;101m\033[1;30m*** Found a pre-commit config but not lefthook, using it as a start ***\033[0m\n"
+	cp "$repo/.pre-commit-config.yaml" "$repo/lefthook.yml"
+	exit 1
+fi
+
 echo -e >&2 "\n\033[103m\033[1;30m*** Running pre-commit hooks, use git commit --no-verify to skip ***\033[0m\n"
