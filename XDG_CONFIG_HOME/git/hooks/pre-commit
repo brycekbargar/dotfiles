@@ -1,16 +1,19 @@
 #!/usr/bin/env bash
 
-repo=$(git rev-parse --show-toplevel)
+if ! repo=$(git rev-parse --show-toplevel); then
+	echo -e "\n\033[1;31m*** Are you in a bare repo? Use git commit --no-verify for the initial commit. ***\033[0m" >&2
+	exit 1
+fi
 
-if [ ! -f "$repo/.pre-commit-config.yaml" ] && [ ! -f "$repo/lefthook.yml" ]; then
+if [ ! -f "$repo/.pre-commit-config.yaml" ] && [ ! -f "$repo/precious.toml" ]; then
 	echo -e "\n\033[1;33m*** No pre-commit hooks for this repository! ***\033[0m" >&2
 	exit 0
 fi
 
 echo -e "\n\033[1;35m*** Running '$0' Use git-commit --no-verify to skip. ***\033[0m" >&2
 
-if [ -f "$repo/.pre-commit-config.yaml" ] && [ ! -f "$repo/lefthook.yml" ]; then
-	echo -e "\n\033[1;31m*** Found a config for pre-commit but not lefthook. ***\033[0m" >&2
+if [ -f "$repo/.pre-commit-config.yaml" ] && [ ! -f "$repo/precious.toml" ]; then
+	echo -e "\n\033[1;31m*** Found a config for pre-commit but not precious. ***\033[0m" >&2
 	exit 1
 fi
 

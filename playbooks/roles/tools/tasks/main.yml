@@ -19,6 +19,8 @@
       with: "rust"
     - pkg: "bat"
       with: "rust"
+    - pkg: "precious"
+      with: "rust"
     - pkg: "mdcat"
       with: "rust"
     - pkg: "github.com/junegunn/fzf@latest"
