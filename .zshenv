@@ -43,6 +43,7 @@ path=(
     "$XDG_PKG_HOME/go"
     "$XDG_PKG_HOME/ports"
     "$XDG_PKG_HOME/gports"
+    "$CONDA_BASE/condabin"
     $path
     "/mnt/c/Users/`id -un`/scoop/shims/"
     "/mnt/c/Windows/system32")
