@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 if ! repo=$(git rev-parse --show-toplevel); then
-	echo -e "\n\033[1;31m*** Are you in a bare repo? Use git commit --no-verify for the initial commit. ***\033[0m" >&2
+	echo -e "\n\033[1;31mAre you in a bare repo? Use git commit --no-verify for the initial commit.\033[0m" >&2
 	exit 1
 fi
 
@@ -13,16 +13,38 @@ fi
 echo -e "\n\033[1;35m*** Running '$0' Use git-commit --no-verify to skip. ***\033[0m" >&2
 
 if [ -f "$repo/.pre-commit-config.yaml" ] && [ ! -f "$repo/precious.toml" ]; then
-	echo -e "\n\033[1;31m*** Found a config for pre-commit but not precious. ***\033[0m" >&2
+	echo -e "\033[1;31mFound a config for pre-commit💩 but not precious💍.\033[0m" >&2
 	exit 1
 fi
 
-set -e
-trap 'pop $?' EXIT
-pop() {
-	git stash pop --quiet
-	exit "$1"
-}
-git stash push --keep-index --quiet
+msg_file="$repo/.git/hooks/$(git rev-parse HEAD)"
 
-exit 1
+set -o pipefail
+echo ""
+if ! tidied_files="$(precious tidy --staged | tee /dev/tty | awk '$2 == "Tidied" { print $5 }')"; then
+	exit 1
+fi
+echo ""
+
+if rg --quiet '.' -- <<<"$tidied_files"; then
+	# shellcheck disable=SC2086
+	git add $tidied_files
+fi
+
+{
+	git --no-pager status --short --branch
+	echo ""
+	git --no-pager diff
+} >"$msg_file"
+
+if precious tidy --staged | rg --quiet 'Tidied'; then
+	echo -e "\n\033[1;31mSecond call to precious tidy found changes.\033[0m" >&2
+	exit 1
+fi
+
+if ! { lint_err="$(precious lint --staged 2>&1 >/dev/fd/3)"; } 3>&1; then
+	if ! rg --quiet 'No linting filters defined in your config' -- <<<"$lint_err"; then
+		echo -e "$lint_err"
+		exit 1
+	fi
+fi
