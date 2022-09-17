@@ -3,8 +3,8 @@
 repo=$(git rev-parse --show-toplevel)
 
 if [ ! -f "$repo/.pre-commit-config.yaml" ] && [ ! -f "$repo/lefthook.yml" ]; then
-	echo -e >&2 "\033[103m\033[1;30m*** No pre-commit hooks for this repository! ***\033[0m"
+	echo -e >&2 "\n\033[103m\033[1;30m*** No pre-commit hooks for this repository! ***\033[0m\n"
 	exit 0
 fi
 
-exit 0
+echo -e >&2 "\n\033[103m\033[1;30m*** Running pre-commit hooks, use git commit --no-verify to skip ***\033[0m\n"
