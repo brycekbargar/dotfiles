@@ -2,6 +2,7 @@
     path = ../delta/config
 [core]
     pager = delta
+    hooksPath = ~/.local/etc/git/hooks
 [diff]
     colorMoved = blocks
 [color "diff"]
@@ -9,7 +10,7 @@
     newMoved = dim green
 
 [merge]
-    toolssss = vimdiff
+    tool = vimdiff
     conflictstyle = diff3
 [mergetool]
     prompt = false

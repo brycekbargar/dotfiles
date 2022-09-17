@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+echo "pre-commit!"
+
+exit 0
