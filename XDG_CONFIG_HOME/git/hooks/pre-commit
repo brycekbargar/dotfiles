@@ -3,14 +3,23 @@
 repo=$(git rev-parse --show-toplevel)
 
 if [ ! -f "$repo/.pre-commit-config.yaml" ] && [ ! -f "$repo/lefthook.yml" ]; then
-	echo -e >&2 "\n\033[103m\033[1;30m*** No pre-commit hooks for this repository! ***\033[0m\n"
+	echo -e "\n\033[1;33m*** No pre-commit hooks for this repository! ***\033[0m" >&2
 	exit 0
 fi
 
+echo -e "\n\033[1;35m*** Running '$0' Use git-commit --no-verify to skip. ***\033[0m" >&2
+
 if [ -f "$repo/.pre-commit-config.yaml" ] && [ ! -f "$repo/lefthook.yml" ]; then
-	echo -e >&2 "\n\033[0;101m\033[1;30m*** Found a pre-commit config but not lefthook, using it as a start ***\033[0m\n"
-	cp "$repo/.pre-commit-config.yaml" "$repo/lefthook.yml"
+	echo -e "\n\033[1;31m*** Found a config for pre-commit but not lefthook. ***\033[0m" >&2
 	exit 1
 fi
 
-echo -e >&2 "\n\033[103m\033[1;30m*** Running pre-commit hooks, use git commit --no-verify to skip ***\033[0m\n"
+set -e
+trap 'pop $?' EXIT
+pop() {
+	git stash pop --quiet
+	exit "$1"
+}
+git stash push --keep-index --quiet
+
+exit 1
