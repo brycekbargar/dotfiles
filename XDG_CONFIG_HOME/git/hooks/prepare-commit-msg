@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+
+msg_file="$1"
+pre_commit_out="$(fd --newer '5 seconds' -- "$(git rev-parse HEAD)" "$(dirname "$msg_file")")"
+
+if ! [ -f "$pre_commit_out" ]; then
+	echo -e "\n\033[1;33m*** No pre-commit results found. ***\033[0m" >&2
+	exit 0
+fi
+
+msg_source="$2"
+case "$msg_source" in
+"")
+	echo "" >"$msg_file"
+	awk '{print "# "$0}' "$pre_commit_out" >>"$msg_file"
+	;;
+
+"message")
+	echo ""
+	echo -e "\033[1;34m*** CHANGES *** \033[0m"
+	cat "$pre_commit_out"
+
+	exec </dev/tty
+	echo -e "\033[1;34mDo you still want to commit?\033[0m [Yn]"
+	read -r confirmed
+	if [ "$confirmed" != 'Y' ]; then
+		exit 1
+	fi
+	;;
+
+*) ;;
+
+esac
+
+rm "$pre_commit_out"

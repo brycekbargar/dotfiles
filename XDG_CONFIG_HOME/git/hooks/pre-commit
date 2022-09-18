@@ -26,20 +26,11 @@ if ! tidied_files="$(precious tidy --staged | tee /dev/tty | awk '$2 == "Tidied"
 fi
 echo ""
 
+diff_out=""
 if rg --quiet '.' -- <<<"$tidied_files"; then
+	diff_out="\n$(git --no-pager diff --color)\n"
 	# shellcheck disable=SC2086
 	git add $tidied_files
-fi
-
-{
-	git --no-pager status --short --branch
-	echo ""
-	git --no-pager diff
-} >"$msg_file"
-
-if precious tidy --staged | rg --quiet 'Tidied'; then
-	echo -e "\n\033[1;31mSecond call to precious tidy found changes.\033[0m" >&2
-	exit 1
 fi
 
 if ! { lint_err="$(precious lint --staged 2>&1 >/dev/fd/3)"; } 3>&1; then
@@ -48,3 +39,8 @@ if ! { lint_err="$(precious lint --staged 2>&1 >/dev/fd/3)"; } 3>&1; then
 		exit 1
 	fi
 fi
+
+{
+	git -c color.status=always --no-pager status --short --branch
+	echo -e "$diff_out"
+} >"$msg_file"
