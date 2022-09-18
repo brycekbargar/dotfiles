@@ -1,0 +1,6 @@
+[commands.vint]
+type="lint"
+include = "**/*.vim"
+cmd = ["pipx", "run", "--spec", "vim-vint", "vint", "--color", "--style-problem"]
+ok_exit_codes = [0]
+expect_stderr = true

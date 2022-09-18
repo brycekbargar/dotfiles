@@ -19,14 +19,20 @@ fi
 
 msg_file="$repo/.git/hooks/$(git rev-parse HEAD)"
 
-set -o pipefail
-echo ""
-if ! tidied_files="$(precious tidy --staged | tee /dev/tty | awk '$2 == "Tidied" { print $5 }')"; then
-	exit 1
+{
+	IFS=$'\n' read -r -d '' tidy_err
+	IFS=$'\n' read -r -d '' tidy_out
+} < <((printf '\0%s\0' "$(precious tidy --staged | tee /dev/tty)" 1>&2) 2>&1)
+
+if [ -n "$tidy_err" ]; then
+	if ! rg --quiet 'No tidying filters defined in your config' -- <<<"$tidy_err"; then
+		echo -e "$tidy_err"
+		exit 1
+	fi
 fi
-echo ""
 
 diff_out=""
+tidied_files=$(awk -- '$2 == "Tidied" { print $5 }' <<<"$tidy_out")
 if rg --quiet '.' -- <<<"$tidied_files"; then
 	diff_out="\n$(git --no-pager diff --color)\n"
 	# shellcheck disable=SC2086
