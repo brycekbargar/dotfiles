@@ -16,12 +16,17 @@
     prompt = false
 
 [alias]
-    # Todos las Cosas!
-    todos = !git status && git loog
     fuck = !git add -A && git commit --amend --no-edit
+    fuckyou = !git add -A && git commit --amend --no-edit --no-verify
     sorry = !git add -A && git rebase --continue
+    ca = !git add -A && git commit
+    cam = "!f() { git add -A && git commit -m '$1'; }; f"
+    # Muscle memory from an old alias
+    scam = !git cam
+    # Todos las Cosas!
+    todos = !echo "" && git status --short --branch --ahead-behind && echo "" && git loog
     loog = "!f() { git log --graph --abbrev-commit --date=relative --pretty=longref -n ${1:-15}; }; f"
-	# I can never type this correctly
+    # I can never type this correctly
     checokut = checkout
 
 [pretty]
