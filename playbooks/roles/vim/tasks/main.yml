@@ -4,12 +4,36 @@
     path: "{{ item }}"
     state: directory
     mode: "755"
-    recurse: true
   with_items:
     - "{{ lookup('env', 'XDG_STATE_HOME') }}/vim/backup"
     - "{{ lookup('env', 'XDG_STATE_HOME') }}/vim/swap"
     - "{{ lookup('env', 'XDG_STATE_HOME') }}/vim/undo"
+    - "{{ lookup('env', 'HOME') }}/.vim/ftplugin"
     - "{{ lookup('env', 'HOME') }}/.vim/pack"
+
+- name: Add vim plugins
+  ansible.builtin.git:
+    repo: "{{ item.repo }}"
+    version: "HEAD"
+    force: true
+    dest: "{{ lookup('env', 'HOME') }}/.vim/pack/vim/{{ item.dest }}"
+    single_branch: true
+    depth: 1
+  with_items:
+    - repo: "https://github.com/catppuccin/vim"
+      dest: "opt/catppuccin-vim"
+    - repo: "https://github.com/tpope/vim-flagship"
+      dest: "opt/flagship"
+    - repo: "https://github.com/KSR-Yasuda/vim-plugin-AnsiEsc.git"
+      dest: "opt/ansi-esc"
+
+- name: Add ftplugins
+  ansible.builtin.file:
+    src: "{{ lookup('env', 'XDG_CONFIG_HOME') }}/nvim/{{ item }}"
+    dest: "{{ lookup('env', 'HOME') }}/.vim/ftplugin/{{ item }}"
+    state: link
+  with_items:
+    - "gitcommit.vim"
 
 - name: Add common plugins
   ansible.builtin.git:
@@ -30,10 +54,6 @@
       dest: "start/mucomplete"
     - repo: "https://github.com/sheerun/vim-polyglot"
       dest: "opt/polyglot"
-    - repo: "https://github.com/catppuccin/vim"
-      dest: "opt/catppuccin-vim"
-    - repo: "https://github.com/tpope/vim-flagship"
-      dest: "opt/flagship"
 
 - name: Linking .vimrc
   ansible.builtin.file:

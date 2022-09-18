@@ -33,6 +33,7 @@ if !has('nvim')
     set belloff=all
     set hlsearch
     set autoread
+    set termguicolors
     set wildoptions=pum,tagfile
 	if empty($XDG_STATE_HOME)
 		" windows is weird
@@ -60,12 +61,10 @@ let g:mucomplete#enable_auto_at_startup = 1
 if has('nvim')
     let g:polyglot_disabled = [
 	\'bash.plugin',
-        \'go.plugin',
         \'terraform.plugin',
         \'jsonc.plugin',
         \'lua.plugin',
         \'python.plugin',
-        \'rst.plugin',
         \'toml.plugin'
     \]
 endif
@@ -75,8 +74,7 @@ packadd! polyglot
 
 if !has('nvim')
     packadd! flagship
-
-    set termguicolors
+    packadd! ansi-esc
     packadd! catppuccin-vim
     colorscheme catppuccin_mocha
 endif
