@@ -1,52 +1,91 @@
+#:schema ./precious-schema.json
+
+[commands]
+
 [commands.shfmt]
-type="both"
-include = ["XDG_BIN_HOME/*", "XDG_CONFIG_HOME/git/hooks/*", "*.sh", "XDG_CONFIG_HOME/zsh/*.zsh", "XDG_CONFIG_HOME/zsh/functions/*"]
+type = "both"
+include = [
+  "XDG_BIN_HOME/*",
+  "XDG_CONFIG_HOME/git/hooks/*",
+  "*.sh",
+  "XDG_CONFIG_HOME/zsh/*.zsh",
+  "XDG_CONFIG_HOME/zsh/functions/*",
+]
 exclude = ["**/myrc.zsh", "**/bw-ssh-add"]
-cmd=["umamba", "run", "--prefix", "$CONDA_ENVS/nvim", "shfmt"]
-lint_flags=["--diff"]
-tidy_flags=["--write", "--simplify"]
+cmd = ["umamba", "run", "--prefix", "$CONDA_ENVS/nvim", "shfmt"]
+lint_flags = ["--diff"]
+tidy_flags = ["--write", "--simplify"]
 ok_exit_codes = [0]
 expect_stderr = true
 [commands.shellcheck]
-type="lint"
-include = ["XDG_BIN_HOME/*", "XDG_CONFIG_HOME/git/hooks/*", "*.sh", "XDG_CONFIG_HOME/zsh/*.zsh", "XDG_CONFIG_HOME/zsh/functions/*"]
+type = "lint"
+include = [
+  "XDG_BIN_HOME/*",
+  "XDG_CONFIG_HOME/git/hooks/*",
+  "*.sh",
+  "XDG_CONFIG_HOME/zsh/*.zsh",
+  "XDG_CONFIG_HOME/zsh/functions/*",
+]
 exclude = ["**/myrc.zsh", "**/bw-ssh-add", "**/prompt.zsh"]
-cmd=["umamba", "run", "--prefix", "$CONDA_ENVS/nvim", "shellcheck", "--color=always", "--shell=bash"]
+cmd = [
+  "umamba",
+  "run",
+  "--prefix",
+  "$CONDA_ENVS/nvim",
+  "shellcheck",
+  "--color=always",
+  "--shell=bash",
+]
 ok_exit_codes = [0]
 expect_stderr = true
 
 [commands.vint]
-type="lint"
-include = "**/*.vim"
-cmd = ["pipx", "run", "--spec", "vim-vint", "vint", "--color", "--style-problem"]
+type = "lint"
+include = ["**/*.vim"]
+cmd = [
+  "pipx",
+  "run",
+  "--spec",
+  "vim-vint",
+  "vint",
+  "--color",
+  "--style-problem",
+]
 ok_exit_codes = [0]
 expect_stderr = true
 [commands.stylua]
-type="both"
-include = "XDG_CONFIG_HOME/nvim/lua/**/*.lua"
-cmd=["umamba", "run", "--prefix", "$CONDA_ENVS/nvim", "stylua", "--color=always"]
-lint_flags=["--check", "--verify"]
+type = "both"
+include = ["XDG_CONFIG_HOME/nvim/lua/**/*.lua"]
+cmd = [
+  "umamba",
+  "run",
+  "--prefix",
+  "$CONDA_ENVS/nvim",
+  "stylua",
+  "--color=always",
+]
+lint_flags = ["--check", "--verify"]
 ok_exit_codes = [0]
 expect_stderr = true
 
-[commands.pch-end-of-file]
-type="tidy"
-include = "*"
+[commands."pre-comit.end-of-file"]
+type = "tidy"
+include = ["*"]
 cmd = ["pipx", "run", "--spec", "pre-commit-hooks", "end-of-file-fixer"]
 ok_exit_codes = [0, 1]
 expect_stderr = true
-[commands.pch-trailing-whitespace]
-type="tidy"
-include = "*"
+[commands."pre-commit.trailing-whitespace"]
+type = "tidy"
+include = ["*"]
 cmd = ["pipx", "run", "--spec", "pre-commit-hooks", "trailing-whitespace-fixer"]
 ok_exit_codes = [0, 1]
 expect_stderr = true
 
 [commands.prettier]
-type="both"
+type = "both"
 include = ["*.json", "*.jsonc", "*.yaml", "*.yml"]
 cmd = ["npx", "--", "prettier@latest"]
-lint_flags=["--check"]
-tidy_flags=["--write"]
+lint_flags = ["--check"]
+tidy_flags = ["--write"]
 ok_exit_codes = [0]
 expect_stderr = true

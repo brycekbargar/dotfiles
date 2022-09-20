@@ -36,7 +36,7 @@ return function()
 			},
 
 			json = prettier("json"),
-			jsonc = prettier("jsonc"),
+			jsonc = prettier("json"),
 			yaml = prettier("yaml"),
 			["yaml.ansible"] = prettier("yaml"),
 			markdown = prettier("markdown"),

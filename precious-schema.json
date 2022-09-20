@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft-04/schema",
+  "$id": "https://raw.githubusercontent.com/houseabsolute/precious/master/schema.json",
+  "title": "Precious",
+  "description": "One code quality tool to rule them all",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "exclude": {
+      "description": "Each array member is a pattern that will be matched against potential files when precious is run. These patterns are matched in the same way patterns in a gitignore file. However, you cannot have a pattern starting with a ! as you can in a gitignore file.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "commands": {
+      "description": "All other configuration is on a per-filter basis. A filter is something that either tidies (aka pretty prints or beautifies) or lints your code (or both). Currently all filters are defined as commands, external programs which precious will execute as needed.\nEach filter should be defined in a block named something like [commands.filter-name]. Each name after the commands. prefix must be unique. Note that you can have multiple filters defined for the same executable as long as each one has a unique name.\nFilters are run in the same order as they appear in the config file.",
+      "type": "object",
+      "additionalProperties": false,
+      "patternProperties": {
+        ".*": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "description": "This must be either lint, tidy, or both. This defines what type of filter this is. Note that a filter which is both must define lint_flags or tidy_flags as well.",
+              "type": "string",
+              "enum": ["tidy", "lint", "both"]
+            },
+            "include": {
+              "description": "Each array member is a gitignore file style pattern that tells precious what files this filter applies to. However, you cannot have a pattern starting with a ! as you can in a gitignore file.",
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "exclude": {
+              "description": "Each array member is a gitignore file style pattern that tells precious what files this filter should not be applied to. However, you cannot have a pattern starting with a ! as you can in a gitignore file.",
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "cmd": {
+              "description": "This is the executable to be run followed by any arguments that should always be passed.",
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "env": {
+              "description": "This key allows you to set one or more environment variables that will be set when the command is run. Both the keys and values of this table must be strings.",
+              "type": "object",
+              "pattern_properties": {
+                ".*": { "type": "string" }
+              }
+            },
+            "path_flag": {
+              "description": "By default, precious will pass each path being operated on to the command it executes as a final, positional, argument. However, if the command takes paths via a flag you need to specify that flag with this key.",
+              "type": "string"
+            },
+            "lint_flags": {
+              "description": "If a command is both a linter and tidier than it may take extra flags to operate in linting mode. This is how you set that flag.",
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "tidy_flags": {
+              "description": "If a command is both a linter and tidier than it may take extra flags to operate in tidying mode. This is how you set that flag.",
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "run_mode": {
+              "description": "This determines how the command is run. The default, 'files', means that the command is run once per file that matches its include/exclude settings. If this is set to 'dirs', then the command is run once per directory containing files that matches its include/exclude settings. If it's set to 'root', then it is run exactly once from the root of the project if it matches any files.",
+              "type": "string",
+              "enum": ["files", "dirs", "root"],
+              "default": "files"
+            },
+            "chdir": {
+              "description": "If this is true, then the command will be run with a chdir to the relevant path. If the command operates on files, precious chdir's to the file's directory. If it operates on directories than it changes to each directory. Note that if run_mode is dirs and chdir is true then precious will not pass the path to the executable as an argument.",
+              "type": "boolean",
+              "default": "false"
+            },
+            "ok_exit_codes": {
+              "description": "Any exit code that does not indicate an abnormal exit should be here. For most commands this is just 0 but some commands may use other exit codes even for a normal exit.",
+              "type": "array",
+              "items": { "type": "integer" }
+            },
+            "lint_failure_exit_codes": {
+              "description": "If the command is a linter then these are the status codes that indicate a lint failure. These need to be specified so precious can distinguish an exit because of a lint failure versus an exit because of some unexpected issue.",
+              "type": "array",
+              "items": { "type": "integer" }
+            },
+            "expect_stderr": {
+              "description": "By default, precious assumes that when a command sends output to stderr that indicates a failure to lint or tidy. If this is not the case, set this to true.",
+              "type": "boolean",
+              "default": "false"
+            }
+          },
+          "required": ["type", "include", "cmd", "ok_exit_codes"]
+        }
+      }
+    }
+  }
+}
