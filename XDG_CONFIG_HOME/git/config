@@ -1,8 +1,9 @@
-[include]
-    path = ../delta/config
 [core]
     pager = delta
     hooksPath = ~/.local/etc/git/hooks
+
+[include]
+    path = ../delta/config
 [diff]
     colorMoved = blocks
 [color "diff"]
@@ -18,13 +19,13 @@
 [alias]
     # I can never type this correctly
     checokut = checkout
-    fuck = !git add -A && git commit --amend --no-edit
-    fuckyou = !git add -A && git commit --amend --no-edit --no-verify
-    sorry = !git add -A && git rebase --continue
-    ca = !git add -A && git commit
-    cam = "!f() { git add -A && git commit -m \"$1\"; }; f"
     # Muscle memory from an old alias
-    scam = !git cam
+    scam = ca -m
+    ca = !git add -A && git commit
+    frick = commit --amend --no-edit
+    fuck = ca --amend --no-edit
+    fuckyou = fuck --no-verify
+    sorry = !git add -A && git rebase --continue
     # Todos las Cosas!
     todos = "!\
         f() { \
