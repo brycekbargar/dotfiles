@@ -20,6 +20,7 @@
       "patternProperties": {
         ".*": {
           "type": "object",
+          "additionalProperties": false,
           "properties": {
             "type": {
               "description": "This must be either lint, tidy, or both. This defines what type of filter this is. Note that a filter which is both must define lint_flags or tidy_flags as well.",

@@ -133,7 +133,7 @@
 - name: Creating lua lsp shim
   ansible.builtin.template:
     dest: "{{ nvim_env_path }}/bin/lua-language-server"
-    src: lua-language-server
+    src: lua-language-server.j2
     mode: "0755"
 
 - name: Add packer plugin

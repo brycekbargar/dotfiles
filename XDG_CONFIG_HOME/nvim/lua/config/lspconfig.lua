@@ -19,7 +19,6 @@ return function()
 			vim.api.nvim_buf_set_option(bufnr, "tagfunc", "v:lua.vim.lsp.tagfunc")
 		end
 
-		local fzf = require("fzf-lua")
 		local bufopts = { noremap = true, silent = true, buffer = bufnr }
 		vim.keymap.set("n", "<leader>t", vim.lsp.buf.hover, bufopts)
 		vim.keymap.set("n", "<leader>tR", vim.lsp.buf.rename, bufopts)
