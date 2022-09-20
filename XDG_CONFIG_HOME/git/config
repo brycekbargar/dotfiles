@@ -16,6 +16,8 @@
     prompt = false
 
 [alias]
+    # I can never type this correctly
+    checokut = checkout
     fuck = !git add -A && git commit --amend --no-edit
     fuckyou = !git add -A && git commit --amend --no-edit --no-verify
     sorry = !git add -A && git rebase --continue
@@ -24,10 +26,23 @@
     # Muscle memory from an old alias
     scam = !git cam
     # Todos las Cosas!
-    todos = !echo "" && git status --short --branch --ahead-behind && echo "" && git loog
-    loog = "!f() { git log --graph --abbrev-commit --date=relative --pretty=longref -n ${1:-15}; }; f"
-    # I can never type this correctly
-    checokut = checkout
+    todos = "!\
+        f() { \
+            echo ""; \
+            sl=$(git -c status.color=always status --short --branch --ahead-behind | tee /dev/tty | wc -l); \
+            echo ""; \
+            git loog | stump $sl | head -n -2; \
+        }; f"
+    loog = "!\
+        f() { \
+            git log \
+            --graph \
+            --abbrev-commit \
+            --date=relative \
+            --pretty=longref \
+            --color=always \
+            -n ${1:-100}; \
+        }; f"
 
 [pretty]
     longref="%C(magenta)%h %C(green)(%ar) %C(yellow)%an %C(blue)%d %C(white bold)%s %C(reset)"
