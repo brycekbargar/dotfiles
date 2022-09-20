@@ -1,3 +1,6 @@
+# shellcheck shell=bash
+# vi: ft=sh
+
 export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgrep/config"
 
 export FZF_DEFAULT_OPTS="\

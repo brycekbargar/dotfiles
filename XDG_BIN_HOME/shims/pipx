@@ -5,6 +5,9 @@ if [ "$1" != "run" ]; then
 	umamba run --prefix "$CONDA_SYSTEM/runtimes-python" pipx run --help
 	exit 1
 fi
-
 shift
+
+# pipx complains if there is already an exe on the path with the same name
+# this mostly matters for shims that shadow the package
+PATH="${PATH//:${XDG_BIN_HOME//\//\\/}\/shims/}"
 umamba run --prefix "$CONDA_SYSTEM/runtimes-python" pipx run "$@"

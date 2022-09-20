@@ -1,3 +1,6 @@
+# shellcheck shell=bash
+# vi: ft=sh
+
 # Usually the longest one is the one we want
 EDITOR="$(
 	type -a vim |

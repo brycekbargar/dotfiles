@@ -4,3 +4,5 @@ conda/condarc
 nvim/plugin/
 zsh/.zshrc
 zsh/.p10k.zsh
+# TODO: Why is this not in the cache dir?
+zsh/.zcompdump

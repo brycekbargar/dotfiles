@@ -1,18 +1,13 @@
 # vi: ft=text
 
-# Thanks mattmc3 for "zsh sensible"
-mattmc3/zephyr path:plugins/colors
-mattmc3/zephyr path:plugins/environment
-mattmc3/zephyr path:plugins/directory
-mattmc3/zephyr path:plugins/history
-
-# Base
+# zsh sensible
+mattmc3/zephyr			path:plugins/directory
+mattmc3/zephyr			path:plugins/environment
+belak/zsh-utils			path:history
 jeffreytse/zsh-vi-mode
-romkatv/powerlevel10k kind:fpath
 
-# Autoloading of my configs
-mattmc3/zshrc.d
-mattmc3/zfunctions
+# Theme
+romkatv/powerlevel10k kind:fpath
 
 # Actual plugins
 zdharma-continuum/fast-syntax-highlighting
@@ -20,8 +15,15 @@ Cloudstek/zsh-plugin-appup
 xorkevin/code-review-zsh
 aperezdc/zsh-notes
 
-# Additional Completions
+# Completions
 zsh-users/zsh-completions
+BurntSushi/ripgrep 			kind:fpath path:complete
+sharkdp/fd 					kind:fpath path:contrib/completion
+itchyny/gojq 				kind:fpath
+ogham/exa					kind:fpath path:completions/zsh
+belak/zsh-utils 			path:completion
+aws/aws-cli					kind:clone
 
-# Load/cache Completions
-mattmc3/zephyr path:plugins/completions
+# Autoloading
+mattmc3/zephyr	path:plugins/confd
+mattmc3/zephyr	path:plugins/zfunctions
