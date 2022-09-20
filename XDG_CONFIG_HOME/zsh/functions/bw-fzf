@@ -8,10 +8,10 @@ fi
 bw list items |
 	jq -r \
 		'
-	.[] | 
-	[	.folderId // "/", 
-		.name, .login.uris[0].uri // "", 
-		.login.username // "", 
+	.[] |
+	[	.folderId // "/",
+		.name, .login.uris[0].uri // "",
+		.login.username // "",
 		.id
 	] |
 	@tsv

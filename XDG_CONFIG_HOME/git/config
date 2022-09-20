@@ -47,4 +47,3 @@
 
 [pretty]
     longref="%C(magenta)%h %C(green)(%ar) %C(yellow)%an %C(blue)%d %C(white bold)%s %C(reset)"
-

@@ -66,4 +66,4 @@ $<!Right Up::SendInput, {Alt up}{End}
 $<!+Right Up::SendInput, {Alt up}{Shift Down}{End}{Shift Up}
 
 ;spotlight
-$<!Space Up::SendInput, {Alt up}{RWin} 
+$<!Space Up::SendInput, {Alt up}{RWin}

@@ -7,4 +7,3 @@
 #
 
 conda run -n dotfiles --no-capture-output ansible $@
-

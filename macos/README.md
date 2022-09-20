@@ -13,4 +13,3 @@ Install Manually
   - Kitty: https://sw.kovidgoyal.net/kitty/binary/
   - Caskaydia Cove: https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/CascadiaCode
   - Karabiner Elements: https://karabiner-elements.pqrs.org/docs/getting-started/installation/
-

@@ -18,7 +18,7 @@ short_description: Install/upgrade packages using conda
 
 version_added: "1.0.0"
 
-description: 
+description:
     - Uses specialized conda environments for building and installing packages.
     - Currently supports conda, rust, and go.
 
@@ -32,15 +32,15 @@ options:
         required: false
         type: str
     installer:
-        description: 
+        description:
             - Name of the package installer.
         required: true
         type: str
-        choices: 
+        choices:
             - rust
             - go
     target:
-        description: 
+        description:
             - Conda environment's bin directory to target for installation.
             - Specify 'global' to install to the default binary path for that installer.
         default: global
