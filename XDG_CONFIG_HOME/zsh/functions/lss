@@ -1,46 +1,50 @@
 # vi: ft=zsh
 
-local lines=$(($(tput lines) - 5))
-local cutoff=${LSS_CUTOFF:-$lines}
-export EXA_GRID_ROWS="$(($cutoff / 2))"
-
-local exa_opts="--long --binary --group-directories-first --ignore-glob=.git"
-if [[ "$1" = "." ]]
-then
-	exa $(echo $exa_opts) --grid --all --octal-permissions --group
-	return
-elif [[ -e "$1" && ! -d "$1" ]]
+if [[ -f "$1" ]]
 then
 	bat "$1"
 	return
 fi
 
+local lines=$(($(tput lines) - 5))
+local cutoff=${LSS_CUTOFF:-$lines}
+
+local exa_opts="--long --binary --group-directories-first --ignore-glob=.git"
+local fd_opts="--max-results=$(($cutoff + 1))"
+if [[ "$1" = "." ]]
+then
+	exa_opts="$exa_opts --all --octal-permissions --group $2"
+	fd_opts="$fd_opts --hidden --no-ignore-vcs -- . ${2:-.}"
+	shift 1
+else
+	exa_opts="$exa_opts --git-ignore $1"
+	fd_opts="$fd_opts -- . ${1:-.}"
+fi
+
 if [[ -z "$1" || (-d "$1" && "$1" = */* )]]
 then
-	local fd_opts="--max-results=$(($cutoff + 1)) -- . ${1:-.}"
-
 	items=$(fd --max-depth=4 $(echo $fd_opts) | wc -l)
 	if [[ $items -lt $cutoff ]]
 	then
-		exa $(echo $exa_opts) --tree --level=4 --git-ignore $1
+		exa --tree --level=4 $(echo $exa_opts)
 		return
 	fi
 
 	items=$(fd --max-depth=3 $(echo $fd_opts) | wc -l)
 	if [[ $items -lt $cutoff ]]
 	then
-		exa $(echo $exa_opts) --tree --level=3 --git-ignore $1
+		exa --tree --level=3 $(echo $exa_opts)
 		return
 	fi
 
 	items=$(fd --max-depth=2 $(echo $fd_opts) | wc -l)
 	if [[ $items -lt $cutoff ]]
 	then
-		exa $(echo $exa_opts) --tree --level=2 --git-ignore $1
+		exa --tree --level=2 $(echo $exa_opts)
 		return
 	fi
 
-	exa $(echo $exa_opts) --grid --icons $1
+	EXA_GRID_ROWS="$(($cutoff / 2))" exa --grid --icons $(echo $exa_opts)
 	return
 fi
 
