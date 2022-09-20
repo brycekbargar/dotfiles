@@ -38,7 +38,6 @@ return require("packer").startup(function(use)
 	})
 	use({
 		"kosayoda/nvim-lightbulb",
-		requires = "antoinemadec/FixCursorHold.nvim",
 		event = "LspAttach",
 		config = require("config.dinosaur"),
 	})
