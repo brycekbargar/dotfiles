@@ -41,3 +41,12 @@ include = "*"
 cmd = ["pipx", "run", "--spec", "pre-commit-hooks", "trailing-whitespace-fixer"]
 ok_exit_codes = [0, 1]
 expect_stderr = true
+
+[commands.prettier]
+type="both"
+include = ["*.json", "*.jsonc", "*.yaml", "*.yml"]
+cmd = ["npx", "--", "prettier@latest"]
+lint_flags=["--check"]
+tidy_flags=["--write"]
+ok_exit_codes = [0]
+expect_stderr = true

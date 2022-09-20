@@ -7,7 +7,6 @@
 
 - name: Run Debian Setup
   block:
-
     - name: Remove default repos
       become: true
       ansible.builtin.apt_repository:
