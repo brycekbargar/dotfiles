@@ -1,9 +1,13 @@
 # vi: ft=zsh
 
+local lines=$(($(tput lines) - 5))
+local cutoff=${LSS_CUTOFF:-$lines}
+export EXA_GRID_ROWS="$(($cutoff / 2))"
+
+local exa_opts="--long --binary --group-directories-first --ignore-glob=.git"
 if [[ "$1" = "." ]]
 then
-
-	exa --icons --long --all --binary --extended --octal-permissions --group-directories-first --ignore-glob=.git
+	exa $(echo $exa_opts) --grid --all --octal-permissions --group
 	return
 elif [[ -e "$1" && ! -d "$1" ]]
 then
@@ -11,71 +15,55 @@ then
 	return
 fi
 
-local lines=$(($(tput lines) - 5))
-local cutoff=${LSS_CUTOFF:-$lines}
-unset lines
-
 if [[ -z "$1" || (-d "$1" && "$1" = */* )]]
 then
-	local search="${1:-.}"
+	local fd_opts="--max-results=$(($cutoff + 1)) -- . ${1:-.}"
 
-	local items=$(fd --follow --max-results=$(($cutoff + 1)) --max-depth=1 --no-ignore . "$search" | wc -l)
-	if [[ $items -gt $cutoff ]]
-	then
-		exa --grid --group-directories-first --ignore-glob=.git "$search"
-		unset items cutoff search
-		return
-	fi
-
-	items=$(fd --max-results=$(($cutoff + 1)) --max-depth=4 --no-ignore -- . "$search"| wc -l)
+	items=$(fd --max-depth=4 $(echo $fd_opts) | wc -l)
 	if [[ $items -lt $cutoff ]]
 	then
-		exa --icons --tree --level=4 --binary --extended --octal-permissions --group-directories-first --ignore-glob=.git "$search"
-		unset items cutoff search
+		exa $(echo $exa_opts) --tree --level=4 --git-ignore $1
 		return
 	fi
 
-	items=$(fd --max-results=$(($cutoff + 1)) --max-depth=3 --no-ignore -- . "$search" | wc -l)
+	items=$(fd --max-depth=3 $(echo $fd_opts) | wc -l)
 	if [[ $items -lt $cutoff ]]
 	then
-		exa --icons --tree --level=3 --binary --extended --octal-permissions --group-directories-first --ignore-glob=.git "$search" 
-		unset items cutoff search
+		exa $(echo $exa_opts) --tree --level=3 --git-ignore $1
 		return
 	fi
 
-	items=$(fd --max-results=$(($cutoff + 1)) --max-depth=2 --no-ignore -- . "$search" | wc -l)
+	items=$(fd --max-depth=2 $(echo $fd_opts) | wc -l)
 	if [[ $items -lt $cutoff ]]
 	then
-		exa --icons --tree --level=2 --binary --extended --octal-permissions --group-directories-first --ignore-glob=.git "$search"
-		unset items cutoff search
+		exa $(echo $exa_opts) --tree --level=2 --git-ignore $1
 		return
 	fi
 
-	exa --icons --long --binary --extended --octal-permissions --group-directories-first --ignore-glob=.git "$search"
-	unset items cutoff search
+	exa $(echo $exa_opts) --grid --icons $1
 	return
 fi
 
+local fg_lines=$(fd --fixed-strings --follow --max-depth=3 -- "$1" | wc -l)
 local rg_lines=$(rg \
-	--hidden \
+	--follow \
 	--pretty \
 	--max-depth=3 \
 	--sortr=path \
 	--fixed-strings \
+	-- \
 	"$1" \
-	| stump 10 \
+	| stump $(($fg_lines < 10 ? $fg_lines : 10 )) \
 	| tee /dev/tty \
 	| wc -l)
 
 echo -n "\n\e[4m\e[38;2;244;219;214mdirectories/files\033[0m\e[0m"
 echo
 {
-	fd --fixed-strings --hidden --follow --strip-cwd-prefix --color never --exact-depth 1 "$1";
-	fd --fixed-strings --hidden --follow --strip-cwd-prefix --color never --exact-depth 2 "$1";
-	fd --fixed-strings --hidden --follow --strip-cwd-prefix --color never --exact-depth 3 "$1";
+	fd --fixed-strings --follow --strip-cwd-prefix --color=never --exact-depth=1 -- "$1";
+	fd --fixed-strings --follow --strip-cwd-prefix --color=never --exact-depth=2 -- "$1";
+	fd --fixed-strings --follow --strip-cwd-prefix --color=never --exact-depth=3 -- "$1";
 } \
 	| stump $(($rg_lines + 2)) \
 	| tac \
-	| rg --color=always --passthrough --fixed-strings "$1"
-
-unset rg_lines
+	| rg --color=always --passthrough --fixed-strings -- "$1"

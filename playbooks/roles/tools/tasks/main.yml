@@ -9,7 +9,7 @@
     - pkg: "fd-find"
       exe: "fd"
       with: rust
-    - pkg: "exa --no-default-features"
+    - pkg: "exa"
       with: "rust"
     - pkg: "ripgrep"
       exe: "rg"
@@ -20,8 +20,6 @@
     - pkg: "bat"
       with: "rust"
     - pkg: "precious"
-      with: "rust"
-    - pkg: "mdcat"
       with: "rust"
     - pkg: "github.com/junegunn/fzf@latest"
       exe: "fzf"
