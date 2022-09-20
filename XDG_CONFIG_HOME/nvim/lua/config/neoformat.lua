@@ -104,7 +104,6 @@ return function()
 					return terraform
 				end,
 			},
-
 		},
 	})
 end

@@ -21,6 +21,13 @@ include = "**/*.vim"
 cmd = ["pipx", "run", "--spec", "vim-vint", "vint", "--color", "--style-problem"]
 ok_exit_codes = [0]
 expect_stderr = true
+[commands.stylua]
+type="both"
+include = "XDG_CONFIG_HOME/nvim/lua/**/*.lua"
+cmd=["umamba", "run", "--prefix", "$CONDA_ENVS/nvim", "stylua", "--color=always"]
+lint_flags=["--check", "--verify"]
+ok_exit_codes = [0]
+expect_stderr = true
 
 [commands.pch-end-of-file]
 type="tidy"

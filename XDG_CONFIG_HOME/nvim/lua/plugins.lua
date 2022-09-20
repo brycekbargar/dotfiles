@@ -74,5 +74,5 @@ return require("packer").startup(function(use)
 		config = require("config.lightline"),
 	})
 
-	require('packer').sync()
+	require("packer").sync()
 end)
