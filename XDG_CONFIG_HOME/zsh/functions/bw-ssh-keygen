@@ -1,5 +1,6 @@
+# shellcheck shell=bash
 # shellcheck disable=SC2168
-# vi: ft=bash
+# vi: ft=sh
 
 # shellcheck disable=SC2155
 local pw="$(bw generate -ulns --length 31)"

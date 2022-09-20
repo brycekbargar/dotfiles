@@ -32,7 +32,6 @@ cmd = [
   "$CONDA_ENVS/nvim",
   "shellcheck",
   "--color=always",
-  "--shell=bash",
 ]
 ok_exit_codes = [0]
 expect_stderr = true

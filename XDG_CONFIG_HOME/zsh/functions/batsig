@@ -1,5 +1,6 @@
+# shellcheck shell=bash
 # shellcheck disable=SC2168
-# vi: ft=bash
+# vi: ft=sh
 
 local cmd=""
 local help=false
