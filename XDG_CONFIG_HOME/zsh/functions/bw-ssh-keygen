@@ -1,11 +1,16 @@
-# vi: ft=zsh
+# shellcheck disable=SC2168
+# vi: ft=bash
 
+# shellcheck disable=SC2155
 local pw="$(bw generate -ulns --length 31)"
 
 echo "$pw" | clip.exe
 ssh-keygen -f "$HOME/.ssh/$1" -t rsa -b 4096 -C "${2:-brycekbargar@gmail.com}"
 echo "" | clip.exe
 
+# shellcheck disable=SC2155
+# shellcheck disable=SC2288
+# shellcheck disable=SC2016
 local itemid=$(
 	bw get template item |
 		jq --arg NAME "$1" --arg PW "$pw" |

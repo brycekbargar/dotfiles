@@ -15,9 +15,9 @@ if [ "$(uname -m)" = "arm64" ]; then
 	CONDA_MACOS="Miniconda3-latest-MacOSX-arm64.sh"
 fi
 
-pushd /private/tmp
+pushd /private/tmp || exit
 curl -O -fsSL "https://repo.anaconda.com/miniconda/$CONDA_MACOS"
-popd
+popd || exit
 
 /bin/zsh "/private/tmp/$CONDA_MACOS" -b -s -p "$HOME/.local/share/conda/base"
 /bin/zsh -s <<EOF

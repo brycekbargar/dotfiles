@@ -2,7 +2,7 @@
 
 if [[ -f "$1" ]]; then
 	bat "$1"
-	exit 0
+	exit
 fi
 
 lines=$(($(tput lines) - 5))
@@ -15,7 +15,7 @@ if [[ "$1" = "." ]]; then
 	fd_opts=("${fd_opts[@]}" "--hidden" "--no-ignore-vcs" "--" "." "${2:-.}")
 	shift 1
 else
-	exa_opts=("${exa_opts[@]}" "--git-ignore")
+	exa_opts=("${exa_opts[@]}" "--git-ignore" "--no-user" "--no-time" "--no-permissions" "--no-filesize")
 	fd_opts=("${fd_opts[@]}" "--" "." "${1:-.}")
 fi
 
@@ -27,23 +27,23 @@ if [[ -z "$1" || (-d "$1" && "$1" = */*) ]]; then
 	items=$(fd --max-depth=4 "${fd_opts[@]}" | wc -l)
 	if [[ $items -lt $cutoff ]]; then
 		exa --tree --level=4 "${exa_opts[@]}"
-		exit 0
+		exit
 	fi
 
 	items=$(fd --max-depth=3 "${fd_opts[@]}" | wc -l)
 	if [[ $items -lt $cutoff ]]; then
 		exa --tree --level=3 "${exa_opts[@]}"
-		exit 0
+		exit
 	fi
 
 	items=$(fd --max-depth=2 "${fd_opts[@]}" | wc -l)
 	if [[ $items -lt $cutoff ]]; then
 		exa --tree --level=2 "${exa_opts[@]}"
-		exit 0
+		exit
 	fi
 
 	EXA_GRID_ROWS="$((cutoff / 2))" exa --grid --icons "${exa_opts[@]}"
-	exit 0
+	exit
 fi
 
 fg_lines=$(fd --fixed-strings --follow --max-depth=3 -- "$1" | wc -l)

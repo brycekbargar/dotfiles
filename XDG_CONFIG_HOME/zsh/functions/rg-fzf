@@ -1,4 +1,6 @@
-# vi: ft=zsh
+# shellcheck disable=SC2168
+# vi: ft=bash
+
 rg --line-number "$@" |
 	fzf \
 		--delimiter : \

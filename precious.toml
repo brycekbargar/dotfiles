@@ -14,3 +14,11 @@ include = "**/*.vim"
 cmd = ["pipx", "run", "--spec", "vim-vint", "vint", "--color", "--style-problem"]
 ok_exit_codes = [0]
 expect_stderr = true
+
+[commands.shellcheck]
+type="lint"
+include = ["XDG_BIN_HOME/*", "XDG_CONFIG_HOME/git/hooks/*", "*.sh", "XDG_CONFIG_HOME/zsh/*.zsh", "XDG_CONFIG_HOME/zsh/functions/*"]
+exclude = ["**/myrc.zsh", "**/bw-ssh-add", "**/prompt.zsh"]
+cmd=["umamba", "run", "--prefix", "$CONDA_ENVS/nvim", "shellcheck", "--color=always", "--shell=bash"]
+ok_exit_codes = [0]
+expect_stderr = true

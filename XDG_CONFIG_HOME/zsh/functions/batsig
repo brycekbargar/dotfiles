@@ -1,4 +1,5 @@
-# vi: ft=zsh
+# shellcheck disable=SC2168
+# vi: ft=bash
 
 local cmd=""
 local help=false
@@ -41,7 +42,9 @@ if [[ $help == false ]]; then
 fi
 
 if [[ -z "$1" ]]; then
+	# shellcheck disable=SC2086
 	eval $cmd 2>&1 | bat -plhelp
 else
+	# shellcheck disable=SC2086
 	eval $cmd 2>&1 | rg --context=6 --no-line-number --pretty "$@" | bat -plhelp
 fi
