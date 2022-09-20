@@ -87,6 +87,7 @@ return function()
 					local shfmt = conda_run.exe({ n = "shfmt" }).with_args({
 						"-i",
 						shiftwidth,
+						"--simplify",
 					})
 					shfmt.stdin = true
 					return shfmt

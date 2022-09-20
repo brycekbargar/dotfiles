@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-if [[ -f "$1" ]]; then
+if [[ -f $1 ]]; then
 	bat "$1"
 	exit
 fi
@@ -10,7 +10,7 @@ cutoff=${LSS_CUTOFF:-$lines}
 
 exa_opts=("--long" "--binary" "--group-directories-first" "--ignore-glob=.git")
 fd_opts=("--max-results=$((cutoff + 1))")
-if [[ "$1" = "." ]]; then
+if [[ $1 == "." ]]; then
 	exa_opts=("${exa_opts[@]}" "--all" "--octal-permissions" "--group")
 	fd_opts=("${fd_opts[@]}" "--hidden" "--no-ignore-vcs" "--" "." "${2:-.}")
 	shift 1
@@ -19,11 +19,11 @@ else
 	fd_opts=("${fd_opts[@]}" "--" "." "${1:-.}")
 fi
 
-if [[ -n "$1" ]]; then
+if [[ -n $1 ]]; then
 	exa_opts=("${exa_opts[@]}" "$1")
 fi
 
-if [[ -z "$1" || (-d "$1" && "$1" = */*) ]]; then
+if [[ -z $1 || (-d $1 && $1 == */*) ]]; then
 	items=$(fd --max-depth=4 "${fd_opts[@]}" | wc -l)
 	if [[ $items -lt $cutoff ]]; then
 		exa --tree --level=4 "${exa_opts[@]}"

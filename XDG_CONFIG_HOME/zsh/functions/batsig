@@ -4,7 +4,7 @@
 local cmd=""
 local help=false
 
-while [[ "$#" -gt 0 ]]; do
+while [[ $# -gt 0 ]]; do
 	case "$1" in
 	--)
 		shift 1
@@ -41,7 +41,7 @@ if [[ $help == false ]]; then
 	cmd="$cmd --help"
 fi
 
-if [[ -z "$1" ]]; then
+if [[ -z $1 ]]; then
 	# shellcheck disable=SC2086
 	eval $cmd 2>&1 | bat -plhelp
 else

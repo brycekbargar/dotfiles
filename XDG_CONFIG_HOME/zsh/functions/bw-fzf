@@ -1,6 +1,6 @@
 # vi: ft=bash
 
-if [[ -z "$BW_SESSION" ]]; then
+if [[ -z $BW_SESSION ]]; then
 	echo >&2 "Vault is locked, run bw-unlock"
 	return 1
 fi

@@ -4,7 +4,7 @@ include = ["XDG_BIN_HOME/*", "XDG_CONFIG_HOME/git/hooks/*", "*.sh", "XDG_CONFIG_
 exclude = ["**/myrc.zsh", "**/bw-ssh-add"]
 cmd=["umamba", "run", "--prefix", "$CONDA_ENVS/nvim", "shfmt"]
 lint_flags=["--diff"]
-tidy_flags=["--write"]
+tidy_flags=["--write", "--simplify"]
 ok_exit_codes = [0]
 expect_stderr = true
 
