@@ -5,44 +5,42 @@ local help=false
 
 while [[ "$#" -gt 0 ]]; do
 	case "$1" in
-        --)
-            shift 1
-			break
-        ;;
+	--)
+		shift 1
+		break
+		;;
 
-        help)
-			help=true
-			cmd="$cmd $1"
-            shift 1
-        ;;
+	help)
+		help=true
+		cmd="$cmd $1"
+		shift 1
+		;;
 
-        --help)
-			help=true
-			cmd="$cmd $1"
-            shift 1
-        ;;
+	--help)
+		help=true
+		cmd="$cmd $1"
+		shift 1
+		;;
 
-        -h)
-			help=true
-			cmd="$cmd $1"
-            shift 1
-        ;;
+	-h)
+		help=true
+		cmd="$cmd $1"
+		shift 1
+		;;
 
-        *)
-			cmd="$cmd $1"
-			shift 1
-        ;;
+	*)
+		cmd="$cmd $1"
+		shift 1
+		;;
 
-  esac
+	esac
 done
 
-if [[ $help == false ]]
-then
+if [[ $help == false ]]; then
 	cmd="$cmd --help"
 fi
 
-if [[ -z "$1" ]]
-then
+if [[ -z "$1" ]]; then
 	eval $cmd 2>&1 | bat -plhelp
 else
 	eval $cmd 2>&1 | rg --context=6 --no-line-number --pretty "$@" | bat -plhelp

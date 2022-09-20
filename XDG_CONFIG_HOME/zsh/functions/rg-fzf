@@ -1,8 +1,6 @@
 # vi: ft=zsh
-rg  \
-	--line-number \
-	"$@" \
-	| fzf \
+rg --line-number "$@" |
+	fzf \
 		--delimiter : \
 		--preview 'bat --color=always --highlight-line={2} {1}' \
 		--preview-window '60%,+{2}+3/3,~3'

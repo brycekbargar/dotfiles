@@ -1,0 +1,72 @@
+#!/usr/bin/env bash
+
+if [[ -f "$1" ]]; then
+	bat "$1"
+	exit 0
+fi
+
+lines=$(($(tput lines) - 5))
+cutoff=${LSS_CUTOFF:-$lines}
+
+exa_opts=("--long" "--binary" "--group-directories-first" "--ignore-glob=.git")
+fd_opts=("--max-results=$((cutoff + 1))")
+if [[ "$1" = "." ]]; then
+	exa_opts=("${exa_opts[@]}" "--all" "--octal-permissions" "--group")
+	fd_opts=("${fd_opts[@]}" "--hidden" "--no-ignore-vcs" "--" "." "${2:-.}")
+	shift 1
+else
+	exa_opts=("${exa_opts[@]}" "--git-ignore")
+	fd_opts=("${fd_opts[@]}" "--" "." "${1:-.}")
+fi
+
+if [[ -n "$1" ]]; then
+	exa_opts=("${exa_opts[@]}" "$1")
+fi
+
+if [[ -z "$1" || (-d "$1" && "$1" = */*) ]]; then
+	items=$(fd --max-depth=4 "${fd_opts[@]}" | wc -l)
+	if [[ $items -lt $cutoff ]]; then
+		exa --tree --level=4 "${exa_opts[@]}"
+		exit 0
+	fi
+
+	items=$(fd --max-depth=3 "${fd_opts[@]}" | wc -l)
+	if [[ $items -lt $cutoff ]]; then
+		exa --tree --level=3 "${exa_opts[@]}"
+		exit 0
+	fi
+
+	items=$(fd --max-depth=2 "${fd_opts[@]}" | wc -l)
+	if [[ $items -lt $cutoff ]]; then
+		exa --tree --level=2 "${exa_opts[@]}"
+		exit 0
+	fi
+
+	EXA_GRID_ROWS="$((cutoff / 2))" exa --grid --icons "${exa_opts[@]}"
+	exit 0
+fi
+
+fg_lines=$(fd --fixed-strings --follow --max-depth=3 -- "$1" | wc -l)
+rg_lines=$(
+	rg \
+		--follow \
+		--pretty \
+		--max-depth=3 \
+		--sortr=path \
+		--fixed-strings \
+		-- "$1" |
+		stump $((fg_lines < 10 ? fg_lines : 10)) |
+		tee /dev/tty |
+		wc -l
+)
+
+echo -ne "\n\e[4m\e[38;2;244;219;214mdirectories/files\033[0m\e[0m"
+echo
+{
+	fd --fixed-strings --follow --strip-cwd-prefix --color=never --exact-depth=1 -- "$1"
+	fd --fixed-strings --follow --strip-cwd-prefix --color=never --exact-depth=2 -- "$1"
+	fd --fixed-strings --follow --strip-cwd-prefix --color=never --exact-depth=3 -- "$1"
+} |
+	stump $((rg_lines + 2)) |
+	tac |
+	rg --color=always --passthrough --fixed-strings -- "$1"
