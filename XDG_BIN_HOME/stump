@@ -1,17 +1,32 @@
-#!/usr/bin/zsh
+#!/usr/bin/env bash
 
-local lines=$(($(tput lines) - 10))
+if [[ "$1" == *"-h"* ]]; then
+	cat <<HELP
+stump truncates stdin to the current size of the screen.
 
-cat /dev/stdin |
-	awk \
-		-v limit="${1:-$lines}" \
-		-v nores="$2" \
-		'
-		BEGIN {c=0}
-		{if(NR > limit) c++}
-		{if(NR <= limit) print}
-		END {if(c > 0) print "...and", c, "more lines..."}
-		END {if(NR == 0 && nores != "") print nores}
-		'
+USAGE:
+	stump [nreserved]
+	stump --help
 
-unset $lines
+ARGS:
+	<nreserved>		An optional number of lines to reserve when calculating current screen size.
+
+OPTIONS:
+	-h, --help		Prints help information.
+HELP
+
+	exit 0
+fi
+
+lines=$(($(tput lines) - 5 - ${1-0}))
+
+awk \
+	-v limit="$lines" \
+	-- \
+	'
+	BEGIN {c=0}
+	{if(NR > limit) c++}
+	{if(NR <= limit) print}
+	END {if(c > 0) print "...and", c, "more lines..."}
+	' \
+	-
