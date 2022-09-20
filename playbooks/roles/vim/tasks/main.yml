@@ -14,18 +14,18 @@
 - name: Add vim plugins
   ansible.builtin.git:
     repo: "{{ item.repo }}"
-    version: "HEAD"
+    version: HEAD
     force: true
     dest: "{{ lookup('env', 'HOME') }}/.vim/pack/vim/{{ item.dest }}"
     single_branch: true
     depth: 1
   with_items:
-    - repo: "https://github.com/catppuccin/vim"
-      dest: "opt/catppuccin-vim"
-    - repo: "https://github.com/tpope/vim-flagship"
-      dest: "opt/flagship"
-    - repo: "https://github.com/KSR-Yasuda/vim-plugin-AnsiEsc.git"
-      dest: "opt/ansi-esc"
+    - repo: https://github.com/catppuccin/vim
+      dest: opt/catppuccin-vim
+    - repo: https://github.com/tpope/vim-flagship
+      dest: opt/flagship
+    - repo: https://github.com/KSR-Yasuda/vim-plugin-AnsiEsc.git
+      dest: opt/ansi-esc
 
 - name: Add ftplugins
   ansible.builtin.file:
@@ -33,27 +33,27 @@
     dest: "{{ lookup('env', 'HOME') }}/.vim/ftplugin/{{ item }}"
     state: link
   with_items:
-    - "gitcommit.vim"
+    - gitcommit.vim
 
 - name: Add common plugins
   ansible.builtin.git:
     repo: "{{ item.repo }}"
-    version: "HEAD"
+    version: HEAD
     force: true
     dest: "{{ lookup('env', 'HOME') }}/.vim/pack/common/{{ item.dest }}"
     single_branch: true
     depth: 1
   with_items:
-    - repo: "https://github.com/tpope/vim-sensible"
-      dest: "start/sensible"
-    - repo: "https://github.com/tpope/vim-vinegar"
-      dest: "start/vinegar"
-    - repo: "https://github.com/tpope/vim-sleuth"
-      dest: "start/sleuth"
-    - repo: "https://github.com/lifepillar/vim-mucomplete"
-      dest: "start/mucomplete"
-    - repo: "https://github.com/sheerun/vim-polyglot"
-      dest: "opt/polyglot"
+    - repo: https://github.com/tpope/vim-sensible
+      dest: start/sensible
+    - repo: https://github.com/tpope/vim-vinegar
+      dest: start/vinegar
+    - repo: https://github.com/tpope/vim-sleuth
+      dest: start/sleuth
+    - repo: https://github.com/lifepillar/vim-mucomplete
+      dest: start/mucomplete
+    - repo: https://github.com/sheerun/vim-polyglot
+      dest: opt/polyglot
 
 - name: Linking .vimrc
   ansible.builtin.file:

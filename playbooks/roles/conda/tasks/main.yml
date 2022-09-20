@@ -17,13 +17,13 @@
 
 - name: Update conda
   ansible.builtin.command:
-    cmd: "conda update --name base conda --all --yes"
+    cmd: conda update --name base conda --all --yes
   register: conda_base_update
   changed_when: "'packages will be' in conda_base_update.stdout"
 
 - name: Install mamba
   ansible.builtin.command:
-    cmd: "conda install --name base conda-libmamba-solver micromamba --yes"
+    cmd: conda install --name base conda-libmamba-solver micromamba --yes
     creates: "{{ lookup('env', 'CONDA_BASE') }}/bin/micromamba"
 
 - name: Linking umamba binary
@@ -40,7 +40,7 @@
 
 - name: Create system environments
   ansible.builtin.command:
-    cmd: "conda env create --file {{ item }}"
+    cmd: conda env create --file {{ item }}
     creates: "{{ lookup('env', 'CONDA_SYSTEM') }}/{{ item | basename | splitext | first }}"
   environment:
     CONDA_ENVS_PATH: "{{ lookup('env', 'CONDA_SYSTEM') }}"
@@ -49,14 +49,14 @@
 
 - name: Update system environments definitions
   ansible.builtin.command:
-    cmd: "conda env update --file {{ item }} --prune"
+    cmd: conda env update --file {{ item }} --prune
   changed_when: true
   with_fileglob:
     - "{{ lookup('env', 'XDG_CONFIG_HOME') }}/conda/*.yml"
 
 - name: Update system environments
   ansible.builtin.command:
-    cmd: "conda update --name {{ item | basename | splitext | first }} --all --yes"
+    cmd: conda update --name {{ item | basename | splitext | first }} --all --yes
   register: conda_system_update
   changed_when: "'packages will be' in conda_system_update.stdout"
   with_fileglob:
@@ -70,20 +70,20 @@
     state: link
   with_items:
     - src: "{{ lookup('env', 'CARGO_HOME') }}/bin"
-      toolchain: "rust"
+      toolchain: rust
     - src: "{{ lookup('env', 'GOPATH') }}/bin"
-      toolchain: "go"
+      toolchain: go
 
 - name: Update base npm
   ignore_errors: true
   ansible.builtin.command:
-    cmd: "conda run --name runtimes-nodejs npm install -g npm@latest"
+    cmd: conda run --name runtimes-nodejs npm install -g npm@latest
   register: conda_npm_update
   changed_when: "'changed 16 packages' not in conda_npm_update.stdout"
 
 - name: Clean conda
   ignore_errors: true
   ansible.builtin.command:
-    cmd: "conda clean --packages --yes"
+    cmd: conda clean --packages --yes
   register: conda_clean
   changed_when: "'There are no unused package(s) to remove.' not in conda_clean.stdout"

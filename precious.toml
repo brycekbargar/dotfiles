@@ -82,6 +82,7 @@ expect_stderr = true
 [commands.prettier]
 type = "both"
 include = ["*.json", "*.jsonc", "*.yaml", "*.yml"]
+exclude = ["playbooks/*"]
 cmd = ["npx", "--", "prettier@latest"]
 lint_flags = ["--check"]
 tidy_flags = ["--write"]
@@ -103,8 +104,6 @@ cmd = [
 lint_flags = ["--check"]
 ok_exit_codes = [0]
 expect_stderr = true
-
-
 [commands."taplo.lint-precious"]
 type = "lint"
 include = ["precious.toml"]
@@ -120,3 +119,10 @@ cmd = [
 ]
 ok_exit_codes = [0]
 expect_stderr = true
+
+[commands.ansible-lint]
+type = "both"
+include = ["playbooks/**/*.yaml", "playbooks/**/*.yml"]
+cmd = ["ansible-lint", "--force-color", "-c", "playbooks/.ansible-lint"]
+tidy_flags = ["--write", "-q"]
+ok_exit_codes = [0, 2]

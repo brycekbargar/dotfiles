@@ -1,8 +1,9 @@
 ---
-- hosts: localhost
+- name: Run with home configuration
+  hosts: localhost
   vars:
     dotfiles: "{{ playbook_dir }}/.."
-    zsh: "/usr/bin/zsh"
+    zsh: /usr/bin/zsh
   roles:
     - prepare
     - debian

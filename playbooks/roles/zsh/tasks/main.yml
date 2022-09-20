@@ -5,22 +5,22 @@
     marker: "# {mark} ANSIBLE MANAGED .myzshrc"
     create: true
     mode: "0644"
-    insertbefore: "BOF"
+    insertbefore: BOF
     block: |
       cd ~/
       source "$ZDOTDIR/myrc.zsh"
     state: present
-  # TODO: Parameterize this
+# TODO: Parameterize this
 
 - name: Init conda
   ansible.builtin.command:
-    cmd: "conda init zsh"
+    cmd: conda init zsh
   changed_when: false
 
 - name: Download antidote
   ansible.builtin.git:
-    repo: "https://github.com/mattmc3/antidote.git"
-    version: "HEAD"
+    repo: https://github.com/mattmc3/antidote.git
+    version: HEAD
     force: true
     dest: "{{ lookup('env', 'XDG_BIN_HOME') }}/antidote"
     single_branch: true
@@ -29,11 +29,11 @@
 - name: Allow chsh to zsh
   become: true
   ansible.builtin.lineinfile:
-    path: "/private/etc/shells"
+    path: /private/etc/shells
     line: "{{ zsh }}"
   when: ansible_distribution == "MacOSX"
 
-- name: chsh to zsh
+- name: Change default shell to zsh
   become: true
   ansible.builtin.user:
     name: "{{ whoami }}"

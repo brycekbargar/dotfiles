@@ -1,7 +1,7 @@
 ---
 - name: Make ports available
   ansible.builtin.file:
-    src: "/opt/local/bin"
+    src: /opt/local/bin
     dest: "{{ lookup('env', 'XDG_PKG_HOME') }}/ports"
     state: link
 
@@ -37,6 +37,6 @@
 
 - name: Link gnu bin dir
   ansible.builtin.file:
-    src: "/opt/local/libexec/gnubin"
+    src: /opt/local/libexec/gnubin
     dest: "{{ lookup('env', 'XDG_PKG_HOME') }}/gports"
     state: link

@@ -1,5 +1,6 @@
 ---
-- hosts: localhost
+- name: Run with work configuration
+  hosts: localhost
   vars:
     dotfiles: "{{ playbook_dir }}/.."
     zsh: "{{ lookup('env', 'XDG_PKG_HOME') }}/ports/zsh"

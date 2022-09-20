@@ -1,15 +1,16 @@
 ---
-- hosts: localhost
+- name: Playbook for testing roles and tasks
+  hosts: localhost
   vars:
     dotfiles: "{{ playbook_dir }}/../"
   tasks:
     - name: Install fzf
       condstall:
-        installer: "conda"
-        package: "fd-find"
-        binary: "fd"
+        installer: conda
+        package: fd-find
+        binary: fd
         state: present
       register: testout
-    - name: dump test output
-      debug:
+    - name: Dump test output
+      ansible.builtin.debug:
         msg: "{{ testout }}"

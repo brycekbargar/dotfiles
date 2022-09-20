@@ -2,13 +2,13 @@
 - name: Link dotfiles
   ansible.builtin.file:
     src: "{{ dotfiles }}/{{ item }}"
-    dest: "{{ lookup('env', item ) }}"
+    dest: "{{ lookup('env', item) }}"
     state: link
   with_items:
-    - "XDG_CONFIG_HOME"
-    - "XDG_BIN_HOME"
+    - XDG_CONFIG_HOME
+    - XDG_BIN_HOME
 
-- name: whoami fact
+- name: Set whoami fact
   become: false
   ansible.builtin.set_fact:
     whoami: "{{ ansible_user_id }}"
@@ -16,4 +16,4 @@
 - name: Soft become check
   become: true
   ansible.builtin.debug:
-    msg: "You have sudo privs"
+    msg: You have sudo privs
