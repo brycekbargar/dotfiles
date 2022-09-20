@@ -1,7 +1,5 @@
 #:schema ./precious-schema.json
 
-[commands]
-
 [commands.shfmt]
 type = "both"
 include = [
@@ -87,5 +85,38 @@ include = ["*.json", "*.jsonc", "*.yaml", "*.yml"]
 cmd = ["npx", "--", "prettier@latest"]
 lint_flags = ["--check"]
 tidy_flags = ["--write"]
+ok_exit_codes = [0]
+expect_stderr = true
+
+[commands."taplo.format"]
+type = "both"
+include = ["*.toml"]
+cmd = [
+  "umamba",
+  "run",
+  "--prefix",
+  "$CONDA_ENVS/nvim",
+  "taplo",
+  "format",
+  "--colors=always",
+]
+lint_flags = ["--check"]
+ok_exit_codes = [0]
+expect_stderr = true
+
+
+[commands."taplo.lint-precious"]
+type = "lint"
+include = ["precious.toml"]
+cmd = [
+  "umamba",
+  "run",
+  "--prefix",
+  "$CONDA_ENVS/nvim",
+  "taplo",
+  "check",
+  "--colors=always",
+  "--schema=https://raw.githubusercontent.com/brycekbargar/dotfiles/main/precious-schema.json",
+]
 ok_exit_codes = [0]
 expect_stderr = true
