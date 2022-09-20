@@ -20,7 +20,7 @@
     fuckyou = !git add -A && git commit --amend --no-edit --no-verify
     sorry = !git add -A && git rebase --continue
     ca = !git add -A && git commit
-    cam = "!f() { git add -A && git commit -m '$1'; }; f"
+    cam = "!f() { git add -A && git commit -m \"$1\"; }; f"
     # Muscle memory from an old alias
     scam = !git cam
     # Todos las Cosas!
