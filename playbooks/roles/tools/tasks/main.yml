@@ -27,3 +27,6 @@
     - pkg: github.com/itchyny/gojq/cmd/gojq@latest
       exe: gojq
       with: go
+    - pkg: github.com/shihanng/gig@latest
+      exe: gig
+      with: go
