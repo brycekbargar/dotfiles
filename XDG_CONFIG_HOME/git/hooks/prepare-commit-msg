@@ -12,6 +12,7 @@ msg_source="$2"
 case "$msg_source" in
 "")
 	echo "" >"$msg_file"
+	echo "" >>"$msg_file"
 	awk '{print "# "$0}' "$pre_commit_out" >>"$msg_file"
 	;;
 
