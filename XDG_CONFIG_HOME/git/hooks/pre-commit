@@ -34,7 +34,8 @@ fi
 diff_out=""
 tidied_files=$(awk -- '$2 == "Tidied" { print $5 }' <<<"$tidy_out")
 if rg --quiet '.' -- <<<"$tidied_files"; then
-	diff_out="\n$(git --no-pager diff --color)\n"
+	# shellcheck disable=SC2086
+	diff_out="\n$(git --no-pager diff --color $tidied_files)\n"
 	# shellcheck disable=SC2086
 	git add $tidied_files
 fi

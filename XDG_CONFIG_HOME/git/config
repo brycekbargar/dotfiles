@@ -30,7 +30,7 @@
     todos = "!\
         f() { \
             echo ""; \
-            sl=$(git -c status.color=always status --short --branch --ahead-behind | tee /dev/tty | wc -l); \
+            sl=$(git -c status.color=always status --untracked-files=${GIT__STATUS_UNTRACKED_FILES:-all} --short --branch --ahead-behind | tee /dev/tty | wc -l); \
             echo ""; \
             git loog | stump $sl | head -n -2; \
         }; f"
