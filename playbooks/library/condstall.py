@@ -239,10 +239,14 @@ def main():
             if installer.target == "global"
             else target_prefix.joinpath("bin", binary)
         )
-        (_, version, _) = module.run_command(
+        (err, version, _) = module.run_command(
             [bin_path, "--version"],
-            check_rc=True,
         )
+        if err != 0:
+            (_, version, _) = module.run_command(
+                [bin_path, "version"],
+                check_rc=True,
+            )
         result["msg"] = result["installed_binary_version"] = version.strip()
     except BaseException as err:
         module.fail_json(f"{type(err)=}: {err=}", **result)
