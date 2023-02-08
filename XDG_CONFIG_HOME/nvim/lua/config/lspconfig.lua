@@ -21,6 +21,7 @@ return function()
 
 		local bufopts = { noremap = true, silent = true, buffer = bufnr }
 		vim.keymap.set("n", "<leader>t", vim.lsp.buf.hover, bufopts)
+		vim.keymap.set("n", "<leader>T", vim.diagnostic.open_float, bufopts)
 		vim.keymap.set("n", "<leader>tR", vim.lsp.buf.rename, bufopts)
 		vim.keymap.set("n", "<leader>ta", vim.lsp.buf.code_action, bufopts)
 	end
@@ -117,13 +118,5 @@ return function()
 			})
 			.with_args({ "--stdio" })
 			.list(),
-	})
-
-	local id = vim.api.nvim_create_augroup("DiagnosticFloat", {})
-	vim.api.nvim_create_autocmd({ "CursorHold" }, {
-		pattern = "*",
-		group = id,
-		desc = "lua vim.diagnostic.open_float()",
-		callback = vim.diagnostic.open_float,
 	})
 end
