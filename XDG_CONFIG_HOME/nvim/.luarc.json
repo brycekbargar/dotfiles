@@ -6,8 +6,11 @@
     "version": "LuaJIT"
   },
   "telemetry.enable": true,
-  "workspace.library": [
-    "$XDG_DATA_HOME/nvim/site/pack/packer/",
-    "$CONDA_ENVS/nvim/squashfs-root/usr"
-  ]
+  "workspace": {
+    "library": [
+      "$XDG_DATA_HOME/nvim/site/pack/packer/",
+      "$CONDA_ENVS/nvim/squashfs-root/usr"
+    ],
+    "checkThirdParty": false
+  }
 }
