@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+umamba run --prefix "$CONDA_ENVS"/nvim "$@"

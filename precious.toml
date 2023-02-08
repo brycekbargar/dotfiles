@@ -10,7 +10,7 @@ include = [
   "XDG_CONFIG_HOME/zsh/functions/*",
 ]
 exclude = ["**/myrc.zsh", "**/bw-ssh-add", "**/.gitignore"]
-cmd = ["umamba", "run", "--prefix", "$CONDA_ENVS/nvim", "shfmt"]
+cmd = ["precious-nvim", "shfmt"]
 lint_flags = ["--diff"]
 tidy_flags = ["--write", "--simplify"]
 ok_exit_codes = [0]
@@ -25,14 +25,7 @@ include = [
   "XDG_CONFIG_HOME/zsh/functions/*",
 ]
 exclude = ["**/myrc.zsh", "**/bw-ssh-add", "**/prompt.zsh", "**/.gitignore"]
-cmd = [
-  "umamba",
-  "run",
-  "--prefix",
-  "$CONDA_ENVS/nvim",
-  "shellcheck",
-  "--color=always",
-]
+cmd = ["precious-nvim", "shellcheck", "--color=always"]
 ok_exit_codes = [0]
 expect_stderr = true
 
@@ -53,14 +46,7 @@ expect_stderr = true
 [commands.stylua]
 type = "both"
 include = ["XDG_CONFIG_HOME/nvim/lua/**/*.lua"]
-cmd = [
-  "umamba",
-  "run",
-  "--prefix",
-  "$CONDA_ENVS/nvim",
-  "stylua",
-  "--color=always",
-]
+cmd = ["precious-nvim", "stylua", "--color=always"]
 lint_flags = ["--check", "--verify"]
 ok_exit_codes = [0]
 expect_stderr = true
@@ -91,15 +77,7 @@ expect_stderr = true
 [commands."taplo.format"]
 type = "both"
 include = ["*.toml"]
-cmd = [
-  "umamba",
-  "run",
-  "--prefix",
-  "$CONDA_ENVS/nvim",
-  "taplo",
-  "format",
-  "--colors=always",
-]
+cmd = ["precious-nvim", "taplo", "format", "--colors=always"]
 lint_flags = ["--check"]
 ok_exit_codes = [0]
 expect_stderr = true
@@ -107,10 +85,7 @@ expect_stderr = true
 type = "lint"
 include = ["precious.toml"]
 cmd = [
-  "umamba",
-  "run",
-  "--prefix",
-  "$CONDA_ENVS/nvim",
+  "precious-nvim",
   "taplo",
   "check",
   "--colors=always",
