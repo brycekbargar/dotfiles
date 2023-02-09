@@ -14,7 +14,7 @@ cmd = ["precious-nvim", "shfmt"]
 lint_flags = ["--diff"]
 tidy_flags = ["--write", "--simplify"]
 ok_exit_codes = [0]
-expect_stderr = true
+ignore_stderr = ["Waiting for other mamba process to finish"]
 [commands.shellcheck]
 type = "lint"
 include = [
@@ -27,7 +27,7 @@ include = [
 exclude = ["**/myrc.zsh", "**/bw-ssh-add", "**/prompt.zsh", "**/.gitignore"]
 cmd = ["precious-nvim", "shellcheck", "--color=always"]
 ok_exit_codes = [0]
-expect_stderr = true
+ignore_stderr = ["Waiting for other mamba process to finish"]
 
 [commands.vint]
 type = "lint"
@@ -42,27 +42,27 @@ cmd = [
   "--style-problem",
 ]
 ok_exit_codes = [0]
-expect_stderr = true
+ignore_stderr = ["Waiting for other mamba process to finish"]
 [commands.stylua]
 type = "both"
 include = ["XDG_CONFIG_HOME/nvim/lua/**/*.lua"]
 cmd = ["precious-nvim", "stylua", "--color=always"]
 lint_flags = ["--check", "--verify"]
 ok_exit_codes = [0]
-expect_stderr = true
+ignore_stderr = ["Waiting for other mamba process to finish"]
 
 [commands."pre-comit.end-of-file"]
 type = "tidy"
 include = ["*"]
 cmd = ["pipx", "run", "--spec", "pre-commit-hooks", "end-of-file-fixer"]
 ok_exit_codes = [0, 1]
-expect_stderr = true
+ignore_stderr = ["Waiting for other mamba process to finish"]
 [commands."pre-commit.trailing-whitespace"]
 type = "tidy"
 include = ["*"]
 cmd = ["pipx", "run", "--spec", "pre-commit-hooks", "trailing-whitespace-fixer"]
 ok_exit_codes = [0, 1]
-expect_stderr = true
+ignore_stderr = ["Waiting for other mamba process to finish"]
 
 [commands.prettier]
 type = "both"
@@ -72,7 +72,7 @@ cmd = ["npx", "--", "prettier@latest"]
 lint_flags = ["--check"]
 tidy_flags = ["--write"]
 ok_exit_codes = [0]
-expect_stderr = true
+ignore_stderr = ["Waiting for other mamba process to finish"]
 
 [commands."taplo.format"]
 type = "both"
@@ -80,7 +80,7 @@ include = ["*.toml"]
 cmd = ["precious-nvim", "taplo", "format", "--colors=always"]
 lint_flags = ["--check"]
 ok_exit_codes = [0]
-expect_stderr = true
+ignore_stderr = ["Waiting for other mamba process to finish", "found files"]
 [commands."taplo.lint-precious"]
 type = "lint"
 include = ["precious.toml"]
@@ -92,7 +92,7 @@ cmd = [
   "--schema=https://raw.githubusercontent.com/brycekbargar/dotfiles/main/precious-schema.json",
 ]
 ok_exit_codes = [0]
-expect_stderr = true
+ignore_stderr = ["Waiting for other mamba process to finish", "found files"]
 
 [commands.ansible-lint]
 type = "both"
