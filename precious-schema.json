@@ -23,17 +23,17 @@
           "additionalProperties": false,
           "properties": {
             "type": {
-              "description": "This must be either lint, tidy, or both. This defines what type of filter this is. Note that a filter which is both must define lint_flags or tidy_flags as well.",
+              "description": "This must be either lint, tidy, or both. This defines what type of command this is. A command which is both must define lint_flags or tidy_flags as well.",
               "type": "string",
               "enum": ["tidy", "lint", "both"]
             },
             "include": {
-              "description": "Each array member is a gitignore file style pattern that tells precious what files this filter applies to. However, you cannot have a pattern starting with a ! as you can in a gitignore file.",
+              "description": "Each array member is a gitignore pattern that tells precious what files this command applies to. You can use lines starting with a ! to negate the meaning of previous rules in the list, so that anything that matches is not included even if it matches previous rules.",
               "type": "array",
               "items": { "type": "string" }
             },
             "exclude": {
-              "description": "Each array member is a gitignore file style pattern that tells precious what files this filter should not be applied to. However, you cannot have a pattern starting with a ! as you can in a gitignore file.",
+              "description": "Each array member is a gitignore pattern that tells precious what files this command should not be applied to. You can use lines starting with a ! to negate the meaning of previous rules in the list, so that anything that matches is not excluded even if it matches previous rules.",
               "type": "array",
               "items": { "type": "string" }
             },
@@ -43,7 +43,7 @@
               "items": { "type": "string" }
             },
             "env": {
-              "description": "This key allows you to set one or more environment variables that will be set when the command is run. Both the keys and values of this table must be strings.",
+              "description": "This key allows you to set one or more environment variables that will be set when the command is run. The values in this table must be strings.",
               "type": "object",
               "pattern_properties": {
                 ".*": { "type": "string" }
@@ -54,25 +54,39 @@
               "type": "string"
             },
             "lint_flags": {
-              "description": "If a command is both a linter and tidier than it may take extra flags to operate in linting mode. This is how you set that flag.",
+              "description": "If a command is both a linter and tidier then it may take extra flags to operate in linting mode. This is how you set that flag.",
               "type": "array",
               "items": { "type": "string" }
             },
             "tidy_flags": {
-              "description": "If a command is both a linter and tidier than it may take extra flags to operate in tidying mode. This is how you set that flag.",
+              "description": "If a command is both a linter and tidier then it may take extra flags to operate in tidying mode. This is how you set that flag.",
               "type": "array",
               "items": { "type": "string" }
             },
-            "run_mode": {
-              "description": "This determines how the command is run. The default, 'files', means that the command is run once per file that matches its include/exclude settings. If this is set to 'dirs', then the command is run once per directory containing files that matches its include/exclude settings. If it's set to 'root', then it is run exactly once from the root of the project if it matches any files.",
+            "invoke": {
+              "description": "The invoke key tells precious how the command should be invoked.",
               "type": "string",
-              "enum": ["files", "dirs", "root"],
-              "default": "files"
+              "enum": ["per-file", "per-dir", "once"],
+              "default": "per-file"
             },
-            "chdir": {
-              "description": "If this is true, then the command will be run with a chdir to the relevant path. If the command operates on files, precious chdir's to the file's directory. If it operates on directories than it changes to each directory. Note that if run_mode is dirs and chdir is true then precious will not pass the path to the executable as an argument.",
-              "type": "boolean",
-              "default": "false"
+            "working_dir": {
+              "description": "The working_dir key tells precious what the working directory should be when the command is run.",
+              "type": "string",
+              "enum": ["root", "dir"],
+              "default": "root"
+            },
+            "path_args": {
+              "description": "The path_args key tells precious how paths should be passed when the command is run.",
+              "type": "string",
+              "enum": [
+                "file",
+                "dir",
+                "none",
+                "dot",
+                "absolute-file",
+                "absolute-dir"
+              ],
+              "default": "file"
             },
             "ok_exit_codes": {
               "description": "Any exit code that does not indicate an abnormal exit should be here. For most commands this is just 0 but some commands may use other exit codes even for a normal exit.",
@@ -84,10 +98,10 @@
               "type": "array",
               "items": { "type": "integer" }
             },
-            "expect_stderr": {
-              "description": "By default, precious assumes that when a command sends output to stderr that indicates a failure to lint or tidy. If this is not the case, set this to true.",
-              "type": "boolean",
-              "default": "false"
+            "ignore_stderr": {
+              "description": "By default, precious assumes that when a command sends output to stderr that indicates a failure to lint or tidy. This parameter can specify one or more regexes. These regexes will be matched against the command's stderr output. If any of the regexes match, the stderr output is ignored.",
+              "type": "array",
+              "items": { "type": "string" }
             }
           },
           "required": ["type", "include", "cmd", "ok_exit_codes"]
