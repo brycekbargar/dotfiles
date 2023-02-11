@@ -28,6 +28,7 @@ RUN \
 	passwd -d "${USER}" && \
 	usermod -aG sudo "${USER}"
 USER ${USER}
+ENTRYPOINT ["/usr/bin/zsh", "-i"]
 
 FROM base AS conda-amd64
 ADD --chown=1000:1000 https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh /tmp/miniconda-install.sh
