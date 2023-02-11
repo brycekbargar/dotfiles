@@ -1,14 +1,12 @@
 ---
-- name: Run with work configuration
+- name: Setup development environment
   hosts: localhost
   vars:
     dotfiles: "{{ playbook_dir }}/.."
-    zsh: "{{ lookup('env', 'XDG_PKG_HOME') }}/ports/zsh"
   roles:
     - prepare
-    - macos
     - conda
     - zsh
     - vim
     - tools
-    - neovim
+      #- neovim
