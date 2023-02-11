@@ -18,6 +18,8 @@
 - name: Update conda
   ansible.builtin.command:
     cmd: conda update --name base conda --all --yes
+  environment:
+    CONDA_CHANNEL_PRIORITY: flexible
   register: conda_base_update
   changed_when: "'packages will be' in conda_base_update.stdout"
 
@@ -25,6 +27,8 @@
   ansible.builtin.command:
     cmd: conda install --name base conda-libmamba-solver micromamba --yes
     creates: "{{ lookup('env', 'CONDA_BASE') }}/bin/micromamba"
+  environment:
+    CONDA_CHANNEL_PRIORITY: flexible
 
 - name: Linking umamba binary
   ansible.builtin.file:

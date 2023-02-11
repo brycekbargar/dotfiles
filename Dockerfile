@@ -44,7 +44,7 @@ FROM conda-${TARGETARCH} AS dotfiles-local
 ARG USER
 COPY --chown=1000:1000 . "/home/${USER}/_src/dotfiles"
 
-FROM dotfiles-${DOTFILES_LOCATION} as final
+FROM dotfiles-${DOTFILES_LOCATION} as ansible
 ARG USER
 WORKDIR /home/${USER}/_src/dotfiles
 RUN git clean -fdX

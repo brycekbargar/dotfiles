@@ -2,6 +2,7 @@
 name: toolchains-rust
 channels:
   - conda-forge/label/rust_dev
+  - conda-forge
   - nodefaults
 dependencies:
   - rust
