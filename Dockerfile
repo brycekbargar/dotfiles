@@ -46,7 +46,7 @@ COPY --chown=1000:1000 . "/home/${USER}/_src/dotfiles"
 FROM dotfiles-${DOTFILES_LOCATION} as final
 ARG USER
 WORKDIR /home/${USER}/_src/dotfiles
-RUN git clean -fdx
+RUN git clean -fdX
 RUN ln -s ~/_src/dotfiles/.zshenv ~/.zshenv
 RUN mkdir -p ~/_setup ~/code \
 	~/.local/opt \
