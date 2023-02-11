@@ -56,3 +56,4 @@ RUN mkdir -p ~/_setup ~/code \
 # TODO: Remove ths when conda fixes the installation script (also the -f in the install)
 RUN mkdir -p ~/.local/share/conda/base/pkgs/envs/*
 RUN /usr/bin/zsh /tmp/miniconda-install.sh -b -s -f -p "/home/${USER}/.local/share/conda/base"
+RUN /usr/bin/zsh ./tea.sh
