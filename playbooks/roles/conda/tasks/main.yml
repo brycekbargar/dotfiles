@@ -42,6 +42,13 @@
     line: "experimental_solver: libmamba"
     state: present
 
+- name: Install conda-lock
+  ansible.builtin.command:
+    cmd: conda install --name base conda-lock --yes
+    creates: "{{ lookup('env', 'CONDA_BASE') }}/bin/conda-lock"
+  environment:
+    CONDA_CHANNEL_PRIORITY: flexible
+
 - name: Create system environments
   ansible.builtin.command:
     cmd: conda env create --file {{ item }}
@@ -64,11 +71,9 @@
       toolchain: go
 
 - name: Update base npm
-  ignore_errors: true
   ansible.builtin.command:
     cmd: conda run --name runtimes-nodejs npm install -g npm@latest
-  register: conda_npm_update
-  changed_when: "'changed 16 packages' not in conda_npm_update.stdout"
+  changed_when: true
 
 - name: Clean conda
   ignore_errors: true
