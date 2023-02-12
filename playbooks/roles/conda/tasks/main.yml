@@ -65,7 +65,7 @@
     force: true
     state: link
   with_items:
-    - src: "{{ lookup('env', 'CARGO_HOME') }}/bin"
+    - src: "{{ lookup('env', 'CARGO_INSTALL_ROOT') }}/bin"
       toolchain: rust
     - src: "{{ lookup('env', 'GOPATH') }}/bin"
       toolchain: go

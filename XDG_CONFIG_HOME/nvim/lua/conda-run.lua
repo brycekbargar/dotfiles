@@ -18,7 +18,7 @@ local conda_run = function(executable)
 	m.cmd = "umamba"
 	m.exe = m.cmd
 	m.path = m.cmd
-	m.args = concat_args({ "run", "-p", vim.env.CONDA_ENVS .. "/nvim" }, executable)
+	m.args = concat_args({ "run", "-p", vim.env.CONDA_SYSTEM .. "/nvim" }, executable)
 	m.arguments = m.args
 
 	function m.with_args(args)

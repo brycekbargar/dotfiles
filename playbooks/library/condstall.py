@@ -147,7 +147,7 @@ class RustToolchain(Toolchain):
         return "Installing" in stdout
 
     def global_bin_path(self, binary: str) -> pathlib.Path:
-        return pathlib.Path(os.environ["CARGO_HOME"]).joinpath("bin", binary)
+        return pathlib.Path(os.environ["CARGO_INSTALL_ROOT"]).joinpath("bin", binary)
 
 
 class GoToolchain(Toolchain):

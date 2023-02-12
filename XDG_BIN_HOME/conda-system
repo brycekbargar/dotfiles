@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+ENV_NAME=$1
+shift
+
+umamba run --prefix "$CONDA_SYSTEM/$ENV_NAME" "$@"

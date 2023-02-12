@@ -27,6 +27,7 @@ RUN \
 	useradd --uid 1000 --gid 1000 -s /usr/bin/zsh -m "${USER}" && \
 	passwd -d "${USER}" && \
 	usermod -aG sudo "${USER}"
+RUN mkdir /conda && chown -R 1000:1000 /conda
 USER ${USER}
 ENTRYPOINT ["/usr/bin/zsh", "-i"]
 
@@ -55,6 +56,6 @@ RUN mkdir -p ~/_setup ~/code \
 	~/.local/var/cache \
 	~/.local/var/lib
 # TODO: Remove ths when conda fixes the installation script (also the -f in the install)
-RUN mkdir -p ~/.local/share/conda/base/pkgs/envs/*
-RUN /usr/bin/zsh /tmp/miniconda-install.sh -b -s -f -p "/home/${USER}/.local/share/conda/base"
+RUN mkdir -p ~/.local/share/conda/pkgs/envs/*
+RUN /usr/bin/zsh /tmp/miniconda-install.sh -b -s -f -p "/home/${USER}/.local/share/conda"
 RUN /usr/bin/zsh ./tea.sh

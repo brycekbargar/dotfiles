@@ -3,6 +3,8 @@
   ansible.builtin.command:
     cmd: conda env create --file '{{ dotfiles }}/XDG_CONFIG_HOME/nvim/environment.yml' --quiet
     creates: "{{ nvim_env_path }}"
+  environment:
+    CONDA_ENVS_PATH: "{{ lookup('env', 'CONDA_SYSTEM') }}"
   register: nvim_conda_create
 
 - name: Updating conda env definition
@@ -66,11 +68,9 @@
     state: link
 
 - name: Update nvim npm
-  ignore_errors: true
   ansible.builtin.command:
     cmd: conda run --name nvim npm install -g npm@latest
-  register: nvim_npm_update
-  changed_when: "'changed 16 packages' not in nvim_npm_update.stdout"
+  changed_when: true
 
 - name: Installing tools
   condstall:
