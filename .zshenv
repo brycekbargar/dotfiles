@@ -14,7 +14,6 @@ export \
     CONDA_ENVS="/conda/envs" \
     CONDA_PKGS_DIRS="/conda/pkgs"
 export \
-    CONDA_BASE="$CONDA_SYSTEM/base" \
     CONDA_ENVS_PATH="$CONDA_ENVS:$CONDA_SYSTEM"
 export \
     CARGO_HOME="$XDG_CACHE_HOME/cargo" \
@@ -44,7 +43,6 @@ path=(
     "$XDG_PKG_HOME/go"
     "$XDG_PKG_HOME/ports"
     "$XDG_PKG_HOME/gports"
-    "$CONDA_BASE/condabin"
     $path
     "/mnt/c/Users/`id -un`/scoop/shims/"
     "/mnt/c/Windows/system32")

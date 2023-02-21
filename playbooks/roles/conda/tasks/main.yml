@@ -17,7 +17,7 @@
 
 - name: Linking umamba binary
   ansible.builtin.file:
-    src: "{{ lookup('env', 'CONDA_BASE') }}/bin/micromamba"
+    src: "{{ lookup('env', 'CONDA_SYSTEM') }}/base/bin/micromamba"
     dest: "{{ lookup('env', 'XDG_BIN_HOME') }}/umamba"
     state: link
 

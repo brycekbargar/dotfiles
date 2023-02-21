@@ -19,7 +19,10 @@ RUN --mount=type=cache,target=/opt/conda/pkgs \
 RUN --mount=type=cache,target=/opt/conda/pkgs \
         "${CONDA_PREFIX}/base/bin/conda" config --add channels conda-forge && \
         "${CONDA_PREFIX}/base/bin/conda" update --yes --quiet --name base conda --all && \
-        "${CONDA_PREFIX}/base/bin/conda" install --yes --quiet --name base conda-libmamba-solver micromamba
+        "${CONDA_PREFIX}/base/bin/conda" install --yes --quiet --name base \
+		conda-libmamba-solver \
+		micromamba \
+		conda-lock
 
 # build out the system conda environments
 # the conda_pkgs_dir varies by likelihood of shared pkgs
