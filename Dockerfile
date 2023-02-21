@@ -123,5 +123,5 @@ FROM dotfiles-${DOTFILES_LOCATION}
 ARG HOME
 WORKDIR ${HOME}/_src/dotfiles
 RUN ln -s ~/_src/dotfiles/.zshenv ~/.zshenv
-#RUN --mount=type=tmpfs,target="${HOME}/.local/var/cache" \
-#	/usr/bin/zsh ./tea.sh
+RUN --mount=type=tmpfs,target="${HOME}/.local/var/cache" \
+	/usr/bin/zsh ./tea.sh

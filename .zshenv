@@ -12,7 +12,7 @@ export \
     CONDARC="$XDG_CONFIG_HOME/conda/condarc" \
     CONDA_SYSTEM="$XDG_STATE_HOME/conda" \
     CONDA_ENVS="/conda/envs" \
-    CONDA_PKGS_DIRS="conda/pkgs"
+    CONDA_PKGS_DIRS="/conda/pkgs"
 export \
     CONDA_BASE="$CONDA_SYSTEM/base" \
     CONDA_ENVS_PATH="$CONDA_ENVS:$CONDA_SYSTEM"
