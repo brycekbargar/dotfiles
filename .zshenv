@@ -9,13 +9,13 @@ export \
     XDG_PKG_HOME="$HOME/.local/opt"
 
 export \
-    CONDA_BASE="$XDG_DATA_HOME/conda" \
-    CONDA_SYSTEM="$XDG_STATE_HOME/conda" \
-    CONDA_ENVS="/conda"
-export \
     CONDARC="$XDG_CONFIG_HOME/conda/condarc" \
-    CONDA_PKGS_DIRS="$XDG_CACHE_HOME/conda" \
-    CONDA_ENVS_PATH="$CONDA_ENVS:$CONDA_SYSTEM:$CONDA_BASE"
+    CONDA_SYSTEM="$XDG_STATE_HOME/conda" \
+    CONDA_ENVS="/conda/envs" \
+    CONDA_PKGS_DIRS="conda/pkgs"
+export \
+    CONDA_BASE="$CONDA_SYSTEM/base" \
+    CONDA_ENVS_PATH="$CONDA_ENVS:$CONDA_SYSTEM"
 export \
     CARGO_HOME="$XDG_CACHE_HOME/cargo" \
     CARGO_TARGET_DIR="$XDG_CACHE_HOME/cargo" \
