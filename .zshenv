@@ -34,15 +34,9 @@ export \
     PIPX_HOME="$XDG_STATE_HOME/pipx"
 
 typeset -aU path
-# Remove windows paths in wsl
-path=(${path[@]:#*/mnt/c/*})
 path=(
     "$XDG_BIN_HOME/shims"
     "$XDG_BIN_HOME"
     "$XDG_PKG_HOME/rust"
     "$XDG_PKG_HOME/go"
-    "$XDG_PKG_HOME/ports"
-    "$XDG_PKG_HOME/gports"
-    $path
-    "/mnt/c/Users/`id -un`/scoop/shims/"
-    "/mnt/c/Windows/system32")
+    $path)
