@@ -73,7 +73,6 @@ return function()
 		-- This is assuming:
 		--   1. There's a local conda env with ansible
 		--   2. There's a shim script to run ansible using that env
-		--   3. The ansiblels continues to assume ansible-lint and ansible are in the same venv
 		root_dir = util.root_pattern(".conda-ansible"),
 		config = {
 			ansible = {

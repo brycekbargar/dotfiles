@@ -39,15 +39,15 @@ ARG ENV_NAME="runtimes-python"
 ARG CONDA_PREFIX
 ARG DOTFILES_DIRECTORY
 COPY ${DOTFILES_DIRECTORY}/XDG_CONFIG_HOME/conda/${ENV_NAME}.yml environment.yml
-RUN --mount=type=cache,target=/opt/conda/pkgs \
-        conda env create --quiet --prefix "${CONDA_PREFIX}/${ENV_NAME}" --file environment.yml
+RUN --mount=type=cache,target=/python \
+        CONDA_PKGS_DIR="/python" conda env create --quiet --prefix "${CONDA_PREFIX}/${ENV_NAME}" --file environment.yml
 
 FROM mamba as dotfiles
 ARG CONDA_PREFIX
 ARG DOTFILES_DIRECTORY
 COPY ${DOTFILES_DIRECTORY}/environment.yml environment.yml
-RUN --mount=type=cache,target=/opt/conda/pkgs \
-        conda env create --quiet --prefix "${CONDA_PREFIX}/dotfiles" --file environment.yml
+RUN --mount=type=cache,target=/python \
+        CONDA_PKGS_DIR="/python" conda env create --quiet --prefix "${CONDA_PREFIX}/dotfiles" --file environment.yml
 
 FROM mamba as toolchains-go
 ARG ENV_NAME="toolchains-go"
@@ -70,6 +70,16 @@ ARG ENV_NAME="runtimes-nodejs"
 ARG CONDA_PREFIX
 ARG DOTFILES_DIRECTORY
 COPY ${DOTFILES_DIRECTORY}/XDG_CONFIG_HOME/conda/${ENV_NAME}.yml environment.yml
+RUN --mount=type=cache,target=/nodejs \
+        CONDA_PKGS_DIR="/nodejs" conda env create --quiet --prefix "${CONDA_PREFIX}/${ENV_NAME}" --file environment.yml
+RUN --mount=type=cache,target=/root/.npm \
+        conda run --prefix "${CONDA_PREFIX}/${ENV_NAME}" npm install -g npm@latest
+
+FROM mamba as nvim
+ARG ENV_NAME="nvim"
+ARG CONDA_PREFIX
+ARG DOTFILES_DIRECTORY
+COPY ${DOTFILES_DIRECTORY}/XDG_CONFIG_HOME/nvim/environment.yml environment.yml
 RUN --mount=type=cache,target=/nodejs \
         CONDA_PKGS_DIR="/nodejs" conda env create --quiet --prefix "${CONDA_PREFIX}/${ENV_NAME}" --file environment.yml
 RUN --mount=type=cache,target=/root/.npm \
@@ -106,11 +116,12 @@ USER 1000:1000
 
 ARG CONDA_PREFIX
 COPY --chown=1000:1000 --from=base ${CONDA_PREFIX}/base ${CONDA_PREFIX}/base
+COPY --chown=1000:1000 --from=dotfiles ${CONDA_PREFIX}/dotfiles ${CONDA_PREFIX}/dotfiles
 COPY --chown=1000:1000 --from=runtimes-python ${CONDA_PREFIX}/runtimes-python ${CONDA_PREFIX}/runtimes-python
 COPY --chown=1000:1000 --from=runtimes-nodejs ${CONDA_PREFIX}/runtimes-nodejs ${CONDA_PREFIX}/runtimes-nodejs
-COPY --chown=1000:1000 --from=toolchains-rust ${CONDA_PREFIX}/toolchains-rust ${CONDA_PREFIX}/toolchains-rust
 COPY --chown=1000:1000 --from=toolchains-go ${CONDA_PREFIX}/toolchains-go ${CONDA_PREFIX}/toolchains-go
-COPY --chown=1000:1000 --from=dotfiles ${CONDA_PREFIX}/dotfiles ${CONDA_PREFIX}/dotfiles
+COPY --chown=1000:1000 --from=toolchains-rust ${CONDA_PREFIX}/toolchains-rust ${CONDA_PREFIX}/toolchains-rust
+COPY --chown=1000:1000 --from=nvim ${CONDA_PREFIX}/nvim ${CONDA_PREFIX}/nvim
 
 FROM dev-container AS dotfiles-remote
 ARG HOME

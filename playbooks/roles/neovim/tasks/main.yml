@@ -1,76 +1,32 @@
 ---
-- name: Creating conda env
-  ansible.builtin.command:
-    cmd: conda env create --file '{{ dotfiles }}/XDG_CONFIG_HOME/nvim/environment.yml' --quiet
-    creates: "{{ nvim_env_path }}"
-  environment:
-    CONDA_ENVS_PATH: "{{ lookup('env', 'CONDA_SYSTEM') }}"
-  register: nvim_conda_create
-
-- name: Updating conda env definition
-  ansible.builtin.command:
-    cmd: conda env update --file '{{ dotfiles }}/XDG_CONFIG_HOME/nvim/environment.yml' --quiet --prune
-  when: not nvim_conda_create.changed
-
-- name: Updating conda env
-  ansible.builtin.command:
-    cmd: conda update --name nvim --all --yes
-  register: nvim_conda_update
-  changed_when: "'packages will be' in nvim_conda_update.stdout"
-  when: not nvim_conda_create.changed
-
 - name: Removing Neovim directory
   ansible.builtin.file:
     path: "{{ nvim_env_path }}/squashfs-root"
     state: absent
 
-- name: Downloading Neovim (for wsl)
+- name: Downloading Neovim
   ansible.builtin.get_url:
     url: https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage
     dest: "{{ nvim_env_path }}"
     mode: "0755"
-  when: ansible_distribution == "Debian"
 
-- name: Extracting Neovim (for wsl)
+- name: Extracting Neovim
   ansible.builtin.command:
     cmd: "{{ nvim_env_path }}/nvim.appimage --appimage-extract"
     creates: "{{ nvim_env_path }}/squashfs-root"
-  when: ansible_distribution == "Debian"
   args:
     chdir: "{{ nvim_env_path }}"
 
-- name: Removing Neovim AppImage (for wsl)
+- name: Removing Neovim AppImage
   ansible.builtin.file:
     path: "{{ nvim_env_path }}/nvim.appimage"
     state: absent
-  when: ansible_distribution == "Debian"
-
-- name: Making Neovim directory (for macos)
-  ansible.builtin.file:
-    path: "{{ nvim_env_path }}/squashfs-root/usr"
-    state: directory
-    mode: "0755"
-  when: ansible_distribution == "MacOSX"
-
-- name: Downloading Neovim (for macos)
-  ansible.builtin.unarchive:
-    remote_src: true
-    src: https://github.com/neovim/neovim/releases/download/nightly/nvim-macos.tar.gz
-    dest: "{{ nvim_env_path }}/squashfs-root/usr"
-    extra_opts:
-      - --strip-components=1
-  when: ansible_distribution == "MacOSX"
 
 - name: Linking nvim binary
   ansible.builtin.file:
     src: "{{ nvim_env_path }}/squashfs-root/usr/bin/nvim"
     dest: "{{ lookup('env', 'XDG_BIN_HOME') }}/nvim"
     state: link
-
-- name: Update nvim npm
-  ansible.builtin.command:
-    cmd: conda run --name nvim npm install -g npm@latest
-  changed_when: true
 
 - name: Installing tools
   condstall:
@@ -118,7 +74,7 @@
     src: "{{ item.browser_download_url }}"
     dest: "{{ nvim_env_path }}/lua-language-server"
   loop: "{{ lua_lsp.json.assets }}"
-  when: item.name.endswith(lua_lsp_pattern)
+  when: item.name.endswith('linux-x64.tar.gz')
 
 - name: Verifying latest lua lsp
   ansible.builtin.stat:
@@ -150,10 +106,3 @@
     src: "{{ lookup('env', 'HOME') }}/.vim/pack/common"
     dest: "{{ lookup('env', 'XDG_DATA_HOME') }}/nvim/site/pack/common"
     state: link
-
-- name: PackerSync
-  ansible.builtin.command:
-    cmd: |
-      nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
-  changed_when: true
-  when: nvim_conda_create.changed

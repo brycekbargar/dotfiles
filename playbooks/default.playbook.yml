@@ -8,5 +8,5 @@
     - conda
     - zsh
     - vim
+    - neovim
     - tools
-      #- neovim
