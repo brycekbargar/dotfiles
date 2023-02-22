@@ -2,9 +2,8 @@
 echo "go make some tea"
 
 mkdir -p \
-	"$XDG_DATA_HOME" \
 	"$XDG_CACHE_HOME" \
-	"$XDG_STATE_HOME" \
+	"$XDG_DATA_HOME" \
 	"$XDG_PKG_HOME"
 
 # shellcheck disable=SC1090
