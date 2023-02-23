@@ -64,7 +64,7 @@ return function()
 					return isort
 				end,
 				function()
-					local black = conda_run.exe({ n = "black" }).with_args({
+					local black = conda_run.python({ n = "black" }).with_args({
 						"--stdin-filename",
 						util.escape_path(util.get_current_buffer_file_path()),
 						"--quiet",

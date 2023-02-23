@@ -50,4 +50,11 @@ function M.js(t)
 	return conda_run({ "npm", "exec", "--yes", "--", t.n .. "@latest" })
 end
 
+function M.python(t)
+	if t.package then
+		return conda_run({ "pipx", "run", "--spec=" .. t.package, "--", t.n })
+	end
+	return conda_run({ "pipx", "run", "--", t.n })
+end
+
 return M

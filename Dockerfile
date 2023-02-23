@@ -95,15 +95,10 @@ COPY ./dotfiles-dev-container /dotfiles
 COPY ./private /private
 FROM debian as dev-container
 RUN apt-get update && apt-get install --no-install-recommends --yes \
-	apt-transport-https \
-	build-essential \
 	ca-certificates \
 	curl \
 	git \
-	gnupg \
-	libssl-dev \
-	pkg-config \
-	software-properties-common \
+	make \
 	sudo \
 	unzip \
 	vim \
