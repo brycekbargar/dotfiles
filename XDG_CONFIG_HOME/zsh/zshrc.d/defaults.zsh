@@ -9,3 +9,4 @@ export COLORTERM="truecolor"
 eval $(dircolors)
 
 export INPUTRC="$XDG_CONFIG_HOME/.inputrc"
+export HISTFILE="$XDG_STATE_HOME/${ZHISTFILE:-.zsh_history}"

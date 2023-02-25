@@ -22,3 +22,4 @@ export LESS=" \
   --tilde \
   --incsearch \
   --use-color"
+export LESSHISTFILE="$XDG_STATE_HOME/less/history"

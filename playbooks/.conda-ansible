@@ -6,4 +6,4 @@
 # This file shouldn't be checked into vcs (except for now as a template file)
 #
 
-umamba run --prefix "$CONDA_ENVS/dotfiles" ansible "$@"
+umamba run --prefix "$CONDA_SYSTEM/dotfiles" ansible "$@"

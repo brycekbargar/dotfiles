@@ -2,7 +2,6 @@
 
 # zsh sensible
 mattmc3/zephyr			path:plugins/directory
-mattmc3/zephyr			path:plugins/environment
 belak/zsh-utils			path:history
 jeffreytse/zsh-vi-mode
 
@@ -21,8 +20,8 @@ BurntSushi/ripgrep 			kind:fpath path:complete
 sharkdp/fd 					kind:fpath path:contrib/completion
 itchyny/gojq 				kind:fpath
 ogham/exa					kind:fpath path:completions/zsh
-belak/zsh-utils 			path:completion
 aws/aws-cli					kind:clone
+belak/zsh-utils 			path:completion
 
 # Autoloading
 mattmc3/zephyr	path:plugins/confd

@@ -97,12 +97,12 @@
     repo: https://github.com/wbthomason/packer.nvim
     version: HEAD
     force: true
-    dest: "{{ lookup('env', 'XDG_DATA_HOME') }}/nvim/site/pack/packer/start/packer.nvim"
+    dest: "{{ lookup('env', 'XDG_STATE_HOME') }}/nvim/site/pack/packer/start/packer.nvim"
     single_branch: true
     depth: 1
 
 - name: Link common plugins
   ansible.builtin.file:
     src: "{{ lookup('env', 'HOME') }}/.vim/pack/common"
-    dest: "{{ lookup('env', 'XDG_DATA_HOME') }}/nvim/site/pack/common"
+    dest: "{{ lookup('env', 'XDG_STATE_HOME') }}/nvim/site/pack/common"
     state: link
