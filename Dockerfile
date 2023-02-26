@@ -154,7 +154,7 @@ passwd --delete "${USER}"
 usermod --append --groups sudo,docker "${USER}"
 install --mode 0440 -D <(echo "$USER ALL=(ALL) NOPASSWD: ALL") "/etc/sudoers.d/${USER}"
 # These should be mounted as volumes at runtime but don't fail if they're missing
-install --owner 1111 --group 1111 -D --directory /conda/envs /conda/pkgs "${HOME}/code"
+install --owner 1111 --group 1111 -D --directory /conda/envs /conda/pkgs
 NONROOT
 
 FROM dev-container as ansible
@@ -190,14 +190,14 @@ COPY --from=nvim-go /go/bin/ ${CONDA_PREFIX}/nvim/bin/
 COPY --from=nvim-rust /rust/bin/ ${CONDA_PREFIX}/nvim/bin/
 COPY --from=runtimes-python ${CONDA_PREFIX}/runtimes-python ${CONDA_PREFIX}/runtimes-python
 COPY --from=runtimes-nodejs ${CONDA_PREFIX}/runtimes-nodejs ${CONDA_PREFIX}/runtimes-nodejs
+RUN mkdir "${HOME}/code"
 
 FROM dev-container
 ARG HOME
-WORKDIR ${HOME}/code
-ENTRYPOINT ["/usr/bin/zsh", "-i"]
-USER 1111
-
 COPY --chown=1111:1111 --from=home-layer ${HOME} ${HOME}
+WORKDIR ${HOME}/code
 # XDG_STATE_HOME and XDG_CACHE_HOME should have most of the container writes
 # Having it set to be an anon volume keeps the container size down at runtime
 VOLUME ${HOME}/.local/var
+
+ENTRYPOINT ["/usr/bin/zsh", "-i"]
