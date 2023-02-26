@@ -2,6 +2,7 @@
 # vi: ft=zsh
 
 compstyle_zshzoo_setup
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 
 compdef _rg rg rg-fzf
 compdef _fd rg fd-fzf

@@ -8,7 +8,7 @@
   "telemetry.enable": true,
   "workspace": {
     "library": [
-      "$XDG_DATA_HOME/nvim/site/pack/packer/",
+      "$XDG_STATE_HOME/nvim/site/pack/packer/",
       "$CONDA_SYSTEM/nvim/squashfs-root/usr"
     ],
     "checkThirdParty": false

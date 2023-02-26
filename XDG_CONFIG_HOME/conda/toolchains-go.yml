@@ -1,6 +1,0 @@
----
-name: toolchains-go
-channels:
-  - nodefaults
-dependencies:
-  - go-cgo

@@ -28,29 +28,6 @@
     dest: "{{ lookup('env', 'XDG_BIN_HOME') }}/nvim"
     state: link
 
-- name: Installing tools
-  condstall:
-    package: "{{ item.pkg }}"
-    binary: "{{ item.exe | default('') }}"
-    installer: "{{ item.with }}"
-    target: nvim
-    state: present
-  with_items:
-    - pkg: stylua
-      with: rust
-    - pkg: taplo-cli --features lsp
-      exe: taplo
-      with: rust
-    - pkg: mvdan.cc/sh/v3/cmd/shfmt@latest
-      exe: shfmt
-      with: go
-    - pkg: github.com/hashicorp/terraform-ls@latest
-      exe: terraform-ls
-      with: go
-    - pkg: github.com/terraform-linters/tflint@latest
-      exe: tflint
-      with: go
-
 - name: Finding latest lua lsp
   ansible.builtin.uri:
     url: https://api.github.com/repos/sumneko/lua-language-server/releases/latest

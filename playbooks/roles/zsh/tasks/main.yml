@@ -1,4 +1,10 @@
 ---
+- name: Link .zshenv
+  ansible.builtin.file:
+    src: "{{ dotfiles }}/.zshenv"
+    dest: "{{ lookup('env', 'HOME') }}/.zshenv"
+    state: link
+
 - name: Load additional .zshrc files
   ansible.builtin.blockinfile:
     path: "{{ lookup('env', 'ZDOTDIR') }}/.zshrc"

@@ -4,7 +4,8 @@ XDG_BIN_HOME/umamba
 
 XDG_CONFIG_HOME/**/__pycache__
 XDG_CONFIG_HOME/conda/condarc
-XDG_CONFIG_HOME/nvim/plugin/
 XDG_CONFIG_HOME/zsh/.zshrc
 XDG_CONFIG_HOME/zsh/.p10k.zsh
 XDG_CONFIG_HOME/zsh/.zcompdump
+
+Dockerfile

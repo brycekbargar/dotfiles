@@ -59,6 +59,9 @@ nnoremap <silent> <leader>lm :MUcompleteAutoToggle<CR>
 let g:mucomplete#enable_auto_at_startup = 1
 
 if has('nvim')
+    set packpath=$XDG_STATE_HOME/nvim/site
+    set runtimepath=$XDG_STATE_HOME/nvim,$XDG_CONFIG_HOME/nvim,$VIMRUNTIME
+
     let g:polyglot_disabled = [
 	\'bash.plugin',
         \'terraform.plugin',

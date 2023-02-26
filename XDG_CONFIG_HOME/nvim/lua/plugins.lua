@@ -1,5 +1,6 @@
-local p = require("packer")
-return p.startup({
+local packer = require("packer")
+local util = require("packer.util")
+return packer.startup({
 	function(use)
 		use({ "wbthomason/packer.nvim" })
 		use({ "nvim-lua/plenary.nvim" })
@@ -75,10 +76,10 @@ return p.startup({
 			config = require("config.lightline"),
 		})
 
-		p.sync()
+		packer.sync()
 	end,
 	config = {
-		package_root = p.utils.join_paths(vim.fn.stdpath("state"), "site", "pack"),
-		compile_path = p.utils.join_paths(vim.fn.stdpath("state"), "plugin", "packer_compiled.lua"),
+		package_root = util.join_paths(vim.fn.stdpath("state"), "site", "pack"),
+		compile_path = util.join_paths(vim.fn.stdpath("state"), "plugin", "packer_compiled.lua"),
 	},
 })

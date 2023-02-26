@@ -42,7 +42,10 @@ cmd = [
   "--style-problem",
 ]
 ok_exit_codes = [0]
-ignore_stderr = ["Waiting for other mamba process to finish"]
+ignore_stderr = [
+  "Waiting for other mamba process to finish",
+  "creating virtual environment",
+]
 [commands.stylua]
 type = "both"
 include = ["XDG_CONFIG_HOME/nvim/lua/**/*.lua"]
@@ -56,13 +59,19 @@ type = "tidy"
 include = ["*"]
 cmd = ["pipx", "run", "--spec", "pre-commit-hooks", "end-of-file-fixer"]
 ok_exit_codes = [0, 1]
-ignore_stderr = ["Waiting for other mamba process to finish"]
+ignore_stderr = [
+  "Waiting for other mamba process to finish",
+  "creating virtual environment",
+]
 [commands."pre-commit.trailing-whitespace"]
 type = "tidy"
 include = ["*"]
 cmd = ["pipx", "run", "--spec", "pre-commit-hooks", "trailing-whitespace-fixer"]
 ok_exit_codes = [0, 1]
-ignore_stderr = ["Waiting for other mamba process to finish"]
+ignore_stderr = [
+  "Waiting for other mamba process to finish",
+  "creating virtual environment",
+]
 
 [commands.prettier]
 type = "both"

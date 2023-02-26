@@ -20,15 +20,3 @@
     src: "{{ lookup('env', 'CONDA_SYSTEM') }}/base/bin/micromamba"
     dest: "{{ lookup('env', 'XDG_BIN_HOME') }}/umamba"
     state: link
-
-- name: Link toolchain bins
-  ansible.builtin.file:
-    src: "{{ item.src }}"
-    dest: "{{ lookup('env', 'XDG_PKG_HOME') }}/{{ item.toolchain }}"
-    force: true
-    state: link
-  with_items:
-    - src: "{{ lookup('env', 'CARGO_INSTALL_ROOT') }}/bin"
-      toolchain: rust
-    - src: "{{ lookup('env', 'GOPATH') }}/bin"
-      toolchain: go
