@@ -1,0 +1,10 @@
+# syntax=docker/dockerfile:1
+FROM busybox AS editor-services
+ADD https://github.com/PowerShell/PowerShellEditorServices/releases/latest/download/PowerShellEditorServices.zip /tmp/pses.zip
+RUN unzip /tmp/pses.zip -d /pses
+
+FROM mcr.microsoft.com/powershell
+SHELL ["pwsh", "-NoLogo", "-NoProfile", "-ExecutionPolicy", "Unrestricted", "-Command"]
+RUN Install-Module -Name PSScriptAnalyzer -Force
+COPY --from=editor-services /pses/PowerShellEditorServices /powershell_es
+ENTRYPOINT ["pwsh", "-NoLogo", "-NoProfile", "-ExecutionPolicy", "Unrestricted", "-Command"]

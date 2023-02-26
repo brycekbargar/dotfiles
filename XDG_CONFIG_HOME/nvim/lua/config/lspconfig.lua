@@ -8,6 +8,10 @@ return function()
 	local lsp = require("lspconfig")
 	local util = require("lspconfig.util")
 	local conda_run = require("conda-run")
+	local version = (function()
+		local v = vim.version()
+		return v.major .. "." .. v.minor .. "." .. v.patch
+	end)()
 
 	local on_attach = function(client, bufnr)
 		vim.notify(client.name .. " active", "INFO", { title = "LspInfo" })
@@ -26,7 +30,7 @@ return function()
 		vim.keymap.set("n", "<leader>ta", vim.lsp.buf.code_action, bufopts)
 	end
 
-	lsp.sumneko_lua.setup({
+	lsp.lua_ls.setup({
 		on_attach = on_attach,
 		cmd = conda_run.exe({ n = "lua-language-server" }).list(),
 		root_dir = util.root_pattern(".luarc.json"),
@@ -116,6 +120,30 @@ return function()
 				n = "docker-langserver",
 			})
 			.with_args({ "--stdio" })
+			.list(),
+	})
+
+	lsp.powershell_es.setup({
+		on_attach = on_attach,
+		cmd = conda_run
+			.pwsh({
+				n = "/powershell_es/Start-EditorServices.ps1",
+			})
+			.with_args({
+				"-BundledModulesPath",
+				"/powershell_es",
+				"-SessionDetailsPath",
+				"/powershell_es/session.json",
+				"-LogPath",
+				"/powershell_es/session.log",
+				"-HostName",
+				"nvim",
+				"-HostProfileId",
+				"0",
+				"-HostVersion",
+				version,
+				"-Stdio",
+			})
 			.list(),
 	})
 end

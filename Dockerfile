@@ -195,7 +195,7 @@ FROM dev-container
 ARG HOME
 WORKDIR ${HOME}/code
 ENTRYPOINT ["/usr/bin/zsh", "-i"]
-USER 1111:1111
+USER 1111
 
 COPY --chown=1111:1111 --from=home-layer ${HOME} ${HOME}
 # XDG_STATE_HOME and XDG_CACHE_HOME should have most of the container writes
