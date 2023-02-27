@@ -12,7 +12,8 @@ function New-DevContainer {
         --no-cache `
         -t "brycekbargar/dev-container:testing" `
         -t "brycekbargar/dev-container:$dateTag" `
-        -f "$HOME\_setup\dotfiles\Dockerfile" "$HOME\_setup"
+        -f "$HOME\_setup\dotfiles\Dockerfile" `
+        "$HOME\_setup"
 }
 
 <#

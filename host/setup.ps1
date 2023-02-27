@@ -57,11 +57,12 @@ $ln_vimrc = [System.IO.Path]::Combine("$HOME", "_vimrc")
 # Modules
 $currentPath = [Environment]::GetEnvironmentVariable('PSModulePath', 'USER')
 if (-not $currentPath.Contains("dotfiles\windows\modules")) {
-    $modules = Resolve-Path([System.IO.Path]::Combine($PSScriptRoot, "modules"))
+    $modules = Resolve-Path([System.IO.Path]::Combine($PSScriptRoot, "bin"))
     [Environment]::SetEnvironmentVariable('PSModulePath', "$currentPath;$modules" , 'USER')
 }
 
 # random stuff
+Update-Help -UICulture en-Us -ErrorAction SilentlyContinue
 & scoop install flux
 & scoop install windirstat
 & sudo wsl --update
