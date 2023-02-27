@@ -49,6 +49,7 @@ git clone --depth 1 --single-branch "$repo" "https://github.com/lifepillar/vim-m
 git clone --depth 1 --single-branch "$repo" "https://github.com/sheerun/vim-polyglot" "opt/polyglot"
 git clone --depth 1 --single-branch "$repo" "https://github.com/catppuccin/vim" "opt/catppuccin-vim"
 git clone --depth 1 --single-branch "$repo" "https://github.com/tpope/vim-flagship" "opt/flagship"
+git clone --depth 1 --single-branch "$repo" "https://github.com/KSR-Yasuda/vim-plugin-AnsiEsc.git" "opt/ansi-esc"
 Pop-Location
 $df_vimrc = [System.IO.Path]::Combine("$PSScriptRoot", "..", "XDG_CONFIG_HOME", "nvim", "init.vim")
 $ln_vimrc = [System.IO.Path]::Combine("$HOME", "_vimrc")
