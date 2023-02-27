@@ -14,11 +14,11 @@ local function concat_args(t1, t2)
 end
 
 -- TODO: Refactor this to be not conda specific anymore
-local conda_run = function(executable, image)
+local conda_run = function(executable, docker)
 	local m = {}
-	if image ~= nil then
+	if docker then
 		m.cmd = "docker"
-		m.args = concat_args({ "run", "--rm", "-i", image }, executable)
+		m.args = concat_args({ "run", "--rm", "-i" }, executable)
 	else
 		m.cmd = "umamba"
 		m.args = concat_args({ "run", "-p", vim.env.CONDA_SYSTEM .. "/nvim" }, executable)
@@ -65,7 +65,7 @@ function M.python(t)
 end
 
 function M.pwsh(t)
-	return conda_run({ t.n }, "brycekbargar/pwsh")
+	return conda_run({ "brycekbargar/pwsh", t.n }, true)
 end
 
 return M

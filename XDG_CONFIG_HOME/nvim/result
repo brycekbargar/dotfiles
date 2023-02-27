@@ -1,0 +1,67 @@
+start
+pre-read
+    Import-Module PSReadLine
+post-read
+post set
+post break
+pre-read
+Set-PSReadlineOption -EditMode Vi
+post-read
+post set
+post break
+pre-read
+function OnViModeChange {
+post-read
+post set
+post break
+pre-read
+    if (    $args[0] -eq 'Command') {
+post-read
+post set
+post break
+pre-read
+        Write-Host -NoNewLine "`e[1 q"
+post-read
+post set
+post break
+pre-read
+    } else {
+post-read
+post set
+post break
+pre-read
+        Write-Host -NoNewLine "`e[5 q"
+post-read
+post set
+post break
+pre-read
+    }
+post-read
+post set
+post break
+pre-read
+}
+post-read
+post set
+post break
+pre-read
+Set-PSReadLineOption -ViModeIndicator Script -ViModeChangeHandler $Function:OnViModeChange
+post-read
+post set
+post break
+pre-read
+post-read
+post set
+pre-trim
+post-trim
+Import-Module PSReadLine
+Set-PSReadLineOption -EditMode Vi
+function OnViModeChange {
+    if (    $args[0] -eq 'Command') {
+        Write-Host -NoNewline "`e[1 q"
+    }
+    else {
+        Write-Host -NoNewline "`e[5 q"
+    }
+}
+Set-PSReadLineOption -ViModeIndicator Script -ViModeChangeHandler $Function:OnViModeChange

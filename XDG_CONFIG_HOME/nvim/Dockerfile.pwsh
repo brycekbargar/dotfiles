@@ -3,8 +3,18 @@ FROM busybox AS editor-services
 ADD https://github.com/PowerShell/PowerShellEditorServices/releases/latest/download/PowerShellEditorServices.zip /tmp/pses.zip
 RUN unzip /tmp/pses.zip -d /pses
 
+FROM busybox AS script-analyzer
+RUN mkdir /powershell_sa
+RUN echo "#!/usr/bin/env bash" >> /powershell_sa/Invoke-Formatter
+RUN echo 'sd="$(</dev/stdin)" pwsh -NoLogo -NoProfile -ExecutionPolicy Unrestricted \
+	-Command Invoke-Formatter -ScriptDefinition '"'"'$env:sd'"'"'' \
+	>> /powershell_sa/Invoke-Formatter
+RUN chmod +x /powershell_sa/Invoke-Formatter
+
 FROM mcr.microsoft.com/powershell
-SHELL ["pwsh", "-NoLogo", "-NoProfile", "-ExecutionPolicy", "Unrestricted", "-Command"]
-RUN Install-Module -Name PSScriptAnalyzer -Force
+RUN pwsh -NoLogo -NoProfile -ExecutionPolicy Unrestricted -Command \
+	Install-Module -Name PSScriptAnalyzer -Force
+COPY --from=script-analyzer /powershell_sa /powershell_sa
+
 COPY --from=editor-services /pses/PowerShellEditorServices /powershell_es
 ENTRYPOINT ["pwsh", "-NoLogo", "-NoProfile", "-ExecutionPolicy", "Unrestricted", "-Command"]

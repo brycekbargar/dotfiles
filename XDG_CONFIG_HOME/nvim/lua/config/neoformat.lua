@@ -104,6 +104,16 @@ return function()
 					return terraform
 				end,
 			},
+
+			ps1 = {
+				function()
+					local InvokeFormatter = conda_run.pwsh({
+						n = "/powershell_sa/Invoke-Formatter",
+					})
+					InvokeFormatter.stdin = true
+					return InvokeFormatter
+				end,
+			},
 		},
 	})
 end
