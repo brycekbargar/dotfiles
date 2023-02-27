@@ -65,3 +65,4 @@ if (-not $currentPath.Contains("dotfiles\windows\modules")) {
 & scoop install flux
 & scoop install windirstat
 & sudo wsl --update
+New-Item "~/_setup/private" -ItemType Directory -Force
