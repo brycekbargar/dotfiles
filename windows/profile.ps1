@@ -1,3 +1,5 @@
+Import-Module posh-git
+
 Import-Module PSReadLine
 Set-PSReadLineOption -EditMode Vi
 function OnViModeChange {

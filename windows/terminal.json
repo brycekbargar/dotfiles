@@ -36,13 +36,6 @@
       },
       {
         "colorScheme": "Catppuccin Macchiato",
-        "guid": "{58ad8b0c-3ef8-5f4d-bc6f-13e4c00f2530}",
-        "hidden": false,
-        "name": "Debian",
-        "source": "Windows.Terminal.Wsl"
-      },
-      {
-        "colorScheme": "Campbell Powershell",
         "guid": "{574e775e-4f2a-5b96-ac1e-a2962a402336}",
         "hidden": false,
         "name": "PowerShell",
@@ -55,7 +48,7 @@
       "name": "Catppuccin Macchiato",
 
       "cursorColor": "#F4DBD6",
-      "selectionBackground": "#F4DBD6",
+      "selectionBackground": "#5B6078",
 
       "background": "#24273A",
       "foreground": "#CAD3F5",

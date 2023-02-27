@@ -19,8 +19,8 @@ scoop install pwsh
 
 ```powershell
 scoop install git
-git clone -b main https://github.com/brycekbargar/dotfiles.git $home\_src\dotfiles
-Set-Location $home\_src\dotfiles\windows
+git clone -b main https://github.com/brycekbargar/dotfiles.git $home\_setup\dotfiles
+Set-Location $home\_setup\dotfiles\windows
 .\setup.ps1
 ```
 
@@ -28,4 +28,9 @@ Set-Location $home\_src\dotfiles\windows
 
 ```batch
 .\scoop\shims\pwsh.exe -noprofile -command "Install-Module PSReadLine -Force -SkipPublisherCheck -AllowPrerelease"
+.\scoop\shims\pwsh.exe -noprofile -command "Install-Module posh-git -Force -SkipPublisherCheck -AllowPrerelease"
 ```
+
+##### Install Manually
+  - Docker Desktop: https://docs.docker.com/desktop/install/windows-install/
+  - Caskaydia Cove: https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/CascadiaCode
