@@ -1,9 +1,4 @@
 ---
-- name: Removing Neovim directory
-  ansible.builtin.file:
-    path: "{{ nvim_env_path }}/squashfs-root"
-    state: absent
-
 - name: Downloading Neovim
   ansible.builtin.get_url:
     url: https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage
@@ -33,11 +28,6 @@
     url: https://api.github.com/repos/sumneko/lua-language-server/releases/latest
     return_content: true
   register: lua_lsp
-
-- name: Removing lua lsp directory
-  ansible.builtin.file:
-    path: "{{ nvim_env_path }}/lua-language-server"
-    state: absent
 
 - name: Creating lua lsp directory
   ansible.builtin.file:
