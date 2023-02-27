@@ -40,10 +40,12 @@ if !has('nvim')
 		set backupdir=$HOME/vimfiles/state/backup
 		set directory=$HOME/vimfiles/state/swap
 		set undodir=$HOME/vimfiles/state/undo
+		set viminfofile=$HOME/vimfiles/state/.viminfo
 	else
 		set backupdir=$XDG_STATE_HOME/vim/backup
 		set directory=$XDG_STATE_HOME/vim/swap
 		set undodir=$XDG_STATE_HOME/vim/undo
+		set viminfofile=$XDG_STATE_HOME/vim/.viminfo
 	endif
     set viewoptions+=unix,slash
 endif

@@ -1,6 +1,8 @@
-# Windows Setup
+# Host Setup
 
-### Usage
+### Macos Usage
+
+### Windows Usage
 
 ##### In admin powershell
 
