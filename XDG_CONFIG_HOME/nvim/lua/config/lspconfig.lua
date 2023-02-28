@@ -76,11 +76,13 @@ return function()
 			.list(),
 		-- This is assuming:
 		--   1. There's a local conda env with ansible
-		--   2. There's a shim script to run ansible using that env
-		root_dir = util.root_pattern(".conda-ansible"),
-		config = {
+		--   2. There's a shim script to activate that env
+		root_dir = util.root_pattern(".ansible-lsp-activation-script"),
+		settings = {
 			ansible = {
-				path = ".conda-ansible",
+				python = {
+					activationScript = ".ansible-lsp-activation-script",
+				},
 			},
 		},
 		single_file_support = false,

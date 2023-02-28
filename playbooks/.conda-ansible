@@ -1,9 +1,0 @@
-#!/usr/bin/env bash
-#
-# The [ansible ls](https://github.com/ansible/ansible-language-server) assumes
-# that ansible-lint and ansible are installed in the same python env.
-# Here's a hack to run ansible using the conda env of the repo and not nvim.
-# This file shouldn't be checked into vcs (except for now as a template file)
-#
-
-umamba run --prefix "$CONDA_SYSTEM/dotfiles" ansible "$@"

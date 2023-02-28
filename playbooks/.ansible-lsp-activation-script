@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+#
+# The [ansible ls](https://github.com/ansible/ansible-language-server) assumes
+# that ansible-lint and ansible are installed using virtualenv and not conda.
+# Here's a hack to run ansible using the conda env of the repo.
+# This file shouldn't be checked into vcs (except for now as a template file)
+#
+
+env > /home/bryce/lsp-called
+
+source <("$CONDA_SYSTEM/base/bin/conda" shell.zsh hook)
+conda activate "$CONDA_SYSTEM/dotfiles"
