@@ -3,7 +3,10 @@
 # zsh sensible
 mattmc3/zephyr			path:plugins/directory
 belak/zsh-utils			path:history
-jeffreytse/zsh-vi-mode
+# This fork/branch fixes the issue where lines get eaten in normal mode
+# https://github.com/jeffreytse/zsh-vi-mode/pull/180
+#jeffreytse/zsh-vi-mode
+scresante/zsh-vi-mode	branch:fixpacman
 
 # Theme
 romkatv/powerlevel10k kind:fpath
