@@ -9,7 +9,7 @@ include = [
   "XDG_CONFIG_HOME/zsh/*.zsh",
   "XDG_CONFIG_HOME/zsh/functions/*",
 ]
-exclude = ["**/myrc.zsh", "**/bw-ssh-add", "**/.gitignore"]
+exclude = ["**/myrc.zsh", "**/bw-ssh-add", "**/.gitignore", "**/rfunc"]
 cmd = ["conda-system", "nvim", "shfmt"]
 lint_flags = ["--diff"]
 tidy_flags = ["--write", "--simplify"]
@@ -24,7 +24,13 @@ include = [
   "XDG_CONFIG_HOME/zsh/*.zsh",
   "XDG_CONFIG_HOME/zsh/functions/*",
 ]
-exclude = ["**/myrc.zsh", "**/bw-ssh-add", "**/prompt.zsh", "**/.gitignore"]
+exclude = [
+  "**/myrc.zsh",
+  "**/bw-ssh-add",
+  "**/prompt.zsh",
+  "**/.gitignore",
+  "**/rfunc",
+]
 cmd = ["conda-system", "nvim", "shellcheck", "--color=always"]
 ok_exit_codes = [0]
 ignore_stderr = ["Waiting for other mamba process to finish"]
