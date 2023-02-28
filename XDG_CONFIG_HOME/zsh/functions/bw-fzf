@@ -18,6 +18,5 @@ bw list items |
 	] |
 	@tsv
 	' |
-	column -t -s $'\t' |
-	fzf --with-nth 1..-2 |
+	fzf --with-nth 1..-2 -d '\t' |
 	awk '{print $NF}'
