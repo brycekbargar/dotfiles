@@ -20,6 +20,6 @@ then
 	return 1
 fi
 
-echo "$item" | jq -r '.login.password' | clip.exe
+echo "$item" | jq -r '.login.password' | lemonade copy
 ssh-add =(bw get attachment "$(echo "$item" | jq -r '.name')" --itemid "$1" --raw)
-echo "" | clip.exe
+echo "" | lemonade copy

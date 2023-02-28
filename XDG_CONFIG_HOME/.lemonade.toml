@@ -1,0 +1,2 @@
+host = 'host.docker.internal'
+line-ending = 'lf'

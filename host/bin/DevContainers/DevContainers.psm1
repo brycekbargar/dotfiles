@@ -54,6 +54,14 @@ function Enter-DevContainer {
     &docker create volume conda-envs
     &docker create volume conda-pkgs
 
+    # https://github.com/lemonade-command/lemonade
+    $clipboards = Get-Job -Name "Lemonade" -ErrorAction ContinueSilently |
+        Where-Object { $_.State -eq "Running" } |
+        Measure-Object
+    if ($clipboards.count -lt 1) {
+        Start-Job -Name "Lemonade" -ScriptBlock { lemonade.exe server }
+    }
+
     $container = "$Tag-dev-container"
     $state = docker ps --all --filter "name=$container" --format "{{ .State }}"
     if ($state -eq "running") {
@@ -88,6 +96,8 @@ function Remove-DevContainer {
     param (
         [String]$Tag = "stable"
     )
+    Remove-Job -Name "Lemonade" -Force
+
     $container = "brycekbargar/dev-container-$Tag"
     $state = docker ps --all --filter "name=$container" --format "{{ .State }}"
     if ($state -ne "") {

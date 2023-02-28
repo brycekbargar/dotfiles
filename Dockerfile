@@ -81,6 +81,8 @@ RUN --mount=type=cache,target=/go/pkg,sharing=locked \
 	go install github.com/itchyny/gojq/cmd/gojq@latest
 RUN --mount=type=cache,target=/go/pkg,sharing=locked \
 	go install github.com/shihanng/gig@latest
+RUN --mount=type=cache,target=/go/pkg,sharing=locked \
+	go install github.com/lemonade-command/lemonade@latest
 
 # Install tools written in rust
 # The target dir is split out so we can copy the bin and not get rust tools too

@@ -7,3 +7,9 @@
   with_items:
     - XDG_CONFIG_HOME
     - XDG_BIN_HOME
+
+- name: Link lemonade (booo)
+  ansible.builtin.file:
+    src: "{{ lookup('env', 'XDG_CONFIG_HOME') }}/.lemonade.toml"
+    dest: "{{ lookup('env', 'HOME') }}/.config/lemonade.toml"
+    state: link

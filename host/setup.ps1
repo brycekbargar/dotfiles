@@ -61,10 +61,13 @@ if (-not $currentPath.Contains("dotfiles\windows\modules")) {
     $modules = Resolve-Path([System.IO.Path]::Combine($PSScriptRoot, "bin"))
     [Environment]::SetEnvironmentVariable('PSModulePath', "$currentPath;$modules" , 'USER')
 }
+#
+# docker
+& scoop install .\lemonade.json
+& sudo wsl --update
 
 # random stuff
 Update-Help -UICulture en-Us -ErrorAction SilentlyContinue
 & scoop install flux
 & scoop install windirstat
-& sudo wsl --update
 New-Item "~/_setup/private" -ItemType Directory -Force
