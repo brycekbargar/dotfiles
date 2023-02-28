@@ -1,6 +1,16 @@
 #!/usr/bin/env bash
 
+if [[ $1 == "." ]]; then
+	more_useful=1
+	shift
+fi
+
 if [[ -f $1 ]]; then
+	if [[ $more_useful ]]; then
+		bat --plain "$1"
+		exit
+	fi
+
 	bat "$1"
 	exit
 fi
@@ -10,7 +20,7 @@ cutoff=${LSS_CUTOFF:-$lines}
 
 exa_opts=("--long" "--binary" "--group-directories-first" "--ignore-glob=.git")
 fd_opts=("--max-results=$((cutoff + 1))")
-if [[ $1 == "." ]]; then
+if [[ $more_useful ]]; then
 	exa_opts=("${exa_opts[@]}" "--all" "--octal-permissions" "--group")
 	fd_opts=("${fd_opts[@]}" "--hidden" "--no-ignore-vcs" "--" "." "${2:-.}")
 	shift 1
