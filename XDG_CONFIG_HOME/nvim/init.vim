@@ -65,12 +65,13 @@ if has('nvim')
     set runtimepath=$XDG_STATE_HOME/nvim,$XDG_CONFIG_HOME/nvim,$VIMRUNTIME
 
     let g:polyglot_disabled = [
-	\'bash.plugin',
-        \'terraform.plugin',
+        \'bash.plugin',
+        \'go.plugin',
         \'jsonc.plugin',
         \'lua.plugin',
         \'python.plugin',
-        \'toml.plugin'
+        \'toml.plugin',
+        \'terraform.plugin'
     \]
 endif
 let g:polyglot_disabled = ['sensible']
