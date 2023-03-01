@@ -1,0 +1,6 @@
+# Despite starting on a (possibly) windows host
+# these files are copied into a unix container and should have unix endings
+* text=auto eol=lf
+
+# Powershell scripts/modules stay crlf regardless of env
+/host/**/*.ps* text eol=crlf
