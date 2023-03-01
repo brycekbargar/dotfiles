@@ -65,7 +65,7 @@ function M.python(t)
 end
 
 function M.pwsh(t)
-	return conda_run({ "brycekbargar/pwsh", t.n }, true)
+	return conda_run({ "brycekbargar.com/pwsh", t.n }, true)
 end
 
 return M

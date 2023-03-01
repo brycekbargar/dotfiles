@@ -27,7 +27,8 @@ function Initialize-PwshContainer {
     $dateTag = Get-Date -Format "MM-dd-yy"
     &docker build `
         --no-cache `
-        -t "brycekbargar/pwsh:$dateTag" `
-        -f "$HOME\_setup\XDG_CONFIG_HOME\nvim\Dockerfile.pwsh" `
+        -t "brycekbargar.com/pwsh:latest" `
+        -t "brycekbargar.com/pwsh:$dateTag" `
+        -f "$HOME\_setup\dotfiles\XDG_CONFIG_HOME\nvim\Dockerfile.pwsh" `
         .
 }

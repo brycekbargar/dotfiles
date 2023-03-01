@@ -12,14 +12,15 @@ function New-DevContainer {
     param (
         [Boolean]$Force = $True
     )
-    $cache = If ($Force) { "--no-cache" } Else { "" }
-    $dateTag = Get-Date -Format "MM-dd-yy"
-    &docker build `
-        $cache `
-        -t (Get-Image-Name -Tag "testing") `
-        -t (Get-Image-Name -Tag $dateTag) `
-        -f "$HOME\_setup\dotfiles\Dockerfile" `
-        "$HOME\_setup"
+    $t_image = Get-Image-Name -Tag "testing"
+    $d_image = Get-Image-Name -Tag (Get-Date -Format "MM-dd-yy")
+    if ($Force) {
+        Write-Verbose "Building $t_image, $d_image without cache"
+        &docker build --no-cache -t $t_image -t $d_image -f "$HOME\_setup\dotfiles\Dockerfile" "$HOME\_setup"
+    } else {
+        Write-Verbose "Building $t_image, $d_image with cache"
+        &docker build -t $t_image -t $d_image -f "$HOME\_setup\dotfiles\Dockerfile" "$HOME\_setup"
+    }
 }
 Set-Alias -Name ide-build -Value New-DevContainer
 
@@ -32,7 +33,7 @@ Warning! It will stop any running containers.
 #>
 function Convert-DevContainer {
     $testing = docker image ls --format "{{ .ID }}" (Get-Image-Name -Tag "testing")
-    if ($testing -eq "") {
+    if ($testing -eq $null) {
         Write-Warning -Message "No testing container to promote!"
         return
     }
@@ -40,16 +41,21 @@ function Convert-DevContainer {
     Remove-DevContainer -Tag "stable"
     Remove-DevContainer -Tag "testing"
 
+    $os_image = Get-Image-Name -Tag "oldstable"
+    $s_image = Get-Image-Name -Tag "stable"
+    $t_image = Get-Image-Name -Tag "testing"
+
     $stable = docker image ls --format "{{ .ID }}" (Get-Image-Name -Tag "stable")
-    if ($stable -ne "") {
-        &docker tag `
-        (Get-Image-Name -Tag "stable") `
-        (Get-Image-Name -Tag "oldstable")
+    if ($stable -ne $null) {
+        Write-Verbose "Stable -> OldStable"
+        &docker tag $s_image $os_image
     }
-    &docker tag `
-    (Get-Image-Name -Tag "testing") `
-    (Get-Image-Name -Tag "stable")
-    &docker rmi (Get-Image-Name -Tag "testing")
+
+    Write-Verbose "Testing -> Stable"
+    &docker tag $t_image $s_image
+
+    Write-Verbose "Removing Testing"
+    &docker rmi $t_image
 }
 Set-Alias -Name ide-promote -Value Convert-DevContainer
 
@@ -67,34 +73,45 @@ function Enter-DevContainer {
         [String]$Tag = "stable"
     )
     # Creating them is idempotent as long as it uses the same driver
-    &docker create volume code
-    &docker create volume conda-envs
-    &docker create volume conda-pkgs
+    Write-Verbose "Creating runtime volumes"
+    &docker volume create code
+    &docker volume create conda-envs
+    &docker volume create conda-pkgs
+    Write-Verbose "Created runtime volumes"
 
     # https://github.com/lemonade-command/lemonade
-    $clipboards = Get-Job -Name "Lemonade" -ErrorAction ContinueSilently |
+    Write-Verbose "Ensuring lemonade is running"
+    $clipboards = Get-Job -Name "Lemonade" -ErrorAction SilentlyContinue |
         Where-Object { $_.State -eq "Running" } |
         Measure-Object
     if ($clipboards.count -lt 1) {
+        Write-Verbose "Starting lemonade"
         Start-Job -Name "Lemonade" -ScriptBlock { lemonade.exe server }
+    } else {
+        Write-Verbose "Lemonade already running"
     }
 
-    $container = Get-Container-Name -Tag Tag
+    $container = Get-Container-Name -Tag $Tag
+    Write-Verbose "Ensuring container named $container"
     $state = docker ps --all --filter "name=$container" --format "{{ .State }}"
     if ($state -eq "running") {
+        Write-Verbose "Container is already running, connecting"
         &docker exec -it "$container" /usr/bin/zsh -i
     }
-    elseif ($state -eq "stopped") {
-        &docker start -a "$container"
+    elseif (($state -eq "stopped") -or ($state -eq "exited") ) {
+        Write-Verbose "Container was stopped, starting"
+        &docker start -ai "$container"
     }
-    elseif ($state -eq "") {
+    elseif ($state -eq $null) {
+        $image = Get-Image-Name -Tag $Tag
+        Write-Verbose "Running $image as a new container"
         &docker run -it --user 1111 `
-            --mount type=volume, src=conda-envs, target=/conda/envs `
-            --mount type=volume, src=conda-pkgs, target=/conda/pkgs `
-            --mount type=volume, src=code, target=/home/bryce/code `
+            --mount type=volume,src=conda-envs,target=/conda/envs `
+            --mount type=volume,src=conda-pkgs,target=/conda/pkgs `
+            --mount type=volume,src=code,target=/home/bryce/code `
             -v /var/run/docker.sock:/var/run/docker.sock `
             --name "$container" `
-        (Get-Image-Name -Tag $Tag)
+            $image
     }
     else {
         Write-Warning "$container found but with a weird state: $state"
@@ -114,11 +131,13 @@ function Remove-DevContainer {
     param (
         [String]$Tag = "stable"
     )
+    Write-Verbose "Stopping lemonade"
     Remove-Job -Name "Lemonade" -Force
 
-    $container = Get-Container-Name -Tag Tag
+    $container = Get-Container-Name -Tag $Tag
     $state = docker ps --all --filter "name=$container" --format "{{ .State }}"
-    if ($state -ne "") {
+    Write-Verbose "Removing $container in current state $state"
+    if ($state -ne $null) {
         &docker rm -v -f "$container"
     }
 }
@@ -134,5 +153,5 @@ function Get-Image-Name {
     param (
         [String]$Tag
     )
-    return "brycekbargar/dev-container:$Tag"
+    return "brycekbargar.com/dev-container:$Tag"
 }
