@@ -44,21 +44,21 @@ MAMBA
 FROM mamba as runtimes-python
 ARG ENV_NAME="runtimes-python"
 ARG CONDA_PREFIX
-COPY ./dotfiles-dev-container/XDG_CONFIG_HOME/conda/${ENV_NAME}.yml environment.yml
+COPY ./dotfiles/XDG_CONFIG_HOME/conda/${ENV_NAME}.yml environment.yml
 RUN --mount=type=cache,target=/python,sharing=locked \
         CONDA_PKGS_DIR="/python" conda env create --quiet --prefix "${CONDA_PREFIX}/${ENV_NAME}" --file environment.yml
 
 FROM mamba as dotfiles
 ARG ENV_NAME="dotfiles"
 ARG CONDA_PREFIX
-COPY ./dotfiles-dev-container/environment.yml environment.yml
+COPY ./dotfiles/environment.yml environment.yml
 RUN --mount=type=cache,target=/python,sharing=locked \
         CONDA_PKGS_DIR="/python" conda env create --quiet --prefix "${CONDA_PREFIX}/${ENV_NAME}" --file environment.yml
 
 FROM mamba as runtimes-nodejs
 ARG ENV_NAME="runtimes-nodejs"
 ARG CONDA_PREFIX
-COPY ./dotfiles-dev-container/XDG_CONFIG_HOME/conda/${ENV_NAME}.yml environment.yml
+COPY ./dotfiles/XDG_CONFIG_HOME/conda/${ENV_NAME}.yml environment.yml
 RUN --mount=type=cache,target=/nodejs,sharing=locked \
         CONDA_PKGS_DIR="/nodejs" conda env create --quiet --prefix "${CONDA_PREFIX}/${ENV_NAME}" --file environment.yml
 RUN --mount=type=cache,target=/root/.npm,sharing=locked \
@@ -67,7 +67,7 @@ RUN --mount=type=cache,target=/root/.npm,sharing=locked \
 FROM mamba as nvim
 ARG ENV_NAME="nvim"
 ARG CONDA_PREFIX
-COPY ./dotfiles-dev-container/XDG_CONFIG_HOME/nvim/environment.yml environment.yml
+COPY ./dotfiles/XDG_CONFIG_HOME/nvim/environment.yml environment.yml
 RUN --mount=type=cache,target=/nodejs,sharing=locked \
         CONDA_PKGS_DIR="/nodejs" conda env create --quiet --prefix "${CONDA_PREFIX}/${ENV_NAME}" --file environment.yml
 RUN --mount=type=cache,target=/root/.npm,sharing=locked \
@@ -167,7 +167,7 @@ ARG SETUP=${HOME}/_setup
 COPY --chown=1111:1111 --from=base ${CONDA_PREFIX}/base ${CONDA_PREFIX}/base
 COPY --chown=1111:1111 --from=dotfiles ${CONDA_PREFIX}/dotfiles ${CONDA_PREFIX}/dotfiles
 COPY --chown=1111:1111 --from=nvim ${CONDA_PREFIX}/nvim ${CONDA_PREFIX}/nvim
-COPY --chown=1111:1111 ./dotfiles-dev-container ${SETUP}/dotfiles
+COPY --chown=1111:1111 ./dotfiles ${SETUP}/dotfiles
 COPY --chown=1111:1111 ./private ${SETUP}/private
 
 WORKDIR ${SETUP}/dotfiles
