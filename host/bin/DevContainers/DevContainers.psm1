@@ -3,38 +3,55 @@
 Builds a candidate dev container with latest deps/tools
 .Description
 Calls docker build and tags it with testing.
-Uses --no-cache flag to ensure latest deps/tools.
+Uses --no-cache flag to ensure latest deps/tools (unless you unforce the cache bust).
 Go make some tea, this will take awhile.
+.Parameter Force
+Whether to bust the docker build cache. Defaults to True
 #>
 function New-DevContainer {
+    param (
+        [Boolean]$Force = $True
+    )
+    $cache = If ($Force) { "--no-cache" } Else { "" }
     $dateTag = Get-Date -Format "MM-dd-yy"
     &docker build `
-        --no-cache `
-        -t "brycekbargar/dev-container:testing" `
-        -t "brycekbargar/dev-container:$dateTag" `
+        $cache `
+        -t (Get-Image-Name -Tag "testing") `
+        -t (Get-Image-Name -Tag $dateTag) `
         -f "$HOME\_setup\dotfiles\Dockerfile" `
         "$HOME\_setup"
 }
+Set-Alias -Name ide-build -Value New-DevContainer
 
 <#
 .Synopsis
 Promotes the current candidate dev container to the latest tag
 .Description
-Juggles tags from testing -> stable -> oldstable
+Juggles tags from testing -> stable -> oldstable.
+Warning! It will stop any running containers.
 #>
 function Convert-DevContainer {
+    $testing = docker image ls --format "{{ .ID }}" (Get-Image-Name -Tag "testing")
+    if ($testing -eq "") {
+        Write-Warning -Message "No testing container to promote!"
+        return
+    }
     Remove-DevContainer -Tag "oldstable"
-    &docker tag `
-        "brycekbargar/dev-container:stable" `
-        "brycekbargar/dev-container:oldstable"
     Remove-DevContainer -Tag "stable"
-    &docker tag `
-        "brycekbargar/dev-container:testing" `
-        "brycekbargar/dev-container:stable"
     Remove-DevContainer -Tag "testing"
-    &docker rmi "brycekbargar/dev-container:testing" `
 
+    $stable = docker image ls --format "{{ .ID }}" (Get-Image-Name -Tag "stable")
+    if ($stable -ne "") {
+        &docker tag `
+        (Get-Image-Name -Tag "stable") `
+        (Get-Image-Name -Tag "oldstable")
+    }
+    &docker tag `
+    (Get-Image-Name -Tag "testing") `
+    (Get-Image-Name -Tag "stable")
+    &docker rmi (Get-Image-Name -Tag "testing")
 }
+Set-Alias -Name ide-promote -Value Convert-DevContainer
 
 <#
 .Synopsis
@@ -62,7 +79,7 @@ function Enter-DevContainer {
         Start-Job -Name "Lemonade" -ScriptBlock { lemonade.exe server }
     }
 
-    $container = "$Tag-dev-container"
+    $container = Get-Container-Name -Tag Tag
     $state = docker ps --all --filter "name=$container" --format "{{ .State }}"
     if ($state -eq "running") {
         &docker exec -it "$container" /usr/bin/zsh -i
@@ -76,13 +93,14 @@ function Enter-DevContainer {
             --mount type=volume, src=conda-pkgs, target=/conda/pkgs `
             --mount type=volume, src=code, target=/home/bryce/code `
             -v /var/run/docker.sock:/var/run/docker.sock `
-            --name "$container"
-        "brycekbargar/dev-container:$Tag"
+            --name "$container" `
+        (Get-Image-Name -Tag $Tag)
     }
     else {
-        throw "$container found but with a weird state: $state"
+        Write-Warning "$container found but with a weird state: $state"
     }
 }
+Set-Alias -Name ide-up -Value Enter-DevContainer
 
 <#
 .Synopsis
@@ -98,9 +116,23 @@ function Remove-DevContainer {
     )
     Remove-Job -Name "Lemonade" -Force
 
-    $container = "brycekbargar/dev-container-$Tag"
+    $container = Get-Container-Name -Tag Tag
     $state = docker ps --all --filter "name=$container" --format "{{ .State }}"
     if ($state -ne "") {
         &docker rm -v -f "$container"
     }
+}
+Set-Alias -Name ide-down -Value Remove-DevContainer
+
+function Get-Container-Name {
+    param (
+        [String]$Tag
+    )
+    return "$Tag-dev-container"
+}
+function Get-Image-Name {
+    param (
+        [String]$Tag
+    )
+    return "brycekbargar/dev-container:$Tag"
 }

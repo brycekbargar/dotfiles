@@ -11,4 +11,11 @@
         'Enter-DevContainer'
         'Remove-DevContainer'
     );
+
+    AliasesToExport   = @(
+        'ide-build',
+        'ide-promote',
+        'ide-up',
+        'ide-down'
+    );
 }
