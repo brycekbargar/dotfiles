@@ -1,4 +1,38 @@
 ---
+# https://github.com/moby/moby/issues/20397#issuecomment-185471832
+# The Windows filesystem does not have an option to mark a file as 'executable'.
+# A linux image from a Windows machine would if a file has to be marked executable.
+# For that reason, files are marked executable by default when building from a windows client.
+- name: Find fucked files
+  ansible.builtin.find:
+    paths: "{{ dotfiles }}"
+    recurse: true
+    hidden: true
+    excludes:
+      - "prepare-commit-msg"
+      - "pre-commit"
+      - ".ansible-lsp-activation-script"
+  register: fucked_files
+  when: ansible_env.HOSTOS == "windows"
+- name: Unfuck file permissions
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    mode: "0644"
+  with_items: "{{ fucked_files.files }}"
+  when: ansible_env.HOSTOS == "windows"
+- name: Find fucked files (continued)
+  ansible.builtin.find:
+    paths: "{{ dotfiles }}/XDG_BIN_HOME"
+    recurse: true
+  register: actual_executables
+  when: ansible_env.HOSTOS == "windows"
+- name: Unfuck file permissions (continued)
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    mode: "0755"
+  with_items: "{{ actual_executables.files }}"
+  when: ansible_env.HOSTOS == "windows"
+
 - name: Link dotfiles
   ansible.builtin.file:
     src: "{{ dotfiles }}/{{ item }}"

@@ -3,6 +3,7 @@
 # Environment specific args
 ARG USER=bryce
 ARG DOCKER_GROUP=1001
+ARG HOSTOS=windows
 
 # Shortcuts shared across multiple stages
 ARG HOME="/home/${USER}"
@@ -169,7 +170,11 @@ COPY --chown=1111:1111 --from=dotfiles ${CONDA_PREFIX}/dotfiles ${CONDA_PREFIX}/
 COPY --chown=1111:1111 --from=nvim ${CONDA_PREFIX}/nvim ${CONDA_PREFIX}/nvim
 COPY --chown=1111:1111 ./dotfiles ${SETUP}/dotfiles
 COPY --chown=1111:1111 ./private ${SETUP}/private
+# Docker only looks for .dockerignore in the root of the build context : /
+RUN rm -fdr ${SETUP}/dotfiles/.git
 
+ARG HOSTOS
+ENV HOSTOS=${HOSTOS}
 WORKDIR ${SETUP}/dotfiles
 USER 1111:1111
 RUN --mount=type=cache,target=${HOME}/.local/var/cache <<ANSIBLE
