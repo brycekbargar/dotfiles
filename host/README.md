@@ -4,6 +4,8 @@
 
 ### Windows Usage
 
+First undo: https://devblogs.microsoft.com/commandline/windows-terminal-is-now-the-default-in-windows-11/
+
 ##### In admin powershell
 
 ```powershell
@@ -22,7 +24,7 @@ scoop install pwsh
 ```powershell
 scoop install git
 git clone -b main https://github.com/brycekbargar/dotfiles.git $home\_setup\dotfiles
-Set-Location $home\_setup\dotfiles\windows
+Set-Location $home\_setup\dotfiles\host
 .\setup.ps1
 ```
 
@@ -36,3 +38,4 @@ Set-Location $home\_setup\dotfiles\windows
 ##### Install Manually
   - Docker Desktop: https://docs.docker.com/desktop/install/windows-install/
   - Caskaydia Cove: https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/CascadiaCode
+  - Link ~/_setup/dotfiles/host/gitconfig using https://stackoverflow.com/a/9733277

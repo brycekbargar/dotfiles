@@ -1,0 +1,19 @@
+[alias]
+    checokut = checkout
+    scam = !git add -A && git commit -m
+    fuck = ca --amend --no-edit
+    sorry = !git add -A && git rebase --continue
+    todos = !git status && git loog 20
+    loog = "!\
+        f() { \
+            git log \
+            --graph \
+            --abbrev-commit \
+            --date=relative \
+            --pretty=longref \
+            --color=always \
+            -n ${1:-100}; \
+        }; f"
+
+[pretty]
+    longref="%C(magenta)%h %C(green)(%ar) %C(yellow)%an %C(blue)%d %C(white bold)%s %C(reset)"
