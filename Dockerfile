@@ -170,8 +170,6 @@ COPY --chown=1111:1111 --from=dotfiles ${CONDA_PREFIX}/dotfiles ${CONDA_PREFIX}/
 COPY --chown=1111:1111 --from=nvim ${CONDA_PREFIX}/nvim ${CONDA_PREFIX}/nvim
 COPY --chown=1111:1111 ./dotfiles ${SETUP}/dotfiles
 COPY --chown=1111:1111 ./private ${SETUP}/private
-# Docker only looks for .dockerignore in the root of the build context : /
-RUN rm -fdr ${SETUP}/dotfiles/.git
 
 ARG HOSTOS
 ENV HOSTOS=${HOSTOS}
@@ -197,7 +195,8 @@ COPY --from=nvim-go /go/bin/ ${CONDA_PREFIX}/nvim/bin/
 COPY --from=nvim-rust /rust/bin/ ${CONDA_PREFIX}/nvim/bin/
 COPY --from=runtimes-python ${CONDA_PREFIX}/runtimes-python ${CONDA_PREFIX}/runtimes-python
 COPY --from=runtimes-nodejs ${CONDA_PREFIX}/runtimes-nodejs ${CONDA_PREFIX}/runtimes-nodejs
-RUN mkdir "${HOME}/code"
+# This isn't necessary to keep in the container
+RUN rm -fdr ${CONDA_PREFIX}/dotfiles
 
 FROM dev-container
 ARG HOME

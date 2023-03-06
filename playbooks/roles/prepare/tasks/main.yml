@@ -1,4 +1,10 @@
 ---
+
+- name: Degit dotfiles
+  ansible.builtin.file:
+    path: "{{ dotfiles }}/.git"
+    state: absent
+
 # https://github.com/moby/moby/issues/20397#issuecomment-185471832
 # The Windows filesystem does not have an option to mark a file as 'executable'.
 # A linux image from a Windows machine would if a file has to be marked executable.
@@ -42,6 +48,12 @@
     - XDG_CONFIG_HOME
     - XDG_BIN_HOME
 
+- name: Make XDG_DATA_HOME
+  ansible.builtin.file:
+    path: "{{ lookup('env', 'XDG_DATA_HOME') }}"
+    state: directory
+    mode: "0775"
+
 - name: Prepare to link lemonade (booo)
   ansible.builtin.file:
     dest: "{{ lookup('env', 'HOME') }}/.config"
@@ -49,6 +61,6 @@
     mode: "0775"
 - name: Link lemonade (booo)
   ansible.builtin.file:
-    src: "{{ lookup('env', 'XDG_CONFIG_HOME') }}/.lemonade.toml"
+    src: "{{ lookup('env', 'XDG_CONFIG_HOME') }}/lemonade/config.toml"
     dest: "{{ lookup('env', 'HOME') }}/.config/lemonade.toml"
     state: link
