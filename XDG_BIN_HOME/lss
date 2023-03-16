@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 
 if [[ $1 == "." ]]; then
-	more_useful=1
+	raw=1
 	shift
 fi
 
 if [[ -f $1 ]]; then
-	if [[ $more_useful ]]; then
-		bat --plain "$1"
+	if [[ $raw ]]; then
+		BAT_PAGER="less -X" bat --plain "$1"
 		exit
 	fi
 
@@ -20,18 +20,17 @@ cutoff=${LSS_CUTOFF:-$lines}
 
 exa_opts=("--long" "--binary" "--group-directories-first" "--ignore-glob=.git")
 fd_opts=("--max-results=$((cutoff + 1))")
-if [[ $more_useful ]]; then
+if [[ $raw ]]; then
 	exa_opts=("${exa_opts[@]}" "--all" "--octal-permissions" "--group")
-	fd_opts=("${fd_opts[@]}" "--hidden" "--no-ignore-vcs" "--" "." "${2:-.}")
-	shift 1
+	fd_opts=("${fd_opts[@]}" "--hidden" "--no-ignore-vcs" "--")
 else
 	exa_opts=("${exa_opts[@]}" "--git-ignore" "--no-user" "--no-time" "--no-permissions" "--no-filesize")
-	fd_opts=("${fd_opts[@]}" "--" "." "${1:-.}")
 fi
 
 if [[ -n $1 ]]; then
 	exa_opts=("${exa_opts[@]}" "$1")
 fi
+fd_opts=("${fd_opts[@]}" "--" "." "${1:-.}")
 
 if [[ -z $1 || (-d $1 && $1 == */*) ]]; then
 	items=$(fd --max-depth=4 "${fd_opts[@]}" | wc -l)
