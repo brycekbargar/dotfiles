@@ -14,7 +14,7 @@ cmd = ["conda-system", "nvim", "shfmt"]
 lint_flags = ["--diff"]
 tidy_flags = ["--write", "--simplify"]
 ok_exit_codes = [0]
-ignore_stderr = ["Waiting for other mamba process to finish"]
+ignore_stderr = ["mamba"]
 [commands.shellcheck]
 type = "lint"
 include = [
@@ -33,7 +33,7 @@ exclude = [
 ]
 cmd = ["conda-system", "nvim", "shellcheck", "--color=always"]
 ok_exit_codes = [0]
-ignore_stderr = ["Waiting for other mamba process to finish"]
+ignore_stderr = ["mamba"]
 
 [commands.vint]
 type = "lint"
@@ -48,36 +48,27 @@ cmd = [
   "--style-problem",
 ]
 ok_exit_codes = [0]
-ignore_stderr = [
-  "Waiting for other mamba process to finish",
-  "creating virtual environment",
-]
+ignore_stderr = ["mamba", "creating virtual environment"]
 [commands.stylua]
 type = "both"
 include = ["XDG_CONFIG_HOME/nvim/lua/**/*.lua"]
 cmd = ["conda-system", "nvim", "stylua", "--color=always"]
 lint_flags = ["--check", "--verify"]
 ok_exit_codes = [0]
-ignore_stderr = ["Waiting for other mamba process to finish"]
+ignore_stderr = ["mamba"]
 
 [commands."pre-comit.end-of-file"]
 type = "tidy"
 include = ["*"]
 cmd = ["pipx", "run", "--spec", "pre-commit-hooks", "end-of-file-fixer"]
 ok_exit_codes = [0, 1]
-ignore_stderr = [
-  "Waiting for other mamba process to finish",
-  "creating virtual environment",
-]
+ignore_stderr = ["mamba", "creating virtual environment"]
 [commands."pre-commit.trailing-whitespace"]
 type = "tidy"
 include = ["*"]
 cmd = ["pipx", "run", "--spec", "pre-commit-hooks", "trailing-whitespace-fixer"]
 ok_exit_codes = [0, 1]
-ignore_stderr = [
-  "Waiting for other mamba process to finish",
-  "creating virtual environment",
-]
+ignore_stderr = ["mamba", "creating virtual environment"]
 
 [commands.prettier]
 type = "both"
@@ -87,7 +78,7 @@ cmd = ["npx", "--", "prettier@latest"]
 lint_flags = ["--check"]
 tidy_flags = ["--write"]
 ok_exit_codes = [0]
-ignore_stderr = ["Waiting for other mamba process to finish"]
+ignore_stderr = ["mamba"]
 
 [commands."taplo.format"]
 type = "both"
@@ -95,7 +86,7 @@ include = ["*.toml"]
 cmd = ["conda-system", "nvim", "taplo", "format", "--colors=always"]
 lint_flags = ["--check"]
 ok_exit_codes = [0]
-ignore_stderr = ["Waiting for other mamba process to finish", "found files"]
+ignore_stderr = ["mamba", "found files"]
 [commands."taplo.lint-precious"]
 type = "lint"
 include = ["precious.toml"]
@@ -108,7 +99,7 @@ cmd = [
   "--schema=https://raw.githubusercontent.com/brycekbargar/dotfiles/main/precious-schema.json",
 ]
 ok_exit_codes = [0]
-ignore_stderr = ["Waiting for other mamba process to finish", "found files"]
+ignore_stderr = ["mamba", "found files"]
 
 [commands.ansible-lint]
 type = "both"
