@@ -26,7 +26,9 @@ export \
 
 typeset -aU path
 path=(
-    "$XDG_BIN_HOME/shims"
     "$XDG_BIN_HOME"
     "$XDG_PKG_HOME"
+    "$XDG_BIN_HOME/shims"
+    "$XDG_BIN_HOME/ide"
+    "$XDG_BIN_HOME/shims/ide"
     $path)
