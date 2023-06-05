@@ -75,8 +75,6 @@ return packer.startup({
 			after = "catppuccin",
 			config = require("config.lightline"),
 		})
-
-		packer.sync()
 	end,
 	config = {
 		package_root = util.join_paths(vim.fn.stdpath("state"), "site", "pack"),
