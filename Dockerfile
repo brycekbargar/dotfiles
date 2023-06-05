@@ -65,15 +65,6 @@ RUN --mount=type=cache,target=/nodejs,sharing=locked \
 RUN --mount=type=cache,target=/root/.npm,sharing=locked \
         conda run --prefix "${CONDA_PREFIX}/${ENV_NAME}" npm install -g npm@latest
 
-FROM mamba as nvim
-ARG ENV_NAME="nvim"
-ARG CONDA_PREFIX
-COPY ./dotfiles/XDG_CONFIG_HOME/nvim/environment.yml environment.yml
-RUN --mount=type=cache,target=/nodejs,sharing=locked \
-        CONDA_PKGS_DIR="/nodejs" conda env create --quiet --prefix "${CONDA_PREFIX}/${ENV_NAME}" --file environment.yml
-RUN --mount=type=cache,target=/root/.npm,sharing=locked \
-        conda run --prefix "${CONDA_PREFIX}/${ENV_NAME}" npm install -g npm@latest
-
 # Install tools written in go
 FROM registry.hub.docker.com/library/golang as tools-go
 RUN --mount=type=cache,target=/go/pkg,sharing=locked \
@@ -107,7 +98,7 @@ RUN --mount=type=cache,target=/rust/registry,sharing=locked \
 	cargo install precious
 
 # These are used for nvim (linters and lsps)
-# They're in a separate build stage to they can get copied into the nvim conda bin folder
+# They're in a separate build stage to they can get copied into the bin/ide folder
 FROM registry.hub.docker.com/library/golang as nvim-go
 RUN --mount=type=cache,target=/go/pkg,sharing=locked \
 	go install github.com/terraform-linters/tflint@latest
@@ -136,6 +127,7 @@ apt-get install --no-install-recommends --yes \
 	less \
 	libncursesw6 \
 	openssh-client \
+	shellcheck \
 	sudo \
 	unzip \
 	vim \
@@ -167,7 +159,6 @@ ARG SETUP=${HOME}/_setup
 
 COPY --chown=1111:1111 --from=base ${CONDA_PREFIX}/base ${CONDA_PREFIX}/base
 COPY --chown=1111:1111 --from=dotfiles ${CONDA_PREFIX}/dotfiles ${CONDA_PREFIX}/dotfiles
-COPY --chown=1111:1111 --from=nvim ${CONDA_PREFIX}/nvim ${CONDA_PREFIX}/nvim
 COPY --chown=1111:1111 ./dotfiles ${SETUP}/dotfiles
 COPY --chown=1111:1111 ./private ${SETUP}/private
 
@@ -191,8 +182,8 @@ ARG CONDA_PREFIX
 COPY --from=registry.hub.docker.com/library/docker:cli /usr/local/bin/docker ${HOME}/.local/bin/docker
 COPY --from=tools-go /go/bin/ ${HOME}/.local/opt/
 COPY --from=tools-rust /rust/bin/ ${HOME}/.local/opt/
-COPY --from=nvim-go /go/bin/ ${CONDA_PREFIX}/nvim/bin/
-COPY --from=nvim-rust /rust/bin/ ${CONDA_PREFIX}/nvim/bin/
+COPY --from=nvim-go /go/bin/ ${HOME}/.local/bin/ide/
+COPY --from=nvim-rust /rust/bin/ ${HOME}/.local/bin/ide/
 COPY --from=runtimes-python ${CONDA_PREFIX}/runtimes-python ${CONDA_PREFIX}/runtimes-python
 COPY --from=runtimes-nodejs ${CONDA_PREFIX}/runtimes-nodejs ${CONDA_PREFIX}/runtimes-nodejs
 # This isn't necessary to keep in the container

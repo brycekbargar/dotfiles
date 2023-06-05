@@ -2,24 +2,24 @@
 - name: Downloading Neovim
   ansible.builtin.get_url:
     url: https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage
-    dest: "{{ nvim_env_path }}"
+    dest: /tmp
     mode: "0755"
 
 - name: Extracting Neovim
   ansible.builtin.command:
-    cmd: "{{ nvim_env_path }}/nvim.appimage --appimage-extract"
-    creates: "{{ nvim_env_path }}/squashfs-root"
+    cmd: /tmp/nvim.appimage --appimage-extract
+    creates: "{{ lookup('env', 'XDG_BIN_HOME') }}/ide/squashfs-root"
   args:
-    chdir: "{{ nvim_env_path }}"
+    chdir: "{{ lookup('env', 'XDG_BIN_HOME') }}/ide/"
 
 - name: Removing Neovim AppImage
   ansible.builtin.file:
-    path: "{{ nvim_env_path }}/nvim.appimage"
+    path: tmp/nvim.appimage
     state: absent
 
 - name: Linking nvim binary
   ansible.builtin.file:
-    src: "{{ nvim_env_path }}/squashfs-root/usr/bin/nvim"
+    src: "{{ lookup('env', 'XDG_BIN_HOME') }}/ide/squashfs-root/usr/bin/nvim"
     dest: "{{ lookup('env', 'XDG_BIN_HOME') }}/nvim"
     state: link
 
@@ -31,7 +31,7 @@
 
 - name: Creating lua lsp directory
   ansible.builtin.file:
-    path: "{{ nvim_env_path }}/lua-language-server"
+    path: "{{ lookup('env', 'XDG_BIN_HOME') }}/ide/lua-language-server"
     state: directory
     mode: "0755"
 
@@ -39,25 +39,19 @@
   ansible.builtin.unarchive:
     remote_src: true
     src: "{{ item.browser_download_url }}"
-    dest: "{{ nvim_env_path }}/lua-language-server"
+    dest: "{{ lookup('env', 'XDG_BIN_HOME') }}/ide/lua-language-server"
   loop: "{{ lua_lsp.json.assets }}"
   when: item.name.endswith('linux-x64.tar.gz')
 
 - name: Verifying latest lua lsp
   ansible.builtin.stat:
-    path: "{{ nvim_env_path }}/lua-language-server/bin/lua-language-server"
+    path: "{{ lookup('env', 'XDG_BIN_HOME') }}/ide/lua-language-server/bin/lua-language-server"
   register: lua_lsp_exe
 
 - name: Latest lua lsp failed
   ansible.builtin.fail:
     msg: Lua LSP not available and executable, expected to download {{ lua_lsp_pattern }} but got {{ lua_lsp_exe.stat }}
   when: not lua_lsp_exe.stat.exists or not lua_lsp_exe.stat.executable
-
-- name: Creating lua lsp shim
-  ansible.builtin.template:
-    dest: "{{ nvim_env_path }}/bin/lua-language-server"
-    src: lua-language-server.j2
-    mode: "0755"
 
 - name: Add packer plugin
   ansible.builtin.git:
@@ -73,3 +67,9 @@
     src: "{{ lookup('env', 'HOME') }}/.vim/pack/common"
     dest: "{{ lookup('env', 'XDG_STATE_HOME') }}/nvim/site/pack/common"
     state: link
+
+- name: PackerSync
+  ansible.builtin.command:
+    cmd: |
+      nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
+  changed_when: true

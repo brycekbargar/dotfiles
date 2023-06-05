@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+"$XDG_BIN_HOME/ide/lua-language-server/bin/lua-language-server" "@"

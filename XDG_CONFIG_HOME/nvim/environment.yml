@@ -1,9 +1,0 @@
-name: nvim
-channels:
-  - conda-forge
-  - nodefaults
-dependencies:
-  - nodejs
-  - shellcheck
-  - terraform
-  - yamllint
