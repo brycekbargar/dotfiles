@@ -163,6 +163,7 @@ COPY --chown=1111:1111 ./dotfiles ${SETUP}/dotfiles
 COPY --chown=1111:1111 ./private ${SETUP}/private
 
 ARG HOSTOS
+# The Ansible playbook uses this
 ENV HOSTOS=${HOSTOS}
 WORKDIR ${SETUP}/dotfiles
 USER 1111:1111
@@ -173,6 +174,8 @@ source <("${CONDA_PREFIX}/base/bin/conda" shell.zsh hook)
 ANSIBLE_CONFIG="$(pwd)/playbooks/ansible.cfg" \
 	conda run --name dotfiles --no-capture-output \
 	ansible-playbook "playbooks/default.playbook.yml"
+# TODO: Figure out how to do this in the playbook
+source "$ZDOTDIR"/myrc.zsh
 ANSIBLE
 
 # This is for any final IO operations that need to to squash final image into a single layer

@@ -26,6 +26,5 @@
     repo: https://github.com/mattmc3/antidote.git
     version: HEAD
     force: true
-    dest: "{{ lookup('env', 'XDG_BIN_HOME') }}/antidote"
+    dest: "{{ lookup('env', 'ANTIDOTE_SOURCE') }}"
     single_branch: true
-    depth: 1

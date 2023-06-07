@@ -18,6 +18,9 @@ export \
 export \
     ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 export \
+    ANTIDOTE_SOURCE="$ZDOTDIR/.antidote" \
+    ANTIDOTE_HOME="$ZDOTDIR/.bundles"
+export \
     NPM_CONFIG_CACHE="$XDG_CACHE_HOME/npm" \
     NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/.npmrc" \
     NPM_CONFIG_INIT_MODULES="$XDG_CONFIG_HOME/npm/.npm.init.js" \
