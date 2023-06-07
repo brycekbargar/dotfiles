@@ -17,6 +17,9 @@ return function()
 		vim.notify(client.name .. " active", "INFO", { title = "LspInfo" })
 
 		if client.server_capabilities.completionProvider then
+			-- The LSP omnifunc completion is async which messes with mucomplete's chains
+			-- This relies solely on the lsp's autocomplete information in supported buffers
+			vim.api.nvim_buf_set_option(bufnr, "mucomplete_chain", "omni")
 			vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
 		end
 		if client.server_capabilities.definitionProvider then

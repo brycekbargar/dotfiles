@@ -3,6 +3,7 @@ return function()
 	notify.setup({
 		max_width = 100,
 		max_height = 50,
+		timeout = 2000,
 		render = "minimal",
 		stages = "fade",
 		on_open = function(win)
