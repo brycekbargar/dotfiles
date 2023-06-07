@@ -7,7 +7,6 @@ vim.diagnostic.config({
 return function()
 	local lsp = require("lspconfig")
 	local util = require("lspconfig.util")
-	local conda_run = require("conda-run")
 	local version = (function()
 		local v = vim.version()
 		return v.major .. "." .. v.minor .. "." .. v.patch
@@ -33,50 +32,8 @@ return function()
 		vim.keymap.set("n", "<leader>ta", vim.lsp.buf.code_action, bufopts)
 	end
 
-	lsp.lua_ls.setup({
-		on_attach = on_attach,
-		cmd = conda_run.exe({ n = "lua-language-server" }).list(),
-		root_dir = util.root_pattern(".luarc.json"),
-		single_file_support = false,
-	})
-
-	lsp.jsonls.setup({
-		on_attach = on_attach,
-		cmd = conda_run
-			.js({
-				package = "vscode-langservers-extracted",
-				n = "vscode-json-language-server",
-			})
-			.with_args({ "--stdio" })
-			.list(),
-		init_options = {
-			provideFormatter = false,
-		},
-		root_dir = util.find_git_ancestor,
-	})
-
-	lsp.yamlls.setup({
-		on_attach = on_attach,
-		cmd = conda_run.js({ n = "yaml-language-server" }).with_args({ "--stdio" }).list(),
-		root_dir = util.find_git_ancestor,
-		filetypes = { "yaml", "yaml.docker-compose", "yaml.ansible" },
-	})
-
-	lsp.taplo.setup({
-		on_attach = on_attach,
-		cmd = conda_run.exe({ n = "taplo" }).with_args({ "lsp", "stdio" }).list(),
-		root_dir = util.find_git_ancestor,
-	})
-
 	lsp.ansiblels.setup({
 		on_attach = on_attach,
-		cmd = conda_run
-			.js({
-				package = "@ansible/ansible-language-server",
-				n = "ansible-language-server",
-			})
-			.with_args({ "--stdio" })
-			.list(),
 		-- This is assuming:
 		--   1. There's a local conda env with ansible
 		--   2. There's a shim script to activate that env
@@ -91,64 +48,51 @@ return function()
 		single_file_support = false,
 	})
 
-	lsp.pyright.setup({
+	lsp.bashls.setup({ on_attach = on_attach })
+	lsp.dockerls.setup({ on_attach = on_attach })
+
+	lsp.jsonls.setup({
 		on_attach = on_attach,
-		cmd = conda_run
-			.js({
-				package = "pyright",
-				n = "pyright-langserver",
-			})
-			.with_args({ "--stdio" })
-			.list(),
+		init_options = {
+			provideFormatter = false,
+		},
+	})
+
+	lsp.lua_ls.setup({
+		on_attach = on_attach,
 		single_file_support = false,
-	})
-
-	lsp.bashls.setup({
-		on_attach = on_attach,
-		cmd = conda_run.js({ n = "bash-language-server" }).with_args({ "start" }).list(),
-	})
-
-	lsp.terraformls.setup({
-		on_attach = on_attach,
-		cmd = conda_run.exe({ n = "terraform-ls" }).with_args({ "serve" }).list(),
-	})
-	lsp.tflint.setup({
-		on_attach = on_attach,
-		cmd = conda_run.exe({ n = "tflint" }).with_args({ "--langserver" }).list(),
-	})
-
-	lsp.dockerls.setup({
-		on_attach = on_attach,
-		cmd = conda_run
-			.js({
-				package = "dockerfile-language-server-nodejs",
-				n = "docker-langserver",
-			})
-			.with_args({ "--stdio" })
-			.list(),
+		settings = { Lua = { telemetry = { enable = true } } },
 	})
 
 	lsp.powershell_es.setup({
 		on_attach = on_attach,
-		cmd = conda_run
-			.pwsh({
-				n = "/powershell_es/Start-EditorServices.ps1",
-			})
-			.with_args({
-				"-BundledModulesPath",
-				"/powershell_es",
-				"-SessionDetailsPath",
-				"/powershell_es/session.json",
-				"-LogPath",
-				"/powershell_es/session.log",
-				"-HostName",
-				"nvim",
-				"-HostProfileId",
-				"0",
-				"-HostVersion",
-				version,
-				"-Stdio",
-			})
-			.list(),
+		cmd = {
+			"PowerShellEditorServices",
+			"/powershell_es/Start-EditorServices.ps1",
+			"-BundledModulesPath",
+			"/powershell_es",
+			"-SessionDetailsPath",
+			"/powershell_es/session.json",
+			"-LogPath",
+			"/powershell_es/session.log",
+			"-HostName",
+			"nvim",
+			"-HostProfileId",
+			"0",
+			"-HostVersion",
+			version,
+			"-Stdio",
+		},
 	})
+
+	lsp.pyright.setup({
+		on_attach = on_attach,
+		single_file_support = false,
+		commands = {},
+	})
+
+	lsp.taplo.setup({ on_attach = on_attach })
+	lsp.terraformls.setup({ on_attach = on_attach })
+	lsp.tflint.setup({ on_attach = on_attach })
+	lsp.yamlls.setup({ on_attach = on_attach })
 end
