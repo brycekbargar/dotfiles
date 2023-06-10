@@ -22,7 +22,7 @@ exa_opts=("--long" "--binary" "--group-directories-first" "--ignore-glob=.git")
 fd_opts=("--max-results=$((cutoff + 1))")
 if [[ $raw ]]; then
 	exa_opts=("${exa_opts[@]}" "--all" "--octal-permissions" "--group")
-	fd_opts=("${fd_opts[@]}" "--hidden" "--no-ignore-vcs" "--")
+	fd_opts=("${fd_opts[@]}" "--hidden" "--no-ignore-vcs")
 else
 	exa_opts=("${exa_opts[@]}" "--git-ignore" "--no-user" "--no-time" "--no-permissions" "--no-filesize")
 fi
