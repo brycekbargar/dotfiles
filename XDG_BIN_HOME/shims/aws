@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-
-"$XDG_BIN_HOME/shims/pipx" run --spec awscli aws "$@"

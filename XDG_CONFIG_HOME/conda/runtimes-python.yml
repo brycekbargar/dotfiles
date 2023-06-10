@@ -1,7 +1,0 @@
----
-name: runtimes-python
-channels:
-  - nodefaults
-dependencies:
-  - python
-  - pipx

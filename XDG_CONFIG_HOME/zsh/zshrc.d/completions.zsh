@@ -10,4 +10,4 @@ compdef _gojq gojq jq
 compdef _exa exa
 
 # shellcheck disable=SC1091
-source "$ANTIDOTE_HOME/aws/aws-cli/bin/aws_zsh_completer.sh"
+source "$RYE_HOME/shims/aws_zsh_completer.sh"

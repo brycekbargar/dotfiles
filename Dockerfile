@@ -8,6 +8,7 @@ ARG HOSTOS=windows
 # Shortcuts shared across multiple stages
 ARG HOME="/home/${USER}"
 ARG CONDA_PREFIX="${HOME}/.local/var/lib/conda"
+ARG RYE_HOME="${HOME}/.local/opt/.rye"
 
 FROM registry.hub.docker.com/library/debian:testing-slim AS debian
 
@@ -42,13 +43,6 @@ MAMBA
 # System environments
 # the conda_pkgs_dir varies by likelihood of shared pkgs
 #   it can fill up if all the envs share a dir and gc in between instructions : /
-FROM mamba as runtimes-python
-ARG ENV_NAME="runtimes-python"
-ARG CONDA_PREFIX
-COPY ./dotfiles/XDG_CONFIG_HOME/conda/${ENV_NAME}.yml environment.yml
-RUN --mount=type=cache,target=/python,sharing=locked \
-        CONDA_PKGS_DIR="/python" conda env create --quiet --prefix "${CONDA_PREFIX}/${ENV_NAME}" --file environment.yml
-
 FROM mamba as dotfiles
 ARG ENV_NAME="dotfiles"
 ARG CONDA_PREFIX
@@ -96,6 +90,18 @@ RUN --mount=type=cache,target=/rust/registry,sharing=locked \
 	cargo install bat
 RUN --mount=type=cache,target=/rust/registry,sharing=locked \
 	cargo install precious
+RUN --mount=type=cache,target=/rust/registry,sharing=locked \
+	cargo install --git https://github.com/mitsuhiko/rye rye
+
+# Install tools written in python
+FROM tools-rust as tools-python
+ARG RYE_HOME
+ENV RYE_HOME="${RYE_HOME}"
+RUN /rust/bin/rye install awscli
+RUN /rust/bin/rye install thefuck
+RUN /rust/bin/rye install pipx
+# This doesn't seem to matter to rye or installed tools
+RUN rm ${RYE_HOME}/shims/python ${RYE_HOME}/shims/python3
 
 # These are used for nvim (linters and lsps)
 # They're in a separate build stage to they can get copied into the bin/ide folder
@@ -182,15 +188,17 @@ ANSIBLE
 FROM ansible as home-layer
 ARG HOME
 ARG CONDA_PREFIX
+ARG RYE_HOME
 COPY --from=registry.hub.docker.com/library/docker:cli /usr/local/bin/docker ${HOME}/.local/bin/docker
 COPY --from=tools-go /go/bin/ ${HOME}/.local/opt/
 COPY --from=tools-rust /rust/bin/ ${HOME}/.local/opt/
-COPY --from=nvim-go /go/bin/ ${HOME}/.local/bin/ide/
-COPY --from=nvim-rust /rust/bin/ ${HOME}/.local/bin/ide/
-COPY --from=runtimes-python ${CONDA_PREFIX}/runtimes-python ${CONDA_PREFIX}/runtimes-python
+COPY --from=tools-python ${RYE_HOME} ${RYE_HOME}
+COPY --from=nvim-go /go/bin/ ${HOME}/.nvim/
+COPY --from=nvim-rust /rust/bin/ ${HOME}/.nvim/
 COPY --from=runtimes-nodejs ${CONDA_PREFIX}/runtimes-nodejs ${CONDA_PREFIX}/runtimes-nodejs
 # This isn't necessary to keep in the container
 RUN rm -fdr ${CONDA_PREFIX}/dotfiles
+
 
 FROM dev-container
 ARG HOME
