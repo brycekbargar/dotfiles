@@ -77,7 +77,7 @@ return packer.startup({
 		})
 	end,
 	config = {
-		package_root = util.join_paths(vim.fn.stdpath("state"), "site", "pack"),
+		package_root = util.join_paths(os.getenv("NVIM_PACKPATH"), "pack"),
 		compile_path = util.join_paths(vim.fn.stdpath("state"), "plugin", "packer_compiled.lua"),
 	},
 })

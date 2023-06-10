@@ -26,6 +26,9 @@ export \
     NPM_CONFIG_INIT_MODULES="$XDG_CONFIG_HOME/npm/.npm.init.js" \
 export \
     PIPX_HOME="$XDG_STATE_HOME/pipx"
+export \
+    NVIM_BIN="$HOME/.nvim" \
+    NVIM_PACKPATH="$HOME/.nvim/site"
 
 typeset -aU path
 path=(
@@ -34,4 +37,5 @@ path=(
     "$XDG_BIN_HOME/shims"
     "$XDG_BIN_HOME/ide"
     "$XDG_BIN_HOME/shims/ide"
+    "$NVIM_BIN"
     $path)
