@@ -28,8 +28,7 @@ export \
     RYE_HOME="$XDG_PKG_HOME/.rye" \
     PIPX_HOME="$XDG_STATE_HOME/pipx"
 export \
-    NVIM_BIN="$HOME/.nvim" \
-    NVIM_PACKPATH="$HOME/.nvim/site"
+    NVIM_BIN="$HOME/.nvim"
 
 typeset -aU path
 path=(

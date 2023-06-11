@@ -175,6 +175,7 @@ WORKDIR ${SETUP}/dotfiles
 USER 1111:1111
 RUN --mount=type=cache,target=${HOME}/.local/var/cache <<ANSIBLE
 #! /usr/bin/zsh
+sudo chown 1111:1111 ${HOME}/.local/var/cache
 source "${SETUP}"/dotfiles/.zshenv
 source <("${CONDA_PREFIX}/base/bin/conda" shell.zsh hook)
 ANSIBLE_CONFIG="$(pwd)/playbooks/ansible.cfg" \
