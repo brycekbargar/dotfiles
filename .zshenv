@@ -21,20 +21,13 @@ export \
     ANTIDOTE_SOURCE="$ZDOTDIR/.antidote" \
     ANTIDOTE_HOME="$ZDOTDIR/.bundles"
 export \
-    NPM_CONFIG_CACHE="$XDG_CACHE_HOME/npm" \
-    NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/.npmrc" \
-    NPM_CONFIG_INIT_MODULES="$XDG_CONFIG_HOME/npm/.npm.init.js" \
-export \
-    RYE_HOME="$XDG_PKG_HOME/.rye" \
-    PIPX_HOME="$XDG_STATE_HOME/pipx"
-export \
     NVIM_BIN="$HOME/.nvim"
 
 typeset -aU path
 path=(
     "$XDG_BIN_HOME"
     "$XDG_PKG_HOME"
-    "$RYE_HOME/shims"
     "$XDG_BIN_HOME/shims"
+    "$XDG_PKG_HOME/.rye/shims"
     "$NVIM_BIN"
     $path)

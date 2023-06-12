@@ -8,7 +8,7 @@ ARG HOSTOS=windows
 # Shortcuts shared across multiple stages
 ARG HOME="/home/${USER}"
 ARG CONDA_PREFIX="${HOME}/.local/var/lib/conda"
-ARG RYE_HOME="${HOME}/.local/opt/.rye"
+ARG PKG_HOME="${HOME}/.local/opt/"
 
 FROM registry.hub.docker.com/library/debian:testing-slim AS debian
 
@@ -90,18 +90,28 @@ RUN --mount=type=cache,target=/rust/registry,sharing=locked \
 	cargo install bat
 RUN --mount=type=cache,target=/rust/registry,sharing=locked \
 	cargo install precious
-RUN --mount=type=cache,target=/rust/registry,sharing=locked \
-	cargo install --git https://github.com/mitsuhiko/rye rye
 
 # Install tools written in python
 FROM tools-rust as tools-python
-ARG RYE_HOME
+RUN --mount=type=cache,target=/rust/registry,sharing=locked \
+	cargo install --git https://github.com/mitsuhiko/rye rye
+ARG RYE_HOME=${PKG_HOME}/.rye
 ENV RYE_HOME="${RYE_HOME}"
 RUN /rust/bin/rye install awscli
 RUN /rust/bin/rye install thefuck
 RUN /rust/bin/rye install pipx
-# This doesn't seem to matter to rye or installed tools
-RUN rm ${RYE_HOME}/shims/python ${RYE_HOME}/shims/python3
+RUN /rust/bin/rye install pre-commit-hooks
+# This doesn't seem to matter to the installed tools and we don't need it
+RUN <<SHRINK
+rye toolchain remove $(
+	rye toolchain list |
+	sort | head -1 |
+	awk '{print $1}')
+rm -fdr \
+	${RYE_HOME}/shims/python \
+	${RYE_HOME}/shims/python3 \
+	${RYE_HOME}/self
+SHRINK
 
 # These are used for nvim (linters and lsps)
 # They're in a separate build stage to they can get copied into the bin/ide folder
@@ -189,11 +199,11 @@ ANSIBLE
 FROM ansible as home-layer
 ARG HOME
 ARG CONDA_PREFIX
-ARG RYE_HOME
+ARG PKG_HOME
 COPY --from=registry.hub.docker.com/library/docker:cli /usr/local/bin/docker ${HOME}/.local/bin/docker
-COPY --from=tools-go /go/bin/ ${HOME}/.local/opt/
-COPY --from=tools-rust /rust/bin/ ${HOME}/.local/opt/
-COPY --from=tools-python ${RYE_HOME} ${RYE_HOME}
+COPY --from=tools-go /go/bin/ ${PKG_HOME}
+COPY --from=tools-rust /rust/bin/ ${PKG_HOME}
+COPY --from=tools-python ${PKG_HOME}/.rye ${PKG_HOME}/.rye
 COPY --from=nvim-go /go/bin/ ${HOME}/.nvim/
 COPY --from=nvim-rust /rust/bin/ ${HOME}/.nvim/
 COPY --from=runtimes-nodejs ${CONDA_PREFIX}/runtimes-nodejs ${CONDA_PREFIX}/runtimes-nodejs
