@@ -78,6 +78,7 @@ RUN --mount=type=cache,target=/rust/registry,sharing=locked \
 FROM tools-rust as tools-python
 RUN --mount=type=cache,target=/rust/registry,sharing=locked \
 	cargo install --git https://github.com/mitsuhiko/rye rye
+ARG PKG_HOME
 ENV RYE_HOME="${PKG_HOME}/.rye"
 RUN <<RYE
 /rust/bin/rye install awscli
@@ -100,6 +101,7 @@ RYE
 FROM registry.hub.docker.com/library/golang as tools-js
 RUN --mount=type=cache,target=/go/pkg,sharing=locked \
 	go install github.com/tj/node-prune@latest
+ARG PKG_HOME
 ENV N_PREFIX="${PKG_HOME}/.tjn"
 ENV N_CACHE_PREFIX="/tmp"
 ADD https://raw.githubusercontent.com/tj/n/master/bin/n /usr/bin/n
@@ -133,6 +135,7 @@ apt-get install --no-install-recommends --yes \
 	git \
 	less \
 	libncursesw6 \
+	lowdown \
 	openssh-client \
 	shellcheck \
 	sudo \
