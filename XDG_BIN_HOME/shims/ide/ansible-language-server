@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-
-npx run --package=@ansible/ansible-language-server@latest -- ansible-language-server "$@"

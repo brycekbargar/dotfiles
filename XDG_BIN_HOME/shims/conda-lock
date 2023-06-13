@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-umamba run --prefix "$CONDA_SYSTEM/base" conda-lock "$@"
+umamba run --prefix "$XDG_STATE_HOME/conda/base" conda-lock "$@"

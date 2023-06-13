@@ -31,34 +31,6 @@ RUN --mount=type=cache,target=/opt/conda/pkgs,sharing=locked <<UPDATE
 	conda-lock
 UPDATE
 
-# Mamba system environments builder
-FROM registry.hub.docker.com/continuumio/miniconda3 as mamba
-RUN --mount=type=cache,target=/opt/conda/pkgs,sharing=locked <<MAMBA
-conda config --add channels conda-forge
-conda update --yes --quiet --name base conda --all
-conda install --yes --quiet --name base conda-libmamba-solver
-conda config --set solver libmamba
-MAMBA
-
-# System environments
-# the conda_pkgs_dir varies by likelihood of shared pkgs
-#   it can fill up if all the envs share a dir and gc in between instructions : /
-FROM mamba as dotfiles
-ARG ENV_NAME="dotfiles"
-ARG CONDA_PREFIX
-COPY ./dotfiles/environment.yml environment.yml
-RUN --mount=type=cache,target=/python,sharing=locked \
-        CONDA_PKGS_DIR="/python" conda env create --quiet --prefix "${CONDA_PREFIX}/${ENV_NAME}" --file environment.yml
-
-FROM mamba as runtimes-nodejs
-ARG ENV_NAME="runtimes-nodejs"
-ARG CONDA_PREFIX
-COPY ./dotfiles/XDG_CONFIG_HOME/conda/${ENV_NAME}.yml environment.yml
-RUN --mount=type=cache,target=/nodejs,sharing=locked \
-        CONDA_PKGS_DIR="/nodejs" conda env create --quiet --prefix "${CONDA_PREFIX}/${ENV_NAME}" --file environment.yml
-RUN --mount=type=cache,target=/root/.npm,sharing=locked \
-        conda run --prefix "${CONDA_PREFIX}/${ENV_NAME}" npm install -g npm@latest
-
 # Install tools written in go
 FROM registry.hub.docker.com/library/golang as tools-go
 RUN --mount=type=cache,target=/go/pkg,sharing=locked \
@@ -105,23 +77,49 @@ RUN --mount=type=cache,target=/rust/registry,sharing=locked \
 FROM tools-rust as tools-python
 RUN --mount=type=cache,target=/rust/registry,sharing=locked \
 	cargo install --git https://github.com/mitsuhiko/rye rye
-ARG RYE_HOME=${PKG_HOME}/.rye
-ENV RYE_HOME="${RYE_HOME}"
-RUN /rust/bin/rye install awscli
-RUN /rust/bin/rye install thefuck
-RUN /rust/bin/rye install pipx
-RUN /rust/bin/rye install pre-commit-hooks
+ENV RYE_HOME="${PKG_HOME}/.rye"
+RUN <<RYE
+/rust/bin/rye install awscli
+/rust/bin/rye install thefuck
+/rust/bin/rye install pipx
+/rust/bin/rye install pre-commit-hooks
+
 # This doesn't seem to matter to the installed tools and we don't need it
-RUN <<SHRINK
 rye toolchain remove $(
 	rye toolchain list |
 	sort | head -1 |
 	awk '{print $1}')
 rm -fdr \
-	${RYE_HOME}/shims/python \
-	${RYE_HOME}/shims/python3 \
-	${RYE_HOME}/self
-SHRINK
+	"$RYE_HOME/shims/python" \
+	"$RYE_HOME/shims/python3" \
+	"$RYE_HOME/self"
+RYE
+
+# Install tools written in javascript
+FROM registry.hub.docker.com/library/golang as tools-js
+RUN --mount=type=cache,target=/go/pkg,sharing=locked \
+	go install github.com/tj/node-prune@latest
+ENV N_PREFIX="${PKG_HOME}/.tjn"
+ENV N_CACHE_PREFIX="/tmp"
+ADD https://raw.githubusercontent.com/tj/n/master/bin/n /usr/bin/n
+RUN chmod +x /usr/bin/n
+RUN <<TJN
+n latest
+$N_PREFIX/bin/npm install -g npm@latest
+$N_PREFIX/bin/npm install -g \
+	@ansible/ansible-language-server \
+	bash-language-server \
+	@bitwarden/cli \
+	dockerfile-language-server-nodejs \
+	fixjson \
+	pyright \
+	tiged \
+	vscode-langservers-extracted \
+	yaml-language-server
+
+rm $N_PREFIX/bin/npm
+node-prune $N_PREFIX/lib/node_modules
+TJN
 
 # Build out the base of the final image
 FROM debian as dev-container
@@ -160,6 +158,19 @@ install --mode 0440 -D <(echo "$USER ALL=(ALL) NOPASSWD: ALL") "/etc/sudoers.d/$
 install --owner 1111 --group 1111 -D --directory /conda/envs /conda/pkgs
 NONROOT
 
+# Install environment for running ansible
+FROM registry.hub.docker.com/continuumio/miniconda3 as dotfiles
+RUN --mount=type=cache,target=/opt/conda/pkgs,sharing=locked <<MAMBA
+conda config --add channels conda-forge
+conda update --yes --quiet --name base conda --all
+conda install --yes --quiet --name base conda-libmamba-solver
+conda config --set solver libmamba
+MAMBA
+ARG CONDA_PREFIX
+COPY ./dotfiles/environment.yml environment.yml
+RUN --mount=type=cache,target=/opt/conda/pkgs,sharing=locked \
+        conda env create --quiet --prefix "${CONDA_PREFIX}/dotfiles" --file environment.yml
+
 FROM dev-container as ansible
 ARG HOME
 ARG CONDA_PREFIX
@@ -196,7 +207,7 @@ COPY --from=registry.hub.docker.com/library/docker:cli /usr/local/bin/docker ${H
 COPY --from=tools-go /go/bin/ ${PKG_HOME}
 COPY --from=tools-rust /rust/bin/ ${PKG_HOME}
 COPY --from=tools-python ${PKG_HOME}/.rye ${PKG_HOME}/.rye
-COPY --from=runtimes-nodejs ${CONDA_PREFIX}/runtimes-nodejs ${CONDA_PREFIX}/runtimes-nodejs
+COPY --from=tools-js ${PKG_HOME}/.tjn ${PKG_HOME}/.tjn
 # This isn't necessary to keep in the container
 RUN rm -fdr ${CONDA_PREFIX}/dotfiles
 

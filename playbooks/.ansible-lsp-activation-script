@@ -5,5 +5,5 @@
 # Here's a hack to run ansible using the conda env of the repo.
 # This file shouldn't be checked into vcs (except for now as a template file)
 
-source <("$CONDA_SYSTEM/base/bin/conda" shell.zsh hook)
-conda activate "$CONDA_SYSTEM/dotfiles"
+source <("$XDG_STATE_HOME/conda/base/bin/conda" shell.zsh hook)
+conda activate "/conda/envs/dotfiles"

@@ -10,11 +10,9 @@ export \
 
 export \
     CONDARC="$XDG_CONFIG_HOME/conda/condarc" \
-    CONDA_SYSTEM="$XDG_STATE_HOME/conda" \
     CONDA_ENVS="/conda/envs" \
-    CONDA_PKGS_DIRS="/conda/pkgs"
-export \
-    CONDA_ENVS_PATH="$CONDA_ENVS:$CONDA_SYSTEM"
+    CONDA_PKGS_DIRS="/conda/pkgs" \
+    CONDA_ENVS_PATH="$CONDA_ENVS:$XDG_STATE_HOME/conda"
 export \
     ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 export \
@@ -27,4 +25,5 @@ path=(
     "$XDG_PKG_HOME"
     "$XDG_BIN_HOME/shims"
     "$XDG_PKG_HOME/.rye/shims"
+    "$XDG_PKG_HOME/.tjn/bin"
     $path)

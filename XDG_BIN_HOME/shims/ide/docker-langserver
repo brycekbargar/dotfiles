@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-
-npx run --package=dockerfile-language-server-nodejs@latest -- docker-langserver "$@"

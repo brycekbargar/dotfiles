@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-
-"$XDG_BIN_HOME/shims/npx" --package=tiged@latest -- degit "$@"

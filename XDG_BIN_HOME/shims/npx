@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-
-umamba run --prefix "$CONDA_SYSTEM/runtimes-nodejs" npm exec --yes "$@"

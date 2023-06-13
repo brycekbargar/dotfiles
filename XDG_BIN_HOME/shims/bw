@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-
-"$XDG_BIN_HOME/shims/npx" --package=@bitwarden/cli@latest -- bw "$@"

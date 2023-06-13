@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-
-npx run --package=vscode-langservers-extracted@latest -- vscode-json-language-server "$@"

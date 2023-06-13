@@ -9,7 +9,7 @@
   "workspace": {
     "library": [
       "$XDG_STATE_HOME/nvim/site/pack/packer/",
-      "$CONDA_SYSTEM/nvim/squashfs-root/usr"
+      "$XDG_PKG_HOME/.nvim/squashfs-root/usr"
     ],
     "checkThirdParty": false
   }
