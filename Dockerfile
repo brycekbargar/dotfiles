@@ -179,15 +179,14 @@ ARG HOSTOS
 ENV HOSTOS=${HOSTOS}
 WORKDIR ${SETUP}/dotfiles
 USER 1111:1111
-RUN --mount=type=cache,target=${HOME}/.local/var/cache \
-    --mount=type=cache,target=/opt/conda/pkgs,sharing=locked  <<ANSIBLE
+RUN --mount=type=cache,target=${HOME}/.local/var/cache  <<ANSIBLE
 #! /usr/bin/zsh
 sudo chown 1111:1111 ${HOME}/.local/var/cache
 source "${SETUP}/dotfiles/.zshenv"
 source <("${CONDA_PREFIX}/base/bin/conda" shell.zsh hook)
-conda env create --quiet --prefix /tmp/ansible python ansible-core jmespath
+conda create --quiet --yes --prefix /tmp/ansible --channels=conda-forge python ansible jmespath
 ANSIBLE_CONFIG="$(pwd)/playbooks/ansible.cfg" \
-	conda run --name /tmp/ansible --no-capture-output \
+	conda run --prefix /tmp/ansible --no-capture-output \
 	ansible-playbook "playbooks/default.playbook.yml"
 # TODO: Figure out how to do this in the playbook
 source "$ZDOTDIR"/myrc.zsh
