@@ -1,4 +1,10 @@
 ---
+- name: Creating lua lsp directory
+  ansible.builtin.file:
+    path: "{{ lookup('env', 'XDG_PKG_HOME') }}/.nvim/lua-language-server"
+    state: directory
+    mode: "0755"
+
 - name: Downloading Neovim
   ansible.builtin.get_url:
     url: https://github.com/neovim/neovim/releases/download/stable/nvim.appimage
@@ -22,12 +28,6 @@
     url: https://api.github.com/repos/sumneko/lua-language-server/releases/latest
     return_content: true
   register: lua_lsp
-
-- name: Creating lua lsp directory
-  ansible.builtin.file:
-    path: "{{ lookup('env', 'XDG_PKG_HOME') }}/.nvim/lua-language-server"
-    state: directory
-    mode: "0755"
 
 - name: Installing latest lua lsp
   ansible.builtin.unarchive:

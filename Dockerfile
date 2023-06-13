@@ -184,7 +184,7 @@ RUN --mount=type=cache,target=${HOME}/.local/var/cache  <<ANSIBLE
 sudo chown 1111:1111 ${HOME}/.local/var/cache
 source "${SETUP}/dotfiles/.zshenv"
 source <("${CONDA_PREFIX}/base/bin/conda" shell.zsh hook)
-conda create --quiet --yes --prefix /tmp/ansible --channels=conda-forge python ansible jmespath
+conda create --quiet --yes --prefix /tmp/ansible --channel=conda-forge python ansible jmespath
 ANSIBLE_CONFIG="$(pwd)/playbooks/ansible.cfg" \
 	conda run --prefix /tmp/ansible --no-capture-output \
 	ansible-playbook "playbooks/default.playbook.yml"
