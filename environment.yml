@@ -6,8 +6,6 @@ dependencies:
   - python
   - ansible
   - ansible-lint
-  - jmespath
-  - yamllint
   - pip
   - pip:
       - vim-vint

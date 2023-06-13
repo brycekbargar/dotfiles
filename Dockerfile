@@ -85,6 +85,7 @@ RUN <<RYE
 /rust/bin/rye install thefuck
 /rust/bin/rye install pipx
 /rust/bin/rye install pre-commit-hooks
+/rust/bin/rye install yamllint
 
 # This doesn't seem to matter to the installed tools and we don't need it
 rye toolchain remove $(
@@ -181,9 +182,9 @@ RUN --mount=type=cache,target=${HOME}/.local/var/cache <<ANSIBLE
 sudo chown 1111:1111 ${HOME}/.local/var/cache
 source "${SETUP}/dotfiles/.zshenv"
 source <("${CONDA_PREFIX}/base/bin/conda" shell.zsh hook)
-conda env create --quiet --name dotfiles --file "${SETUP}/dotfiles/environment.yml"
+conda env create --quiet --prefix /tmp/ansible python ansible-core jmespath
 ANSIBLE_CONFIG="$(pwd)/playbooks/ansible.cfg" \
-	conda run --name dotfiles --no-capture-output \
+	conda run --name /tmp/ansible --no-capture-output \
 	ansible-playbook "playbooks/default.playbook.yml"
 # TODO: Figure out how to do this in the playbook
 source "$ZDOTDIR"/myrc.zsh
