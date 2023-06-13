@@ -110,8 +110,9 @@ ADD https://raw.githubusercontent.com/tj/n/master/bin/n /usr/bin/n
 RUN chmod +x /usr/bin/n
 RUN <<TJN
 n latest
-$N_PREFIX/bin/npm install -g npm@latest
-$N_PREFIX/bin/npm install -g \
+export PATH=$N_PREFIX/bin:$PATH
+npm install -g npm@latest
+npm install -g \
 	@ansible/ansible-language-server \
 	bash-language-server \
 	@bitwarden/cli \
