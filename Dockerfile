@@ -7,7 +7,6 @@ ARG HOSTOS=windows
 
 # Shortcuts shared across multiple stages
 ARG HOME="/home/${USER}"
-ARG CONDA_PREFIX="${HOME}/.local/var/lib/conda"
 ARG PKG_HOME="${HOME}/.local/opt/"
 
 FROM registry.hub.docker.com/library/debian:testing-slim AS debian
@@ -18,7 +17,7 @@ ADD https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh /tmp/m
 FROM debian AS conda-arm64
 ADD https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-aarch64.sh /tmp/miniconda-install.sh
 FROM conda-${TARGETARCH} as base
-ARG CONDA_PREFIX
+ARG CONDA_PREFIX="${HOME}/.local/var/lib/conda"
 RUN chmod +x /tmp/miniconda-install.sh
 RUN --mount=type=cache,target=/opt/conda/pkgs,sharing=locked \
         /tmp/miniconda-install.sh -b -s -p "${CONDA_PREFIX}/base"
@@ -42,11 +41,13 @@ RUN --mount=type=cache,target=/go/pkg,sharing=locked \
 RUN --mount=type=cache,target=/go/pkg,sharing=locked \
 	go install github.com/lemonade-command/lemonade@latest
 RUN --mount=type=cache,target=/go/pkg,sharing=locked \
+	go install mvdan.cc/sh/v3/cmd/shfmt@latest
+RUN --mount=type=cache,target=/go/pkg,sharing=locked \
 	go install github.com/terraform-linters/tflint@latest
 RUN --mount=type=cache,target=/go/pkg,sharing=locked \
 	go install github.com/hashicorp/terraform-ls@latest
 RUN --mount=type=cache,target=/go/pkg,sharing=locked \
-	go install mvdan.cc/sh/v3/cmd/shfmt@latest
+	go install github.com/google/yamlfmt/cmd/yamlfmt@latest
 
 # Install tools written in rust
 # The target dir is split out so we can copy the bin and not get rust tools too
@@ -57,21 +58,21 @@ ENV CARGO_CACHE_RUSTC_INFO=0
 ENV CARGO_INCREMENTAL=1
 ENV CARGO_HOME=/rust
 RUN --mount=type=cache,target=/rust/registry,sharing=locked \
-	cargo install fd-find
+	cargo install bat
 RUN --mount=type=cache,target=/rust/registry,sharing=locked \
 	cargo install exa
 RUN --mount=type=cache,target=/rust/registry,sharing=locked \
-	cargo install ripgrep
+	cargo install fd-find
 RUN --mount=type=cache,target=/rust/registry,sharing=locked \
 	cargo install git-delta
 RUN --mount=type=cache,target=/rust/registry,sharing=locked \
-	cargo install bat
-RUN --mount=type=cache,target=/rust/registry,sharing=locked \
 	cargo install precious
 RUN --mount=type=cache,target=/rust/registry,sharing=locked \
-	cargo install taplo-cli --features lsp
+	cargo install ripgrep
 RUN --mount=type=cache,target=/rust/registry,sharing=locked \
 	cargo install stylua
+RUN --mount=type=cache,target=/rust/registry,sharing=locked \
+	cargo install taplo-cli --features lsp
 
 # Install tools written in python
 FROM tools-rust as tools-python
@@ -158,26 +159,12 @@ install --mode 0440 -D <(echo "$USER ALL=(ALL) NOPASSWD: ALL") "/etc/sudoers.d/$
 install --owner 1111 --group 1111 -D --directory /conda/envs /conda/pkgs
 NONROOT
 
-# Install environment for running ansible
-FROM registry.hub.docker.com/continuumio/miniconda3 as dotfiles
-RUN --mount=type=cache,target=/opt/conda/pkgs,sharing=locked <<MAMBA
-conda config --add channels conda-forge
-conda update --yes --quiet --name base conda --all
-conda install --yes --quiet --name base conda-libmamba-solver
-conda config --set solver libmamba
-MAMBA
-ARG CONDA_PREFIX
-COPY ./dotfiles/environment.yml environment.yml
-RUN --mount=type=cache,target=/opt/conda/pkgs,sharing=locked \
-        conda env create --quiet --prefix "${CONDA_PREFIX}/dotfiles" --file environment.yml
-
 FROM dev-container as ansible
 ARG HOME
-ARG CONDA_PREFIX
+ARG CONDA_PREFIX="${HOME}/.local/var/lib/conda"
 ARG SETUP=${HOME}/_setup
 
 COPY --chown=1111:1111 --from=base ${CONDA_PREFIX}/base ${CONDA_PREFIX}/base
-COPY --chown=1111:1111 --from=dotfiles ${CONDA_PREFIX}/dotfiles ${CONDA_PREFIX}/dotfiles
 COPY --chown=1111:1111 ./dotfiles ${SETUP}/dotfiles
 COPY --chown=1111:1111 ./private ${SETUP}/private
 
@@ -189,8 +176,9 @@ USER 1111:1111
 RUN --mount=type=cache,target=${HOME}/.local/var/cache <<ANSIBLE
 #! /usr/bin/zsh
 sudo chown 1111:1111 ${HOME}/.local/var/cache
-source "${SETUP}"/dotfiles/.zshenv
+source "${SETUP}/dotfiles/.zshenv"
 source <("${CONDA_PREFIX}/base/bin/conda" shell.zsh hook)
+conda env create --quiet --name dotfiles --file "${SETUP}/dotfiles/environment.yml"
 ANSIBLE_CONFIG="$(pwd)/playbooks/ansible.cfg" \
 	conda run --name dotfiles --no-capture-output \
 	ansible-playbook "playbooks/default.playbook.yml"
@@ -201,15 +189,12 @@ ANSIBLE
 # This is for any final IO operations that need to to squash final image into a single layer
 FROM ansible as home-layer
 ARG HOME
-ARG CONDA_PREFIX
 ARG PKG_HOME
 COPY --from=registry.hub.docker.com/library/docker:cli /usr/local/bin/docker ${HOME}/.local/bin/docker
 COPY --from=tools-go /go/bin/ ${PKG_HOME}
 COPY --from=tools-rust /rust/bin/ ${PKG_HOME}
 COPY --from=tools-python ${PKG_HOME}/.rye ${PKG_HOME}/.rye
 COPY --from=tools-js ${PKG_HOME}/.tjn ${PKG_HOME}/.tjn
-# This isn't necessary to keep in the container
-RUN rm -fdr ${CONDA_PREFIX}/dotfiles
 
 
 FROM dev-container

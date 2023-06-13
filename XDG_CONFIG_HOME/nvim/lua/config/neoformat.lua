@@ -8,10 +8,9 @@ return function()
 
 	format.setup({
 		filetype = {
-			json = { filetype("json").prettier },
-			jsonc = { filetype("json").prettier },
+			json = { filetype("json").fixjson },
+			jsonc = { filetype("json").fixjson },
 			lua = { filetype("lua").stylua },
-			markdown = { filetype("markdown").prettier },
 
 			ps1 = {
 				function()
@@ -36,7 +35,7 @@ return function()
 
 			sh = {
 				function()
-					local shfmt = filetype("bash").isort
+					local shfmt = filetype("bash").shfmt
 					table.insert(shfmt.args, 1, "--simplify")
 					return shfmt
 				end,
@@ -44,8 +43,8 @@ return function()
 
 			terraform = { filetype("terraform").terraformfmt },
 			toml = { filetype("toml").taplo },
-			yaml = { filetype("yaml").prettier },
-			["yaml.ansible"] = { filetype("yaml").prettier },
+			yaml = { filetype("yaml").yamlfmt },
+			["yaml.ansible"] = { filetype("yaml").yamlfmt },
 		},
 	})
 end
