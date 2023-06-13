@@ -20,8 +20,6 @@ export \
 export \
     ANTIDOTE_SOURCE="$ZDOTDIR/.antidote" \
     ANTIDOTE_HOME="$ZDOTDIR/.bundles"
-export \
-    NVIM_BIN="$HOME/.nvim"
 
 typeset -aU path
 path=(
@@ -29,5 +27,4 @@ path=(
     "$XDG_PKG_HOME"
     "$XDG_BIN_HOME/shims"
     "$XDG_PKG_HOME/.rye/shims"
-    "$NVIM_BIN"
     $path)

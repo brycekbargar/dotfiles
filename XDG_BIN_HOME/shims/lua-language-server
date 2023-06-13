@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+"$XDG_PKG_HOME/.nvim/lua-language-server/bin/lua-language-server" "@"

@@ -53,12 +53,6 @@
     state: directory
     mode: "0775"
 
-- name: Make NVIM_BIN
-  ansible.builtin.file:
-    path: "{{ lookup('env', 'NVIM_BIN') }}"
-    state: directory
-    mode: "0775"
-
 - name: Prepare to link lemonade (booo)
   ansible.builtin.file:
     dest: "{{ lookup('env', 'HOME') }}/.config"
