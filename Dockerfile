@@ -17,6 +17,7 @@ ADD https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh /tmp/m
 FROM debian AS conda-arm64
 ADD https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-aarch64.sh /tmp/miniconda-install.sh
 FROM conda-${TARGETARCH} as base
+ARG HOME
 ARG CONDA_PREFIX="${HOME}/.local/var/lib/conda"
 RUN chmod +x /tmp/miniconda-install.sh
 RUN --mount=type=cache,target=/opt/conda/pkgs,sharing=locked \
@@ -160,7 +161,7 @@ passwd --delete "${USER}"
 usermod --append --groups sudo,docker "${USER}"
 install --mode 0440 -D <(echo "$USER ALL=(ALL) NOPASSWD: ALL") "/etc/sudoers.d/${USER}"
 # These should be mounted as volumes at runtime but don't fail if they're missing
-install --owner 1111 --group 1111 -D --directory /conda/envs /conda/pkgs
+install --owner 1111 --group 1111 -D --directory /opt/conda/envs /opt/conda/pkgs
 NONROOT
 
 FROM dev-container as ansible
@@ -177,7 +178,8 @@ ARG HOSTOS
 ENV HOSTOS=${HOSTOS}
 WORKDIR ${SETUP}/dotfiles
 USER 1111:1111
-RUN --mount=type=cache,target=${HOME}/.local/var/cache <<ANSIBLE
+RUN --mount=type=cache,target=${HOME}/.local/var/cache \
+    --mount=type=cache,target=/opt/conda/pkgs,sharing=locked  <<ANSIBLE
 #! /usr/bin/zsh
 sudo chown 1111:1111 ${HOME}/.local/var/cache
 source "${SETUP}/dotfiles/.zshenv"

@@ -106,8 +106,8 @@ function Enter-DevContainer {
         $image = Get-Image-Name -Tag $Tag
         Write-Verbose "Running $image as a new container"
         &docker run -it --user 1111 `
-            --mount type=volume,src=conda-envs,target=/conda/envs `
-            --mount type=volume,src=conda-pkgs,target=/conda/pkgs `
+            --mount type=volume,src=conda-envs,target=/opt/conda/envs `
+            --mount type=volume,src=conda-pkgs,target=/opt/conda/pkgs `
             --mount type=volume,src=code,target=/home/bryce/code `
             -v /var/run/docker.sock:/var/run/docker.sock `
             --name "$container" `
