@@ -5,6 +5,10 @@
   "license": "https://colemak.com/License",
   "url": "https://colemak.com/pub/windows/Colemak-1.1-Caps-Lock-Unchanged.zip",
   "hash": "65a082aa58b3910b2584e056aef818fe6dd40de5dc3b085de1ecbd5a2f45ea8d",
-  "installer": { "file": "setup.exe" },
-  "uninstaller": { "file": "setup.exe" }
+  "installer": {
+    "file": "setup.exe"
+  },
+  "uninstaller": {
+    "file": "setup.exe"
+  }
 }

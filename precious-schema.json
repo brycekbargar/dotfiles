@@ -25,28 +25,40 @@
             "type": {
               "description": "This must be either lint, tidy, or both. This defines what type of command this is. A command which is both must define lint_flags or tidy_flags as well.",
               "type": "string",
-              "enum": ["tidy", "lint", "both"]
+              "enum": [
+                "tidy",
+                "lint",
+                "both"
+              ]
             },
             "include": {
               "description": "Each array member is a gitignore pattern that tells precious what files this command applies to. You can use lines starting with a ! to negate the meaning of previous rules in the list, so that anything that matches is not included even if it matches previous rules.",
               "type": "array",
-              "items": { "type": "string" }
+              "items": {
+                "type": "string"
+              }
             },
             "exclude": {
               "description": "Each array member is a gitignore pattern that tells precious what files this command should not be applied to. You can use lines starting with a ! to negate the meaning of previous rules in the list, so that anything that matches is not excluded even if it matches previous rules.",
               "type": "array",
-              "items": { "type": "string" }
+              "items": {
+                "type": "string"
+              }
             },
             "cmd": {
               "description": "This is the executable to be run followed by any arguments that should always be passed.",
               "type": "array",
-              "items": { "type": "string" }
+              "items": {
+                "type": "string"
+              }
             },
             "env": {
               "description": "This key allows you to set one or more environment variables that will be set when the command is run. The values in this table must be strings.",
               "type": "object",
               "pattern_properties": {
-                ".*": { "type": "string" }
+                ".*": {
+                  "type": "string"
+                }
               }
             },
             "path_flag": {
@@ -56,23 +68,34 @@
             "lint_flags": {
               "description": "If a command is both a linter and tidier then it may take extra flags to operate in linting mode. This is how you set that flag.",
               "type": "array",
-              "items": { "type": "string" }
+              "items": {
+                "type": "string"
+              }
             },
             "tidy_flags": {
               "description": "If a command is both a linter and tidier then it may take extra flags to operate in tidying mode. This is how you set that flag.",
               "type": "array",
-              "items": { "type": "string" }
+              "items": {
+                "type": "string"
+              }
             },
             "invoke": {
               "description": "The invoke key tells precious how the command should be invoked.",
               "type": "string",
-              "enum": ["per-file", "per-dir", "once"],
+              "enum": [
+                "per-file",
+                "per-dir",
+                "once"
+              ],
               "default": "per-file"
             },
             "working_dir": {
               "description": "The working_dir key tells precious what the working directory should be when the command is run.",
               "type": "string",
-              "enum": ["root", "dir"],
+              "enum": [
+                "root",
+                "dir"
+              ],
               "default": "root"
             },
             "path_args": {
@@ -91,20 +114,31 @@
             "ok_exit_codes": {
               "description": "Any exit code that does not indicate an abnormal exit should be here. For most commands this is just 0 but some commands may use other exit codes even for a normal exit.",
               "type": "array",
-              "items": { "type": "integer" }
+              "items": {
+                "type": "integer"
+              }
             },
             "lint_failure_exit_codes": {
               "description": "If the command is a linter then these are the status codes that indicate a lint failure. These need to be specified so precious can distinguish an exit because of a lint failure versus an exit because of some unexpected issue.",
               "type": "array",
-              "items": { "type": "integer" }
+              "items": {
+                "type": "integer"
+              }
             },
             "ignore_stderr": {
               "description": "By default, precious assumes that when a command sends output to stderr that indicates a failure to lint or tidy. This parameter can specify one or more regexes. These regexes will be matched against the command's stderr output. If any of the regexes match, the stderr output is ignored.",
               "type": "array",
-              "items": { "type": "string" }
+              "items": {
+                "type": "string"
+              }
             }
           },
-          "required": ["type", "include", "cmd", "ok_exit_codes"]
+          "required": [
+            "type",
+            "include",
+            "cmd",
+            "ok_exit_codes"
+          ]
         }
       }
     }

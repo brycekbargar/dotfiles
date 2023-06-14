@@ -5,7 +5,12 @@
   "useAcrylicInTabRow": true,
   "confirmCloseAllTabs": false,
   "defaultProfile": "{58ad8b0c-3ef8-5f4d-bc6f-13e4c00f2530}",
-  "actions": [{ "command": "paste", "keys": "ctrl+v" }],
+  "actions": [
+    {
+      "command": "paste",
+      "keys": "ctrl+v"
+    }
+  ],
   "profiles": {
     "defaults": {
       "font": {
@@ -46,13 +51,10 @@
   "schemes": [
     {
       "name": "Catppuccin Macchiato",
-
       "cursorColor": "#F4DBD6",
       "selectionBackground": "#5B6078",
-
       "background": "#24273A",
       "foreground": "#CAD3F5",
-
       "black": "#494D64",
       "red": "#ED8796",
       "green": "#A6DA95",
@@ -61,7 +63,6 @@
       "purple": "#F5BDE6",
       "cyan": "#8BD5CA",
       "white": "#B8C0E0",
-
       "brightBlack": "#5B6078",
       "brightRed": "#ED8796",
       "brightGreen": "#A6DA95",

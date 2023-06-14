@@ -10,11 +10,10 @@ include = [
   "XDG_CONFIG_HOME/zsh/functions/*",
 ]
 exclude = ["**/myrc.zsh", "**/bw-ssh-add", "**/.gitignore", "**/rfunc"]
-cmd = ["conda-system", "nvim", "shfmt"]
+cmd = ["shfmt"]
 lint_flags = ["--diff"]
 tidy_flags = ["--write", "--simplify"]
 ok_exit_codes = [0]
-ignore_stderr = ["mamba"]
 [commands.shellcheck]
 type = "lint"
 include = [
@@ -31,75 +30,65 @@ exclude = [
   "**/.gitignore",
   "**/rfunc",
 ]
-cmd = ["conda-system", "nvim", "shellcheck", "--color=always"]
+cmd = ["shellcheck", "--color=always"]
 ok_exit_codes = [0]
-ignore_stderr = ["mamba"]
 
 [commands.vint]
 type = "lint"
 include = ["**/*.vim"]
-cmd = [
-  "pipx",
-  "run",
-  "--spec",
-  "vim-vint",
-  "vint",
-  "--color",
-  "--style-problem",
-]
+cmd = ["vint", "--color", "--style-problem"]
 ok_exit_codes = [0]
-ignore_stderr = ["mamba", "creating virtual environment"]
 [commands.stylua]
 type = "both"
 include = ["XDG_CONFIG_HOME/nvim/lua/**/*.lua"]
-cmd = ["conda-system", "nvim", "stylua", "--color=always"]
+cmd = ["stylua", "--color=always"]
 lint_flags = ["--check", "--verify"]
 ok_exit_codes = [0]
-ignore_stderr = ["mamba"]
 
 [commands."pre-comit.end-of-file"]
 type = "tidy"
 include = ["*"]
-cmd = ["pipx", "run", "--spec", "pre-commit-hooks", "end-of-file-fixer"]
-ok_exit_codes = [0, 1]
-ignore_stderr = ["mamba", "creating virtual environment"]
+cmd = ["end-of-file-fixer"]
+ok_exit_codes = [0]
 [commands."pre-commit.trailing-whitespace"]
 type = "tidy"
 include = ["*"]
-cmd = ["pipx", "run", "--spec", "pre-commit-hooks", "trailing-whitespace-fixer"]
-ok_exit_codes = [0, 1]
-ignore_stderr = ["mamba", "creating virtual environment"]
+cmd = ["trailing-whitespace-fixer"]
+ok_exit_codes = [0]
 
-[commands.prettier]
+[commands.fixjson]
 type = "both"
-include = ["*.json", "*.jsonc", "*.yaml", "*.yml"]
+include = ["*.json", "*.jsonc", "*.json5"]
 exclude = ["playbooks/*"]
-cmd = ["npx", "--", "prettier@latest"]
-lint_flags = ["--check"]
+cmd = ["fixjson"]
 tidy_flags = ["--write"]
 ok_exit_codes = [0]
-ignore_stderr = ["mamba"]
+[commands.yamlfmt]
+type = "both"
+include = ["*.yaml", "*.yml"]
+exclude = ["playbooks/*"]
+cmd = ["yamlfmt"]
+lint_flags = ["-lint"]
+ok_exit_codes = [0]
 
 [commands."taplo.format"]
 type = "both"
 include = ["*.toml"]
-cmd = ["conda-system", "nvim", "taplo", "format", "--colors=always"]
+cmd = ["taplo", "format", "--colors=always"]
 lint_flags = ["--check"]
 ok_exit_codes = [0]
-ignore_stderr = ["mamba", "found files"]
+ignore_stderr = ["found files"]
 [commands."taplo.lint-precious"]
 type = "lint"
 include = ["precious.toml"]
 cmd = [
-  "conda-system",
-  "nvim",
   "taplo",
   "check",
   "--colors=always",
   "--schema=https://raw.githubusercontent.com/brycekbargar/dotfiles/main/precious-schema.json",
 ]
 ok_exit_codes = [0]
-ignore_stderr = ["mamba", "found files"]
+ignore_stderr = ["found files"]
 
 [commands.ansible-lint]
 type = "both"
