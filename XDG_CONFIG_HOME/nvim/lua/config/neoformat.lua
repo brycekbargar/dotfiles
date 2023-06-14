@@ -35,7 +35,7 @@ return function()
 
 			sh = {
 				function()
-					local shfmt = filetype("bash").shfmt
+					local shfmt = filetype("sh").shfmt
 					table.insert(shfmt.args, 1, "--simplify")
 					return shfmt
 				end,
