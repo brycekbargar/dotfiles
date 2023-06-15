@@ -34,17 +34,6 @@ return function()
 
 	lsp.ansiblels.setup({
 		on_attach = on_attach,
-		-- This is assuming:
-		--   1. There's a local conda env with ansible
-		--   2. There's a shim script to activate that env
-		root_dir = util.root_pattern(".ansible-lsp-activation-script"),
-		settings = {
-			ansible = {
-				python = {
-					activationScript = ".ansible-lsp-activation-script",
-				},
-			},
-		},
 		single_file_support = false,
 	})
 

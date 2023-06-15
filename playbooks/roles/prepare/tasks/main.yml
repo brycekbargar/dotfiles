@@ -16,7 +16,6 @@
     excludes:
       - prepare-commit-msg
       - pre-commit
-      - .ansible-lsp-activation-script
   register: fucked_files
   when: ansible_env.HOSTOS == "windows"
 - name: Unfuck file permissions
