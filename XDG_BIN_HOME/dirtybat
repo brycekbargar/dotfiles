@@ -1,0 +1,72 @@
+#!/usr/bin/env bash
+
+if [[ $1 == *"-h"* ]]; then
+	cat <<HELP
+Lowdown, no good, dirty son of a ripgrep
+
+USAGE:
+	dirtybat [bat_options] <file> [-- rg_options]
+	dirtybat [bat_options] - [-- rg_options]
+	dirtybat --help
+
+ARGS:
+	<file>			The file to print, if - stdin is used
+	[bat_options]	Options to pass to bat
+	[rg_options]	Options to pass to rg for snipping context
+
+OPTIONS:
+	-h, --help		Prints help information.
+HELP
+
+	exit 0
+fi
+
+bat_args=()
+file=""
+
+while [[ $# -gt 0 ]]; do
+	case "$1" in
+	-)
+		file=""
+		shift 1
+		;;
+
+	--)
+		shift 1
+		break
+		;;
+
+	*)
+		file="$1"
+		bat_args=("${bat_args[@]}" "$1")
+		shift 1
+		;;
+
+	esac
+done
+
+bat_cmd=()
+lowdown=()
+if [[ $file == *.md ]]; then
+	lowdown=("lowdown" -tterm "$file")
+	# The file name is passed to lowdown and then piped to bat so we hack it off the end
+	bat_cmd=("bat" "${bat_args[@]::${#bat_args[@]}-1}")
+else
+	bat_cmd=("bat" "${bat_args[@]}")
+fi
+
+if [[ -z $1 ]]; then
+	if [[ ${#lowdown[@]} == 0 ]]; then
+		"${bat_cmd[@]}"
+	else
+		echo 'markdown'
+		"${lowdown[@]}" | "${bat_cmd[@]}"
+	fi
+else
+	if [[ ${#lowdown[@]} == 0 ]]; then
+		"${bat_cmd[@]}" --color=always | rg --context=6 --no-line-number --pretty "$@" | bat --plain
+	else
+		echo 'markdown'
+		"${lowdown[@]}" | "${bat_cmd[@]}" --color=always | rg --context=6 --no-line-number --pretty "$@" | bat --plain
+	fi
+fi

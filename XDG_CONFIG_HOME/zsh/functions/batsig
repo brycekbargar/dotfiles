@@ -2,7 +2,7 @@
 # shellcheck disable=SC2168
 # vi: ft=sh
 
-local cmd=""
+local cmd=()
 local help=false
 
 while [[ $# -gt 0 ]]; do
@@ -14,24 +14,24 @@ while [[ $# -gt 0 ]]; do
 
 	help)
 		help=true
-		cmd="$cmd $1"
+		cmd=("${cmd[@]}" "$1")
 		shift 1
 		;;
 
 	--help)
 		help=true
-		cmd="$cmd $1"
+		cmd=("${cmd[@]}" "$1")
 		shift 1
 		;;
 
 	-h)
 		help=true
-		cmd="$cmd $1"
+		cmd=("${cmd[@]}" "$1")
 		shift 1
 		;;
 
 	*)
-		cmd="$cmd $1"
+		cmd=("${cmd[@]}" "$1")
 		shift 1
 		;;
 
@@ -39,13 +39,11 @@ while [[ $# -gt 0 ]]; do
 done
 
 if [[ $help == false ]]; then
-	cmd="$cmd --help"
+	cmd=("${cmd[@]}" "--help")
 fi
 
 if [[ -z $1 ]]; then
-	# shellcheck disable=SC2086
-	eval $cmd 2>&1 | bat -plhelp
+	"${cmd[@]}" 2>&1 | dirtybat -plhelp
 else
-	# shellcheck disable=SC2086
-	eval $cmd 2>&1 | rg --context=6 --no-line-number --pretty "$@" | bat -plhelp
+	"${cmd[@]}" 2>&1 | dirtybat - -- "$@"
 fi

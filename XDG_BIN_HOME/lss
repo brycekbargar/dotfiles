@@ -1,5 +1,28 @@
 #!/usr/bin/env bash
 
+if [[ $1 == *"-h"* ]]; then
+	cat <<HELP
+Conceptually ls + less, Actually a exa + bat + rg + fd super tool
+
+USAGE:
+	lss [.] [path]
+	lss [.] [term]
+	lss --help
+
+ARGS:
+	[.]		For files, displays to the terminal in Raw mode.
+			For directories, lists hidden files and extended metadata
+			Has no effect on search terms
+	[path]	Lists the contents of the directory or the file
+	[term]	Searches file contents and names for the term
+
+OPTIONS:
+	-h, --help		Prints help information.
+HELP
+
+	exit 0
+fi
+
 if [[ $1 == "." ]]; then
 	raw=1
 	shift
@@ -11,7 +34,7 @@ if [[ -f $1 ]]; then
 		exit
 	fi
 
-	bat "$1"
+	dirtybat "$1"
 	exit
 fi
 
