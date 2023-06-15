@@ -10,9 +10,6 @@ romkatv/powerlevel10k kind:fpath
 
 # Actual plugins
 zdharma-continuum/fast-syntax-highlighting
-Cloudstek/zsh-plugin-appup
-xorkevin/code-review-zsh
-aperezdc/zsh-notes
 
 # Completions
 zsh-users/zsh-completions
