@@ -1,72 +1,88 @@
-; Make CapsLock into Ctrl and Esc
-$*CapsLock::
+; Swap CapsLock and Escape
+$CapsLock::Return
+$CapsLock Up::
 {
-        SendInput "{Ctrl down}"
-}
-
-$*CapsLock Up::
-{
-        SendInput "{Ctrl up}"
-        if(A_PriorKey = "CapsLock") {
-                SendInput "{Esc}"
-                return
+        if (A_PriorKey = "CapsLock")
+        {
+                SendInput "{Escape}"
         }
 }
-$Escape::Capslock
+$Escape::CapsLock
 
+; Quality of life CapsLock mappings
+$k::
+$n::
+$e::
+$i::
+$l::
+$u::
+$y::
+$7::
+$8::
+$9::
+$w::
+cruise_control_for_awesome(hk)
+{
+        hk := SubStr(hk, 2, 1)
+        if Not GetKeyState("CapsLock", "P")
+        {
+                ; TODO: How to send 789 so they can be bound as Hotkeys?
+                Switch hk
+                {
+                        Case "7": SendInput "&"
+                        Case "8": SendInput "*"
+                        Case "9": SendInput "("
+                        Default: SendInput hk
+                }
+                Return
+        }
 
-; Make Ctrl Number Pad
-^k::SendInput "{Ctrl up}{Numpad0}{Ctrl down}"
-^n::SendInput "{Ctrl up}{Numpad1}{Ctrl down}"
-^e::SendInput "{Ctrl up}{Numpad2}{Ctrl down}"
-^i::SendInput "{Ctrl up}{Numpad3}{Ctrl down}"
-^l::SendInput "{Ctrl up}{Numpad4}{Ctrl down}"
-^u::SendInput "{Ctrl up}{Numpad5}{Ctrl down}"
-^y::SendInput "{Ctrl up}{Numpad6}{Ctrl down}"
-^&::SendInput "{Ctrl up}{Numpad7}{Ctrl down}"
-^7::SendInput "{Ctrl up}{Numpad7}{Ctrl down}"
-^*::SendInput "{Ctrl up}{Numpad8}{Ctrl down}"
-^8::SendInput "{Ctrl up}{Numpad8}{Ctrl down}"
-^(::SendInput "{Ctrl up}{Numpad9}{Ctrl down}"
-^9::SendInput "{Ctrl up}{Numpad9}{Ctrl down}"
-
+        Switch hk
+        {
+                Case "k": SendInput "{Numpad0}"
+                Case "n": SendInput "{Numpad1}"
+                Case "e": SendInput "{Numpad2}"
+                Case "i": SendInput "{Numpad3}"
+                Case "l": SendInput "{Numpad4}"
+                Case "u": SendInput "{Numpad5}"
+                Case "y": SendInput "{Numpad6}"
+                Case "7": SendInput "{Numpad7}"
+                Case "8": SendInput "{Numpad8}"
+                Case "9": SendInput "{Numpad9}"
+                Case "w": SendInput "^w" ; Vim windows
+        }
+}
 
 ; Make the number row a symbol row
 $1::!
 $2::@
 $3::#
 $4::$
-$5::SendInput "`%"
+$5::%
 $6::^
-$7::SendInput "&"
-$8::SendInput "*"
-$9::SendInput "("
+; 789 is mapped above
 $0::)
 
+; Command key muscle memory
+; Chrome
+*<!n::SendInput "{Blind}{Alt up}^n{Alt down}"
+*<!t::SendInput "{Blind}{Alt up}^t{Alt down}"
+<!w::SendInput "{Blind}{Alt up}^w{Alt down}"
+<![::SendInput "!{Left}"
+<!]::SendInput "!{Right}"
+<!l::SendInput "{Alt up}^l{Alt down}"
+<!f::SendInput "{Alt up}^f{Alt down}"
+<!r::SendInput "{Alt up}^r{Alt down}"
 
-; Make alt a psuedo-cmd key
-;chrome
-$<!l::SendInput "{Alt up}{f6}"
-$<!t::SendInput "{Alt up}^t"
-$<!+t::SendInput "{Alt up}{Shift up}^+t"
-$<!w::SendInput "{Alt up}^w"
-$<!r::SendInput "{Alt up}^r"
-$<!f::SendInput "{Alt up}^f"
+; Basic non-vim test editing
+<!x::SendInput "^x"
+<!c::SendInput "^c"
+*<!v::SendInput "{Blind}{Alt up}^v{Alt down}"
+*<!a::SendInput "{Blind}{Alt up}^a{Alt down}"
+<!z::SendInput "{Blind}{Alt up}^z{Alt down}"
+<!+z::SendInput "{Blind}{Alt up}{Shift up}^y{Shift down}{Alt down}"
+*<!Left Up::SendInput "{Blind}{Alt up}{Home}{Alt down}"
+*<!Right Up::SendInput "{Blind}{Alt up}{End}{Alt down}"
 
-;undo/redo
-$<!z::SendInput "{Alt up}^z"
-$<!+z::SendInput "{Alt up}{Shift up}{f4}"
-;$<!r::SendInput "{Alt up}^r ; already mapped"
-
-;text manipulation
-$<!a::SendInput "{Alt up}^a"
-$<!c::SendInput "{Alt up}^c"
-$<!x::SendInput "{Alt up}^x"
-$<!v::SendInput "{Alt up}^v"
-$<!Left Up::SendInput "{Alt up}{Home}"
-$<!+Left Up::SendInput "{Alt up}{Shift Down}{Home}{Shift Up}"
-$<!Right Up::SendInput "{Alt up}{End}"
-$<!+Right Up::SendInput "{Alt up}{Shift Down}{End}{Shift Up}"
-
-;spotlight
-$<!Space Up::SendInput "{Alt up}{RWin}"
+; Spotlight
+<!Space Up::SendInput "{Blind}{Alt up}{RWin}{Alt Down}"
