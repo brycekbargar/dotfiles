@@ -27,7 +27,7 @@
 
 # windows terminal
 & scoop install windows-terminal
-& scoop install extras/vcredist2019
+& scoop install extras/vcredist2022
 $df_terminal_settings = [System.IO.Path]::Combine("$PSScriptRoot", "terminal.json")
 $ln_terminal_settings = [System.IO.Path]::Combine("$env:LOCALAPPDATA", "Packages", "Microsoft.WindowsTerminal_8wekyb3d8bbwe", "LocalState", "settings.json")
 & sudo New-Item -Path "$ln_terminal_settings" -ItemType SymbolicLink -Value "$df_terminal_settings" -Force
@@ -42,14 +42,14 @@ New-Item "~/vimfiles/state/swap" -ItemType Directory -Force
 New-Item "~/vimfiles/state/undo" -ItemType Directory -Force
 New-Item "~/vimfiles/pack/common" -ItemType Directory -Force
 Push-Location "~/vimfiles/pack/common/"
-git clone --depth 1 --single-branch "$repo" "https://github.com/tpope/vim-sensible" "start/sensible"
-git clone --depth 1 --single-branch "$repo" "https://github.com/tpope/vim-vinegar" "start/vinegar"
-git clone --depth 1 --single-branch "$repo" "https://github.com/tpope/vim-sleuth" "start/sleuth"
-git clone --depth 1 --single-branch "$repo" "https://github.com/lifepillar/vim-mucomplete" "start/mucomplete"
-git clone --depth 1 --single-branch "$repo" "https://github.com/sheerun/vim-polyglot" "opt/polyglot"
-git clone --depth 1 --single-branch "$repo" "https://github.com/catppuccin/vim" "opt/catppuccin-vim"
-git clone --depth 1 --single-branch "$repo" "https://github.com/tpope/vim-flagship" "opt/flagship"
-git clone --depth 1 --single-branch "$repo" "https://github.com/KSR-Yasuda/vim-plugin-AnsiEsc.git" "opt/ansi-esc"
+git clone --depth 1 --single-branch -- "https://github.com/tpope/vim-sensible" "start/sensible"
+git clone --depth 1 --single-branch -- "https://github.com/tpope/vim-vinegar" "start/vinegar"
+git clone --depth 1 --single-branch -- "https://github.com/tpope/vim-sleuth" "start/sleuth"
+git clone --depth 1 --single-branch -- "https://github.com/lifepillar/vim-mucomplete" "start/mucomplete"
+git clone --depth 1 --single-branch -- "https://github.com/sheerun/vim-polyglot" "opt/polyglot"
+git clone --depth 1 --single-branch -- "https://github.com/catppuccin/vim" "opt/catppuccin-vim"
+git clone --depth 1 --single-branch -- "https://github.com/tpope/vim-flagship" "opt/flagship"
+git clone --depth 1 --single-branch -- "https://github.com/KSR-Yasuda/vim-plugin-AnsiEsc.git" "opt/ansi-esc"
 Pop-Location
 $df_vimrc = [System.IO.Path]::Combine("$PSScriptRoot", "..", "XDG_CONFIG_HOME", "nvim", "init.vim")
 $ln_vimrc = [System.IO.Path]::Combine("$HOME", "_vimrc")
@@ -57,14 +57,15 @@ $ln_vimrc = [System.IO.Path]::Combine("$HOME", "_vimrc")
 
 # Modules
 $currentPath = [Environment]::GetEnvironmentVariable('PSModulePath', 'USER')
-if (-not $currentPath.Contains("dotfiles\windows\modules")) {
+if (($currentPath -eq $null) -or (-not $currentPath.Contains("dotfiles\host\bin"))) {
     $modules = Resolve-Path([System.IO.Path]::Combine($PSScriptRoot, "bin"))
     [Environment]::SetEnvironmentVariable('PSModulePath', "$currentPath;$modules" , 'USER')
 }
 #
 # docker
 & scoop install .\lemonade.json
-& sudo wsl --update
+& sudo wsl.exe --install --no-distribution --no-launch
+& sudo wsl.exe --update
 
 # random stuff
 Update-Help -UICulture en-Us -ErrorAction SilentlyContinue
