@@ -36,6 +36,7 @@ Set-Location $home\_setup\dotfiles\host
 ```
 
 ##### Install Manually
+  - WSL: `wsl --install --no-distribution --no-launch` with a couple of restarts if it hangs
   - Docker Desktop: https://docs.docker.com/desktop/install/windows-install/
   - Caskaydia Cove: https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/CascadiaCode
-  - Link ~/_setup/dotfiles/host/gitconfig using https://stackoverflow.com/a/9733277
+  - Edit ~\\.gitconfig to link ~/_setup/dotfiles/host/gitconfig via https://stackoverflow.com/a/9733277
