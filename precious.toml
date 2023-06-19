@@ -59,7 +59,7 @@ ok_exit_codes = [0]
 [commands.fixjson]
 type = "both"
 include = ["*.json", "*.jsonc", "*.json5"]
-exclude = ["playbooks/*"]
+exclude = ["playbooks/*", "host/terminal.json"]
 cmd = ["fixjson"]
 tidy_flags = ["--write"]
 ok_exit_codes = [0]
