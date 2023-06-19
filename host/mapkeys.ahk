@@ -22,6 +22,8 @@ $8::
 $9::
 $h::
 $w::
+$]::
+$t::
 cruise_control_for_awesome(hk)
 {
         hk := SubStr(hk, 2, 1)
@@ -52,6 +54,8 @@ cruise_control_for_awesome(hk)
                 Case "9": SendInput "{Numpad9}"
                 Case "h": SendInput "^h" ; mucomplete cycle completion source
                 Case "w": SendInput "^w" ; Vim windows
+                Case "]": SendInput "^]" ; Vim tagfunc
+                Case "t": SendInput "^t" ; Vim tagfunc
         }
 }
 
