@@ -6,14 +6,13 @@ vim.diagnostic.config({
 
 return function()
 	local lsp = require("lspconfig")
-	local util = require("lspconfig.util")
 	local version = (function()
 		local v = vim.version()
 		return v.major .. "." .. v.minor .. "." .. v.patch
 	end)()
 
 	local on_attach = function(client, bufnr)
-		vim.notify(client.name .. " active", "INFO", { title = "LspInfo" })
+		vim.notify(client.name .. " active", vim.log.levels.INFO, { title = "LspInfo" })
 
 		if client.server_capabilities.completionProvider then
 			vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
