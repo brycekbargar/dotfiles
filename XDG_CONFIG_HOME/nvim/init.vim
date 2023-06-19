@@ -57,8 +57,18 @@ endif
 set completeopt-=preview
 set completeopt+=menuone,noinsert,noselect
 set shortmess+=c
-nnoremap <silent> <leader>lm :MUcompleteAutoToggle<CR>
+nnoremap <silent> <leader>mm :MUcompleteAutoToggle<CR>
+nnoremap <silent> <leader>ms :MUcompleteNotify 1<CR>
+nnoremap <silent> <leader>mns :MUcompleteNotify 0<CR>
 let g:mucomplete#enable_auto_at_startup = 1
+let g:mucomplete#completion_delay = 500
+let g:mucomplete#minimum_prefix_length = 1
+let g:mucomplete#reopen_immediately = 0
+let g:mucomplete#buffer_relative_paths = 1
+let g:mucomplete#chains = {
+    \ 'default': ['path', 'incl', 'omni'],
+    \ 'vim': ['path', 'cmd', 'keyn']
+\ }
 
 if has('nvim')
     set packpath=$XDG_STATE_HOME/nvim/site
