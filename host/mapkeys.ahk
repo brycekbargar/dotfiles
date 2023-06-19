@@ -20,6 +20,7 @@ $y::
 $7::
 $8::
 $9::
+$h::
 $w::
 cruise_control_for_awesome(hk)
 {
@@ -49,6 +50,7 @@ cruise_control_for_awesome(hk)
                 Case "7": SendInput "{Numpad7}"
                 Case "8": SendInput "{Numpad8}"
                 Case "9": SendInput "{Numpad9}"
+                Case "h": SendInput "^h" ; mucomplete cycle completion source
                 Case "w": SendInput "^w" ; Vim windows
         }
 }
@@ -85,4 +87,4 @@ $0::)
 *<!Right Up::SendInput "{Blind}{Alt up}{End}{Alt down}"
 
 ; Spotlight
-<!Space Up::SendInput "{Blind}{Alt up}{RWin}{Alt Down}"
+<!Space Up::SendInput "{Blind}{Alt up}{RWin}"
