@@ -26,10 +26,6 @@ return packer.startup({
 			cmd = { "Format", "FormatWrite" },
 			config = require("config.neoformat"),
 		})
-		use({
-			"fladson/vim-kitty",
-			event = "BufEnter",
-		})
 
 		-- LSP
 		use({
@@ -69,11 +65,6 @@ return packer.startup({
 			event = "VimEnter",
 			requires = "kyazdani42/nvim-web-devicons",
 			config = require("config.trouble"),
-		})
-		use({
-			"itchyny/lightline.vim",
-			after = "catppuccin",
-			config = require("config.lightline"),
 		})
 	end,
 	config = {
