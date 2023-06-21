@@ -45,10 +45,10 @@ Push-Location "~/vimfiles/pack/common/"
 git clone --depth 1 --single-branch -- "https://github.com/tpope/vim-sensible" "start/sensible"
 git clone --depth 1 --single-branch -- "https://github.com/tpope/vim-vinegar" "start/vinegar"
 git clone --depth 1 --single-branch -- "https://github.com/tpope/vim-sleuth" "start/sleuth"
-git clone --depth 1 --single-branch -- "https://github.com/lifepillar/vim-mucomplete" "start/mucomplete"
-git clone --depth 1 --single-branch -- "https://github.com/sheerun/vim-polyglot" "opt/polyglot"
+git clone --depth 1 --single-branch -- "https://github.com/tpope/vim-fugitive" "start/fugitive"
+git clone --depth 1 --single-branch -- "https://github.com/itchyny/lightline.vim" "start/lightline"
+git clone --depth 1 --single-branch -- "https://github.com/lifepillar/vim-mucomplete" "opt/mucomplete"
 git clone --depth 1 --single-branch -- "https://github.com/catppuccin/vim" "opt/catppuccin-vim"
-git clone --depth 1 --single-branch -- "https://github.com/tpope/vim-flagship" "opt/flagship"
 git clone --depth 1 --single-branch -- "https://github.com/KSR-Yasuda/vim-plugin-AnsiEsc.git" "opt/ansi-esc"
 Pop-Location
 $df_vimrc = [System.IO.Path]::Combine("$PSScriptRoot", "..", "XDG_CONFIG_HOME", "nvim", "init.vim")
