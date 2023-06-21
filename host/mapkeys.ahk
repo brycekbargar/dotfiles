@@ -22,6 +22,7 @@ $8::
 $9::
 $h::
 $w::
+$r::
 $]::
 $t::
 cruise_control_for_awesome(hk)
@@ -42,6 +43,7 @@ cruise_control_for_awesome(hk)
 
         Switch hk
         {
+                ; numpad
                 Case "k": SendInput "{Numpad0}"
                 Case "n": SendInput "{Numpad1}"
                 Case "e": SendInput "{Numpad2}"
@@ -52,10 +54,13 @@ cruise_control_for_awesome(hk)
                 Case "7": SendInput "{Numpad7}"
                 Case "8": SendInput "{Numpad8}"
                 Case "9": SendInput "{Numpad9}"
-                Case "h": SendInput "^h" ; mucomplete cycle completion source
-                Case "w": SendInput "^w" ; Vim windows
-                Case "]": SendInput "^]" ; Vim tagfunc
-                Case "t": SendInput "^t" ; Vim tagfunc
+
+                ; vim
+                Case "h": SendInput "^h" ; mucomplete cycle
+                Case "r": SendInput "^r" ; redo
+                Case "w": SendInput "^w" ; window operations
+                Case "]": SendInput "^]" ; goto def
+                Case "t": SendInput "^t" ; tagstack
         }
 }
 
