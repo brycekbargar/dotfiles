@@ -59,14 +59,12 @@ if [[ -z $1 ]]; then
 	if [[ ${#lowdown[@]} == 0 ]]; then
 		"${bat_cmd[@]}"
 	else
-		echo 'markdown'
 		"${lowdown[@]}" | "${bat_cmd[@]}"
 	fi
 else
 	if [[ ${#lowdown[@]} == 0 ]]; then
 		"${bat_cmd[@]}" --color=always | rg --context=6 --no-line-number --pretty "$@" | bat --plain
 	else
-		echo 'markdown'
 		"${lowdown[@]}" | "${bat_cmd[@]}" --color=always | rg --context=6 --no-line-number --pretty "$@" | bat --plain
 	fi
 fi
