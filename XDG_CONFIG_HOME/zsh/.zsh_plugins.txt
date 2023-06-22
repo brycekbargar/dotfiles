@@ -1,25 +1,21 @@
 # vi: ft=text
 
 # zsh sensible
-mattmc3/zephyr			path:plugins/directory
-belak/zsh-utils			path:history
+sorin-ionescu/prezto	path:modules/directory
+sorin-ionescu/prezto	path:modules/environment
+sorin-ionescu/prezto	path:modules/history
 jeffreytse/zsh-vi-mode
+zdharma-continuum/fast-syntax-highlighting
 
 # Theme
 romkatv/powerlevel10k kind:fpath
 
-# Actual plugins
-zdharma-continuum/fast-syntax-highlighting
-
 # Completions
-zsh-users/zsh-completions
-BurntSushi/ripgrep 			kind:fpath path:complete
-sharkdp/fd 					kind:fpath path:contrib/completion
-itchyny/gojq 				kind:fpath
-ogham/exa					kind:fpath path:completions/zsh
-aws/aws-cli					kind:clone
-belak/zsh-utils 			path:completion
+conda-incubator/conda-zsh-completion 	kind:fpath
 
-# Autoloading
-mattmc3/zephyr	path:plugins/confd
-mattmc3/zephyr	path:plugins/zfunctions
+ogham/exa				kind:fpath path:completions/zsh
+sharkdp/fd 				kind:fpath path:contrib/completion
+itchyny/gojq 			kind:fpath
+BurntSushi/ripgrep 		kind:fpath path:complete
+
+sorin-ionescu/prezto	path:modules/completion

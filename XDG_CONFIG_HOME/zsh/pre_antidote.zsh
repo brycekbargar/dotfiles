@@ -2,5 +2,7 @@
 # vi: ft=zsh
 
 zstyle ':antidote:bundle' use-friendly-names 'yes'
-zstyle ':zsh-utils:plugins:completion' use-xdg-basedirs 'yes'
-eval "$(umamba shell hook -s zsh)"
+# why does this have to run before?
+eval "$(umamba shell hook -s zsh --autocomplete)"
+# shellcheck disable=SC2046
+eval $(dircolors)

@@ -15,12 +15,4 @@ export \
 	AWS_CONFIG_FILE="$XDG_CONFIG_HOME/aws/config" \
 	AWS_SHARED_CREDENTIALS_FILE="$XDG_CONFIG_HOME/aws/credentials"
 
-export \
-    PIPX_HOME="$XDG_STATE_HOME/pipx"
-
-export \
-    NPM_CONFIG_CACHE="$XDG_CACHE_HOME/npm" \
-    NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/.npmrc" \
-    NPM_CONFIG_INIT_MODULES="$XDG_CONFIG_HOME/npm/.npm.init.js" \
-
 eval $(thefuck --alias)
