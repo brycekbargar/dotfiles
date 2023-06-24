@@ -38,6 +38,8 @@ RUN --mount=type=cache,target=/go/pkg,sharing=locked \
 RUN --mount=type=cache,target=/go/pkg,sharing=locked \
 	go install github.com/itchyny/gojq/cmd/gojq@latest
 RUN --mount=type=cache,target=/go/pkg,sharing=locked \
+	go install golang.org/x/tools/gopls@latest
+RUN --mount=type=cache,target=/go/pkg,sharing=locked \
 	go install github.com/shihanng/gig@latest
 RUN --mount=type=cache,target=/go/pkg,sharing=locked \
 	go install github.com/lemonade-command/lemonade@latest
@@ -47,6 +49,8 @@ RUN --mount=type=cache,target=/go/pkg,sharing=locked \
 	go install github.com/terraform-linters/tflint@latest
 RUN --mount=type=cache,target=/go/pkg,sharing=locked \
 	go install github.com/hashicorp/terraform-ls@latest
+RUN --mount=type=cache,target=/go/pkg,sharing=locked \
+	go install https://github.com/mfridman/tparse@latest
 RUN --mount=type=cache,target=/go/pkg,sharing=locked \
 	go install github.com/google/yamlfmt/cmd/yamlfmt@latest
 
@@ -136,6 +140,7 @@ apt-get install --no-install-recommends --yes \
 	ca-certificates \
 	curl \
 	git \
+	git-lfs \
 	less \
 	libncursesw6 \
 	lowdown \
