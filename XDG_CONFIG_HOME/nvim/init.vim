@@ -108,6 +108,7 @@ if !has('nvim')
     let g:lightline['colorscheme'] = 'catppuccin_mocha'
     packadd! catppuccin-vim
     colorscheme catppuccin_mocha
+    packadd! ansi-esc
 endif
 " end plugin conf
 
