@@ -1,6 +1,8 @@
 [core]
     pager = delta
     hooksPath = ~/.local/etc/git/hooks
+[init]
+    defaultBranch = main
 
 [include]
     path = ../delta/config
