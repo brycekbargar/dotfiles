@@ -12,7 +12,7 @@ export \
   	CONDARC="$XDG_CONFIG_HOME/conda/condarc" \
   	CONDA_ENVS="/opt/conda/envs" \
   	CONDA_PKGS_DIRS="/opt/conda/pkgs" \
-  	CONDA_ENVS_PATH="/opt/conda/envs:$XDG_STATE_HOME/conda"
+  	CONDA_ENVS_PATH="/opt/conda/envs:$XDG_STATE_HOME/conda" \
   	ZDOTDIR="$XDG_CONFIG_HOME/zsh" \
   	ANTIDOTE_SOURCE="$XDG_CONFIG_HOME/zsh/.antidote" \
   	ANTIDOTE_HOME="$XDG_CONFIG_HOME/zsh/.bundles"

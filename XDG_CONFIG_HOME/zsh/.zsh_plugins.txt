@@ -12,11 +12,10 @@ jeffreytse/zsh-vi-mode
 romkatv/powerlevel10k	kind:fpath
 
 # Completions
-romkatv/zsh-defer
-sorin-ionescu/prezto	kind:clone path:modules/completion
+conda-incubator/conda-zsh-completion 	kind:fpath
 ogham/exa				kind:fpath path:completions/zsh
 sharkdp/fd 				kind:fpath path:contrib/completion
 itchyny/gojq 			kind:fpath
 BurntSushi/ripgrep 		kind:fpath path:complete
 
-conda-incubator/conda-zsh-completion 	kind:fpath
+sorin-ionescu/prezto	path:modules/completion

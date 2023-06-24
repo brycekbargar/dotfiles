@@ -7,7 +7,7 @@ ARG HOSTOS=windows
 
 # Shortcuts shared across multiple stages
 ARG HOME="/home/${USER}"
-ARG PKG_HOME="${HOME}/.local/opt/"
+ARG PKG_HOME="${HOME}/.local/opt"
 
 FROM registry.hub.docker.com/library/debian:testing-slim AS debian
 
@@ -50,7 +50,7 @@ RUN --mount=type=cache,target=/go/pkg,sharing=locked \
 RUN --mount=type=cache,target=/go/pkg,sharing=locked \
 	go install github.com/hashicorp/terraform-ls@latest
 RUN --mount=type=cache,target=/go/pkg,sharing=locked \
-	go install https://github.com/mfridman/tparse@latest
+	go install github.com/mfridman/tparse@latest
 RUN --mount=type=cache,target=/go/pkg,sharing=locked \
 	go install github.com/google/yamlfmt/cmd/yamlfmt@latest
 
@@ -194,7 +194,8 @@ ANSIBLE_CONFIG="$(pwd)/playbooks/ansible.cfg" \
 	conda run --prefix /tmp/ansible --no-capture-output \
 	ansible-playbook "playbooks/default.playbook.yml"
 # TODO: Figure out how to do this in the playbook
-source "$ZDOTDIR"/myrc.zsh
+source "$ZDOTDIR/myrc.zsh"
+fast-theme base16
 ANSIBLE
 
 # This is for any final IO operations that need to to squash final image into a single layer
@@ -202,8 +203,8 @@ FROM ansible as home-layer
 ARG HOME
 ARG PKG_HOME
 COPY --from=registry.hub.docker.com/library/docker:cli /usr/local/bin/docker ${HOME}/.local/bin/docker
-COPY --from=tools-go /go/bin/ ${PKG_HOME}
-COPY --from=tools-rust /rust/bin/ ${PKG_HOME}
+COPY --from=tools-go /go/bin/ ${PKG_HOME}/
+COPY --from=tools-rust /rust/bin/ ${PKG_HOME}/
 COPY --from=tools-python ${PKG_HOME}/.rye ${PKG_HOME}/.rye
 COPY --from=tools-js ${PKG_HOME}/.tjn ${PKG_HOME}/.tjn
 

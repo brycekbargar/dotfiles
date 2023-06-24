@@ -23,11 +23,8 @@ for _fndir in $ZFUNCDIR(N/) $ZFUNCDIR/*(N/); do
 done
 unset _fndir
 
-_confd="$ZDOTDIR/zshrc.d"
 # Source all files in conf.d.
-for _rcfile in $_confd[1]/*.{z,}sh(N); do
+for _rcfile in $ZDOTDIR/zshrc.d/*.zsh; do
   source "$_rcfile"
 done
-unset _rcfile _confd
-
-zsh-defer source "$ANTIDOTE_HOME/sorin-ionescu/prezto/modules/completion/init.zsh"
+unset _rcfile
