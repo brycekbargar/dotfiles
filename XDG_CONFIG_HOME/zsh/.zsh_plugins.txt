@@ -4,18 +4,19 @@
 sorin-ionescu/prezto	path:modules/directory
 sorin-ionescu/prezto	path:modules/environment
 sorin-ionescu/prezto	path:modules/history
-jeffreytse/zsh-vi-mode
-zdharma-continuum/fast-syntax-highlighting
 
-# Theme
-romkatv/powerlevel10k kind:fpath
+# Prompt
+zdharma-continuum/fast-syntax-highlighting
+jeffreytse/zsh-vi-mode
+
+romkatv/powerlevel10k	kind:fpath
 
 # Completions
-conda-incubator/conda-zsh-completion 	kind:fpath
-
+romkatv/zsh-defer
+sorin-ionescu/prezto	kind:clone path:modules/completion
 ogham/exa				kind:fpath path:completions/zsh
 sharkdp/fd 				kind:fpath path:contrib/completion
 itchyny/gojq 			kind:fpath
 BurntSushi/ripgrep 		kind:fpath path:complete
 
-sorin-ionescu/prezto	path:modules/completion
+conda-incubator/conda-zsh-completion 	kind:fpath

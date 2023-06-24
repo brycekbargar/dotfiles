@@ -29,3 +29,5 @@ for _rcfile in $_confd[1]/*.{z,}sh(N); do
   source "$_rcfile"
 done
 unset _rcfile _confd
+
+zsh-defer source "$ANTIDOTE_HOME/sorin-ionescu/prezto/modules/completion/init.zsh"
