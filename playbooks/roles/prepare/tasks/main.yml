@@ -16,6 +16,7 @@
     excludes:
       - prepare-commit-msg
       - pre-commit
+      - make_editable.sh
   register: fucked_files
   when: ansible_env.HOSTOS == "windows"
 - name: Unfuck file permissions
