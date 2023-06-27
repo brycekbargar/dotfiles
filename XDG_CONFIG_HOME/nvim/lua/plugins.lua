@@ -54,12 +54,6 @@ return packer.startup({
 			config = require("config.notify"),
 		})
 		use({
-			"ibhagwan/fzf-lua",
-			event = "VimEnter",
-			requires = { "kyazdani42/nvim-web-devicons" },
-			config = require("config.fzf"),
-		})
-		use({
 			"folke/trouble.nvim",
 			after = "catppuccin",
 			event = "VimEnter",
