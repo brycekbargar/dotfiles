@@ -8,3 +8,4 @@
     plus-style = black cyan
     plus-emph-style = black green
     zero-style = syntax
+    tabs = 4

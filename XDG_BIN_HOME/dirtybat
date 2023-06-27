@@ -6,6 +6,7 @@ Lowdown, no good, dirty son of a ripgrep
 
 USAGE:
 	dirtybat [bat_options] <file> [-- rg_options]
+	dirtybat [bat_options] <file> [-- rg_options]
 	dirtybat [bat_options] - [-- rg_options]
 	dirtybat --help
 

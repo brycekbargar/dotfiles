@@ -4,6 +4,7 @@
 export COLORTERM="truecolor"
 export INPUTRC="$XDG_CONFIG_HOME/.inputrc"
 export HISTFILE="$XDG_STATE_HOME/${ZHISTFILE:-.zsh_history}"
+tabs -4 > /dev/null
 
 export \
 	PIPX_HOME="$XDG_STATE_HOME/pipx"
