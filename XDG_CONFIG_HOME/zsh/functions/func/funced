@@ -1,0 +1,47 @@
+# shellcheck shell=bash
+# shellcheck disable=SC2168
+# vi: ft=sh
+# https://raw.githubusercontent.com/mattmc3/zephyr/main/plugins/zfunctions/functions/funced
+
+##? funced - edit the function specified
+
+#function funced {
+
+# check args
+if [[ -z "$1" ]]; then
+  echo >&2 "funced: Expected function name argument"
+  return 1
+elif [[ ! -d "$ZFUNCDIR" ]]; then
+  echo >&2 "funced: Directory not found '$ZFUNCDIR'."
+  return 1
+fi
+
+# new function definition: make a file template
+if [[ ! -f "$ZFUNCDIR/$1" ]]; then
+  cat <<eos > "$ZFUNCDIR/$1"
+# shellcheck shell=bash
+# shellcheck disable=SC2168
+# vi: ft=sh
+##############################################################################
+# TODO: Remove this header block
+# Do NOT include function definition block (ie: omit 'function $1() { }').
+# See: https://zsh.sourceforge.io/Doc/Release/Functions.html#Autoloading-Functions
+##############################################################################
+
+#function $1 {
+# TODO: write your function here
+
+#}
+
+eos
+  autoload -Uz "$ZFUNCDIR/$1"
+fi
+
+# open the function file
+if [[ -n "$VISUAL" ]]; then
+  $VISUAL "$ZFUNCDIR/$1"
+else
+  ${EDITOR:-vim} "$ZFUNCDIR/$1"
+fi
+
+#}
