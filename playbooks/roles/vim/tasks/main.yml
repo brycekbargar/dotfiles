@@ -20,10 +20,14 @@
     single_branch: true
     depth: 1
   with_items:
+    - repo: https://github.com/KSR-Yasuda/vim-plugin-AnsiEsc.git
+      dest: start/ansi-esc
     - repo: https://github.com/catppuccin/vim
       dest: opt/catppuccin-vim
-    - repo: https://github.com/KSR-Yasuda/vim-plugin-AnsiEsc.git
-      dest: opt/ansi-esc
+    - repo: https://github.com/tpope/vim-flagship
+      dest: start/flagship
+    - repo: https://github.com/fladson/vim-kitty
+      dest: start/kitty
 
 - name: Add ftplugins
   ansible.builtin.file:
@@ -42,20 +46,16 @@
     single_branch: true
     depth: 1
   with_items:
-    - repo: https://github.com/pearofducks/ansible-vim
-      dest: start/ansible
-    - repo: https://github.com/itchyny/lightline.vim
-      dest: start/lightline
     - repo: https://github.com/tpope/vim-fugitive
       dest: start/fugitive
-    - repo: https://github.com/fladson/vim-kitty
-      dest: start/kitty
     - repo: https://github.com/lifepillar/vim-mucomplete
-      dest: opt/mucomplete
+      dest: start/mucomplete
     - repo: https://github.com/tpope/vim-sensible
       dest: start/sensible
     - repo: https://github.com/tpope/vim-sleuth
       dest: start/sleuth
+    - repo: https://github.com/ciaranm/securemodelines
+      dest: start/securemodelines
     - repo: https://github.com/tpope/vim-vinegar
       dest: start/vinegar
 

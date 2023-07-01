@@ -3,31 +3,12 @@ return function()
 
 	catppuccin.setup({
 		integrations = {
-			treesitter = true,
-			native_lsp = {
-				enabled = true,
-			},
-			lsp_trouble = false,
+			lsp_trouble = true,
 			indent_blankline = {
 				enabled = true,
 				colored_indent_levels = true,
 			},
-			markdown = true,
 			notify = true,
-			-- lightline = true,
-			-- disable defaults
-			cmp = false,
-			gitsigns = false,
-			telescope = false,
-			nvimtree = {
-				enabled = false,
-			},
-			dashboard = false,
-			bufferline = false,
-			telekasten = false,
-			symbols_outline = false,
-			vimwiki = false,
-			beacon = false,
 		},
 	})
 

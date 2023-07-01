@@ -43,7 +43,15 @@ return packer.startup({
 
 		-- Fanciness
 		use({
+			"nvim-lualine/lualine.nvim",
+			after = "catppuccin",
+			event = "VimEnter",
+			config = require("config.lualine"),
+			requires = "nvim-tree/nvim-web-devicons",
+		})
+		use({
 			"stevearc/dressing.nvim",
+			after = "catppuccin",
 			event = "VimEnter",
 			config = require("config.dressing"),
 		})
@@ -60,6 +68,9 @@ return packer.startup({
 			requires = "kyazdani42/nvim-web-devicons",
 			config = require("config.trouble"),
 		})
+
+		-- Random stuff
+		use({ "pearofducks/ansible-vim" })
 	end,
 	config = {
 		package_root = util.join_paths(vim.fn.stdpath("state"), "site", "pack"),

@@ -65,56 +65,16 @@ let g:mucomplete#enable_auto_at_startup = 1
 let g:mucomplete#completion_delay = 500
 let g:mucomplete#minimum_prefix_length = 1
 let g:mucomplete#buffer_relative_paths = 1
-packadd mucomplete
+" TODO: Make this only applicable to nvim lsp buffers
 let g:mucomplete#chains = { 'default': ['path', 'incl', 'omni'] }
-MUcompleteNotify 3
-
-set noshowmode
-let g:lightline = {
-    \    'active': {
-    \        'left': [['mode', 'paste'], ['filename', 'filetype' ],
-    \            ['mu_mode']],
-    \        'right': [['git'], ['fileformat', 'sw'], ['lineinfo']]
-    \    },
-    \    'component_function': {
-    \        'readonly': 'LLreadonly',
-    \        'filename': 'LLfilename',
-    \        'filetype': 'LLfiletype',
-    \        'git': 'LLgit',
-    \        'mu_mode': 'LLmu',
-    \        'sw': 'SleuthIndicator',
-    \    },
-\ }
-function! LLreadonly()
-    return &readonly && &filetype !~# '\v(help|netrw)' ? 'RO' : ''
-endfunction
-function! LLfilename()
-    let filename = expand('%:t') !=# '' ? expand('%:t') : ''
-    let modified = &modified ? ' +' : ''
-    return filename . modified
-endfunction
-function! LLfiletype()
-    return &filetype =~# expand('%:e') ? '' : &filetype
-endfunction
-function! LLmu()
-    return get(g:mucomplete#msg#short_methods,
-    \    get(g:, 'mucomplete_current_method', ''), '')
-endfunction
-function! LLgit()
-    return FugitiveHead(7)
-endfunction
 
 if !has('nvim')
-    let g:lightline['colorscheme'] = 'catppuccin_mocha'
     packadd! catppuccin-vim
     colorscheme catppuccin_mocha
-    packadd! ansi-esc
 endif
 " end plugin conf
 
 if has('nvim')
-let g:lightline['colorscheme'] = 'catppuccin' "jk one more plugin config
-
 lua <<LUA
     vim.g.loaded_python_provider = 0
     vim.g.loaded_ruby_provider = 0
