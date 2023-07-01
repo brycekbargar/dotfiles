@@ -29,11 +29,23 @@ nnoremap <silent> <Down> :resize -4<CR>
 
 nnoremap <silent> <leader>l! :set list!<CR>
 
+" https://github.com/BurntSushi/ripgrep/issues/425
+if executable('rg') | set grepformat^=%f:%l:%c:%m grepprg=rg\ --vimgrep | endif
+" https://noahfrederick.com/log/vim-streamlining-grep
+cnoreabbrev <expr> grep  (getcmdtype() ==# ':' && getcmdline() =~# '^grep')  ? 'silent grep'  : 'grep'
+cnoreabbrev <expr> lgrep (getcmdtype() ==# ':' && getcmdline() =~# '^lgrep') ? 'silent lgrep' : 'lgrep'
+augroup TweakQuickFix
+  autocmd!
+  autocmd QuickFixCmdPost [^l]* cwindow
+  autocmd QuickFixCmdPost l* lwindow
+augroup END
+
 if !has('nvim')
     set belloff=all
     set hlsearch
     set autoread
     set termguicolors
+    set showtabline=1
     set wildoptions=pum,tagfile
 	if empty($XDG_STATE_HOME)
 		" windows is weird

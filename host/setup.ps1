@@ -37,6 +37,7 @@ $ln_profile = [System.IO.Path]::Combine("$HOME", "Documents", "PowerShell", "pro
 
 # vim
 & scoop install vim
+& scoop install ripgrep
 New-Item "~/vimfiles/state/backup" -ItemType Directory -Force
 New-Item "~/vimfiles/state/swap" -ItemType Directory -Force
 New-Item "~/vimfiles/state/undo" -ItemType Directory -Force

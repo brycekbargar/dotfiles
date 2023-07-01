@@ -11,14 +11,6 @@ return function()
 	vim.keymap.set("n", "<leader>tco", ":copen<cr>", { noremap = true, silent = true })
 	vim.keymap.set("n", "<leader>tlo", ":lopen<cr>", { noremap = true, silent = true })
 
-	vim.opt.grepformat = "%f:%l:%c:%m"
-	vim.opt.grepprg = "rg --vimgrep"
-
-	-- https://noahfrederick.com/log/vim-streamlining-grep
-	-- https://github.com/folke/trouble.nvim/issues/70
-	vim.cmd([[cnoreabbrev <expr> grep  (getcmdtype() ==# ':' && getcmdline() =~# '^grep')  ? 'silent grep'  : 'grep']])
-	vim.cmd([[cnoreabbrev <expr> lgrep (getcmdtype() ==# ':' && getcmdline() =~# '^lgrep') ? 'silent lgrep' : 'lgrep']])
-
 	local function native_trouble(win)
 		return function()
 			vim.defer_fn(function()
@@ -38,7 +30,8 @@ return function()
 		end
 		nt()
 	end
-	local group = vim.api.nvim_create_augroup("NativeTroubleQuickfix", {})
+	local group = vim.api.nvim_create_augroup("NvimTroubleQuickfix", {})
+	-- For some reason this has to be duplicated here even though it is in the init.vim
 	vim.api.nvim_create_autocmd("QuickFixCmdPost", {
 		pattern = "l*",
 		group = group,

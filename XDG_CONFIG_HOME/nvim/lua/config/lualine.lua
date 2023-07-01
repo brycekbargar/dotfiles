@@ -7,9 +7,9 @@ return function()
 		options = {
 			theme = "catppuccin",
 			component_separators = { left = nil, right = nil },
-		},
-		disabled_filetypes = {
-			statusline = { "help" },
+			disabled_filetypes = {
+				statusline = { "help" },
+			},
 		},
 		sections = {
 			lualine_a = { "mode", "g:mucomplete_current_method" },
