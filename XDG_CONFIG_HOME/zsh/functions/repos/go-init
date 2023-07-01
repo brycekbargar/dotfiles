@@ -1,0 +1,63 @@
+# shellcheck shell=bash
+# shellcheck disable=SC2168
+# vi: ft=sh
+##############################################################################
+# TODO: Remove this header block
+# Do NOT include function definition block (ie: omit 'function repos/go-init() { }').
+# See: https://zsh.sourceforge.io/Doc/Release/Functions.html#Autoloading-Functions
+##############################################################################
+
+#function repos/go-init {
+# TODO: write your function here
+
+
+if [ -f ".gitignore" ] && \
+	grep -q "### Managed using gig" ".gitignore" && \
+	[ ! grep -q "#### Go ###" ".gitignore" ]; then
+	echo "" >> .gitignore
+	gig gen go >> .gitignore
+fi
+
+if [ -f "precious.toml" ] && \
+	[ ! grep -q '[commands."go.' "precious.toml" ]; then
+	cat <<TOML >>! precious.toml
+[commands."go.gofumpt"]
+type = "both"
+include = ["*.go"]
+lint_flags = ["-w"]
+tidy_flags = ["-d -e"]
+cmd = ["gofumpt"]
+ok_exit_codes = [0]
+[commands."go.goimports"]
+type = "both"
+include = ["*.go"]
+lint_flags = ["-w"]
+tidy_flags = ["-d"]
+cmd = ["goimports"]
+ok_exit_codes = [0]
+[commands."go.golangci"]
+type = "both"
+include = ["*.go"]
+cmd = ["golangci-lint"]
+ok_exit_codes = [0]
+[commands."go.vet"]
+type = "lint"
+include = ["*.go"]
+cmd = ["go", "vet"]
+path_args = ["none"]
+ok_exit_codes = [0]
+TOML
+fi
+
+if [ -n "$CONDA_PREFIX" ]; then
+	export GOBIN="$CONDA_PREFIX/bin"
+	conda env config vars set GOBIN="$GOBIN"
+
+	go install mvdan.cc/gofumpt@latest
+	go install golang.org/x/tools/cmd/goimports@latest
+	go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+	go install golang.org/x/tools/gopls@latest
+	go install github.com/mfridman/tparse@latest
+fi
+
+#}
