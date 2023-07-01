@@ -49,12 +49,12 @@ ok_exit_codes = [0]
 type = "tidy"
 include = ["*"]
 cmd = ["end-of-file-fixer"]
-ok_exit_codes = [0]
+ok_exit_codes = [0, 1]
 [commands."pre-commit.trailing-whitespace"]
 type = "tidy"
 include = ["*"]
 cmd = ["trailing-whitespace-fixer"]
-ok_exit_codes = [0]
+ok_exit_codes = [0, 1]
 
 [commands.fixjson]
 type = "both"
