@@ -13,13 +13,13 @@
 
 if [ -f ".gitignore" ] && \
 	grep -q "### Managed using gig" ".gitignore" && \
-	[ ! grep -q "#### Go ###" ".gitignore" ]; then
+	! grep -q "#### Go ###" ".gitignore"; then
 	echo "" >> .gitignore
 	gig gen go >> .gitignore
 fi
 
 if [ -f "precious.toml" ] && \
-	[ ! grep -q '[commands."go.' "precious.toml" ]; then
+	! grep -q '[commands."go.' "precious.toml"; then
 	cat <<TOML >>! precious.toml
 [commands."go.gofumpt"]
 type = "both"

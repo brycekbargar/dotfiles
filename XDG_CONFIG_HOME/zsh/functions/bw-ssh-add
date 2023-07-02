@@ -8,7 +8,7 @@ fi
 
 if [[ -z "$1" ]]
 then
-	>&2 echo 'Usage: bw-ssh-add "$(bw-fzf)" or bw-ssh-add "$ITEMID"'
+	>&2 echo 'Usage: bw-ssh-add "$(fzf-bw)" or bw-ssh-add "$ITEMID"'
 	return 1
 fi
 

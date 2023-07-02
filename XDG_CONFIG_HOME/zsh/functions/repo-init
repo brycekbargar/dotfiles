@@ -9,7 +9,7 @@ fi
 
 if [ ! -f ".gitignore" ]; then
 	echo "### Managed using gig (https://github.com/shihanng/gig) ###" >>! ".gitignore"
-	echo "" >> .gitignore
+	echo "!precious.toml" >> .gitignore
 	gig gen linux >> .gitignore
 fi
 

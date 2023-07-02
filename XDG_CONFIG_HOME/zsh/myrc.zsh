@@ -16,13 +16,6 @@ export ZFUNCDIR="$ZDOTDIR/functions"
 fpath=("$ZFUNCDIR" $fpath)
 autoload -Uz $fpath[1]/*(.:t)
 
-# Load zfunctions subdirs.
-for _fndir in $ZFUNCDIR(N/) $ZFUNCDIR/*(N/); do
-  fpath=("$_fndir" $fpath)
-  autoload -Uz $fpath[1]/*(.:t)
-done
-unset _fndir
-
 # Source all files in conf.d.
 for _rcfile in $ZDOTDIR/zshrc.d/*.zsh; do
   source "$_rcfile"
