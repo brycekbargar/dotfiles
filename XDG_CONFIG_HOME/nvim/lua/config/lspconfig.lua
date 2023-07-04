@@ -36,6 +36,11 @@ return function()
 	lsp.bashls.setup({ on_attach = on_attach })
 	lsp.dockerls.setup({ on_attach = on_attach })
 
+	lsp.gopls.setup({
+		on_attach = on_attach,
+		single_file_support = false,
+	})
+
 	lsp.jsonls.setup({
 		on_attach = on_attach,
 		init_options = {

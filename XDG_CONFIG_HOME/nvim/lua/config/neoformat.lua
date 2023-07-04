@@ -8,6 +8,16 @@ return function()
 
 	format.setup({
 		filetype = {
+			go = {
+				function()
+					local golines = filetype("go").golines()
+					golines.args = golines.args or {}
+					table.insert(golines.args, 1, "--max-len=80")
+					table.insert(golines.args, 1, "--base-formatter=gofumpt")
+					return golines
+				end,
+			},
+
 			json = { filetype("json").fixjson },
 			jsonc = { filetype("json").fixjson },
 			lua = { filetype("lua").stylua },
@@ -25,7 +35,8 @@ return function()
 
 			python = {
 				function()
-					local isort = filetype("python").isort
+					local isort = filetype("python").isort()
+					isort.args = isort.args or {}
 					table.insert(isort.args, 1, "--profile")
 					table.insert(isort.args, 1, "black")
 					return isort
@@ -35,7 +46,8 @@ return function()
 
 			sh = {
 				function()
-					local shfmt = filetype("sh").shfmt
+					local shfmt = filetype("sh").shfmt()
+					shfmt.args = shfmt.args or {}
 					table.insert(shfmt.args, 1, "--simplify")
 					return shfmt
 				end,

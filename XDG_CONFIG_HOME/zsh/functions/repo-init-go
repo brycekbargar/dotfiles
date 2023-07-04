@@ -23,7 +23,7 @@ if [ -f "precious.toml" ] &&
 [commands."go.format"]
 type = "tidy"
 include = ["*.go"]
-cmd = ["golines", "-w", "--max-len=80", "--base-formatter='gofumpt'"]
+cmd = ["golines", "-w", "--max-len=80", "--base-formatter=gofumpt"]
 ok_exit_codes = [0]
 [commands."go.golangci"]
 type = "lint"
