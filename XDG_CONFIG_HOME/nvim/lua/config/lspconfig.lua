@@ -40,6 +40,9 @@ return function()
 		on_attach = on_attach,
 		single_file_support = false,
 	})
+	lsp.golangci_lint_ls.setup({
+		on_attach = on_attach,
+	})
 
 	lsp.jsonls.setup({
 		on_attach = on_attach,

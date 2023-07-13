@@ -29,20 +29,7 @@ type = "lint"
 include = ["*.go", "go.mod"]
 invoke = "once"
 path_args = "none"
-cmd = [
-  "golangci-lint",
-  "run",
-  "--no-config",
-  "--fast",
-  "-p",
-  "error",
-  "-p",
-  "format",
-  "-p",
-  "test",
-  "-p",
-  "unused",
-]
+cmd = ["golangci-lint", "run", "--fast"]
 ok_exit_codes = [0]
 TOML
 fi
@@ -51,6 +38,10 @@ if [ ! -f ".golangci.toml" ]; then
 	cat <<TOML >>!.golangci.toml
 [output]
 sort-results = true
+
+[issues]
+max-same-issues = 0
+fix = false
 
 [linters]
 disable = [
