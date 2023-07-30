@@ -1,0 +1,22 @@
+# shellcheck shell=bash
+# shellcheck disable=SC2168
+# vi: ft=sh
+
+local targs=()
+
+while [[ $# -gt 0 ]]; do
+	case "$1" in
+	--)
+		shift 1
+		break
+		;;
+
+	*)
+		targs=("${targs[@]}" "$1")
+		shift 1
+		;;
+
+	esac
+done
+
+set -o pipefail && go test "${targs[@]}" -json | tparse "$@"

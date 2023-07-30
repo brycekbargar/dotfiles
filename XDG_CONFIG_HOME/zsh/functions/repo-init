@@ -8,16 +8,17 @@ if [ ! -d ".git" ]; then
 fi
 
 if [ ! -f ".gitignore" ]; then
-	echo "### Managed using gig (https://github.com/shihanng/gig) ###" ".gitignore" >>!
+	echo "### Managed using gig (https://github.com/shihanng/gig) ###" >>!.gitignore
 	echo "!precious.toml" >>.gitignore
 	gig gen linux >>.gitignore
 fi
 
-if [ -f "environment.yml" ] &&
-	! conda env list | grep -q "$(basename "$PWD")"; then
+if [ -f "environment.yml" ] && ! conda env list | grep -q "$(basename "$PWD")"; then
 	conda env create --file environment.yml
-else
-	cat environment.yml <<YAML >>!
+fi
+
+if [ ! -f "environment.yml" ]; then
+	cat >>! environment.yml <<YAML
 ---
 name: $(basename "$PWD")
 channels:
@@ -29,7 +30,7 @@ YAML
 fi
 
 if [ ! -f "precious.toml" ]; then
-	cat precious.toml <<TOML >>!
+	cat >>! precious.toml <<TOML
 #:schema https://raw.githubusercontent.com/brycekbargar/dotfiles/main/precious-schema.json
 [commands."common.EOF"]
 type = "tidy"
