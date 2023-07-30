@@ -17,6 +17,11 @@ return packer.startup({
 			config = require("config.treesitter"),
 		})
 		use({
+			"nvim-treesitter/nvim-treesitter-context",
+			after = "treesitter",
+			config = require("config.tscontext"),
+		})
+		use({
 			"lukas-reineke/indent-blankline.nvim",
 			after = "treesitter",
 			config = require("config.blankline"),
@@ -69,7 +74,7 @@ return packer.startup({
 			config = require("config.trouble"),
 		})
 
-		-- Random stuff
+		-- Language Packs
 		use({ "pearofducks/ansible-vim" })
 	end,
 	config = {

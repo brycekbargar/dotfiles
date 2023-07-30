@@ -7,17 +7,27 @@ return function()
 			"go",
 			"gosum",
 			"gomod",
+			"html",
 			"hcl",
+			"json",
 			"jsonc",
+			"json5",
 			"lua",
+			"make",
 			"python",
-			"rst",
 			"terraform",
 			"toml",
+			"vim",
 			"yaml",
 		},
 		incremental_selection = {
 			enable = false,
 		},
 	})
+
+	vim.cmd([[
+	set foldmethod=expr
+	set foldexpr=nvim_treesitter#foldexpr()
+	set nofoldenable
+	]])
 end
