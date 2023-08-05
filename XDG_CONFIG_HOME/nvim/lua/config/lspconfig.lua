@@ -36,8 +36,20 @@ return function()
 	lsp.bashls.setup({ on_attach = on_attach })
 	lsp.dockerls.setup({ on_attach = on_attach })
 
+	lsp.efm.setup({
+		on_attach = on_attach,
+		init_options = { documentFormatting = true },
+		args = { "-c", vim.env.XDG_CONFIG_HOME .. "/nvim/lua/config/efm.yaml" },
+		filetypes = { "json", "lua", "ps1", "python", "sh", "yaml" },
+	})
+
 	lsp.gopls.setup({
 		on_attach = on_attach,
+		settings = {
+			gopls = {
+				gofumpt = true,
+			},
+		},
 		single_file_support = false,
 	})
 	lsp.golangci_lint_ls.setup({

@@ -1,0 +1,59 @@
+---
+# yaml-language-server: $schema: https://raw.githubusercontent.com/mattn/efm-langserver/master/schema.json
+version: 2
+root-markers:
+  - .git/
+
+tools:
+  json-fixjson: &json-fixjson
+    format-command: "fixjson --stdin-filename ${INPUT}"
+    format-stdin: true
+
+  lua-stylua: &lua-stylua
+    format-command: "stylua --search-parent-directories --stdin-filepath ${INPUT} -- -"
+    format-stdin: true
+    root-markers:
+      - .stylua.toml
+
+  ps1-pseditorservices: &ps1-pseditorservices
+    format-command: "PowerShellEditorServices /powershell_sa/Invoke-Formatter"
+    format-stdin: true
+
+  python-isort: &python-isort
+    format-command: "isort --quiet --profile black -"
+    format-stdin: true
+    root-markers:
+      - pyproject.toml
+  python-black: &python-black
+    format-command: "black --quiet -"
+    format-stdin: true
+    root-markers:
+      - pyproject.toml
+
+  sh-shfmt: &sh-shfmt
+    format-command: "--simplify --filename ${INPUT} -"
+    format-stdin: true
+
+  yaml-yamlfmt: &yaml-yamlfmt
+    format-command: "yamlfmt -"
+    format-stdin: true
+
+languages:
+  json:
+    - !!merge <<: *json-fixjson
+
+  lua:
+    - !!merge <<: *lua-stylua
+
+  ps1:
+    - !!merge <<: *ps1-pseditorservices
+
+  python:
+    - !!merge <<: *python-isort
+    - !!merge <<: *python-black
+
+  sh:
+    - !!merge <<: *sh-shfmt
+
+  yaml:
+    - !!merge <<: *yaml-yamlfmt
