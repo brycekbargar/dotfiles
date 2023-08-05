@@ -34,6 +34,8 @@ UPDATE
 # Install tools written in go
 FROM registry.hub.docker.com/library/golang as tools-go
 RUN --mount=type=cache,target=/go/pkg,sharing=locked \
+	go install github.com/mattn/efm-langserver@latest
+RUN --mount=type=cache,target=/go/pkg,sharing=locked \
 	go install github.com/junegunn/fzf@latest
 RUN --mount=type=cache,target=/go/pkg,sharing=locked \
 	go install github.com/itchyny/gojq/cmd/gojq@latest
