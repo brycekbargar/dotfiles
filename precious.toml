@@ -41,7 +41,11 @@ ok_exit_codes = [0]
 [commands.stylua]
 type = "both"
 include = ["XDG_CONFIG_HOME/nvim/lua/**/*.lua"]
-cmd = ["stylua", "--color=always"]
+cmd = [
+  "stylua",
+  "--color=always",
+  "--config-path=XDG_CONFIG_HOME/nvim/stylua.toml",
+]
 lint_flags = ["--check", "--verify"]
 ok_exit_codes = [0]
 

@@ -11,40 +11,72 @@ return function()
 		return v.major .. "." .. v.minor .. "." .. v.patch
 	end)()
 
-	local on_attach = function(client, bufnr)
-		vim.notify(client.name .. " active", vim.log.levels.INFO, { title = "LspInfo" })
+	local on_attach = function(format)
+		return function(client, bufnr)
+			vim.notify(
+				client.name .. " active",
+				vim.log.levels.INFO,
+				{ title = "LspInfo" }
+			)
 
-		if client.server_capabilities.completionProvider then
-			vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
-		end
-		if client.server_capabilities.definitionProvider then
-			vim.api.nvim_buf_set_option(bufnr, "tagfunc", "v:lua.vim.lsp.tagfunc")
-		end
+			if client.server_capabilities.completionProvider then
+				vim.api.nvim_buf_set_option(
+					bufnr,
+					"omnifunc",
+					"v:lua.vim.lsp.omnifunc"
+				)
+			end
+			if client.server_capabilities.definitionProvider then
+				vim.api.nvim_buf_set_option(
+					bufnr,
+					"tagfunc",
+					"v:lua.vim.lsp.tagfunc"
+				)
+			end
 
-		local bufopts = { noremap = true, silent = true, buffer = bufnr }
-		vim.keymap.set("n", "<leader>t", vim.lsp.buf.hover, bufopts)
-		vim.keymap.set("n", "<leader>T", vim.diagnostic.open_float, bufopts)
-		vim.keymap.set("n", "<leader>tR", vim.lsp.buf.rename, bufopts)
-		vim.keymap.set("n", "<leader>ta", vim.lsp.buf.code_action, bufopts)
+			local bufopts = { noremap = true, silent = true, buffer = bufnr }
+			vim.keymap.set("n", "<leader>t", vim.lsp.buf.hover, bufopts)
+			vim.keymap.set(
+				"n",
+				"<leader>T",
+				vim.diagnostic.open_float,
+				bufopts
+			)
+			vim.keymap.set("n", "<leader>tR", vim.lsp.buf.rename, bufopts)
+			vim.keymap.set("n", "<leader>ta", vim.lsp.buf.code_action, bufopts)
+
+			if format then
+				vim.keymap.set(
+					"n",
+					"<leader>f",
+					function() vim.lsp.buf.format({ name = client.name }) end,
+					bufopts
+				)
+			end
+		end
 	end
 
 	lsp.ansiblels.setup({
-		on_attach = on_attach,
+		on_attach = on_attach(false),
 		single_file_support = false,
 	})
 
-	lsp.bashls.setup({ on_attach = on_attach })
-	lsp.dockerls.setup({ on_attach = on_attach })
+	lsp.bashls.setup({ on_attach = on_attach(false) })
+	lsp.dockerls.setup({ on_attach = on_attach(false) })
 
 	lsp.efm.setup({
-		on_attach = on_attach,
+		on_attach = on_attach(true),
+		cmd = {
+			"efm-langserver",
+			"-c",
+			vim.env.XDG_CONFIG_HOME .. "/nvim/lua/config/efm.yaml",
+		},
 		init_options = { documentFormatting = true },
-		args = { "-c", vim.env.XDG_CONFIG_HOME .. "/nvim/lua/config/efm.yaml" },
 		filetypes = { "json", "lua", "ps1", "python", "sh", "yaml" },
 	})
 
 	lsp.gopls.setup({
-		on_attach = on_attach,
+		on_attach = on_attach(true),
 		settings = {
 			gopls = {
 				gofumpt = true,
@@ -53,24 +85,24 @@ return function()
 		single_file_support = false,
 	})
 	lsp.golangci_lint_ls.setup({
-		on_attach = on_attach,
+		on_attach = on_attach(false),
 	})
 
 	lsp.jsonls.setup({
-		on_attach = on_attach,
+		on_attach = on_attach(false),
 		init_options = {
 			provideFormatter = false,
 		},
 	})
 
 	lsp.lua_ls.setup({
-		on_attach = on_attach,
+		on_attach = on_attach(false),
 		single_file_support = false,
 		settings = { Lua = { telemetry = { enable = true } } },
 	})
 
 	lsp.powershell_es.setup({
-		on_attach = on_attach,
+		on_attach = on_attach(false),
 		cmd = {
 			"PowerShellEditorServices",
 			"/powershell_es/Start-EditorServices.ps1",
@@ -91,13 +123,13 @@ return function()
 	})
 
 	lsp.pyright.setup({
-		on_attach = on_attach,
+		on_attach = on_attach(false),
 		single_file_support = false,
 		commands = {},
 	})
 
-	lsp.taplo.setup({ on_attach = on_attach })
-	lsp.terraformls.setup({ on_attach = on_attach })
-	lsp.tflint.setup({ on_attach = on_attach })
-	lsp.yamlls.setup({ on_attach = on_attach })
+	lsp.taplo.setup({ on_attach = on_attach(true) })
+	lsp.terraformls.setup({ on_attach = on_attach(true) })
+	lsp.tflint.setup({ on_attach = on_attach(false) })
+	lsp.yamlls.setup({ on_attach = on_attach(false) })
 end

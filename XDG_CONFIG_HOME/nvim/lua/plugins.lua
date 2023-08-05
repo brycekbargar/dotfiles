@@ -7,7 +7,11 @@ return packer.startup({
 		use({ "kyazdani42/nvim-web-devicons" })
 
 		-- Theme
-		use({ "catppuccin/nvim", as = "catppuccin", config = require("config.catppuccin") })
+		use({
+			"catppuccin/nvim",
+			as = "catppuccin",
+			config = require("config.catppuccin"),
+		})
 		-- Editor
 		use({
 			"nvim-treesitter/nvim-treesitter",
@@ -25,11 +29,6 @@ return packer.startup({
 			"lukas-reineke/indent-blankline.nvim",
 			after = "treesitter",
 			config = require("config.blankline"),
-		})
-		use({
-			"mhartington/formatter.nvim",
-			cmd = { "Format", "FormatWrite" },
-			config = require("config.neoformat"),
 		})
 
 		-- LSP
@@ -78,7 +77,15 @@ return packer.startup({
 		use({ "pearofducks/ansible-vim" })
 	end,
 	config = {
-		package_root = util.join_paths(vim.fn.stdpath("state"), "site", "pack"),
-		compile_path = util.join_paths(vim.fn.stdpath("state"), "plugin", "packer_compiled.lua"),
+		package_root = util.join_paths(
+			vim.fn.stdpath("state"),
+			"site",
+			"pack"
+		),
+		compile_path = util.join_paths(
+			vim.fn.stdpath("state"),
+			"plugin",
+			"packer_compiled.lua"
+		),
 	},
 })
