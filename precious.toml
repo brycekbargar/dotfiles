@@ -9,7 +9,7 @@ include = [
   "XDG_CONFIG_HOME/zsh/*.zsh",
   "XDG_CONFIG_HOME/zsh/functions/*",
 ]
-exclude = ["**/myrc.zsh", "**/bw-ssh-add", "**/.gitignore", "**/rfunc"]
+exclude = ["**/myrc.zsh", "**/bw-ssh-add", "**/.gitignore", "**/funcre"]
 cmd = ["shfmt"]
 lint_flags = ["--diff"]
 tidy_flags = ["--write", "--simplify"]

@@ -8,17 +8,17 @@
 #function funced {
 
 # check args
-if [[ -z "$1" ]]; then
-  echo >&2 "funced: Expected function name argument"
-  return 1
-elif [[ ! -d "$ZFUNCDIR" ]]; then
-  echo >&2 "funced: Directory not found '$ZFUNCDIR'."
-  return 1
+if [[ -z $1 ]]; then
+	echo >&2 "funced: Expected function name argument"
+	return 1
+elif [[ ! -d $ZFUNCDIR ]]; then
+	echo >&2 "funced: Directory not found '$ZFUNCDIR'."
+	return 1
 fi
 
 # new function definition: make a file template
 if [[ ! -f "$ZFUNCDIR/$1" ]]; then
-  cat <<eos > "$ZFUNCDIR/$1"
+	cat <<eos >"$ZFUNCDIR/$1"
 # shellcheck shell=bash
 # shellcheck disable=SC2168
 # vi: ft=sh
@@ -34,14 +34,14 @@ if [[ ! -f "$ZFUNCDIR/$1" ]]; then
 #}
 
 eos
-  autoload -Uz "$ZFUNCDIR/$1"
+	autoload -Uz "$ZFUNCDIR/$1"
 fi
 
 # open the function file
-if [[ -n "$VISUAL" ]]; then
-  $VISUAL "$ZFUNCDIR/$1"
+if [[ -n $VISUAL ]]; then
+	$VISUAL "$ZFUNCDIR/$1"
 else
-  ${EDITOR:-vim} "$ZFUNCDIR/$1"
+	${EDITOR:-vim} "$ZFUNCDIR/$1"
 fi
 
 #}
