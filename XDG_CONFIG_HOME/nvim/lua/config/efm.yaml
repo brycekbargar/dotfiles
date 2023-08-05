@@ -5,6 +5,10 @@ root-markers:
   - .git/
 
 tools:
+  go-golines: &go-golines
+    format-command: "golines --base-formatter=gofumpt --max-len=79 --shorten-comments"
+    format-stdin: true
+
   json-fixjson: &json-fixjson
     format-command: "fixjson --stdin-filename ${INPUT}"
     format-stdin: true
@@ -39,6 +43,9 @@ tools:
     format-stdin: true
 
 languages:
+  go:
+    - !!merge <<: *go-golines
+
   json:
     - !!merge <<: *json-fixjson
 
