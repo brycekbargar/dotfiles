@@ -6,9 +6,7 @@ return function()
 		timeout = 1000,
 		render = "minimal",
 		stages = "fade",
-		on_open = function(win)
-			vim.api.nvim_win_set_option(win, "wrap", true)
-		end,
+		on_open = function(win) vim.api.nvim_win_set_option(win, "wrap", true) end,
 	})
 	vim.notify = notify
 end
