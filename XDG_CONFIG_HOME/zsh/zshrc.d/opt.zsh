@@ -14,5 +14,3 @@ export \
 	AWS_CLI_HISTORY_FILE="$XDG_STATE_HOME/aws/history" \
 	AWS_CONFIG_FILE="$XDG_CONFIG_HOME/aws/config" \
 	AWS_SHARED_CREDENTIALS_FILE="$XDG_CONFIG_HOME/aws/credentials"
-
-eval $(thefuck --alias)

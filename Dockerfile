@@ -9,7 +9,28 @@ ARG HOSTOS=windows
 ARG HOME="/home/${USER}"
 ARG PKG_HOME="${HOME}/.local/opt"
 
-FROM registry.hub.docker.com/library/debian:testing-slim AS debian
+FROM registry.hub.docker.com/library/debian:testing-slim AS upstream-debian
+FROM upstream-debian AS debian
+RUN <<APT
+apt-get update
+apt-get install --no-install-recommends --yes \
+	build-essential \
+	ca-certificates \
+	curl \
+	git \
+	git-lfs \
+	less \
+	libncursesw6 \
+	lowdown \
+	openssh-client \
+	shellcheck \
+	sudo \
+	unzip \
+	vim \
+	vim-doc \
+	zsh
+rm -rf /var/lib/apt/lists/*
+APT
 
 # Relocatable base
 FROM debian AS conda-amd64
@@ -83,7 +104,6 @@ ARG PKG_HOME
 ENV RYE_HOME="${PKG_HOME}/.rye"
 RUN <<RYE
 /rust/bin/rye install awscli
-/rust/bin/rye install thefuck
 /rust/bin/rye install pipx
 /rust/bin/rye install pre-commit-hooks
 /rust/bin/rye install yamllint
@@ -100,9 +120,7 @@ rm -fdr \
 RYE
 
 # Install tools written in javascript
-FROM registry.hub.docker.com/library/golang as tools-js
-RUN --mount=type=cache,target=/go/pkg,sharing=locked \
-	go install github.com/tj/node-prune@latest
+FROM debian as tools-js
 ARG PKG_HOME
 ENV N_PREFIX="${PKG_HOME}/.tjn"
 ENV N_CACHE_PREFIX="/tmp"
@@ -124,31 +142,10 @@ npm install -g \
 	yaml-language-server
 
 rm $N_PREFIX/bin/npm
-node-prune $N_PREFIX/lib/node_modules
 TJN
 
 # Build out the base of the final image
 FROM debian as dev-container
-RUN <<APT
-apt-get update
-apt-get install --no-install-recommends --yes \
-	build-essential \
-	ca-certificates \
-	curl \
-	git \
-	git-lfs \
-	less \
-	libncursesw6 \
-	lowdown \
-	openssh-client \
-	shellcheck \
-	sudo \
-	unzip \
-	vim \
-	vim-doc \
-	zsh
-rm -rf /var/lib/apt/lists/*
-APT
 ARG USER
 ARG DOCKER_GROUP
 # bash is necessary here for the install command

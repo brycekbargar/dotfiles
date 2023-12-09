@@ -16,6 +16,5 @@ conda-incubator/conda-zsh-completion 	kind:fpath
 ogham/exa				kind:fpath path:completions/zsh
 sharkdp/fd 				kind:fpath path:contrib/completion
 itchyny/gojq 			kind:fpath
-BurntSushi/ripgrep 		kind:fpath path:complete
 
 sorin-ionescu/prezto	path:modules/completion
