@@ -196,6 +196,7 @@ FROM ansible as home-layer
 ARG HOME
 ARG PKG_HOME
 COPY --from=registry.hub.docker.com/library/docker:cli /usr/local/bin/docker ${HOME}/.local/bin/docker
+COPY --from=registry.hub.docker.com/docker/buildx-bin /buildx ${HOME}/.docker/cli-plugins/docker-buildx
 COPY --from=tools-go /go/bin/ ${PKG_HOME}/
 COPY --from=tools-rust /rust/bin/ ${PKG_HOME}/
 COPY --from=tools-python ${PKG_HOME}/.rye ${PKG_HOME}/.rye
