@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+
+if [[ $1 == *"-h"* ]]; then
+	cat <<HELP
+Controls a Jupyter Lab instance.
+
+USAGE:
+	jupyter-ide up [--force]
+	jupyter-ide down
+	jupyter-ide info
+	jupyter-ide --help
+
+ARGS:
+	up		Launches a new instances, shutting down any existing instances if --force is given
+	down		Stops any running instances
+	info		Gets info about any running instances
+
+OPTIONS:
+	-h, --help		Prints help information.
+HELP
+
+	exit 0
+fi
+
+while [[ $# -gt 0 ]]; do
+	case "$1" in
+	up)
+		shift 1
+		if [[ $1 == "--force" ]]; then
+			docker compose --project-name jupyter-ide down
+		fi
+
+		docker compose \
+			--project-name jupyter-ide \
+			--file "$XDG_CONFIG_HOME"/jupyter-ide/docker-compose.yml up \
+			--detach &&
+			sleep 5 && docker compose --project-name jupyter-ide logs labs
+		break
+		;;
+
+	down)
+		docker compose --project-name jupyter-ide down
+		break
+		;;
+
+	info)
+		docker compose --project-name jupyter-ide logs labs
+		break
+		;;
+
+	*)
+		echo "see jupyter-ide --help for usage"
+		exit 1
+		;;
+
+	esac
+done

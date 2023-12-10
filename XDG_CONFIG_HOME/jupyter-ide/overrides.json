@@ -1,0 +1,19 @@
+{
+    "@jupyterlab/docmanager-extension:plugin": {
+        "autosaveInterval": 5
+    },
+    "@jupyterlab/apputils-extension:themes": {
+        "theme": "Catppuccin Frappé",
+        "overrides": {
+            "code-font-family": "Delugia Book"
+        }
+    },
+    "@jupyterlab/notebook-extension:tracker": {
+        "codeCellConfig": {
+            "customStyles": {
+                "fontFamily": "Delugia Book",
+                "fontSize": 18
+            }
+        }
+    }
+}
