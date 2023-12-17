@@ -8,6 +8,10 @@
             "code-font-family": "Delugia Book"
         }
     },
+    "@jupyterlab/completer-extension:manager": {
+        "showDocumentationPanel": true,
+        "autoCompletion": true
+    },
     "@jupyterlab/notebook-extension:tracker": {
         "codeCellConfig": {
             "customStyles": {

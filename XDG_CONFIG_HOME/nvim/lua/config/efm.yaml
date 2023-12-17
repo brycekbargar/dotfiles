@@ -23,13 +23,8 @@ tools:
     format-command: "PowerShellEditorServices /powershell_sa/Invoke-Formatter"
     format-stdin: true
 
-  python-isort: &python-isort
-    format-command: "isort --quiet --profile black -"
-    format-stdin: true
-    root-markers:
-      - pyproject.toml
-  python-black: &python-black
-    format-command: "black --quiet -"
+  python-ruff: &python-ruff
+    format-command: "ruff format --quiet --stdin-filename ${INPUT} -"
     format-stdin: true
     root-markers:
       - pyproject.toml
@@ -56,8 +51,7 @@ languages:
     - !!merge <<: *ps1-pseditorservices
 
   python:
-    - !!merge <<: *python-isort
-    - !!merge <<: *python-black
+    - !!merge <<: *python-ruff
 
   sh:
     - !!merge <<: *sh-shfmt

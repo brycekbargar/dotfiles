@@ -32,9 +32,9 @@ while [[ $# -gt 0 ]]; do
 
 		docker compose \
 			--project-name jupyter-ide \
-			--file "$XDG_CONFIG_HOME"/jupyter-ide/docker-compose.yml up \
-			--detach &&
-			sleep 5 && docker compose --project-name jupyter-ide logs labs
+			--file "$XDG_CONFIG_HOME"/jupyter-ide/docker-compose.yml \
+			up --build --detach &&
+			sleep 5 && docker compose --project-name jupyter-ide logs labs | head -n 50
 		break
 		;;
 
@@ -44,7 +44,7 @@ while [[ $# -gt 0 ]]; do
 		;;
 
 	info)
-		docker compose --project-name jupyter-ide logs labs
+		docker compose --project-name jupyter-ide logs labs | head -n 50
 		break
 		;;
 

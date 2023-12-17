@@ -11,6 +11,9 @@ ln -sf "$HOME/code/dotfiles/XDG_CONFIG_HOME/zsh/pre_antidote.zsh" "$ZDOTDIR/pre_
 [ -h "$XDG_CONFIG_HOME/nvim" ] || rm -fdr "$XDG_CONFIG_HOME/nvim"
 ln -sf "$HOME/code/dotfiles/XDG_CONFIG_HOME/nvim" "$XDG_CONFIG_HOME/nvim"
 
+[ -h "$XDG_CONFIG_HOME/jupyter-ide" ] || rm -fdr "$XDG_CONFIG_HOME/jupyter-ide"
+ln -sf "$HOME/code/dotfiles/XDG_CONFIG_HOME/jupyter-ide" "$XDG_CONFIG_HOME/jupyter-ide"
+
 [ -h "$XDG_BIN_HOME/shims" ] || rm -fdr "$XDG_BIN_HOME/shims"
 for item in "$HOME/code/dotfiles/XDG_BIN_HOME"/*; do
 	ln -sf "$(realpath "$item")" "$XDG_BIN_HOME/$(basename "$item")"
