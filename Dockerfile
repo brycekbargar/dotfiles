@@ -191,7 +191,7 @@ source "$ZDOTDIR/myrc.zsh"
 fast-theme base16
 ANSIBLE
 
-# This is for any final IO operations that need to to squash final image into a single layer
+# This is for any final IO operations needed before squashing the final image into a single layer
 FROM ansible as home-layer
 ARG HOME
 ARG PKG_HOME
@@ -207,8 +207,9 @@ FROM dev-container
 ARG HOME
 COPY --chown=1111:1111 --from=home-layer ${HOME} ${HOME}
 WORKDIR ${HOME}/code
-# XDG_STATE_HOME and XDG_CACHE_HOME should have most of the container writes
-# Having it set to be an anon volume keeps the container size down at runtime
+# XDG_STATE_HOME, XDG_CACHE_HOME, and /tmp should have most of the container writes
+# Having them set to be an anon volume keeps the container size down at runtime
 VOLUME ${HOME}/.local/var
+VOLUME /tmp
 
 ENTRYPOINT ["/usr/bin/zsh", "-i"]
