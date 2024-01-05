@@ -6,8 +6,20 @@ root-markers:
 
 tools:
   go-golines: &go-golines
-    format-command: "golines --base-formatter=gofumpt --max-len=79 --shorten-comments"
+    format-command: "golines --base-formatter=gofumpt --max-len=80 --shorten-comments"
     format-stdin: true
+
+  html-prettier: &html-prettier
+    format-command: "prettier --plugin=prettier-plugin-tailwindcss --stdin-filepath ${INPUT}"
+    format-stdin: true
+    root-markers:
+      - package.json
+
+  js-biome: &js-biome
+    format-command: "biome --skip-errors --stdin-filepath ${INPUT}"
+    format-stdin: true
+    root-markers:
+      - package.json
 
   json-fixjson: &json-fixjson
     format-command: "fixjson --stdin-filename ${INPUT}"
@@ -40,6 +52,12 @@ tools:
 languages:
   go:
     - !!merge <<: *go-golines
+
+  html:
+    - !!merge <<: *html-prettier
+
+  js:
+    - !!merge <<: *js-biome
 
   json:
     - !!merge <<: *json-fixjson

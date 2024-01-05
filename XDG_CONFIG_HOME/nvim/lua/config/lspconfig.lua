@@ -53,6 +53,13 @@ return function()
 	})
 
 	lsp.bashls.setup({ on_attach = on_attach })
+
+	lsp.biome.setup({
+		on_attach = on_attach,
+		single_file_support = false,
+		init_options = { documentFormatting = false },
+	})
+
 	lsp.dockerls.setup({ on_attach = on_attach })
 
 	lsp.efm.setup({
@@ -63,16 +70,24 @@ return function()
 			vim.env.XDG_CONFIG_HOME .. "/nvim/lua/config/efm.yaml",
 		},
 		init_options = { documentFormatting = true },
-		filetypes = { "go", "json", "lua", "ps1", "python", "sh", "yaml" },
+		filetypes = {
+			"go",
+			"html",
+			"js",
+			"json",
+			"lua",
+			"ps1",
+			"python",
+			"sh",
+			"yaml",
+		},
 	})
 
 	lsp.gopls.setup({
 		on_attach = on_attach,
 		single_file_support = false,
 	})
-	lsp.golangci_lint_ls.setup({
-		on_attach = on_attach,
-	})
+	lsp.golangci_lint_ls.setup({ on_attach = on_attach })
 
 	lsp.jsonls.setup({
 		on_attach = on_attach,
@@ -114,8 +129,16 @@ return function()
 		commands = {},
 	})
 
+	lsp.tailwindcss.setup({ on_attach = on_attach })
 	lsp.taplo.setup({ on_attach = on_attach })
 	lsp.terraformls.setup({ on_attach = on_attach })
 	lsp.tflint.setup({ on_attach = on_attach })
+
+	lsp.tsserver.setup({
+		on_attach = on_attach,
+		single_file_support = false,
+		init_options = { documentFormatting = false },
+	})
+
 	lsp.yamlls.setup({ on_attach = on_attach })
 end
