@@ -67,21 +67,12 @@ If the container doesn't exist, a new one is launched.
 If the container does exist, a new shell session is attached.
 .Parameter Tag
 The image tag to enter. Defaults to "stable", but can be "testing" or "oldstable"
-.Parameter Ports
-Ports to forward from the container + 10k. Defaults to 8080 and 4123
 #>
 function Enter-DevContainer {
     param (
-        [String]$Tag = "stable"
+        [String]$Tag = "stable",
         [String[]]$Ports = @()
     )
-    # Creating them is idempotent as long as it uses the same driver
-    Write-Verbose "Forwarding ports"
-    $Ports = $Ports + $("8080", "4123")
-    $Ports = $Ports | ForEach-Object { "--port 1$_:$_" }
-    $Ports = $Ports -Join " "
-    Write-Verbose "Forwarded ports"
-
     # Creating them is idempotent as long as it uses the same driver
     Write-Verbose "Creating runtime volumes"
     &docker volume create code
@@ -116,7 +107,7 @@ function Enter-DevContainer {
         $image = Get-Image-Name -Tag $Tag
         Write-Verbose "Running $image as a new container"
         &docker run -it --user 1111 `
-            "$Ports" `
+            -p 4123:4123 -p 14123:14123 -p 24123:24123 `
             --mount type=volume,src=conda-envs,target=/opt/conda/envs `
             --mount type=volume,src=conda-pkgs,target=/opt/conda/pkgs `
             --mount type=volume,src=code,target=/home/bryce/code `
