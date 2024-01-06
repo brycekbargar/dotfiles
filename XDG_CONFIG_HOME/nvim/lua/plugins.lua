@@ -1,91 +1,64 @@
-local packer = require("packer")
-local util = require("packer.util")
-return packer.startup({
-	function(use)
-		use({ "wbthomason/packer.nvim" })
-		use({ "nvim-lua/plenary.nvim" })
-		use({ "kyazdani42/nvim-web-devicons" })
-
-		-- Theme
-		use({
-			"catppuccin/nvim",
-			as = "catppuccin",
-			config = require("config.catppuccin"),
-		})
-		-- Editor
-		use({
-			"nvim-treesitter/nvim-treesitter",
-			as = "treesitter",
-			after = "catppuccin",
-			event = "VimEnter",
-			config = require("config.treesitter"),
-		})
-		use({
-			"nvim-treesitter/nvim-treesitter-context",
-			after = "treesitter",
-			config = require("config.tscontext"),
-		})
-		use({
-			"lukas-reineke/indent-blankline.nvim",
-			after = "treesitter",
-			config = require("config.blankline"),
-		})
-
-		-- LSP
-		use({
-			"neovim/nvim-lspconfig",
-			as = "lspconfig",
-			after = "catppuccin",
-			event = "VimEnter",
-			config = require("config.lspconfig"),
-		})
-		use({
-			"kosayoda/nvim-lightbulb",
-			event = "LspAttach",
-			config = require("config.dinosaur"),
-		})
-
-		-- Fanciness
-		use({
-			"nvim-lualine/lualine.nvim",
-			after = "catppuccin",
-			event = "VimEnter",
-			config = require("config.lualine"),
-			requires = "nvim-tree/nvim-web-devicons",
-		})
-		use({
-			"stevearc/dressing.nvim",
-			after = "catppuccin",
-			event = "VimEnter",
-			config = require("config.dressing"),
-		})
-		use({
-			"rcarriga/nvim-notify",
-			after = "catppuccin",
-			event = "VimEnter",
-			config = require("config.notify"),
-		})
-		use({
-			"folke/trouble.nvim",
-			after = "catppuccin",
-			event = "VimEnter",
-			requires = "kyazdani42/nvim-web-devicons",
-			config = require("config.trouble"),
-		})
-
-		-- Language Packs
-		use({ "pearofducks/ansible-vim" })
-	end,
-	config = {
-		package_root = util.join_paths(
-			vim.fn.stdpath("state"),
-			"site",
-			"pack"
-		),
-		compile_path = util.join_paths(
-			vim.fn.stdpath("state"),
-			"plugin",
-			"packer_compiled.lua"
-		),
+require("lazy").setup({
+	"nvim-lua/plenary.nvim",
+	"nvim-tree/nvim-web-devicons",
+	-- Theme
+	{
+		"catppuccin/nvim",
+		lazy = false,
+		priority = 1000,
+		config = require("config.catppuccin"),
 	},
+
+	-- Editor
+	{
+		"nvim-treesitter/nvim-treesitter",
+		event = "VeryLazy",
+		config = require("config.treesitter"),
+	},
+	"nvim-treesitter/nvim-treesitter-context",
+	{
+		"lukas-reineke/indent-blankline.nvim",
+		event = "VeryLazy",
+		config = require("config.blankline"),
+	},
+
+	-- LSP
+	{
+		"neovim/nvim-lspconfig",
+		event = { "BufReadPost", "BufNewFile" },
+		config = require("config.lspconfig"),
+	},
+	{
+		"kosayoda/nvim-lightbulb",
+		event = "LspAttach",
+		config = require("config.dinosaur"),
+	},
+
+	-- Fanciness
+	{
+		"nvim-lualine/lualine.nvim",
+		config = require("config.lualine"),
+	},
+	{
+		"stevearc/dressing.nvim",
+		event = "VeryLazy",
+		config = require("config.dressing"),
+	},
+	{
+		"rcarriga/nvim-notify",
+		event = "VeryLazy",
+		config = require("config.notify"),
+	},
+	{
+		"folke/trouble.nvim",
+		event = "VeryLazy",
+		config = require("config.trouble"),
+	},
+
+	-- Language Packs
+	{ "pearofducks/ansible-vim" },
+}, {
+	defaults = { lazy = true },
+	root = vim.fn.stdpath("state") .. "/site/pack",
+	lockfile = vim.fn.stdpath("state") .. "/lazy-lock.json",
 })

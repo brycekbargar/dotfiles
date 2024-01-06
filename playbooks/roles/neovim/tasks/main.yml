@@ -47,12 +47,12 @@
     msg: Lua LSP not available and executable, expected to download {{ lua_lsp_pattern }} but got {{ lua_lsp_exe.stat }}
   when: not lua_lsp_exe.stat.exists or not lua_lsp_exe.stat.executable
 
-- name: Add packer plugin
+- name: Add lazy.nvim plugin
   ansible.builtin.git:
-    repo: https://github.com/wbthomason/packer.nvim
-    version: HEAD
+    repo: https://github.com/folke/lazy.nvim
+    version: stable
     force: true
-    dest: "{{ lookup('env', 'XDG_STATE_HOME') }}/nvim/site/pack/packer/start/packer.nvim"
+    dest: "{{ lookup('env', 'XDG_STATE_HOME') }}/nvim/site/pack/lazy/start/lazy.nvim"
     single_branch: true
     depth: 1
 
@@ -62,8 +62,7 @@
     dest: "{{ lookup('env', 'XDG_STATE_HOME') }}/nvim/site/pack/common"
     state: link
 
-- name: PackerSync
+- name: Lazy.nvim Sync
   ansible.builtin.command:
-    cmd: |
-      nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
+    cmd: nvim --headless "+Lazy! sync" +qa
   changed_when: true
