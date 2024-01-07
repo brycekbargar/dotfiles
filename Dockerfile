@@ -56,8 +56,10 @@ UPDATE
 FROM registry.hub.docker.com/library/golang as tools-go
 RUN --mount=type=cache,target=/go/pkg,sharing=locked \
 	go install github.com/mattn/efm-langserver@latest
+# https://github.com/golang/go/issues/44840
+# https://github.com/junegunn/fzf/commit/91bea9c5b311aa6a9919b814adc2fbb9405df2a5
 RUN --mount=type=cache,target=/go/pkg,sharing=locked \
-	go install github.com/junegunn/fzf@latest
+	go install github.com/junegunn/fzf@0.45.0
 RUN --mount=type=cache,target=/go/pkg,sharing=locked \
 	go install github.com/itchyny/gojq/cmd/gojq@latest
 RUN --mount=type=cache,target=/go/pkg,sharing=locked \
@@ -109,8 +111,8 @@ RUN <<RYE
 /rust/bin/rye install yamllint
 
 # This doesn't seem to matter to the installed tools and we don't need it
-rye toolchain remove $(
-	rye toolchain list |
+/rust/bin/rye toolchain remove $(
+	/rust/bin/rye toolchain list |
 	sort | head -1 |
 	awk '{print $1}')
 rm -fdr \
@@ -138,6 +140,8 @@ npm install -g \
 	fixjson \
 	pyright \
 	tiged \
+	typescript-language-server \
+	typescript \
 	vscode-langservers-extracted \
 	yaml-language-server
 
