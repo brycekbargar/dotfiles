@@ -6,6 +6,7 @@ vim.diagnostic.config({
 
 return function()
 	local lsp = require("lspconfig")
+	local lsputil = require("lspconfig.util")
 	local version = (function()
 		local v = vim.version()
 		return v.major .. "." .. v.minor .. "." .. v.patch
@@ -42,7 +43,7 @@ return function()
 		vim.keymap.set(
 			"n",
 			"<leader>f",
-			function() vim.lsp.buf.format({ name = "efm" }) end,
+			function() vim.lsp.buf.format({ name = "efm", timeout_ms = 2000 }) end,
 			bufopts
 		)
 	end
@@ -53,12 +54,6 @@ return function()
 	})
 
 	lsp.bashls.setup({ on_attach = on_attach })
-
-	lsp.biome.setup({
-		on_attach = on_attach,
-		single_file_support = false,
-		init_options = { documentFormatting = false },
-	})
 
 	lsp.dockerls.setup({ on_attach = on_attach })
 
@@ -73,7 +68,7 @@ return function()
 		filetypes = {
 			"go",
 			"html",
-			"js",
+			"javascript",
 			"json",
 			"lua",
 			"ps1",
@@ -88,6 +83,13 @@ return function()
 		single_file_support = false,
 	})
 	lsp.golangci_lint_ls.setup({ on_attach = on_attach })
+
+	lsp.html.setup({
+		init_options = {
+			configurationSection = { "html" },
+			provideFormatter = false,
+		},
+	})
 
 	lsp.jsonls.setup({
 		on_attach = on_attach,
@@ -129,7 +131,18 @@ return function()
 		commands = {},
 	})
 
-	lsp.tailwindcss.setup({ on_attach = on_attach })
+	lsp.quick_lint_js.setup({
+		cmd = { "npx", "--no", "quick-lint-js", "--", "--lsp-server" },
+		on_attach = on_attach,
+		single_file_support = false,
+	})
+
+	lsp.tailwindcss.setup({
+		on_attach = on_attach,
+		filetypes = { "html" },
+		root_dir = lsputil.root_pattern("tailwind.config.js"),
+	})
+
 	lsp.taplo.setup({ on_attach = on_attach })
 	lsp.terraformls.setup({ on_attach = on_attach })
 	lsp.tflint.setup({ on_attach = on_attach })

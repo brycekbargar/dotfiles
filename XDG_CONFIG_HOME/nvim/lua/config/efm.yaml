@@ -9,18 +9,6 @@ tools:
     format-command: "golines --base-formatter=gofumpt --max-len=80 --shorten-comments"
     format-stdin: true
 
-  html-prettier: &html-prettier
-    format-command: "prettier --plugin=prettier-plugin-tailwindcss --stdin-filepath ${INPUT}"
-    format-stdin: true
-    root-markers:
-      - package.json
-
-  js-biome: &js-biome
-    format-command: "biome --skip-errors --stdin-filepath ${INPUT}"
-    format-stdin: true
-    root-markers:
-      - package.json
-
   json-fixjson: &json-fixjson
     format-command: "fixjson --stdin-filename ${INPUT}"
     format-stdin: true
@@ -30,6 +18,12 @@ tools:
     format-stdin: true
     root-markers:
       - .stylua.toml
+
+  prettier: &prettier
+    format-command: "npx --no prettier -- --stdin-filepath ${INPUT}"
+    format-stdin: true
+    root-markers:
+      - package.json
 
   ps1-pseditorservices: &ps1-pseditorservices
     format-command: "PowerShellEditorServices /powershell_sa/Invoke-Formatter"
@@ -42,7 +36,7 @@ tools:
       - pyproject.toml
 
   sh-shfmt: &sh-shfmt
-    format-command: "--simplify --filename ${INPUT} -"
+    format-command: "shfmt --simplify --filename ${INPUT} -"
     format-stdin: true
 
   yaml-yamlfmt: &yaml-yamlfmt
@@ -54,10 +48,10 @@ languages:
     - !!merge <<: *go-golines
 
   html:
-    - !!merge <<: *html-prettier
+    - !!merge <<: *prettier
 
-  js:
-    - !!merge <<: *js-biome
+  javascript:
+    - !!merge <<: *prettier
 
   json:
     - !!merge <<: *json-fixjson

@@ -139,6 +139,7 @@ npm install -g \
 	dockerfile-language-server-nodejs \
 	fixjson \
 	pyright \
+	@tailwindcss/language-server \
 	tiged \
 	typescript-language-server \
 	typescript \
