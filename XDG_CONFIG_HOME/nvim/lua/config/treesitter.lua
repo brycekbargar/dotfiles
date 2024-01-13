@@ -2,7 +2,9 @@ return function()
 	local ts = require("nvim-treesitter.configs")
 	ts.setup({
 		ensure_installed = {
+			"astro",
 			"bash",
+			"css",
 			"csv",
 			"dockerfile",
 			"gitattributes",
@@ -22,6 +24,8 @@ return function()
 			"terraform",
 			"toml",
 			"tsv",
+			"tsx",
+			"typescript",
 			"vim",
 			"yaml",
 		},

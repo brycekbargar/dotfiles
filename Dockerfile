@@ -134,6 +134,7 @@ export PATH=$N_PREFIX/bin:$PATH
 npm install -g npm@latest
 npm install -g \
 	@ansible/ansible-language-server \
+	@astrojs/language-server \
 	bash-language-server \
 	@bitwarden/cli \
 	dockerfile-language-server-nodejs \

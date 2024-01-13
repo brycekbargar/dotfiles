@@ -48,6 +48,16 @@ return function()
 		)
 	end
 
+	lsp.astro.setup({
+		on_attach = on_attach,
+		init_options = {
+			documentFormatting = false,
+			typescript = {
+				tsdk = vim.env.XDG_PKG_HOME .. "/.tjn/lib/node_modules/typescript/lib",
+			}
+		},
+	})
+
 	lsp.ansiblels.setup({
 		on_attach = on_attach,
 		single_file_support = false,
@@ -66,6 +76,7 @@ return function()
 		},
 		init_options = { documentFormatting = true },
 		filetypes = {
+			"astro",
 			"go",
 			"html",
 			"javascript",

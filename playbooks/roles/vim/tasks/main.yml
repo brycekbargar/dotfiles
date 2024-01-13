@@ -9,6 +9,7 @@
     - "{{ lookup('env', 'XDG_STATE_HOME') }}/vim/swap"
     - "{{ lookup('env', 'XDG_STATE_HOME') }}/vim/undo"
     - "{{ lookup('env', 'HOME') }}/.vim/ftplugin"
+    - "{{ lookup('env', 'HOME') }}/.vim/ftdetect"
     - "{{ lookup('env', 'HOME') }}/.vim/pack"
 
 - name: Add vim plugins
@@ -26,16 +27,23 @@
       dest: opt/catppuccin-vim
     - repo: https://github.com/tpope/vim-flagship
       dest: start/flagship
-    - repo: https://github.com/fladson/vim-kitty
-      dest: start/kitty
 
 - name: Add ftplugins
   ansible.builtin.file:
-    src: "{{ lookup('env', 'XDG_CONFIG_HOME') }}/nvim/{{ item }}"
+    src: "{{ lookup('env', 'XDG_CONFIG_HOME') }}/nvim/ftplugin/{{ item }}"
     dest: "{{ lookup('env', 'HOME') }}/.vim/ftplugin/{{ item }}"
     state: link
   with_items:
     - gitcommit.vim
+
+- name: Add ftdetect
+  ansible.builtin.file:
+    src: "{{ lookup('env', 'XDG_CONFIG_HOME') }}/nvim/ftdetect/{{ item }}"
+    dest: "{{ lookup('env', 'HOME') }}/.vim/ftdetect/{{ item }}"
+    state: link
+  with_items:
+    - astro.vim
+    - ansible.vim
 
 - name: Add common plugins
   ansible.builtin.git:
