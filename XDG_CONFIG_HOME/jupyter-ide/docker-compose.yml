@@ -5,11 +5,9 @@ services:
     ports:
       - "8888:8888"
     user: root
-    working_dir: "/home/bryce"
     volumes:
-      - code:/home/bryce/code
+      - code:/home/jovyan/work
     environment:
-      - NB_USER=bryce
       - NB_UID=1111
       - NB_GID=1111
       - CHOWN_HOME=yes
