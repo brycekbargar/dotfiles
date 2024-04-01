@@ -6,7 +6,6 @@ sorin-ionescu/prezto	path:modules/environment
 sorin-ionescu/prezto	path:modules/history
 
 # Prompt
-zdharma-continuum/fast-syntax-highlighting
 jeffreytse/zsh-vi-mode
 
 romkatv/powerlevel10k	kind:fpath

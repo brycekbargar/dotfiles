@@ -12,6 +12,7 @@ ARG PKG_HOME="${HOME}/.local/opt"
 FROM registry.hub.docker.com/library/debian:testing-slim AS upstream-debian
 FROM upstream-debian AS debian
 RUN <<APT
+set -eu
 apt-get update
 apt-get install --no-install-recommends --yes \
 	build-essential \
@@ -44,22 +45,20 @@ RUN chmod +x /tmp/miniconda-install.sh
 RUN --mount=type=cache,target=/opt/conda/pkgs,sharing=locked \
         /tmp/miniconda-install.sh -b -s -p "${CONDA_PREFIX}/base"
 RUN --mount=type=cache,target=/opt/conda/pkgs,sharing=locked <<UPDATE
+set -eu
 "${CONDA_PREFIX}/base/bin/conda" config --add channels conda-forge
 "${CONDA_PREFIX}/base/bin/conda" update --yes --quiet --name base conda --all
 "${CONDA_PREFIX}/base/bin/conda" install --yes --quiet --name base \
 	conda-libmamba-solver \
-	micromamba \
-	conda-lock
+	micromamba
 UPDATE
 
 # Install tools written in go
-FROM registry.hub.docker.com/library/golang as tools-go
+FROM registry.hub.docker.com/library/golang:bookworm as tools-go
 RUN --mount=type=cache,target=/go/pkg,sharing=locked \
 	go install github.com/mattn/efm-langserver@latest
-# https://github.com/golang/go/issues/44840
-# https://github.com/junegunn/fzf/commit/91bea9c5b311aa6a9919b814adc2fbb9405df2a5
 RUN --mount=type=cache,target=/go/pkg,sharing=locked \
-	go install github.com/junegunn/fzf@0.45.0
+	go install github.com/junegunn/fzf@latest
 RUN --mount=type=cache,target=/go/pkg,sharing=locked \
 	go install github.com/itchyny/gojq/cmd/gojq@latest
 RUN --mount=type=cache,target=/go/pkg,sharing=locked \
@@ -105,20 +104,17 @@ RUN --mount=type=cache,target=/rust/registry,sharing=locked \
 ARG PKG_HOME
 ENV RYE_HOME="${PKG_HOME}/.rye"
 RUN <<RYE
+set -eu
 /rust/bin/rye install awscli
 /rust/bin/rye install pipx
 /rust/bin/rye install pre-commit-hooks
 /rust/bin/rye install yamllint
 
-# This doesn't seem to matter to the installed tools and we don't need it
-/rust/bin/rye toolchain remove $(
-	/rust/bin/rye toolchain list |
-	sort | head -1 |
-	awk '{print $1}')
 rm -fdr \
 	"$RYE_HOME/shims/python" \
 	"$RYE_HOME/shims/python3" \
-	"$RYE_HOME/self"
+	"$RYE_HOME/self" \
+	"$RYE_HOME/uv"
 RYE
 
 # Install tools written in javascript
@@ -129,6 +125,7 @@ ENV N_CACHE_PREFIX="/tmp"
 ADD https://raw.githubusercontent.com/tj/n/master/bin/n /usr/bin/n
 RUN chmod +x /usr/bin/n
 RUN <<TJN
+set -eu
 n latest
 export PATH=$N_PREFIX/bin:$PATH
 npm install -g npm@latest
@@ -158,6 +155,7 @@ ARG DOCKER_GROUP
 # install makes it easy to create/mod/own the files in a single command
 RUN <<NONROOT
 #! /usr/bin/env bash
+set -euo pipefail
 groupadd --gid ${DOCKER_GROUP} docker
 groupadd --gid 1111 "${USER}"
 useradd --no-log-init --shell /usr/bin/zsh --create-home \
@@ -185,6 +183,7 @@ WORKDIR ${SETUP}/dotfiles
 USER 1111:1111
 RUN --mount=type=cache,target=${HOME}/.local/var/cache  <<ANSIBLE
 #! /usr/bin/zsh
+set -euo pipefail
 sudo chown 1111:1111 ${HOME}/.local/var/cache
 source "${SETUP}/dotfiles/.zshenv"
 source <("${CONDA_PREFIX}/base/bin/conda" shell.zsh hook)
@@ -193,8 +192,8 @@ ANSIBLE_CONFIG="$(pwd)/playbooks/ansible.cfg" \
 	conda run --prefix /tmp/ansible --no-capture-output \
 	ansible-playbook "playbooks/default.playbook.yml"
 # TODO: Figure out how to do this in the playbook
+set +eu
 source "$ZDOTDIR/myrc.zsh"
-fast-theme base16
 ANSIBLE
 
 # This is for any final IO operations needed before squashing the final image into a single layer
@@ -203,6 +202,7 @@ ARG HOME
 ARG PKG_HOME
 COPY --from=registry.hub.docker.com/library/docker:cli /usr/local/bin/docker ${HOME}/.local/bin/docker
 COPY --from=registry.hub.docker.com/docker/buildx-bin /buildx ${HOME}/.docker/cli-plugins/docker-buildx
+COPY --from=registry.hub.docker.com/docker/compose-bin /docker-compose ${HOME}/.docker/cli-plugins/docker-compose
 COPY --from=tools-go /go/bin/ ${PKG_HOME}/
 COPY --from=tools-rust /rust/bin/ ${PKG_HOME}/
 COPY --from=tools-python ${PKG_HOME}/.rye ${PKG_HOME}/.rye
