@@ -80,18 +80,6 @@ function Enter-DevContainer {
     &docker volume create conda-pkgs
     Write-Verbose "Created runtime volumes"
 
-    # https://github.com/lemonade-command/lemonade
-    Write-Verbose "Ensuring lemonade is running"
-    $clipboards = Get-Job -Name "Lemonade" -ErrorAction SilentlyContinue |
-        Where-Object { $_.State -eq "Running" } |
-        Measure-Object
-    if ($clipboards.count -lt 1) {
-        Write-Verbose "Starting lemonade"
-        Start-Job -Name "Lemonade" -ScriptBlock { lemonade.exe server }
-    } else {
-        Write-Verbose "Lemonade already running"
-    }
-
     $container = Get-Container-Name -Tag $Tag
     Write-Verbose "Ensuring container named $container"
     $state = docker ps --all --filter "name=$container" --format "{{ .State }}"
@@ -133,9 +121,6 @@ function Remove-DevContainer {
     param (
         [String]$Tag = "stable"
     )
-    Write-Verbose "Stopping lemonade"
-    Remove-Job -Name "Lemonade" -Force
-
     $container = Get-Container-Name -Tag $Tag
     $state = docker ps --all --filter "name=$container" --format "{{ .State }}"
     Write-Verbose "Removing $container in current state $state"

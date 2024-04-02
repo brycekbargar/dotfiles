@@ -64,7 +64,7 @@ RUN --mount=type=cache,target=/go/pkg,sharing=locked \
 RUN --mount=type=cache,target=/go/pkg,sharing=locked \
 	go install github.com/shihanng/gig@latest
 RUN --mount=type=cache,target=/go/pkg,sharing=locked \
-	go install github.com/lemonade-command/lemonade@latest
+	go install github.com/theimpostor/osc@latest
 RUN --mount=type=cache,target=/go/pkg,sharing=locked \
 	go install mvdan.cc/sh/v3/cmd/shfmt@latest
 RUN --mount=type=cache,target=/go/pkg,sharing=locked \
@@ -217,5 +217,8 @@ WORKDIR ${HOME}/code
 # Having them set to be an anon volume keeps the container size down at runtime
 VOLUME ${HOME}/.local/var
 VOLUME /tmp
+
+# nvim requires this to be set to copy to osc52
+ENV SSH_TTY=/dev/tty
 
 ENTRYPOINT ["/usr/bin/zsh", "-i"]

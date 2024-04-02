@@ -52,14 +52,3 @@
     path: "{{ lookup('env', 'XDG_DATA_HOME') }}"
     state: directory
     mode: "0775"
-
-- name: Prepare to link lemonade (booo)
-  ansible.builtin.file:
-    dest: "{{ lookup('env', 'HOME') }}/.config"
-    state: directory
-    mode: "0775"
-- name: Link lemonade (booo)
-  ansible.builtin.file:
-    src: "{{ lookup('env', 'XDG_CONFIG_HOME') }}/lemonade/config.toml"
-    dest: "{{ lookup('env', 'HOME') }}/.config/lemonade.toml"
-    state: link

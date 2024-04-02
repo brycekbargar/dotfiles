@@ -1,9 +1,0 @@
-{
-  "$schema": "https://raw.githubusercontent.com/ScoopInstaller/Scoop/master/schema.json",
-  "version": "1.1.1",
-  "homepage": "https://github.com/lemonade-command/lemonade",
-  "license": "https://github.com/lemonade-command/lemonade/blob/master/LICENSE",
-  "url": "https://github.com/lemonade-command/lemonade/releases/download/v1.1.1/lemonade_windows_amd64.zip",
-  "hash": "81b755a69e69e7ac90cd0fe1a6910f3d5060ec740ab43c7993fdaa447e08ed3a",
-  "bin": "lemonade.exe"
-}

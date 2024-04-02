@@ -62,7 +62,6 @@ if (($currentPath -eq $null) -or (-not $currentPath.Contains("dotfiles\host\bin"
 
 # random stuff
 Update-Help -UICulture en-Us -ErrorAction SilentlyContinue
-& scoop install .\lemonade.json
 & scoop install flux
 & scoop install windirstat
 New-Item "~/_setup/private" -ItemType Directory -Force

@@ -20,6 +20,6 @@ then
 	return 1
 fi
 
-echo "$item" | jq -r '.login.password' | lemonade copy
+echo "$item" | jq -r '.login.password' | osc copy
 ssh-add =(bw get attachment "$(echo "$item" | jq -r '.name')" --itemid "$1" --raw)
-echo "" | lemonade copy
+echo "" | osc copy
