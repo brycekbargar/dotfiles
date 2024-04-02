@@ -18,7 +18,7 @@ HELP
 fi
 
 if [[ -z $1 || -d $1 ]]; then
-	ls -lhA "$1"
+	ls -lhGA "$1"
 else
 	less "$1"
 fi
