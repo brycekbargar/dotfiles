@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+if [[ $1 == *"-h"* ]]; then
+	cat <<HELP
+less + ls
+
+USAGE:
+	lss [file or directory]
+
+ARGS:
+	file or directory	Pages the file or lists the directory
+
+OPTIONS:
+	-h, --help		Prints help information.
+HELP
+
+	exit 0
+fi
+
+if [[ -z $1 || -d $1 ]]; then
+	ls -lhA "$1"
+else
+	less "$1"
+fi
