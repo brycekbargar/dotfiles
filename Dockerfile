@@ -129,11 +129,13 @@ set -eu
 n latest
 export PATH=$N_PREFIX/bin:$PATH
 npm install -g npm@latest
+# bw cli is pinned to 2023.7.0 because of
+# https://github.com/bitwarden/clients/pull/8073
 npm install -g \
 	@ansible/ansible-language-server \
 	@astrojs/language-server \
 	bash-language-server \
-	@bitwarden/cli \
+	@bitwarden/cli@2023.7.0 \
 	dockerfile-language-server-nodejs \
 	fixjson \
 	pyright \
@@ -162,7 +164,7 @@ useradd --no-log-init --shell /usr/bin/zsh --create-home \
 	--uid 1111 --gid 1111 "${USER}"
 passwd --delete "${USER}"
 usermod --append --groups sudo,docker "${USER}"
-install --mode 0440 -D <(echo "$USER ALL=(ALL) NOPASSWD: ALL") "/etc/sudoers.d/${USER}"
+install --mode 0440 -D <(echo "$USER ALL=(ALL) NOPASSWD: ALL") "/etc/sudoers.d/1111"
 # These should be mounted as volumes at runtime but don't fail if they're missing
 install --owner 1111 --group 1111 -D --directory /opt/conda/envs /opt/conda/pkgs
 NONROOT

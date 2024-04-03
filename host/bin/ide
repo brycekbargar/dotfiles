@@ -35,7 +35,7 @@ function find_image {
 }
 
 function build {
-	local d, t_image,d_image
+	local d t_image d_image
 	d="$(date '+%m-%d-%y')"
 	t_image="$(image_name 'testing')"
 	d_image="$(image_name "$d")"
@@ -46,7 +46,7 @@ function build {
 	fi
 
 	echo "Building $t_image, $d_image with '$cache_arg'"
-	docker build "$cache_arg" \
+	docker build ${cache_arg:+"$cache_arg"} \
 		-t "$t_image" -t "$d_image" \
 		--build-arg="USER=katherine.bargar" \
 		--build-arg="HOSTOS=darwin" \
@@ -64,7 +64,7 @@ function promote {
 	down "stable"
 	down "testing"
 
-	local os_image,s_image,t_image
+	local os_image s_image t_image
 	os_image="$(image_name "oldstable")"
 	s_image="$(image_name "stable")"
 	t_image="$(image_name "testing")"
@@ -89,10 +89,10 @@ function up {
 	docker volume create conda-pkgs
 	echo "created runtime volumes"
 
-	local container,state
+	local container state
 	container="$(container_name "$1")"
 	state="$(docker ps --all --filter "name=$container" --format "{{ .State }}")"
-	echo "ensuring connection to $container, currently {$state-:null}"
+	echo "ensuring connection to $container, currently ${state-:null}"
 
 	if [[ $state == "running" ]]; then
 		docker exec -it "$container" /usr/bin/zsh -i
@@ -118,7 +118,7 @@ function up {
 }
 
 function down {
-	local container,state
+	local container state
 	container="$(container_name "$1")"
 	state="$(docker ps --all --filter "name=$container" --format "{{ .State }}")"
 	echo "removing $container in current state $state"
@@ -130,8 +130,8 @@ function down {
 case "$1" in
 build) build "$2" ;;
 promote) promote ;;
-up) up "{$2:-stable" ;;
-down) down "{$2:-stable" ;;
+up) up "{$2:-stable}" ;;
+down) down "{$2:-stable}" ;;
 
 *)
 	echo "$1 not understood, use --help"

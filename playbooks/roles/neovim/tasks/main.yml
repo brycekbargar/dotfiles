@@ -12,20 +12,20 @@
     mode: "0755"
   when: ansible_architecture == "x86_64"
 
-- name: Finding latest Neovim (arm64)
+- name: Finding latest Neovim (aarch64)
   ansible.builtin.uri:
     url: https://api.github.com/repos/matsuu/neovim-aarch64-appimage/releases/latest
     return_content: true
-  register: arm64_nvim
-  when: ansible_architecture == "arm64"
+  register: aarch64_nvim
+  when: ansible_architecture == "aarch64"
 
-- name: Downloading Neovim (arm64)
+- name: Downloading Neovim (aarch64)
   ansible.builtin.get_url:
     url: "{{ item.browser_download_url }}"
     dest: "{{ lookup('env', 'XDG_PKG_HOME') }}/.nvim/nvim.appimage"
     mode: "0755"
-  loop: "{{ arm64_nvim.json.assets }}"
-  when: ansible_architecture == "arm64" and item.name.endswith('aarch64.appimage')
+  loop: "{{ aarch64_nvim.json.assets }}"
+  when: ansible_architecture == "aarch64" and item.name.endswith('aarch64.appimage')
 
 - name: Extracting Neovim
   ansible.builtin.command:
@@ -53,7 +53,7 @@
   loop: "{{ lua_lsp.json.assets }}"
   when: >
     (ansible_architecture == "x86_64" and item.name.endswith('linux-x64.tar.gz'))
-    and (ansible_architecture == "arm64" and item.name.endswith('linux-arm64.tar.gz'))
+    or (ansible_architecture == "aarch64" and item.name.endswith('linux-arm64.tar.gz'))
 
 - name: Verifying latest lua lsp
   ansible.builtin.stat:
@@ -62,9 +62,7 @@
 
 - name: Check if latest lua lsp failed
   ansible.builtin.fail:
-    msg: >
-      Lua LSP not available and executable, expected to download {{ lua_lsp_pattern
-      }} but got {{ lua_lsp_exe.stat }}
+    msg: Lua LSP not available and executable, got {{ lua_lsp_exe.stat }}
   when: not lua_lsp_exe.stat.exists or not lua_lsp_exe.stat.executable
 
 - name: Add packer plugin
