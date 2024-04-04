@@ -41,11 +41,11 @@ Set-Location $home\_setup\dotfiles\host
 
 ### Macos Usage
 
-##### Install Manuall
+##### Install Manually
 1. xcode: `xcode-select --install`
 1. [Homebrew](https://github.com/Homebrew/brew/releases/latest)
 1. [kitty](https://github.com/kovidgoyal/kitty/releases/latest)
-1. [Delugia Book](https://github.com/adam7/delugia-code/releases/latest) using Font Book
+1. [Delugia Book](https://github.com/adam7/delugia-code/releases/latest) using 'Font Book.app'
 
 ##### In kitty.app
 
@@ -56,3 +56,9 @@ git clone -b main https://github.com/brycekbargar/dotfiles.git ~/_setup/dotfiles
 cd ~/_setup/dotfiles/host
 ./setup.sh
 ```
+
+###### Finish Setup
+1. Launch OrbStack.app
+1. Launch Karabiner-Elements.app
+1. [Setup Input Monitoring](https://github.com/pqrs-org/Karabiner-Elements/issues/3011)
+1. Copy in json files as Complex Modifications
