@@ -2,6 +2,7 @@
 
 brew install karabiner-elements
 brew install orbstack
+brew install lesspipe
 brew install less
 
 # kitty
@@ -22,7 +23,13 @@ popd || exit
 ln -sf "$HOME/_setup/dotfiles/XDG_CONFIG_HOME/nvim/init.vim" "$HOME/.vimrc"
 
 # zsh
-ln -sf "$HOME/_setup/dotfiles/host/.zshenv" "$HOME/.zshenv"
+brew install zsh
+sudo dscl . -create "/Users/$USER" UserShell "$(brew --prefix)/bin/zsh"
+
+ln -sf "$HOME"/_setup/dotfiles/host/.zshenv "$HOME"/.zshenv
+mkdir -p "$HOME"/.zdotdir
+ln -sf "$HOME"/_setup/dotfiles/host/zshrc.zsh "$HOME"/.zdotdir/.zshrc
+git clone --depth 1 --single-branch --recursive -- "https://github.com/sorin-ionescu/prezto.git" "$HOME/.zdotdir/zprezto"
 
 # random stuff
 mkdir -p ~/_setup/private
