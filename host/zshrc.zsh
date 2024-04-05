@@ -26,7 +26,6 @@ export PAGER="$HOMEBREW_PREFIX"/bin/less
 export LESS=" \
   --quit-if-one-screen \
   --ignore-case \
-  --lesskey-src=$HOME/_setup/dotfiles/XDG_CONFIG_HOME/.lesskey$ \
   --SILENT \
   --RAW-CONTROL-CHARS \
   --squeeze-blank-lines \
@@ -37,17 +36,17 @@ export LESS=" \
   --use-color"
 
 alias ls="ls -lhA"
-
 tabs -4 > /dev/null
 
+bindkey -v
+setopt transient_rprompt
+function zle-line-init zle-keymap-select {
+    VIM_PROMPT="%B%F{174}% [% NORMAL]% %f%b"
+    RPS1="${${KEYMAP/vicmd/$VIM_PROMPT}/(main|viins)/}"
+    zle reset-prompt
+}
+zle -N zle-line-init
+zle -N zle-keymap-select
+export KEYTIMEOUT=1
+
 source "$ZDOTDIR"/zprezto/init.zsh
-zstyle ':prezto:*:*' color 'yes'
-zstyle ':prezto:load' pmodule \
-  'environment' \
-  'terminal' \
-  'history' \
-  'directory' \
-  'completion' \
-  'prompt'
-zstyle ':prezto:module:editor' key-bindings 'vi'
-zstyle ':prezto:module:prompt' theme 'steeef'

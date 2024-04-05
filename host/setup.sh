@@ -29,6 +29,7 @@ sudo dscl . -create "/Users/$USER" UserShell "$(brew --prefix)/bin/zsh"
 ln -sf "$HOME"/_setup/dotfiles/host/.zshenv "$HOME"/.zshenv
 mkdir -p "$HOME"/.zdotdir
 ln -sf "$HOME"/_setup/dotfiles/host/zshrc.zsh "$HOME"/.zdotdir/.zshrc
+ln -sf "$HOME"/_setup/dotfiles/host/prezto.zsh "$HOME"/.zdotdir/.zpreztorc
 git clone --depth 1 --single-branch --recursive -- "https://github.com/sorin-ionescu/prezto.git" "$HOME/.zdotdir/zprezto"
 
 # random stuff
