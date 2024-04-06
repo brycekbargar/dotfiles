@@ -130,8 +130,8 @@ function down {
 case "$1" in
 build) build "$2" ;;
 promote) promote ;;
-up) up "{$2:-stable}" ;;
-down) down "{$2:-stable}" ;;
+up) up "${2:-stable}" ;;
+down) down "${2:-stable}" ;;
 
 *)
 	echo "$1 not understood, use --help"
