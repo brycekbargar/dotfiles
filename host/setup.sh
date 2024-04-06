@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+brew install --cask git-credential-manager
 brew install karabiner-elements
 brew install orbstack
 brew install lesspipe

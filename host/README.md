@@ -61,4 +61,4 @@ cd ~/_setup/dotfiles/host
 1. Launch OrbStack.app
 1. Launch Karabiner-Elements.app
 1. [Setup Input Monitoring](https://github.com/pqrs-org/Karabiner-Elements/issues/3011)
-1. Copy in json files as Complex Modifications
+1. Import complex modifications
