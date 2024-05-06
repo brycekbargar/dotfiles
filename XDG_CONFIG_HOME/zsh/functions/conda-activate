@@ -1,0 +1,17 @@
+# shellcheck shell=bash
+# shellcheck disable=SC2168
+# vi: ft=sh
+
+#function conda-activate {
+# TODO: write your function here
+
+if [[ -n $CONDA_PREFIX ]]; then
+	conda deactivate
+fi
+
+if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+	conda activate "$(basename "$(git rev-parse --show-toplevel)")"
+else
+	conda activate "$(basename "$(pwd)")"
+fi
+#}
