@@ -53,8 +53,9 @@ return function()
 		init_options = {
 			documentFormatting = false,
 			typescript = {
-				tsdk = vim.env.XDG_PKG_HOME .. "/.tjn/lib/node_modules/typescript/lib",
-			}
+				tsdk = vim.env.XDG_PKG_HOME
+					.. "/.tjn/lib/node_modules/typescript/lib",
+			},
 		},
 	})
 
@@ -144,6 +145,11 @@ return function()
 
 	lsp.quick_lint_js.setup({
 		cmd = { "npx", "--no", "quick-lint-js", "--", "--lsp-server" },
+		on_attach = on_attach,
+		single_file_support = false,
+	})
+
+	lsp.ruff.setup({
 		on_attach = on_attach,
 		single_file_support = false,
 	})

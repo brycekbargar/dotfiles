@@ -35,6 +35,12 @@ tools:
     root-markers:
       - pyproject.toml
 
+  python-ruff-isort: &python-ruff-isort
+    format-command: "ruff check --quiet --fix-only --select I,COM812,COM819 --stdin-filename ${INPUT} -"
+    format-stdin: true
+    root-markers:
+      - pyproject.toml
+
   sh-shfmt: &sh-shfmt
     format-command: "shfmt --simplify --filename ${INPUT} -"
     format-stdin: true
@@ -67,6 +73,7 @@ languages:
 
   python:
     - !!merge <<: *python-ruff
+    - !!merge <<: *python-ruff-isort
 
   sh:
     - !!merge <<: *sh-shfmt
