@@ -20,6 +20,7 @@ return function()
 			"json5",
 			"lua",
 			"make",
+			"markdown",
 			"python",
 			"terraform",
 			"toml",

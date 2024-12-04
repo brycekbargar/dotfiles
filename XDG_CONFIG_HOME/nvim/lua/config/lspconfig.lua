@@ -48,17 +48,6 @@ return function()
 		)
 	end
 
-	lsp.astro.setup({
-		on_attach = on_attach,
-		init_options = {
-			documentFormatting = false,
-			typescript = {
-				tsdk = vim.env.XDG_PKG_HOME
-					.. "/.tjn/lib/node_modules/typescript/lib",
-			},
-		},
-	})
-
 	lsp.ansiblels.setup({
 		on_attach = on_attach,
 		single_file_support = false,
@@ -77,7 +66,6 @@ return function()
 		},
 		init_options = { documentFormatting = true },
 		filetypes = {
-			"astro",
 			"go",
 			"html",
 			"javascript",
@@ -143,6 +131,7 @@ return function()
 		commands = {},
 	})
 
+<<<<<<< HEAD
 	lsp.quick_lint_js.setup({
 		cmd = { "npx", "--no", "quick-lint-js", "--", "--lsp-server" },
 		on_attach = on_attach,
@@ -160,15 +149,9 @@ return function()
 		root_dir = lsputil.root_pattern("tailwind.config.js"),
 	})
 
+=======
+>>>>>>> 07c0684 (Remove unused js config)
 	lsp.taplo.setup({ on_attach = on_attach })
-	lsp.terraformls.setup({ on_attach = on_attach })
-	lsp.tflint.setup({ on_attach = on_attach })
-
-	lsp.tsserver.setup({
-		on_attach = on_attach,
-		single_file_support = false,
-		init_options = { documentFormatting = false },
-	})
 
 	lsp.yamlls.setup({ on_attach = on_attach })
 end

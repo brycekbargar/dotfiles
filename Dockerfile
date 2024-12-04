@@ -68,8 +68,6 @@ RUN --mount=type=cache,target=/go/pkg,sharing=locked \
 RUN --mount=type=cache,target=/go/pkg,sharing=locked \
 	go install mvdan.cc/sh/v3/cmd/shfmt@latest
 RUN --mount=type=cache,target=/go/pkg,sharing=locked \
-	go install github.com/hashicorp/terraform-ls@latest
-RUN --mount=type=cache,target=/go/pkg,sharing=locked \
 	go install github.com/google/yamlfmt/cmd/yamlfmt@latest
 
 # Install tools written in rust
@@ -105,7 +103,6 @@ ARG PKG_HOME
 ENV RYE_HOME="${PKG_HOME}/.rye"
 RUN <<RYE
 set -eu
-/rust/bin/rye install awscli
 /rust/bin/rye install pipx
 /rust/bin/rye install pre-commit-hooks
 /rust/bin/rye install yamllint
@@ -133,16 +130,12 @@ npm install -g npm@latest
 # https://github.com/bitwarden/clients/pull/8073
 npm install -g \
 	@ansible/ansible-language-server \
-	@astrojs/language-server \
 	bash-language-server \
 	@bitwarden/cli@2023.7.0 \
 	dockerfile-language-server-nodejs \
 	fixjson \
 	pyright \
-	@tailwindcss/language-server \
 	tiged \
-	typescript-language-server \
-	typescript \
 	vscode-langservers-extracted \
 	yaml-language-server
 
