@@ -127,7 +127,6 @@ return function()
 
 	lsp.pyright.setup({
 		on_attach = on_attach,
-		single_file_support = false,
 		commands = {},
 	})
 
