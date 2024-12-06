@@ -62,8 +62,6 @@ RUN --mount=type=cache,target=/go/pkg,sharing=locked \
 RUN --mount=type=cache,target=/go/pkg,sharing=locked \
 	go install github.com/itchyny/gojq/cmd/gojq@latest
 RUN --mount=type=cache,target=/go/pkg,sharing=locked \
-	go install github.com/shihanng/gig@latest
-RUN --mount=type=cache,target=/go/pkg,sharing=locked \
 	go install github.com/theimpostor/osc@latest
 RUN --mount=type=cache,target=/go/pkg,sharing=locked \
 	go install mvdan.cc/sh/v3/cmd/shfmt@latest
@@ -90,6 +88,7 @@ RUN --mount=type=cache,target=/rust/registry,sharing=locked \
 	cargo install precious
 RUN --mount=type=cache,target=/rust/registry,sharing=locked \
 	cargo install ripgrep
+RUN strip /rust/bin/rg
 RUN --mount=type=cache,target=/rust/registry,sharing=locked \
 	cargo install stylua
 RUN --mount=type=cache,target=/rust/registry,sharing=locked \
