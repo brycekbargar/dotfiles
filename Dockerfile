@@ -38,7 +38,7 @@ FROM debian AS conda-amd64
 ADD https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh /tmp/miniconda-install.sh
 FROM debian AS conda-arm64
 ADD https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-aarch64.sh /tmp/miniconda-install.sh
-FROM conda-${TARGETARCH} as base
+FROM conda-${TARGETARCH} AS base
 ARG HOME
 ARG CONDA_PREFIX="${HOME}/.local/var/lib/conda"
 RUN chmod +x /tmp/miniconda-install.sh
@@ -54,7 +54,7 @@ set -eu
 UPDATE
 
 # Install tools written in go
-FROM registry.hub.docker.com/library/golang:bookworm as tools-go
+FROM registry.hub.docker.com/library/golang:bookworm AS tools-go
 RUN --mount=type=cache,target=/go/pkg,sharing=locked \
 	go install github.com/mattn/efm-langserver@latest
 RUN --mount=type=cache,target=/go/pkg,sharing=locked \
@@ -74,7 +74,7 @@ RUN --mount=type=cache,target=/go/pkg,sharing=locked \
 # The target dir is split out so we can copy the bin and not get rust tools too
 # --locked is intentionally left out to maximize cache hits
 # Incremental and Rustc info help with cache hits too
-FROM registry.hub.docker.com/library/rust:bookworm as tools-rust
+FROM registry.hub.docker.com/library/rust:bookworm AS tools-rust
 ENV CARGO_CACHE_RUSTC_INFO=0
 ENV CARGO_INCREMENTAL=1
 ENV CARGO_HOME=/rust
@@ -96,7 +96,7 @@ RUN --mount=type=cache,target=/rust/registry,sharing=locked \
 	cargo install taplo-cli --features lsp
 
 # Install tools written in python
-FROM tools-rust as tools-python
+FROM tools-rust AS tools-python
 RUN --mount=type=cache,target=/rust/registry,sharing=locked \
 	cargo install --git https://github.com/mitsuhiko/rye rye
 ARG PKG_HOME
@@ -115,7 +115,7 @@ rm -fdr \
 RYE
 
 # Install tools written in javascript
-FROM debian as tools-js
+FROM debian AS tools-js
 ARG PKG_HOME
 ENV N_PREFIX="${PKG_HOME}/.tjn"
 ENV N_CACHE_PREFIX="/tmp"
@@ -143,7 +143,7 @@ rm $N_PREFIX/bin/npm
 TJN
 
 # Build out the base of the final image
-FROM debian as dev-container
+FROM debian AS dev-container
 ARG USER
 ARG DOCKER_GROUP
 # bash is necessary here for the install command
@@ -162,7 +162,7 @@ install --mode 0440 -D <(echo "$USER ALL=(ALL) NOPASSWD: ALL") "/etc/sudoers.d/1
 install --owner 1111 --group 1111 -D --directory /opt/conda/envs /opt/conda/pkgs
 NONROOT
 
-FROM dev-container as ansible
+FROM dev-container AS ansible
 ARG HOME
 ARG CONDA_PREFIX="${HOME}/.local/var/lib/conda"
 ARG SETUP=${HOME}/_setup
@@ -192,7 +192,7 @@ source "$ZDOTDIR/myrc.zsh"
 ANSIBLE
 
 # This is for any final IO operations needed before squashing the final image into a single layer
-FROM ansible as home-layer
+FROM ansible AS home-layer
 ARG HOME
 ARG PKG_HOME
 COPY --from=registry.hub.docker.com/library/docker:cli /usr/local/bin/docker ${HOME}/.local/bin/docker
