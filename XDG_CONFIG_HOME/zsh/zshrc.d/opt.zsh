@@ -9,8 +9,3 @@ export FZF_DEFAULT_OPTS="\
 --color=16"
 
 export BITWARDENCLI_APPDATA_DIR="$XDG_STATE_HOME/bw"
-
-export \
-	AWS_CLI_HISTORY_FILE="$XDG_STATE_HOME/aws/history" \
-	AWS_CONFIG_FILE="$XDG_CONFIG_HOME/aws/config" \
-	AWS_SHARED_CREDENTIALS_FILE="$XDG_CONFIG_HOME/aws/credentials"
