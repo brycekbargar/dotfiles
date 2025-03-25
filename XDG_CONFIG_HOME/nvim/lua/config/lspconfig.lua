@@ -129,27 +129,11 @@ return function()
 		on_attach = on_attach,
 		commands = {},
 	})
-
-<<<<<<< HEAD
-	lsp.quick_lint_js.setup({
-		cmd = { "npx", "--no", "quick-lint-js", "--", "--lsp-server" },
-		on_attach = on_attach,
-		single_file_support = false,
-	})
-
 	lsp.ruff.setup({
 		on_attach = on_attach,
 		single_file_support = false,
 	})
 
-	lsp.tailwindcss.setup({
-		on_attach = on_attach,
-		filetypes = { "html" },
-		root_dir = lsputil.root_pattern("tailwind.config.js"),
-	})
-
-=======
->>>>>>> 07c0684 (Remove unused js config)
 	lsp.taplo.setup({ on_attach = on_attach })
 
 	lsp.yamlls.setup({ on_attach = on_attach })
