@@ -18,6 +18,7 @@ typeset -aU path
 path=(
   	"$XDG_BIN_HOME"
   	"$XDG_PKG_HOME"
+  	"$HOME/.pixi/bin"
   	"$XDG_BIN_HOME/shims"
   	"$XDG_PKG_HOME/.rye/shims"
   	"$XDG_PKG_HOME/.tjn/bin"

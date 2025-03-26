@@ -35,6 +35,7 @@ APT
 
 # Build out the base of the final image
 FROM debian AS dev-container
+ARG HOME
 ARG USER
 ARG DOCKER_GROUP
 # bash is necessary here for the install command
@@ -49,6 +50,7 @@ useradd --no-log-init --shell /usr/bin/zsh --create-home \
 passwd --delete "${USER}"
 usermod --append --groups sudo,docker "${USER}"
 install --mode 0440 -D <(echo "$USER ALL=(ALL) NOPASSWD: ALL") "/etc/sudoers.d/1111"
+install --owner 1111 --group 1111 -D --directory "${HOME}"/.local/
 # These should be mounted as volumes at runtime but don't fail if they're missing
 install --owner 1111 --group 1111 -D --directory /opt/pixi/envs /opt/pixi/pkgs
 NONROOT
@@ -59,7 +61,7 @@ ARG SETUP=${HOME}/_setup
 ARG PKG_HOME
 
 COPY --from=ghcr.io/prefix-dev/pixi:bullseye /usr/local/bin/pixi /usr/local/bin/pixi
-COPY --chown=1111:1111 ./dotfiles ${SETUP}/dotfiles
+COPY --chown=1111:1111 ./dotfiles-pixi-rewrite ${SETUP}/dotfiles
 COPY --chown=1111:1111 ./private ${SETUP}/private
 
 ARG HOSTOS
@@ -72,7 +74,7 @@ RUN --mount=type=cache,target=${HOME}/.local/var  <<ANSIBLE
 set -euo pipefail
 sudo chown 1111:1111 ${HOME}/.local/var
 source "${SETUP}/dotfiles/.zshenv"
-pixi global install python ansible jmespath
+pixi global install --environment dotfiles ansible-core --with python --with ansible --with jmespath
 ANSIBLE_CONFIG="$(pwd)/playbooks/ansible.cfg" \
 	ansible-playbook "playbooks/default.playbook.yml"
 # TODO: Figure out how to do this in the playbook
@@ -86,8 +88,8 @@ ARG HOME
 ARG PKG_HOME
 # RUN instead of COPY to preserve symlinks
 RUN --mount=type=bind,from=ansible,source=${HOME},target=${HOME} \
-	cp --no-dereference --recursive --target . ./_setup ./local ./.vim ./.zshenv
-COPY --from=registry.hub.docker.com/library/docker:cli /usr/local/bin/docker ${XDG_PKG_HOME}/docker
+	cp --no-dereference --recursive --target . ./_setup ./local ./.vim ./.zshenv ./code
+COPY --from=registry.hub.docker.com/library/docker:cli /usr/local/bin/docker ${PKG_HOME}/docker
 COPY --from=registry.hub.docker.com/docker/buildx-bin /buildx ${HOME}/.docker/cli-plugins/docker-buildx
 COPY --from=registry.hub.docker.com/docker/compose-bin /docker-compose ${HOME}/.docker/cli-plugins/docker-compose
 COPY --from=ghcr.io/prefix-dev/pixi:bullseye /usr/local/bin/pixi ${PKG_HOME}/pixi
