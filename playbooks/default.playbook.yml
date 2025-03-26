@@ -5,7 +5,6 @@
     dotfiles: "{{ playbook_dir }}/.."
   roles:
     - prepare
-    - conda
     - zsh
     - vim
     - neovim

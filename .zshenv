@@ -9,10 +9,7 @@ export \
   	XDG_DATA_HOME="$HOME/code"
 
 export \
-  	CONDARC="$XDG_CONFIG_HOME/conda/condarc" \
-  	CONDA_ENVS="/opt/conda/envs" \
-  	CONDA_PKGS_DIRS="/opt/conda/pkgs" \
-  	CONDA_ENVS_PATH="/opt/conda/envs:$XDG_STATE_HOME/conda" \
+	PIXI_CACHE_DIR="/opt/pixi/pkgs" \
   	ZDOTDIR="$XDG_CONFIG_HOME/zsh" \
   	ANTIDOTE_SOURCE="$XDG_CONFIG_HOME/zsh/.antidote" \
   	ANTIDOTE_HOME="$XDG_CONFIG_HOME/zsh/.bundles"

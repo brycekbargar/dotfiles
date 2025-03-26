@@ -33,86 +33,6 @@ apt-get install --no-install-recommends --yes \
 rm -rf /var/lib/apt/lists/*
 APT
 
-# Relocatable base
-FROM debian AS conda-amd64
-ADD https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh /tmp/miniconda-install.sh
-FROM debian AS conda-arm64
-ADD https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-aarch64.sh /tmp/miniconda-install.sh
-FROM conda-${TARGETARCH} AS base
-ARG HOME
-ARG CONDA_PREFIX="${HOME}/.local/var/lib/conda"
-RUN chmod +x /tmp/miniconda-install.sh
-RUN --mount=type=cache,target=/opt/conda/pkgs,sharing=locked \
-        /tmp/miniconda-install.sh -b -s -p "${CONDA_PREFIX}/base"
-RUN --mount=type=cache,target=/opt/conda/pkgs,sharing=locked <<UPDATE
-set -eu
-"${CONDA_PREFIX}/base/bin/conda" config --add channels conda-forge
-"${CONDA_PREFIX}/base/bin/conda" update --yes --quiet --name base conda --all
-"${CONDA_PREFIX}/base/bin/conda" install --yes --quiet --name base \
-	conda-libmamba-solver \
-	micromamba
-UPDATE
-
-# Install tools written in go
-FROM registry.hub.docker.com/library/golang:bookworm AS tools-go
-RUN --mount=type=cache,target=/go/pkg,sharing=locked \
-	go install github.com/mattn/efm-langserver@latest
-RUN --mount=type=cache,target=/go/pkg,sharing=locked \
-	go install github.com/junegunn/fzf@latest
-RUN --mount=type=cache,target=/go/pkg,sharing=locked \
-	go install github.com/itchyny/gojq/cmd/gojq@latest
-RUN --mount=type=cache,target=/go/pkg,sharing=locked \
-	go install github.com/theimpostor/osc@latest
-RUN --mount=type=cache,target=/go/pkg,sharing=locked \
-	go install mvdan.cc/sh/v3/cmd/shfmt@latest
-RUN --mount=type=cache,target=/go/pkg,sharing=locked \
-	go install github.com/google/yamlfmt/cmd/yamlfmt@latest
-
-# Install tools written in rust
-# The target dir is split out so we can copy the bin and not get rust tools too
-# --locked is intentionally left out to maximize cache hits
-# Incremental and Rustc info help with cache hits too
-FROM registry.hub.docker.com/library/rust:bookworm AS tools-rust
-ENV CARGO_CACHE_RUSTC_INFO=0
-ENV CARGO_INCREMENTAL=1
-ENV CARGO_HOME=/rust
-RUN --mount=type=cache,target=/rust/registry,sharing=locked \
-	cargo install bat
-RUN --mount=type=cache,target=/rust/registry,sharing=locked \
-	cargo install exa
-RUN --mount=type=cache,target=/rust/registry,sharing=locked \
-	cargo install fd-find
-RUN --mount=type=cache,target=/rust/registry,sharing=locked \
-	cargo install git-delta
-RUN --mount=type=cache,target=/rust/registry,sharing=locked \
-	cargo install precious
-RUN --mount=type=cache,target=/rust/registry,sharing=locked \
-	cargo install ripgrep
-RUN strip /rust/bin/rg
-RUN --mount=type=cache,target=/rust/registry,sharing=locked \
-	cargo install stylua
-RUN --mount=type=cache,target=/rust/registry,sharing=locked \
-	cargo install taplo-cli --features lsp
-
-# Install tools written in python
-FROM tools-rust AS tools-python
-RUN --mount=type=cache,target=/rust/registry,sharing=locked \
-	cargo install --git https://github.com/mitsuhiko/rye rye
-ARG PKG_HOME
-ENV RYE_HOME="${PKG_HOME}/.rye"
-RUN <<RYE
-set -eu
-/rust/bin/rye install pipx
-/rust/bin/rye install pre-commit-hooks
-/rust/bin/rye install yamllint
-
-rm -fdr \
-	"$RYE_HOME/shims/python" \
-	"$RYE_HOME/shims/python3" \
-	"$RYE_HOME/self" \
-	"$RYE_HOME/uv"
-RYE
-
 # Install tools written in javascript
 FROM debian AS tools-js
 ARG PKG_HOME
@@ -158,15 +78,15 @@ passwd --delete "${USER}"
 usermod --append --groups sudo,docker "${USER}"
 install --mode 0440 -D <(echo "$USER ALL=(ALL) NOPASSWD: ALL") "/etc/sudoers.d/1111"
 # These should be mounted as volumes at runtime but don't fail if they're missing
-install --owner 1111 --group 1111 -D --directory /opt/conda/envs /opt/conda/pkgs
+install --owner 1111 --group 1111 -D --directory /opt/pixi/envs /opt/pixi/pkgs
 NONROOT
 
 FROM dev-container AS ansible
 ARG HOME
-ARG CONDA_PREFIX="${HOME}/.local/var/lib/conda"
 ARG SETUP=${HOME}/_setup
+ARG PKG_HOME
 
-COPY --chown=1111:1111 --from=base ${CONDA_PREFIX}/base ${CONDA_PREFIX}/base
+COPY --from=ghcr.io/prefix-dev/pixi:bullseye /usr/local/bin/pixi /usr/local/bin/pixi
 COPY --chown=1111:1111 ./dotfiles ${SETUP}/dotfiles
 COPY --chown=1111:1111 ./private ${SETUP}/private
 
@@ -175,15 +95,13 @@ ARG HOSTOS
 ENV HOSTOS=${HOSTOS}
 WORKDIR ${SETUP}/dotfiles
 USER 1111:1111
-RUN --mount=type=cache,target=${HOME}/.local/var/cache  <<ANSIBLE
+RUN --mount=type=cache,target=${HOME}/.local/var  <<ANSIBLE
 #! /usr/bin/zsh
 set -euo pipefail
-sudo chown 1111:1111 ${HOME}/.local/var/cache
+sudo chown 1111:1111 ${HOME}/.local/var
 source "${SETUP}/dotfiles/.zshenv"
-source <("${CONDA_PREFIX}/base/bin/conda" shell.zsh hook)
-conda create --quiet --yes --prefix /tmp/ansible --channel=conda-forge python ansible jmespath
+pixi global install python ansible jmespath
 ANSIBLE_CONFIG="$(pwd)/playbooks/ansible.cfg" \
-	conda run --prefix /tmp/ansible --no-capture-output \
 	ansible-playbook "playbooks/default.playbook.yml"
 # TODO: Figure out how to do this in the playbook
 set +eu
@@ -191,17 +109,17 @@ source "$ZDOTDIR/myrc.zsh"
 ANSIBLE
 
 # This is for any final IO operations needed before squashing the final image into a single layer
-FROM ansible AS home-layer
+FROM dev-container AS home-layer
 ARG HOME
 ARG PKG_HOME
-COPY --from=registry.hub.docker.com/library/docker:cli /usr/local/bin/docker ${HOME}/.local/bin/docker
+# RUN instead of COPY to preserve symlinks
+RUN --mount=type=bind,from=ansible,source=${HOME},target=${HOME} \
+	cp --no-dereference --recursive --target . ./_setup ./local ./.vim ./.zshenv
+COPY --from=registry.hub.docker.com/library/docker:cli /usr/local/bin/docker ${XDG_PKG_HOME}/docker
 COPY --from=registry.hub.docker.com/docker/buildx-bin /buildx ${HOME}/.docker/cli-plugins/docker-buildx
 COPY --from=registry.hub.docker.com/docker/compose-bin /docker-compose ${HOME}/.docker/cli-plugins/docker-compose
-COPY --from=tools-go /go/bin/ ${PKG_HOME}/
-COPY --from=tools-rust /rust/bin/ ${PKG_HOME}/
-COPY --from=tools-python ${PKG_HOME}/.rye ${PKG_HOME}/.rye
+COPY --from=ghcr.io/prefix-dev/pixi:bullseye /usr/local/bin/pixi ${PKG_HOME}/pixi
 COPY --from=tools-js ${PKG_HOME}/.tjn ${PKG_HOME}/.tjn
-
 
 FROM dev-container
 ARG HOME
