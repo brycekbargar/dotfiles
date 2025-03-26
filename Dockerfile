@@ -69,17 +69,19 @@ ARG HOSTOS
 ENV HOSTOS=${HOSTOS}
 WORKDIR ${SETUP}/dotfiles
 USER 1111:1111
-RUN --mount=type=cache,target=${HOME}/.local/var  <<ANSIBLE
+RUN --mount=type=cache,target=${HOME}/.local/var/cache  <<ANSIBLE
 #! /usr/bin/zsh
 set -euo pipefail
-sudo chown 1111:1111 ${HOME}/.local/var
+sudo chown -R 1111:1111 ${HOME}/.local/var
 source "${SETUP}/dotfiles/.zshenv"
+mkdir -p "$PIXI_HOME"
 pixi global install --environment dotfiles ansible-core --with python --with ansible --with jmespath
 ANSIBLE_CONFIG="$(pwd)/playbooks/ansible.cfg" \
 	ansible-playbook "playbooks/default.playbook.yml"
 # TODO: Figure out how to do this in the playbook
 set +eu
 source "$ZDOTDIR/myrc.zsh"
+RUN rm -fdr "$PIXI_HOME"
 ANSIBLE
 
 # This is for any final IO operations needed before squashing the final image into a single layer
@@ -87,7 +89,7 @@ FROM dev-container AS home-layer
 ARG HOME
 ARG PKG_HOME
 COPY --from=ansible ${HOME} ${HOME}
-RUN rm -fdr ${HOME}/.local/var && mkdir -p ${HOME}/.local/var/cache ${HOME}/.local/var/lib
+RUN rm -fdr "${HOME}/.local/var/cache" && mkdir "${HOME}/.local/var/cache"
 COPY --from=registry.hub.docker.com/library/docker:cli /usr/local/bin/docker ${PKG_HOME}/docker
 COPY --from=registry.hub.docker.com/docker/buildx-bin /buildx ${HOME}/.docker/cli-plugins/docker-buildx
 COPY --from=registry.hub.docker.com/docker/compose-bin /docker-compose ${HOME}/.docker/cli-plugins/docker-compose
