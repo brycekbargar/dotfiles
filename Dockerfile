@@ -87,7 +87,7 @@ FROM dev-container AS home-layer
 ARG HOME
 ARG PKG_HOME
 COPY --from=ansible ${HOME} ${HOME}
-RUN rm -fdr ${HOME}/.local/var ${HOME}/.pixi && mkdir ${HOME}/.local/var
+RUN rm -fdr ${HOME}/.local/var && mkdir -p ${HOME}/.local/var/cache ${HOME}/.local/var/lib
 COPY --from=registry.hub.docker.com/library/docker:cli /usr/local/bin/docker ${PKG_HOME}/docker
 COPY --from=registry.hub.docker.com/docker/buildx-bin /buildx ${HOME}/.docker/cli-plugins/docker-buildx
 COPY --from=registry.hub.docker.com/docker/compose-bin /docker-compose ${HOME}/.docker/cli-plugins/docker-compose

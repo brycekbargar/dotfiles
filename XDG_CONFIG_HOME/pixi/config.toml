@@ -1,3 +1,4 @@
+detached-environments = "/opt/pixi/envs"
+
 [shell]
 change-ps1 = false
-detached-environments = "/opt/pixi/envs"
