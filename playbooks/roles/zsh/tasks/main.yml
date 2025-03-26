@@ -16,11 +16,6 @@
     state: present
 # TODO: Parameterize this
 
-- name: Init conda
-  ansible.builtin.command:
-    cmd: conda init zsh
-  changed_when: false
-
 - name: Download antidote
   ansible.builtin.git:
     repo: https://github.com/mattmc3/antidote.git

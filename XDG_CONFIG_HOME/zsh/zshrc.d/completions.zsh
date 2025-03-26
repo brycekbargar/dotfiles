@@ -8,4 +8,3 @@ eval "$(bw completion --shell zsh 2>/dev/null)"
 compdef fzf-fd=fd
 compdef jq=gojq
 compdef _files lss
-compdef umamba=micromamba

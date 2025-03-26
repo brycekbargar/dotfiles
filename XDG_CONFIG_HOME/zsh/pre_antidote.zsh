@@ -2,8 +2,6 @@
 # vi: ft=zsh
 
 zstyle ':antidote:bundle' use-friendly-names 'yes'
-# why does this have to run before?
-eval "$(umamba shell hook -s zsh)"
 
 # dircolors needs the shell variable
 # Usually the longest one is the one we want
