@@ -76,8 +76,8 @@ function Enter-DevContainer {
     # Creating them is idempotent as long as it uses the same driver
     Write-Verbose "Creating runtime volumes"
     &docker volume create code
-    &docker volume create conda-envs
-    &docker volume create conda-pkgs
+    &docker volume create pixi-envs
+    &docker volume create pixi-pkgs
     Write-Verbose "Created runtime volumes"
 
     $container = Get-Container-Name -Tag $Tag
@@ -96,8 +96,8 @@ function Enter-DevContainer {
         Write-Verbose "Running $image as a new container"
         &docker run -it --user 1111 `
             -p 4123:4123 -p 14123:14123 -p 24123:24123 `
-            --mount type=volume,src=conda-envs,target=/opt/conda/envs `
-            --mount type=volume,src=conda-pkgs,target=/opt/conda/pkgs `
+            --mount type=volume,src=pixi-envs,target=/opt/pixi/envs `
+            --mount type=volume,src=pixi-pkgs,target=/opt/pixi/pkgs `
             --mount type=volume,src=code,target=/home/bryce/code `
             -v /var/run/docker.sock:/var/run/docker.sock `
             --name "$container" `
