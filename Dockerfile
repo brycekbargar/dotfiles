@@ -33,34 +33,6 @@ apt-get install --no-install-recommends --yes \
 rm -rf /var/lib/apt/lists/*
 APT
 
-# Install tools written in javascript
-FROM debian AS tools-js
-ARG PKG_HOME
-ENV N_PREFIX="${PKG_HOME}/.tjn"
-ENV N_CACHE_PREFIX="/tmp"
-ADD https://raw.githubusercontent.com/tj/n/master/bin/n /usr/bin/n
-RUN chmod +x /usr/bin/n
-RUN <<TJN
-set -eu
-n latest
-export PATH=$N_PREFIX/bin:$PATH
-npm install -g npm@latest
-# bw cli is pinned to 2023.7.0 because of
-# https://github.com/bitwarden/clients/pull/8073
-npm install -g \
-	@ansible/ansible-language-server \
-	bash-language-server \
-	@bitwarden/cli@2023.7.0 \
-	dockerfile-language-server-nodejs \
-	fixjson \
-	pyright \
-	tiged \
-	vscode-langservers-extracted \
-	yaml-language-server
-
-rm $N_PREFIX/bin/npm
-TJN
-
 # Build out the base of the final image
 FROM debian AS dev-container
 ARG USER
@@ -119,7 +91,6 @@ COPY --from=registry.hub.docker.com/library/docker:cli /usr/local/bin/docker ${X
 COPY --from=registry.hub.docker.com/docker/buildx-bin /buildx ${HOME}/.docker/cli-plugins/docker-buildx
 COPY --from=registry.hub.docker.com/docker/compose-bin /docker-compose ${HOME}/.docker/cli-plugins/docker-compose
 COPY --from=ghcr.io/prefix-dev/pixi:bullseye /usr/local/bin/pixi ${PKG_HOME}/pixi
-COPY --from=tools-js ${PKG_HOME}/.tjn ${PKG_HOME}/.tjn
 
 FROM dev-container
 ARG HOME
