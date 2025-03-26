@@ -86,9 +86,8 @@ ANSIBLE
 FROM dev-container AS home-layer
 ARG HOME
 ARG PKG_HOME
-# RUN instead of COPY to preserve symlinks
-RUN --mount=type=bind,from=ansible,source=${HOME},target=${HOME} \
-	cp --no-dereference --recursive --target . ./_setup ./local ./.vim ./.zshenv ./code
+COPY --from=ansible ${HOME} ${HOME}
+RUN rm -fdr ${HOME}/.local/var ${HOME}/.pixi && mkdir ${HOME}/.local/var
 COPY --from=registry.hub.docker.com/library/docker:cli /usr/local/bin/docker ${PKG_HOME}/docker
 COPY --from=registry.hub.docker.com/docker/buildx-bin /buildx ${HOME}/.docker/cli-plugins/docker-buildx
 COPY --from=registry.hub.docker.com/docker/compose-bin /docker-compose ${HOME}/.docker/cli-plugins/docker-compose
