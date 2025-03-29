@@ -67,7 +67,7 @@ ARG HOME
 ARG SETUP=${HOME}/_setup
 ARG PKG_HOME
 
-COPY --from=ghcr.io/prefix-dev/pixi:bullseye /usr/local/bin/pixi /usr/local/bin/pixi
+COPY --from=tools-pixi /usr/local/bin/pixi /usr/local/bin/pixi
 COPY --chown=1111:1111 ./dotfiles-pixi-rewrite ${SETUP}/dotfiles
 COPY --chown=1111:1111 ./private ${SETUP}/private
 
@@ -79,16 +79,19 @@ USER 1111:1111
 RUN --mount=type=cache,target=${HOME}/.local/var/cache  <<ANSIBLE
 #! /usr/bin/zsh
 set -euo pipefail
+
 sudo chown -R 1111:1111 ${HOME}/.local/var
 source "${SETUP}/dotfiles/.zshenv"
+
 mkdir -p "$PIXI_HOME"
 pixi global install --environment dotfiles ansible-core --with python --with ansible --with jmespath
 ANSIBLE_CONFIG="$(pwd)/playbooks/ansible.cfg" ANSIBLE_HOME="${HOME}/.local/var/cache/ansible" \
 	ansible-playbook "playbooks/default.playbook.yml"
+rm -fdr "$PIXI_HOME"
+
 # TODO: Figure out how to do this in the playbook
 set +eu
 source "$ZDOTDIR/myrc.zsh"
-rm -fdr "$PIXI_HOME"
 ANSIBLE
 
 # This is for any final IO operations needed before squashing the final image into a single layer
