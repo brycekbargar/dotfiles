@@ -67,7 +67,7 @@ endif
 
 " plugin conf
 if has('nvim')
-    set packpath=$XDG_STATE_HOME/nvim/site
+    set packpath=$XDG_STATE_HOME/nvim/site,$VIMRUNTIME
     set runtimepath=$XDG_STATE_HOME/nvim,$XDG_CONFIG_HOME/nvim,$VIMRUNTIME
 endif
 
@@ -90,6 +90,7 @@ endif
 
 if has('nvim')
 lua <<LUA
+    vim.g.clipboard = 'osc52'
     vim.g.loaded_python_provider = 0
     vim.g.loaded_ruby_provider = 0
     vim.g.loaded_perl_provider = 0

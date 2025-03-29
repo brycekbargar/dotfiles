@@ -143,12 +143,10 @@ FROM dev-container
 ARG HOME
 COPY --chown=1111:1111 --from=home-layer ${HOME} ${HOME}
 WORKDIR ${HOME}/code
+
 # XDG_STATE_HOME, XDG_CACHE_HOME, and /tmp should have most of the container writes
 # Having them set to be an anon volume keeps the container size down at runtime
 VOLUME ${HOME}/.local/var
 VOLUME /tmp
-
-# nvim requires this to be set to copy to osc52
-ENV SSH_TTY=/dev/tty
 
 ENTRYPOINT ["/usr/bin/zsh", "-i"]
