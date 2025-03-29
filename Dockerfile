@@ -9,6 +9,7 @@ ARG HOSTOS=windows
 ARG HOME="/home/${USER}"
 ARG PKG_HOME="${HOME}/.local/opt"
 ARG PIXI_HOME=${HOME}/.local/var/lib/pixi
+ARG N_PREFIX="${PKG_HOME}/.tjn"
 
 FROM registry.hub.docker.com/library/debian:testing-slim AS upstream-debian
 FROM upstream-debian AS debian
@@ -62,7 +63,6 @@ ENV PIXI_HOME=${PIXI_HOME}
 COPY ./dotfiles-pixi-rewrite/XDG_CONFIG_HOME/pixi/manifests/pixi-global.toml ${PIXI_HOME}/manifests/pixi-global.toml
 RUN /usr/local/bin/pixi global sync
 
-ARG N_PREFIX="${PKG_HOME}/.tjn"
 FROM debian AS tools-js
 ARG N_PREFIX
 ENV N_PREFIX="${N_PREFIX}"
@@ -95,7 +95,6 @@ RUN node-prune ${N_PREFIX}/lib/node_modules
 FROM dev-container AS ansible
 ARG HOME
 ARG SETUP=${HOME}/_setup
-ARG PKG_HOME
 
 COPY --from=tools-pixi /usr/local/bin/pixi /usr/local/bin/pixi
 COPY --chown=1111:1111 ./dotfiles-pixi-rewrite ${SETUP}/dotfiles
