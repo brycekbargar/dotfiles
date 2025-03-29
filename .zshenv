@@ -21,4 +21,5 @@ path=(
   	"$XDG_BIN_HOME/shims"
   	"$XDG_PKG_HOME"
   	"$PIXI_HOME/bin"
+  	"$XDG_PKG_HOME/.tjn/bin"
   	$path)

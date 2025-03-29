@@ -62,6 +62,36 @@ ENV PIXI_HOME=${PIXI_HOME}
 COPY ./dotfiles-pixi-rewrite/XDG_CONFIG_HOME/pixi/manifests/pixi-global.toml ${PIXI_HOME}/manifests/pixi-global.toml
 RUN /usr/local/bin/pixi global sync
 
+ARG N_PREFIX="${PKG_HOME}/.tjn"
+FROM debian AS tools-js
+ARG N_PREFIX
+ENV N_PREFIX="${N_PREFIX}"
+ENV N_CACHE_PREFIX="/tmp"
+ADD https://raw.githubusercontent.com/tj/n/master/bin/n /usr/bin/n
+RUN chmod +x /usr/bin/n && n latest
+
+RUN <<TJN
+set -eux pipefail
+export PATH=$N_PREFIX/bin:$PATH
+npm install -g npm@latest
+npm install -g \
+    bash-language-server \
+    @bitwarden/cli \
+    dockerfile-language-server-nodejs \
+    dockerfile-utils \
+    fixjson \
+    pyright \
+    vscode-langservers-extracted \
+    yaml-language-server
+
+npm uninstall -g npm
+TJN
+
+FROM registry.hub.docker.com/softonic/node-prune:latest AS pruned-tools-js
+ARG N_PREFIX
+COPY --from=tools-js  ${N_PREFIX}/lib/node_modules ${N_PREFIX}/lib/node_modules
+RUN node-prune ${N_PREFIX}/lib/node_modules
+
 FROM dev-container AS ansible
 ARG HOME
 ARG SETUP=${HOME}/_setup
@@ -99,6 +129,7 @@ FROM dev-container AS home-layer
 ARG HOME
 ARG PKG_HOME
 ARG PIXI_HOME
+ARG N_PREFIX
 COPY --from=ansible ${HOME} ${HOME}
 RUN rm -fdr "${HOME}/.local/var/cache" && mkdir "${HOME}/.local/var/cache"
 COPY --from=registry.hub.docker.com/library/docker:cli /usr/local/bin/docker ${PKG_HOME}/docker
@@ -106,6 +137,9 @@ COPY --from=registry.hub.docker.com/docker/buildx-bin /buildx ${HOME}/.docker/cl
 COPY --from=registry.hub.docker.com/docker/compose-bin /docker-compose ${HOME}/.docker/cli-plugins/docker-compose
 COPY --from=tools-pixi /usr/local/bin/pixi ${PKG_HOME}/pixi
 COPY --from=tools-pixi ${PIXI_HOME} ${PIXI_HOME}
+COPY --from=tools-js ${N_PREFIX} ${N_PREFIX}
+RUN rm -fdr ${N_PREFIX}/lib/node_modules
+COPY --from=pruned-tools-js ${N_PREFIX}/lib/node_modules ${N_PREFIX}/lib/node_modules
 
 FROM dev-container
 ARG HOME
