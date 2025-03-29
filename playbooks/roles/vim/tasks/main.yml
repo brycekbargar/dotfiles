@@ -28,6 +28,7 @@
     - repo: https://github.com/tpope/vim-flagship
       dest: start/flagship
 
+# TODO: Make these dynamic
 - name: Add ftplugins
   ansible.builtin.file:
     src: "{{ lookup('env', 'XDG_CONFIG_HOME') }}/nvim/ftplugin/{{ item }}"
@@ -36,14 +37,13 @@
   with_items:
     - gitcommit.vim
 
-- name: Add ftdetect
-  ansible.builtin.file:
-    src: "{{ lookup('env', 'XDG_CONFIG_HOME') }}/nvim/ftdetect/{{ item }}"
-    dest: "{{ lookup('env', 'HOME') }}/.vim/ftdetect/{{ item }}"
-    state: link
-  with_items:
-    - astro.vim
-    - ansible.vim
+# - name: Add ftdetect
+#  ansible.builtin.file:
+#    src: "{{ lookup('env', 'XDG_CONFIG_HOME') }}/nvim/ftdetect/{{ item }}"
+#    dest: "{{ lookup('env', 'HOME') }}/.vim/ftdetect/{{ item }}"
+#    state: link
+#  with_items:
+#    - 
 
 - name: Add common plugins
   ansible.builtin.git:
