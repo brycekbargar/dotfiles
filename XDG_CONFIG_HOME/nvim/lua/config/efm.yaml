@@ -50,9 +50,6 @@ tools:
     format-stdin: true
 
 languages:
-  astro:
-    - !!merge <<: *prettier
-
   go:
     - !!merge <<: *go-golines
 

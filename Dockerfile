@@ -78,7 +78,6 @@ npm install -g \
     bash-language-server \
     @bitwarden/cli \
     dockerfile-language-server-nodejs \
-    dockerfile-utils \
     fixjson \
     pyright \
     vscode-langservers-extracted \

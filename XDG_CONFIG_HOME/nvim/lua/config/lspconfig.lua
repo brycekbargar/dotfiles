@@ -6,7 +6,6 @@ vim.diagnostic.config({
 
 return function()
 	local lsp = require("lspconfig")
-	local lsputil = require("lspconfig.util")
 	local version = (function()
 		local v = vim.version()
 		return v.major .. "." .. v.minor .. "." .. v.patch
@@ -47,11 +46,6 @@ return function()
 			bufopts
 		)
 	end
-
-	lsp.ansiblels.setup({
-		on_attach = on_attach,
-		single_file_support = false,
-	})
 
 	lsp.bashls.setup({ on_attach = on_attach })
 

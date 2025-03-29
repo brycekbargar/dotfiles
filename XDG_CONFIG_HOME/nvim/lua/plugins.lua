@@ -74,7 +74,6 @@ return packer.startup({
 		})
 
 		-- Language Packs
-		use({ "pearofducks/ansible-vim" })
 	end,
 	config = {
 		package_root = util.join_paths(
