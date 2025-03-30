@@ -16,10 +16,10 @@ function New-DevContainer {
     $d_image = Get-Image-Name -Tag (Get-Date -Format "MM-dd-yy")
     if ($Force) {
         Write-Verbose "Building $t_image, $d_image without cache"
-        &docker build --no-cache -t $t_image -t $d_image -f "$HOME\_setup\dotfiles\Dockerfile" "$HOME\_setup"
+        &docker build --no-cache -t $t_image -t $d_image -f "$HOME\dotfiles\Dockerfile" "$HOME\dotfiles"
     } else {
         Write-Verbose "Building $t_image, $d_image with cache"
-        &docker build -t $t_image -t $d_image -f "$HOME\_setup\dotfiles\Dockerfile" "$HOME\_setup"
+        &docker build -t $t_image -t $d_image -f "$HOME\dotfiles\Dockerfile" "$HOME\dotfiles"
     }
 }
 Set-Alias -Name ide-build -Value New-DevContainer

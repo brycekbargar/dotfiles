@@ -29,6 +29,6 @@ function Initialize-PwshContainer {
         --no-cache `
         -t "brycekbargar.com/pwsh:latest" `
         -t "brycekbargar.com/pwsh:$dateTag" `
-        -f "$HOME\_setup\dotfiles\XDG_CONFIG_HOME\nvim\Dockerfile.pwsh" `
+        -f "$HOME\dotfiles\XDG_CONFIG_HOME\nvim\Dockerfile.pwsh" `
         .
 }

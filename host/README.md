@@ -21,8 +21,8 @@ scoop install pwsh
 
 ```powershell
 scoop install git
-git clone -b main https://github.com/brycekbargar/dotfiles.git $home\_setup\dotfiles
-Set-Location $home\_setup\dotfiles\host
+git clone -b main https://github.com/brycekbargar/dotfiles.git $home\dotfiles
+Set-Location $home\dotfiles\host
 .\setup.ps1
 ```
 
@@ -37,7 +37,7 @@ Set-Location $home\_setup\dotfiles\host
   - WSL: `wsl --install --no-distribution --no-launch` with a couple of restarts if it hangs
   - [Docker Desktop](https://docs.docker.com/desktop/install/windows-install/)
   - [Delugia Book](https://github.com/adam7/delugia-code/releases/latest)
-  - Edit ~\\.gitconfig to link ~/_setup/dotfiles/host/gitconfig via https://stackoverflow.com/a/9733277
+  - Edit ~\\.gitconfig to link ~/dotfiles/host/gitconfig via https://stackoverflow.com/a/9733277
 
 ### Macos Usage
 
@@ -52,8 +52,8 @@ Set-Location $home\_setup\dotfiles\host
 ```sh
 eval "$(/opt/homebrew/bin/brew shellenv)"
 brew install git
-git clone -b main https://github.com/brycekbargar/dotfiles.git ~/_setup/dotfiles
-cd ~/_setup/dotfiles/host
+git clone -b main https://github.com/brycekbargar/dotfiles.git ~/dotfiles
+cd ~/dotfiles/host
 ./setup.sh
 ```
 

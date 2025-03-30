@@ -64,4 +64,3 @@ if (($currentPath -eq $null) -or (-not $currentPath.Contains("dotfiles\host\bin"
 Update-Help -UICulture en-Us -ErrorAction SilentlyContinue
 & scoop install flux
 & scoop install windirstat
-New-Item "~/_setup/private" -ItemType Directory -Force

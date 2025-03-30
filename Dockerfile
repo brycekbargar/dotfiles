@@ -60,7 +60,7 @@ FROM ghcr.io/prefix-dev/pixi:bullseye AS tools-pixi
 ARG HOME
 ARG PIXI_HOME
 ENV PIXI_HOME=${PIXI_HOME}
-COPY ./dotfiles-pixi-rewrite/XDG_CONFIG_HOME/pixi/manifests/pixi-global.toml ${PIXI_HOME}/manifests/pixi-global.toml
+COPY ./pixi-global.toml ${PIXI_HOME}/manifests/pixi-global.toml
 RUN /usr/local/bin/pixi global sync
 
 FROM debian AS tools-js
@@ -93,23 +93,21 @@ RUN node-prune ${N_PREFIX}/lib/node_modules
 
 FROM dev-container AS ansible
 ARG HOME
-ARG SETUP=${HOME}/_setup
 
 COPY --from=tools-pixi /usr/local/bin/pixi /usr/local/bin/pixi
-COPY --chown=1111:1111 ./dotfiles-pixi-rewrite ${SETUP}/dotfiles
-COPY --chown=1111:1111 ./private ${SETUP}/private
+COPY --chown=1111:1111 ./ ${HOME}/dotfiles
 
 ARG HOSTOS
 # The Ansible playbook uses this
 ENV HOSTOS=${HOSTOS}
-WORKDIR ${SETUP}/dotfiles
+WORKDIR ${HOME}/dotfiles
 USER 1111:1111
 RUN --mount=type=cache,target=${HOME}/.local/var/cache  <<ANSIBLE
 #! /usr/bin/zsh
 set -euo pipefail
 
 sudo chown -R 1111:1111 ${HOME}/.local/var
-source "${SETUP}/dotfiles/.zshenv"
+source "${HOME}/dotfiles/.zshenv"
 
 mkdir -p "$PIXI_HOME"
 pixi global install --environment dotfiles ansible-core --with python --with ansible --with jmespath
