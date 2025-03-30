@@ -54,10 +54,10 @@ return packer.startup({
 			requires = "nvim-tree/nvim-web-devicons",
 		})
 		use({
-			"stevearc/dressing.nvim",
+			"folke/snacks.nvim",
 			after = "catppuccin",
 			event = "VimEnter",
-			config = require("config.dressing"),
+			config = require("config.snacks"),
 		})
 		use({
 			"rcarriga/nvim-notify",
