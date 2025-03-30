@@ -5,9 +5,9 @@
 # shellcheck disable=SC2155
 local pw="$(bw generate -ulns --length 31)"
 
-echo "$pw" | clip.exe
+echo "$pw" | osc copy
 ssh-keygen -f "$HOME/.ssh/$1" -t rsa -b 4096 -C "${2:-brycekbargar@gmail.com}"
-echo "" | clip.exe
+echo "" | osc copy
 
 # shellcheck disable=SC2155
 # shellcheck disable=SC2288

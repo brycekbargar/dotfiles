@@ -11,7 +11,6 @@ jeffreytse/zsh-vi-mode
 romkatv/powerlevel10k	kind:fpath
 
 # Completions
-conda-incubator/conda-zsh-completion 	kind:fpath
 ogham/exa				kind:fpath path:completions/zsh
 sharkdp/fd 				kind:fpath path:contrib/completion
 itchyny/gojq 			kind:fpath

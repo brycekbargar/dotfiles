@@ -7,14 +7,11 @@ if [ ! -d ".git" ]; then
 	git init
 fi
 
-if [ ! -f ".gitignore" ]; then
-	echo "### Managed using gig (https://github.com/shihanng/gig) ###" >>!.gitignore
-	echo "!precious.toml" >>.gitignore
-	gig gen linux >>.gitignore
-fi
-
-if [ -f "environment.yml" ] && ! conda env list | grep -q "$(basename "$PWD")"; then
-	conda env create --file environment.yml
+if { [ -f "environment.yml" ] || [ -f "environment.yaml" ]; } && [ ! -f "environment.yml" ]; then
+	pixi init -i environment.yml
+	# pixi makes annoying changes to .gitignore and .gitattributes
+	git clean -fd
+	git reset --hard
 fi
 
 if [ ! -f "environment.yml" ]; then

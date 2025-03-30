@@ -10,12 +10,6 @@
 #function repos/go-init {
 # TODO: write your function here
 
-if [ -f ".gitignore" ] &&
-	grep -q "### Managed using gig" ".gitignore" &&
-	! grep -q "### Go ###" ".gitignore"; then
-	gig gen go >>.gitignore
-fi
-
 if [ -f "precious.toml" ] &&
 	! grep -q '\[commands."go.' "precious.toml"; then
 	cat <<TOML >>precious.toml
@@ -62,6 +56,7 @@ ignore-names = ["tc"]
 TOML
 fi
 
+: <<'TODO'
 if [ -n "$CONDA_PREFIX" ]; then
 	export GOBIN="$CONDA_PREFIX/bin"
 	conda env config vars set GOBIN="$GOBIN"
@@ -73,5 +68,6 @@ if [ -n "$CONDA_PREFIX" ]; then
 	go install golang.org/x/tools/gopls@latest
 	go install github.com/mfridman/tparse@latest
 fi
+TODO
 
 #}

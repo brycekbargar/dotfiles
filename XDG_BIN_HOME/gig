@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+IFS=,
+curl -s "https://www.toptal.com/developers/gitignore/api/$*"
