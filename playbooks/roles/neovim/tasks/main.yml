@@ -7,14 +7,17 @@
 
 - name: Downloading Neovim (x86_64)
   ansible.builtin.get_url:
-    url: https://github.com/neovim/neovim/releases/download/stable/nvim-linux-x86_64.appimage
+    # Vim 0.11.0 maps Tab/Shift-Tab with no way to configure. This breaks mucomplete.
+    # https://github.com/neovim/neovim/issues/30306
+    # url: https://github.com/neovim/neovim/releases/download/stable/nvim-linux-x86_64.appimage
+    url: https://github.com/neovim/neovim/releases/download/v0.10.4/nvim-linux-x86_64.appimage
     dest: "{{ lookup('env', 'XDG_PKG_HOME') }}/.nvim/nvim.appimage"
     mode: "0755"
   when: ansible_architecture == "x86_64"
 
 - name: Downloading Neovim (x86_64)
   ansible.builtin.get_url:
-    url: https://github.com/neovim/neovim/releases/download/stable/nvim-linux-arm64.appimage
+    url: https://github.com/neovim/neovim/releases/download/v0.10.4/nvim-linux-arm64.appimage
     dest: "{{ lookup('env', 'XDG_PKG_HOME') }}/.nvim/nvim.appimage"
     mode: "0755"
   when: ansible_architecture == "aarch64"
