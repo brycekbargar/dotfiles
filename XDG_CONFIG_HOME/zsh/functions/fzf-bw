@@ -18,5 +18,5 @@ bw list items |
 	] |
 	@tsv
 	' |
-	fzf --with-nth 1..-2 -d '\t' |
+	fzf --sync --with-nth 1..-2 --delimiter '\t' |
 	awk '{print $NF}'
