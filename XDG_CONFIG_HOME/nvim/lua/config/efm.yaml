@@ -19,12 +19,6 @@ tools:
     root-markers:
       - .stylua.toml
 
-  prettier: &prettier
-    format-command: "npx --no prettier -- --stdin-filepath ${INPUT}"
-    format-stdin: true
-    root-markers:
-      - package.json
-
   ps1-pseditorservices: &ps1-pseditorservices
     format-command: "PowerShellEditorServices /powershell_sa/Invoke-Formatter"
     format-stdin: true
@@ -45,6 +39,10 @@ tools:
     format-command: "shfmt --simplify --filename ${INPUT} -"
     format-stdin: true
 
+  toml-taplo: &toml-taplo
+    format-command: "taplo fmt -"
+    format-stdin: true
+
   yaml-yamlfmt: &yaml-yamlfmt
     format-command: "yamlfmt -"
     format-stdin: true
@@ -52,12 +50,6 @@ tools:
 languages:
   go:
     - !!merge <<: *go-golines
-
-  html:
-    - !!merge <<: *prettier
-
-  javascript:
-    - !!merge <<: *prettier
 
   json:
     - !!merge <<: *json-fixjson
@@ -74,6 +66,9 @@ languages:
 
   sh:
     - !!merge <<: *sh-shfmt
+
+  toml:
+    - !!merge <<: *toml-taplo
 
   yaml:
     - !!merge <<: *yaml-yamlfmt

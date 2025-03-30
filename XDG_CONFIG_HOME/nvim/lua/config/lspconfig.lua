@@ -61,13 +61,12 @@ return function()
 		init_options = { documentFormatting = true },
 		filetypes = {
 			"go",
-			"html",
-			"javascript",
 			"json",
 			"lua",
 			"ps1",
 			"python",
 			"sh",
+			"toml",
 			"yaml",
 		},
 	})
