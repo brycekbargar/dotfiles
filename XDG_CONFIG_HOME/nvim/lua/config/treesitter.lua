@@ -2,11 +2,11 @@ return function()
 	local ts = require("nvim-treesitter.configs")
 	ts.setup({
 		ensure_installed = {
-			"astro",
 			"bash",
 			"css",
 			"csv",
 			"dockerfile",
+			"git_config",
 			"gitattributes",
 			"gitignore",
 			"go",
@@ -21,11 +21,11 @@ return function()
 			"lua",
 			"make",
 			"markdown",
+			"markdown_inline",
+			"nginx",
 			"python",
-			"terraform",
 			"toml",
 			"tsv",
-			"tsx",
 			"typescript",
 			"vim",
 			"vimdoc",
@@ -34,6 +34,9 @@ return function()
 		incremental_selection = {
 			enable = false,
 		},
+		sync_install = false,
+		auto_install = false,
+		ignore_install = {},
 	})
 
 	vim.cmd([[
