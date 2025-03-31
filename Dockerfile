@@ -56,7 +56,7 @@ install --owner 1111 --group 1111 -D --directory "${HOME}"/.local/
 install --owner 1111 --group 1111 -D --directory /opt/pixi/envs /opt/pixi/pkgs
 NONROOT
 
-FROM ghcr.io/prefix-dev/pixi:bullseye AS tools-pixi
+FROM ghcr.io/prefix-dev/pixi:bookworm-slim AS tools-pixi
 ARG HOME
 ARG PIXI_HOME
 ENV PIXI_HOME=${PIXI_HOME}
