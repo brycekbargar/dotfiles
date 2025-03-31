@@ -1,41 +1,45 @@
 return function()
 	local trouble = require("trouble")
-	trouble.setup({})
+	trouble.setup({
+		warn_no_results = false,
+		open_no_results = true,
+		focus = true,
+	})
 
 	vim.keymap.set(
 		"n",
 		"<leader>tt",
-		"<cmd>TroubleToggle<cr>",
+		trouble.close,
 		{ noremap = true, silent = true }
 	)
 	vim.keymap.set(
 		"n",
 		"<leader>te",
-		"<cmd>Trouble document_diagnostics<cr>",
+		"<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
 		{ noremap = true, silent = true }
 	)
 	vim.keymap.set(
 		"n",
 		"<leader>tE",
-		"<cmd>Trouble workspace_diagnostics<cr>",
+		"<cmd>Trouble diagnostics toggle<cr>",
 		{ noremap = true, silent = true }
 	)
 	vim.keymap.set(
 		"n",
 		"<leader>tr",
-		"<cmd>Trouble lsp_references<cr>",
+		"<cmd>Trouble lsp_references toggle<cr>",
 		{ noremap = true, silent = true }
 	)
 	vim.keymap.set(
 		"n",
 		"<leader>td",
-		"<cmd>Trouble lsp_definitions<cr>",
+		"<cmd>Trouble lsp_definitions toggle<cr>",
 		{ noremap = true, silent = true }
 	)
 	vim.keymap.set(
 		"n",
 		"<leader>ti",
-		"<cmd>Trouble lsp_implementations<cr>",
+		"<cmd>Trouble lsp_implementations toggle<cr>",
 		{ noremap = true, silent = true }
 	)
 	vim.keymap.set(

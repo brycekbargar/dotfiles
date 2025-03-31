@@ -19,17 +19,17 @@ return function()
 		)
 
 		if client.server_capabilities.completionProvider then
-			vim.api.nvim_buf_set_option(
-				bufnr,
+			vim.api.nvim_set_option_value(
 				"omnifunc",
-				"v:lua.vim.lsp.omnifunc"
+				"v:lua.vim.lsp.omnifunc",
+				{ buf = bufnr }
 			)
 		end
 		if client.server_capabilities.definitionProvider then
-			vim.api.nvim_buf_set_option(
-				bufnr,
+			vim.api.nvim_set_option_value(
 				"tagfunc",
-				"v:lua.vim.lsp.tagfunc"
+				"v:lua.vim.lsp.tagfunc",
+				{ buf = bufnr }
 			)
 		end
 
