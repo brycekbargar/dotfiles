@@ -1,11 +1,23 @@
 vim.opt.signcolumn = "number"
 vim.diagnostic.config({
-	virtual_text = false,
-	update_in_insert = false,
+	severity_sort = true,
 })
 
 return function()
 	local lsp = require("lspconfig")
+	-- mucomplete stopped mapping this because nvim overwrites them...
+	vim.keymap.set("i", "<Tab>", "<plug>(MUcompleteFwd)")
+	vim.keymap.set("i", "<S-Tab>", "<plug>(MUcompleteBwd)")
+	vim.keymap.set(
+		"n",
+		"gre",
+		function()
+			vim.diagnostic.config({
+				virtual_lines = not vim.diagnostic.config().virtual_lines,
+			})
+		end
+	)
+
 	local version = (function()
 		local v = vim.version()
 		return v.major .. "." .. v.minor .. "." .. v.patch
@@ -18,27 +30,7 @@ return function()
 			{ title = "LspInfo" }
 		)
 
-		if client.server_capabilities.completionProvider then
-			vim.api.nvim_set_option_value(
-				"omnifunc",
-				"v:lua.vim.lsp.omnifunc",
-				{ buf = bufnr }
-			)
-		end
-		if client.server_capabilities.definitionProvider then
-			vim.api.nvim_set_option_value(
-				"tagfunc",
-				"v:lua.vim.lsp.tagfunc",
-				{ buf = bufnr }
-			)
-		end
-
 		local bufopts = { noremap = true, silent = true, buffer = bufnr }
-		vim.keymap.set("n", "<leader>t", vim.lsp.buf.hover, bufopts)
-		vim.keymap.set("n", "<leader>T", vim.diagnostic.open_float, bufopts)
-		vim.keymap.set("n", "<leader>tR", vim.lsp.buf.rename, bufopts)
-		vim.keymap.set("n", "<leader>ta", vim.lsp.buf.code_action, bufopts)
-
 		vim.keymap.set(
 			"n",
 			"<leader>f",
