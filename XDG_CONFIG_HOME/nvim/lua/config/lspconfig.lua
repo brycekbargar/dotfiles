@@ -76,6 +76,8 @@ return function()
 		},
 	})
 
+	lsp.jdtls.setup({ on_attach = on_attach })
+
 	lsp.jsonls.setup({
 		on_attach = on_attach,
 		init_options = {

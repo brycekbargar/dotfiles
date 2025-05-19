@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+set -eou pipefail
+
+lombok_path=$(
+	mvn dependency:tree |
+		rg lombok |
+		awk \
+			-F : \
+			-v PREFIX="$CONDA_PREFIX/.m2/org/projectlombok/lombok/" \
+			'{ print PREFIX $4 "/lombok-" $4 ".jar" }'
+)
+jvm_args="-javaagent:$lombok_path"
+
+JDTLS_JVM_ARGS="$jvm_args" "$XDG_PKG_HOME"/.nvim/squashfs-root/usr/bin/nvim "$@"

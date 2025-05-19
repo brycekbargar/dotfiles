@@ -14,6 +14,7 @@ return function()
 			"gomod",
 			"hcl",
 			"html",
+			"java",
 			"javascript",
 			"json",
 			"jsonc",

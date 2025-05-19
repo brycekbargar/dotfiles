@@ -4,6 +4,7 @@
 type = "both"
 include = [
   "XDG_BIN_HOME/*",
+  "XDG_BIN_HOME/shims/*",
   "XDG_CONFIG_HOME/git/hooks/*",
   "*.sh",
   "XDG_CONFIG_HOME/zsh/*.zsh",
@@ -18,6 +19,7 @@ ok_exit_codes = [0]
 type = "lint"
 include = [
   "XDG_BIN_HOME/*",
+  "XDG_BIN_HOME/shims/*",
   "XDG_CONFIG_HOME/git/hooks/*",
   "*.sh",
   "XDG_CONFIG_HOME/zsh/*.zsh",
