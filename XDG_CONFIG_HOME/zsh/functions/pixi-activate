@@ -1,0 +1,12 @@
+# shellcheck shell=bash
+# shellcheck disable=SC2168
+# vi: ft=sh
+##############################################################################
+# TODO: Remove this header block
+# Do NOT include function definition block (ie: omit 'function pixi-activate() { }').
+# See: https://zsh.sourceforge.io/Doc/Release/Functions.html#Autoloading-Functions
+##############################################################################
+
+#function pixi-activate {
+eval "$(pixi shell-hook)"
+#}
