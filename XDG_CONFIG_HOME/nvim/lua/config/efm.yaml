@@ -5,6 +5,10 @@ root-markers:
   - .git/
 
 tools:
+  js-eslint: &js-eslint
+    format-command: "eslint_d --stdin --fix-to-stdout --stdin-filename {$INPUT}"
+    format-stdin: true
+
   go-golines: &go-golines
     format-command: "golines --base-formatter=gofumpt --max-len=80 --shorten-comments"
     format-stdin: true
@@ -50,6 +54,13 @@ tools:
 languages:
   go:
     - !!merge <<: *go-golines
+
+  javascript:
+    - !!merge <<: *js-eslint
+  javascriptreact:
+    - !!merge <<: *js-eslint
+  javascript.jsx:
+    - !!merge <<: *js-eslint
 
   json:
     - !!merge <<: *json-fixjson

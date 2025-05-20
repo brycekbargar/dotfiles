@@ -31,15 +31,20 @@ return function()
 		)
 
 		local bufopts = { noremap = true, silent = true, buffer = bufnr }
-		vim.keymap.set(
-			"n",
-			"<leader>f",
-			function() vim.lsp.buf.format({ name = "efm", timeout_ms = 2000 }) end,
-			bufopts
-		)
+		vim.keymap.set("n", "<leader>f", function()
+			for _, c in ipairs(vim.lsp.get_clients({ bufnr = bufnr })) do
+				if c.name == "cssls" or c.name == "html" then
+					vim.lsp.buf.format({ name = c.name, timeout_ms = 2000 })
+					return
+				end
+			end
+			vim.lsp.buf.format({ name = "efm", timeout_ms = 2000 })
+		end, bufopts)
 	end
 
 	lsp.bashls.setup({ on_attach = on_attach })
+
+	lsp.cssls.setup({ on_attach = on_attach })
 
 	lsp.dockerls.setup({ on_attach = on_attach })
 
@@ -53,6 +58,9 @@ return function()
 		init_options = { documentFormatting = true },
 		filetypes = {
 			"go",
+			"javascript",
+			"javascriptreact",
+			"javascript.jsx",
 			"json",
 			"lua",
 			"ps1",
@@ -63,6 +71,8 @@ return function()
 		},
 	})
 
+	lsp.eslint.setup({ on_attach = on_attach })
+
 	lsp.gopls.setup({
 		on_attach = on_attach,
 		single_file_support = false,
@@ -70,9 +80,9 @@ return function()
 	lsp.golangci_lint_ls.setup({ on_attach = on_attach })
 
 	lsp.html.setup({
+		on_attach = on_attach,
 		init_options = {
 			configurationSection = { "html" },
-			provideFormatter = false,
 		},
 	})
 
