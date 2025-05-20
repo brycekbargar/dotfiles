@@ -1,0 +1,12 @@
+[workspace]
+channels = ["conda-forge", "nodefaults"]
+name = "folio.mod"
+platforms = ["linux-64"]
+
+[activation.env]
+MAVEN_ARGS = "-Dmaven.repo.local=$CONDA_PREFIX/.m2/"
+
+[dependencies]
+openjdk = ">=21,<22"
+maven = ">=3.9.9,<4"
+jdtls = ">=1.45.0"
