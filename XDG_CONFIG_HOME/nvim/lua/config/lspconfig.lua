@@ -33,7 +33,13 @@ return function()
 		local bufopts = { noremap = true, silent = true, buffer = bufnr }
 		vim.keymap.set("n", "<leader>f", function()
 			for _, c in ipairs(vim.lsp.get_clients({ bufnr = bufnr })) do
-				if c.name == "cssls" or c.name == "html" then
+				if
+					c.name == "cssls"
+					or c.name == "html"
+					or c.name == "jdtls"
+				then
+					-- these lsps support formatting
+					-- but there's no accompyaning for efm to call
 					vim.lsp.buf.format({ name = c.name, timeout_ms = 2000 })
 					return
 				end
@@ -86,7 +92,14 @@ return function()
 		},
 	})
 
-	lsp.jdtls.setup({ on_attach = on_attach })
+	local jdtlsSettings = {}
+	if vim.env.FORMAT_SETTINGS_URL ~= nil then
+		jdtlsSettings["java.format.settings.url"] = vim.env.FORMAT_SETTINGS_URL
+	end
+	lsp.jdtls.setup({
+		on_attach = on_attach,
+		settings = jdtlsSettings,
+	})
 
 	lsp.jsonls.setup({
 		on_attach = on_attach,
