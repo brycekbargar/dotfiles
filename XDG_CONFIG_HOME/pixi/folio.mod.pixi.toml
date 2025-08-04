@@ -1,10 +1,11 @@
 [workspace]
 channels = ["conda-forge", "nodefaults"]
-name = "folio.mod"
+name = "folio-mod"
 platforms = ["linux-64"]
 
 [activation.env]
 MAVEN_ARGS = "-Dmaven.repo.local=$CONDA_PREFIX/.m2/"
+FORMAT_SETTINGS_URL = "https://folio-org.atlassian.net/wiki/download/attachments/1378531/eclipse-profile.xml"
 
 [dependencies]
 openjdk = ">=21,<22"
