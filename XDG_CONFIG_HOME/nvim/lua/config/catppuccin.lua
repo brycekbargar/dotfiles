@@ -33,9 +33,6 @@ return function()
 			notify = true,
 			treesitter_context = true,
 			treesitter = true,
-			snacks = {
-				enabled = true,
-			},
 			lsp_trouble = true,
 		},
 	})

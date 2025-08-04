@@ -54,12 +54,6 @@ return packer.startup({
 			requires = "nvim-tree/nvim-web-devicons",
 		})
 		use({
-			"folke/snacks.nvim",
-			after = "catppuccin",
-			event = "VimEnter",
-			config = require("config.snacks"),
-		})
-		use({
 			"rcarriga/nvim-notify",
 			after = "catppuccin",
 			event = "VimEnter",
