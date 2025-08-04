@@ -14,8 +14,8 @@ echo "" | osc copy
 # shellcheck disable=SC2016
 local itemid=$(
 	bw get template item |
-		jq --arg NAME "$1" --arg PW "$pw" |
-		'.name = $NAME | .notes = "" | .folderId="5f327073-d3b6-4940-9783-a9db0022589e" | .login = { "password": $PW }' |
+		jq --arg NAME "$1" --arg PW "$pw" \
+			'.name = $NAME | .notes = "" | .folderId="5f327073-d3b6-4940-9783-a9db0022589e" | .login = { "password": $PW }' |
 		bw encode | bw create item |
 		jq -r ' .id '
 )
