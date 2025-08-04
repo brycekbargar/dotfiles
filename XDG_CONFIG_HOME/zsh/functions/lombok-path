@@ -1,0 +1,18 @@
+# shellcheck shell=bash
+# shellcheck disable=SC2168
+# vi: ft=sh
+##############################################################################
+# TODO: Remove this header block
+# Do NOT include function definition block (ie: omit 'function lombok-path() { }').
+# See: https://zsh.sourceforge.io/Doc/Release/Functions.html#Autoloading-Functions
+##############################################################################
+
+#function lombok-path {
+# TODO: write your function here
+mvn dependency:tree |
+	rg lombok |
+	awk \
+		-F : \
+		-v PREFIX="$CONDA_PREFIX/.m2/org/projectlombok/lombok/" \
+		'{ print PREFIX $4 "/lombok-" $4 ".jar" }'
+#}
