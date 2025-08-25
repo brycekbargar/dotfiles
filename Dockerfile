@@ -26,6 +26,7 @@ apt-get install --no-install-recommends --yes \
 	libncursesw6 \
 	lowdown \
 	openssh-client \
+	procps \
 	sudo \
 	unzip \
 	vim \
