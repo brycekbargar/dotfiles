@@ -110,7 +110,7 @@ sudo chown -R 1111:1111 ${HOME}/.local/var
 source "${HOME}/dotfiles/.zshenv"
 
 mkdir -p "$PIXI_HOME"
-pixi global install --environment dotfiles ansible-core --with python --with ansible --with jmespath
+pixi global install --environment dotfiles 'ansible-core<2.19' --with python --with ansible --with jmespath
 ANSIBLE_CONFIG="$(pwd)/playbooks/ansible.cfg" ANSIBLE_HOME="${HOME}/.local/var/cache/ansible" \
 	ansible-playbook "playbooks/default.playbook.yml"
 rm -fdr "$PIXI_HOME"
