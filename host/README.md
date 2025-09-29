@@ -36,5 +36,6 @@ Set-Location $home\dotfiles\host
 ##### Install Manually
   - WSL: `wsl --install --no-distribution --no-launch` with a couple of restarts if it hangs
   - [Docker Desktop](https://docs.docker.com/desktop/install/windows-install/)
+  - Configure host networking for Docker Desktop
   - [Delugia Book](https://github.com/adam7/delugia-code/releases/latest)
   - Edit ~\\.gitconfig to link ~/dotfiles/host/gitconfig via https://stackoverflow.com/a/9733277
