@@ -146,5 +146,24 @@ return function()
 
 	lsp.taplo.setup({ on_attach = on_attach })
 
+	lsp.ts_ls.setup({
+		on_attach = on_attach,
+		init_options = {
+			plugins = {
+				{
+					name = "@vue/typescript-plugin",
+					location = "",
+					languages = { "vue" },
+				},
+			},
+		},
+		filetypes = {
+			"typescript",
+			"javascript",
+			"vue",
+		},
+	})
+	lsp.volar.setup({})
+
 	lsp.yamlls.setup({ on_attach = on_attach })
 end

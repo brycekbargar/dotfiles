@@ -30,6 +30,7 @@ return function()
 			"typescript",
 			"vim",
 			"vimdoc",
+			"vue",
 			"yaml",
 		},
 		incremental_selection = {
