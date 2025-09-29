@@ -11,8 +11,4 @@ jeffreytse/zsh-vi-mode
 romkatv/powerlevel10k	kind:fpath
 
 # Completions
-ogham/exa				kind:fpath path:completions/zsh
-sharkdp/fd 				kind:fpath path:contrib/completion
-itchyny/gojq 			kind:fpath
-
 sorin-ionescu/prezto	path:modules/completion
