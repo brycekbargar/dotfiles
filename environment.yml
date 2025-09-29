@@ -7,4 +7,6 @@ dependencies:
   - python
   - ansible
   - ansible-lint
-  - vim-vint
+  - pip
+  - pip:
+      - vim-vint
