@@ -44,9 +44,8 @@
     dest: "{{ lookup('env', 'XDG_PKG_HOME') }}/.nvim/lua-language-server"
   loop: "{{ lua_lsp.json.assets }}"
   when: >
-    (ansible_architecture == "x86_64" and item.name.endswith('linux-x64.tar.gz'))
-    or (ansible_architecture == "aarch64" and item.name.endswith('linux-arm64.tar.gz'))
-
+    (ansible_architecture == "x86_64" and item.name.endswith('linux-x64.tar.gz')) or
+    (ansible_architecture == "aarch64" and item.name.endswith('linux-arm64.tar.gz'))
 - name: Verifying latest lua lsp
   ansible.builtin.stat:
     path: "{{ lookup('env', 'XDG_PKG_HOME') }}/.nvim/lua-language-server/bin/lua-language-server"

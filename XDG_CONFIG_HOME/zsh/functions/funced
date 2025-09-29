@@ -1,9 +1,6 @@
 # shellcheck shell=bash
 # shellcheck disable=SC2168
 # vi: ft=sh
-# https://raw.githubusercontent.com/mattmc3/zephyr/main/plugins/zfunctions/functions/funced
-
-##? funced - edit the function specified
 
 #function funced {
 

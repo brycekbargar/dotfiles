@@ -39,6 +39,7 @@ ok_exit_codes = [0]
 type = "lint"
 include = ["**/*.vim"]
 cmd = ["vint", "--color", "--style-problem"]
+ignore_stderr = [".*UserWarning: pkg_resources is deprecated as an API.*"]
 ok_exit_codes = [0]
 [commands.stylua]
 type = "both"
@@ -100,6 +101,6 @@ ignore_stderr = ["found files"]
 type = "both"
 include = ["playbooks/**/*.yaml", "playbooks/**/*.yml"]
 cmd = ["ansible-lint", "--force-color", "-c", "playbooks/.ansible-lint"]
-tidy_flags = ["--write", "-q"]
+tidy_flags = ["--fix", "-q"]
 ok_exit_codes = [0, 2]
 ignore_stderr = ["Passed"]

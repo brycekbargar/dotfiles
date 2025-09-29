@@ -43,7 +43,7 @@
 #    dest: "{{ lookup('env', 'HOME') }}/.vim/ftdetect/{{ item }}"
 #    state: link
 #  with_items:
-#    - 
+#    -
 
 - name: Add common plugins
   ansible.builtin.git:
