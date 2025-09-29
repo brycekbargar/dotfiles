@@ -70,7 +70,7 @@ The image tag to enter. Defaults to "stable", but can be "testing" or "oldstable
 #>
 function Enter-DevContainer {
     param (
-        [String]$Tag = "stable",
+        [String]$Tag = "stable"
     )
     # Creating them is idempotent as long as it uses the same driver
     Write-Verbose "Creating runtime volumes"
@@ -94,7 +94,7 @@ function Enter-DevContainer {
         $image = Get-Image-Name -Tag $Tag
         Write-Verbose "Running $image as a new container"
         &docker run -it --user 1111 `
-            --network host
+            --network host `
             --mount type=volume,src=pixi-envs,target=/opt/pixi/envs `
             --mount type=volume,src=pixi-pkgs,target=/opt/pixi/pkgs `
             --mount type=volume,src=code,target=/home/bryce/code `
