@@ -1,0 +1,17 @@
+[workspace]
+channels = ["conda-forge", "nodefaults"]
+name = "dotfiles"
+version = "0.1.0"
+
+[tasks]
+
+[dependencies]
+# vim-vint doesn't work on 3.12
+# https://github.com/Vimjas/vint/issues/394
+python = "<3.12"
+ansible = "*"
+ansible-lint = "*"
+pip = "*"
+
+[pypi-dependencies]
+vim-vint = "*"
