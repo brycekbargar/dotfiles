@@ -1,6 +1,6 @@
 [envs.cli]
 channels = ["conda-forge"]
-dependencies = { fzf = "*", gojq = "<0.60.0", osc = "*", bat = "*", exa = "*", fd-find = "*", git-delta = "*", precious = "*", ripgrep = "*" }
+dependencies = { fzf = "*", gojq = "*", osc = "*", bat = "*", exa = "*", fd-find = "*", git-delta = "*", precious = "*", ripgrep = "*" }
 exposed = { fzf = "fzf", gojq = "gojq", osc = "osc", bat = "bat", exa = "exa", fd = "fd", delta = "delta", precious = "precious", rg = "rg" }
 
 [envs.ide]
