@@ -1,0 +1,6 @@
+[workspace]
+channels = ["conda-forge", "nodefaults"]
+name = "gcc"
+
+[dependencies]
+gcc = "*"

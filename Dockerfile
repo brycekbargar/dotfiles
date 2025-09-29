@@ -17,7 +17,6 @@ RUN <<APT
 set -eu
 apt-get update
 apt-get install --no-install-recommends --yes \
-	build-essential \
 	ca-certificates \
 	curl \
 	git \
