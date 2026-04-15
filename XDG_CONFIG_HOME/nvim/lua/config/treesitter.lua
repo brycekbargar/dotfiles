@@ -1,49 +1,43 @@
 return function()
-	local ts = require("nvim-treesitter.configs")
+	local ts = require("nvim-treesitter")
 	ts.setup({
-		ensure_installed = {
-			"bash",
-			"css",
-			"csv",
-			"dockerfile",
-			"git_config",
-			"gitattributes",
-			"gitignore",
-			"go",
-			"gosum",
-			"gomod",
-			"hcl",
-			"html",
-			"java",
-			"javascript",
-			"json",
-			"jsonc",
-			"json5",
-			"lua",
-			"make",
-			"markdown",
-			"markdown_inline",
-			"nginx",
-			"python",
-			"toml",
-			"tsv",
-			"typescript",
-			"vim",
-			"vimdoc",
-			"vue",
-			"yaml",
-		},
-		incremental_selection = {
-			enable = false,
-		},
-		sync_install = false,
-		auto_install = false,
-		ignore_install = {},
+		install_dir = vim.fn.stdpath("data") .. "/site",
+	})
+	ts.install({
+		"bash",
+		"css",
+		"csv",
+		"dockerfile",
+		"git_config",
+		"gitattributes",
+		"gitignore",
+		"go",
+		"gosum",
+		"gomod",
+		"hcl",
+		"html",
+		"java",
+		"javascript",
+		"json",
+		"json5",
+		"lua",
+		"make",
+		"markdown",
+		"markdown_inline",
+		"nginx",
+		"python",
+		"toml",
+		"tsv",
+		"typescript",
+		"vim",
+		"vimdoc",
+		"vue",
+		"yaml",
 	})
 
 	vim.cmd([[
 	set foldmethod=expr
-	set foldexpr=nvim_treesitter#foldexpr()
+	set foldexpr='v:lua.vim.treesitter.foldexpr()'
 	set nofoldenable
 	]])
 end
