@@ -5,7 +5,7 @@ return function()
 	local lualine = require("lualine")
 	lualine.setup({
 		options = {
-			theme = "catppuccin",
+			theme = "catppuccin-nvim",
 			component_separators = { left = nil, right = nil },
 			disabled_filetypes = {
 				statusline = { "help" },
