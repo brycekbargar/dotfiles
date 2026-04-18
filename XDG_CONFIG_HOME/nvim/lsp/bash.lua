@@ -1,5 +1,5 @@
 local shfmt = {
-	formatCommand = "shfmt -filename '${INPUT}' -",
+	formatCommand = "shfmt --simplify --filename '${INPUT}' -",
 	formatStdin = true,
 }
 
