@@ -1,9 +1,9 @@
 [envs.cli]
 channels = ["conda-forge"]
-dependencies = { fzf = "*", gojq = "*", osc = "*", bat = "*", exa = "*", fd-find = "*", git-delta = "*", precious = "*", ripgrep = "*" }
-exposed = { fzf = "fzf", gojq = "gojq", osc = "osc", bat = "bat", exa = "exa", fd = "fd", delta = "delta", precious = "precious", rg = "rg" }
+dependencies = { bat = "*", exa = "*", fd-find = "*", fzf = "*", git-delta = "*", gojq = "*", osc = "*", precious = "*", ripgrep = "*" }
+exposed = { bat = "bat", exa = "exa", fd = "fd", fzf = "fzf", delta = "delta", jq = "gojq", osc = "osc", precious = "precious", rg = "rg" }
 
 [envs.ide]
 channels = ["conda-forge"]
-dependencies = { efm-langserver = "*", go-shfmt = "*", yamlfmt = "*", shellcheck = "*", stylua = "*", taplo = "*", pre-commit-hooks = "*", yamllint = "*" }
-exposed = { efm-langserver = "efm-langserver", shfmt = "shfmt", yamlfmt = "yamlfmt", shellcheck = "shellcheck", stylua = "stylua", taplo = "taplo", check-added-large-files = "check-added-large-files", check-byte-order-marker = "check-byte-order-marker", check-case-conflict = "check-case-conflict", check-executables-have-shebangs = "check-executables-have-shebangs", check-merge-conflict = "check-merge-conflict", check-shebang-scripts-are-executable = "check-shebang-scripts-are-executable", check-symlinks = "check-symlinks", destroyed-symlinks = "destroyed-symlinks", detect-aws-credentials = "detect-aws-credentials", detect-private-key = "detect-private-key", end-of-file-fixer = "end-of-file-fixer", fix-byte-order-marker = "fix-byte-order-marker", mixed-line-ending = "mixed-line-ending", trailing-whitespace-fixer = "trailing-whitespace-fixer", yamllint = "yamllint" }
+dependencies = { efm-langserver = "*", go-shfmt = "*", pre-commit-hooks = "*", shellcheck = "*", stylua = "*", taplo = "*", tree-sitter-cli = "*", yamlfmt = "*", yamllint = "*" }
+exposed = { efm-langserver = "efm-langserver", shfmt = "shfmt", check-added-large-files = "check-added-large-files", check-byte-order-marker = "check-byte-order-marker", check-case-conflict = "check-case-conflict", check-executables-have-shebangs = "check-executables-have-shebangs", check-merge-conflict = "check-merge-conflict", check-shebang-scripts-are-executable = "check-shebang-scripts-are-executable", check-symlinks = "check-symlinks", destroyed-symlinks = "destroyed-symlinks", detect-aws-credentials = "detect-aws-credentials", detect-private-key = "detect-private-key", end-of-file-fixer = "end-of-file-fixer", fix-byte-order-marker = "fix-byte-order-marker", mixed-line-ending = "mixed-line-ending", trailing-whitespace-fixer = "trailing-whitespace-fixer", shellcheck = "shellcheck", stylua = "stylua", taplo = "taplo", tree-sitter = "tree-sitter", yamlfmt = "yamlfmt", yamllint = "yamllint" }
