@@ -2,23 +2,21 @@
 # shellcheck disable=SC2168
 # vi: ft=sh
 
-# shellcheck disable=SC2155
-local pw="$(bw generate -ulns --length 31)"
+local pw
+pw="$(curl -sf "$BW_API/generate?uppercase=true&lowercase=true&number=true&special=true&length=31" | jq -r '.data.data')"
 
 echo "$pw" | osc copy
 ssh-keygen -f "$HOME/.ssh/$1" -t rsa -b 4096 -C "${2:-brycekbargar@gmail.com}"
 echo "" | osc copy
 
-# shellcheck disable=SC2155
-# shellcheck disable=SC2288
-# shellcheck disable=SC2016
-local itemid=$(
-	bw get template item |
+local itemid
+itemid=$(
+	curl -sf "$BW_API/object/template/item" | jq '.data.template' |
 		jq --arg NAME "$1" --arg PW "$pw" \
 			'.name = $NAME | .notes = "" | .folderId="5f327073-d3b6-4940-9783-a9db0022589e" | .login = { "password": $PW }' |
-		bw encode | bw create item |
-		jq -r ' .id '
+		xargs -0 -I{} curl -sf -X POST "$BW_API/object/item" -H "Content-Type: application/json" -d '{}' |
+		jq -r ' .data.id '
 )
 
-bw create attachment --file "$HOME/.ssh/$1" --itemid "$itemid" >/dev/null
-bw create attachment --file "$HOME/.ssh/$1.pub" --itemid "$itemid" >/dev/null
+curl -sf "$BW_API/attachment?itemid=$itemid" --form file="@$HOME/.ssh/$1" >/dev/null
+curl -sf "$BW_API/attachment?itemid=$itemid" --form file="@$HOME/.ssh/$1.pub" >/dev/null

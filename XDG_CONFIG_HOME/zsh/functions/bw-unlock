@@ -1,6 +1,0 @@
-# shellcheck shell=bash
-# shellcheck disable=SC2168
-# vi: ft=sh
-
-BW_SESSION="$(bw unlock --raw)"
-export BW_SESSION

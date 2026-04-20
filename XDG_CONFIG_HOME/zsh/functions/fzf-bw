@@ -2,15 +2,18 @@
 # shellcheck disable=SC2168
 # vi: ft=sh
 
-if [[ -z $BW_SESSION ]]; then
-	echo >&2 "Vault is locked, run bw-unlock"
+local unlocked
+unlocked="$(curl -sf "$BW_API/status" | jq -r '.data.template.status')"
+
+if [[ $unlocked != "unlocked" ]]; then
+	echo >&2 "Vault is locked"
 	return 1
 fi
 
-bw list items |
+curl -sf "$BW_API/list/object/items" |
 	jq -r \
 		'
-	.[] |
+	.data.data[] |
 	[	.folderId // "/",
 		.name, .login.uris[0].uri // "",
 		.login.username // "",

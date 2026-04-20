@@ -8,4 +8,4 @@ export FZF_DEFAULT_OPTS="\
 --exit-0 \
 --color=16"
 
-export BITWARDENCLI_APPDATA_DIR="$XDG_STATE_HOME/bw"
+export BW_API="http://localhost:8087"

@@ -8,6 +8,7 @@
     FunctionsToExport = @(
         'Get-ChildContent',
         'Initialize-PwshContainer'
+        'Invoke-Bitwarden'
     );
 
     AliasesToExport = @(

@@ -64,3 +64,4 @@ if (($currentPath -eq $null) -or (-not $currentPath.Contains("dotfiles\host\bin"
 Update-Help -UICulture en-Us -ErrorAction SilentlyContinue
 & scoop install flux
 & scoop install windirstat
+& scoop install bitwarden-cli

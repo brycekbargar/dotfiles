@@ -32,3 +32,13 @@ function Initialize-PwshContainer {
         -f "$HOME\dotfiles\XDG_CONFIG_HOME\nvim\Dockerfile.pwsh" `
         .
 }
+
+<#
+.Synopsis
+Unlocks bitwarden and serves the api
+.Description
+Remember to run bw lock after!
+#>
+function Invoke-Bitwarden {
+    bw serve --session $(bw unlock)
+}
