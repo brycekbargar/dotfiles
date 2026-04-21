@@ -12,7 +12,7 @@
     mode: "0755"
   when: ansible_architecture == "x86_64"
 
-- name: Downloading Neovim (x86_64)
+- name: Downloading Neovim (aarch64)
   ansible.builtin.get_url:
     url: https://github.com/neovim/neovim/releases/download/stable/nvim-linux-arm64.appimage
     dest: "{{ lookup('env', 'XDG_PKG_HOME') }}/.nvim/nvim.appimage"
@@ -55,24 +55,3 @@
   ansible.builtin.fail:
     msg: Lua LSP not available and executable, got {{ lua_lsp_exe.stat }}
   when: not lua_lsp_exe.stat.exists or not lua_lsp_exe.stat.executable
-
-- name: Add packer plugin
-  ansible.builtin.git:
-    repo: https://github.com/wbthomason/packer.nvim
-    version: HEAD
-    force: true
-    dest: "{{ lookup('env', 'XDG_STATE_HOME') }}/nvim/site/pack/packer/start/packer.nvim"
-    single_branch: true
-    depth: 1
-
-- name: Link common plugins
-  ansible.builtin.file:
-    src: "{{ lookup('env', 'HOME') }}/.vim/pack/common"
-    dest: "{{ lookup('env', 'XDG_STATE_HOME') }}/nvim/site/pack/common"
-    state: link
-
-- name: PackerSync
-  ansible.builtin.command:
-    cmd: |
-      nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
-  changed_when: true

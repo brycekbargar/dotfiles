@@ -56,7 +56,7 @@
   with_items:
     - repo: https://github.com/tpope/vim-fugitive
       dest: start/fugitive
-    - repo: https://github.com/lifepillar/vim-mucomplete
+    - repo: https://codeberg.org/lifepillar/vim-mucomplete
       dest: start/mucomplete
     - repo: https://github.com/tpope/vim-sensible
       dest: start/sensible

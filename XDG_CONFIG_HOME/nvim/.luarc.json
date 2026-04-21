@@ -1,5 +1,5 @@
 {
-  "$schema": "https://raw.githubusercontent.com/sumneko/vscode-lua/master/setting/schema.json",
+  "$schema": "https://raw.githubusercontent.com/LuaLS/vscode-lua/refs/heads/master/setting/schema.json",
   "diagnostics.globals": [
     "vim"
   ],
@@ -9,10 +9,10 @@
   },
   "telemetry.enable": true,
   "workspace": {
+    "checkThirdParty": false,
     "library": [
-      "$XDG_STATE_HOME/nvim/site/pack/packer/",
+      "$XDG_DATA_HOME/nvim/site/pack/core/",
       "$XDG_PKG_HOME/.nvim/squashfs-root/usr"
-    ],
-    "checkThirdParty": false
+    ]
   }
 }
