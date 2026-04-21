@@ -1,14 +1,14 @@
 # vi: ft=text
 
 # zsh sensible
-sorin-ionescu/prezto	path:modules/directory
-sorin-ionescu/prezto	path:modules/environment
-sorin-ionescu/prezto	path:modules/history
+sorin-ionescu/prezto	path:modules/directory		pin:73ae7f11280adcc061c15ebb2f494954c2cc8a38
+sorin-ionescu/prezto	path:modules/environment	pin:73ae7f11280adcc061c15ebb2f494954c2cc8a38
+sorin-ionescu/prezto	path:modules/history		pin:73ae7f11280adcc061c15ebb2f494954c2cc8a38
 
 # Prompt
-jeffreytse/zsh-vi-mode
+jeffreytse/zsh-vi-mode								pin:08bd1c04520418faee2b9d1afbc410ee1a59a8f1
 
-romkatv/powerlevel10k	kind:fpath
+romkatv/powerlevel10k	kind:fpath					pin:604f19a9eaa18e76db2e60b8d446d5f879065f90
 
 # Completions
-sorin-ionescu/prezto	path:modules/completion
+sorin-ionescu/prezto	path:modules/completion		pin:73ae7f11280adcc061c15ebb2f494954c2cc8a38

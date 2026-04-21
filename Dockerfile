@@ -87,10 +87,6 @@ pixi global install --environment dotfiles 'ansible-core<2.19' --with python --w
 ANSIBLE_CONFIG="$(pwd)/playbooks/ansible.cfg" ANSIBLE_HOME="${HOME}/.local/var/cache/ansible" \
 	ansible-playbook "playbooks/default.playbook.yml"
 rm -fdr "$PIXI_HOME"
-
-# TODO: Figure out how to do this in the playbook
-set +eu
-source "$ZDOTDIR/myrc.zsh"
 ANSIBLE
 
 # This is for any final IO operations needed before squashing the final image into a single layer

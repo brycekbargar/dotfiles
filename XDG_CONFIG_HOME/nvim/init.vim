@@ -12,6 +12,7 @@ set shiftwidth=4
 set scrolloff=15
 set list
 set mouse=
+set showtabline=1
 
 let g:netrw_preview = 0
 let g:netrw_alto = 1
@@ -45,7 +46,6 @@ if !has('nvim')
     set hlsearch
     set autoread
     set termguicolors
-    set showtabline=1
     set wildoptions=pum,tagfile
 	if empty($XDG_STATE_HOME)
 		if has('win64')
