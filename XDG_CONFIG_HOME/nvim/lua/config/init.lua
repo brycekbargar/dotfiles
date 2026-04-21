@@ -1,0 +1,8 @@
+require("config.blankline")
+require("config.catppuccin")
+require("config.dinosaur")
+require("config.lspconfig")
+require("config.lualine")
+require("config.notify")
+require("config.treesitter")
+require("config.trouble")

@@ -2,6 +2,7 @@ vim.opt.signcolumn = "number"
 vim.diagnostic.config({
 	severity_sort = true,
 })
+
 -- mucomplete stopped mapping this because nvim overwrites them...
 vim.keymap.set("i", "<Tab>", "<plug>(MUcompleteFwd)")
 vim.keymap.set("i", "<S-Tab>", "<plug>(MUcompleteBwd)")
@@ -44,4 +45,4 @@ vim.api.nvim_create_autocmd("LspAttach", {
 	end,
 })
 
-return function() vim.lsp.enable({ "efm", "lua", "python", "toml" }) end
+vim.lsp.enable({ "efm", "lua", "python", "toml" })

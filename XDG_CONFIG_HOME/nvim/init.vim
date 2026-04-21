@@ -67,8 +67,8 @@ endif
 
 " plugin conf
 if has('nvim')
-    set packpath=$XDG_STATE_HOME/nvim/site,$VIMRUNTIME
-    set runtimepath=$XDG_STATE_HOME/nvim,$XDG_CONFIG_HOME/nvim,$VIMRUNTIME
+    set packpath=$HOME/.vim,$XDG_DATA_HOME/nvim/site,$VIMRUNTIME
+    set runtimepath=$XDG_CONFIG_HOME/nvim,$VIMRUNTIME
 endif
 
 set completeopt-=preview
@@ -98,5 +98,6 @@ lua <<LUA
     vim.g.loaded_python3_provider = 0
 
     require("plugins")
+    require("config")
 LUA
 endif
