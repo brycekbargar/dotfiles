@@ -1,4 +1,5 @@
 augroup gitcommit_ftplugin
-    autocmd BufEnter * colorscheme catppuccin_latte
+    packadd! ansi-esc
+    autocmd BufEnter * set background=light
     autocmd BufEnter * AnsiEsc
 augroup END

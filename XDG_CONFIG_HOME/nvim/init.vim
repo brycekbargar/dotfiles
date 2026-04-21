@@ -83,8 +83,18 @@ let g:mucomplete#buffer_relative_paths = 1
 let g:mucomplete#chains = { 'default': ['path', 'incl', 'omni'] }
 
 if !has('nvim')
-    packadd! catppuccin-vim
-    colorscheme catppuccin_mocha
+    set background=dark
+    colorscheme catppuccin
+
+    packadd! flagship
+
+    packadd! osc52
+    let g:osc52_force_avail = 1
+    let g:osc52_disable_paste = 1
+    augroup Osc52
+        autocmd!
+        autocmd VimEnter * set clipmethod=osc52
+    augroup END
 endif
 " end plugin conf
 
