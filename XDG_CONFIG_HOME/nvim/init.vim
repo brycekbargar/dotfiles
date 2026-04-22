@@ -47,21 +47,20 @@ if !has('nvim')
     set autoread
     set termguicolors
     set wildoptions=pum,tagfile
-	if empty($XDG_STATE_HOME)
-		if has('win64')
-			" windows is weird
-			set backupdir=$HOME/vimfiles/state/backup
-			set directory=$HOME/vimfiles/state/swap
-			set undodir=$HOME/vimfiles/state/undo
-			set viminfofile=$HOME/vimfiles/state/.viminfo
-		endif
-	else
-		set backupdir=$XDG_STATE_HOME/vim/backup
-		set directory=$XDG_STATE_HOME/vim/swap
-		set undodir=$XDG_STATE_HOME/vim/undo
-		set viminfofile=$XDG_STATE_HOME/vim/.viminfo
-	endif
-    set viewoptions+=unix,slash
+    if has('win64')
+        " windows is weird
+        set backupdir=$HOME/vimfiles/state/backup
+        set directory=$HOME/vimfiles/state/swap
+        set undodir=$HOME/vimfiles/state/undo
+        set viminfofile=$HOME/vimfiles/state/.viminfo
+    else
+        silent execute "!mkdir -p .local/state/vim/{backup,swap,undo}"
+        set backupdir=$XDG_STATE_HOME/vim/backup//
+        set directory=$XDG_STATE_HOME/vim/swap//
+        set undodir=$XDG_STATE_HOME/vim/undo//
+        set viminfofile=$XDG_STATE_HOME/vim/.viminfo
+        set viewoptions+=unix,slash
+    endif
 endif
 " end defaults
 
