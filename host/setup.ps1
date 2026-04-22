@@ -47,7 +47,7 @@ git clone --depth 1 --single-branch -- "https://github.com/lifepillar/vim-mucomp
 git clone --depth 1 --single-branch -- "https://github.com/tpope/vim-sensible" "start/sensible"
 git clone --depth 1 --single-branch -- "https://github.com/tpope/vim-sleuth" "start/sleuth"
 git clone --depth 1 --single-branch -- "https://github.com/tpope/vim-vinegar" "start/vinegar"
-git clone --depth 1 --single-branch -- "https://github.com/catppuccin/vim" "opt/catppuccin-vim"
+git clone --depth 1 --single-branch -- "https://github.com/tpope/vim-flagship" "start/flagship"
 Pop-Location
 $df_vimrc = [System.IO.Path]::Combine("$PSScriptRoot", "..", "XDG_CONFIG_HOME", "nvim", "init.vim")
 $ln_vimrc = [System.IO.Path]::Combine("$HOME", "_vimrc")
