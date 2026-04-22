@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+ln -sf "$HOME/code/dotfiles/pixi-global.toml" "$PIXI_HOME/manifests/pixi-global.toml"
+
 ln -sf "$HOME/code/dotfiles/.zshenv" "$HOME/.zshenv"
 [ -h "$ZDOTDIR/functions" ] || rm -fdr "$ZDOTDIR/functions"
 ln -sf "$HOME/code/dotfiles/XDG_CONFIG_HOME/zsh/functions" "$ZDOTDIR/functions"

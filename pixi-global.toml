@@ -1,7 +1,7 @@
 [envs.cli]
 channels = ["conda-forge"]
-dependencies = { bat = "<0.27", exa = "==0.10.1", fd-find = "<10.5", fzf = "<0.68", git-delta = "<0.20", gojq = "<0.13", osc = "<0.5", precious = "<0.11", ripgrep = "<15.2" }
-exposed = { bat = "bat", exa = "exa", fd = "fd", fzf = "fzf", delta = "delta", jq = "gojq", osc = "osc", precious = "precious", rg = "rg" }
+dependencies = { bat = "<0.27", eza = "<0.24", fd-find = "<10.5", fzf = "<0.68", git-delta = "<0.20", gojq = "<0.13", osc = "<0.5", precious = "<0.11", ripgrep = "<15.2" }
+exposed = { bat = "bat", exa = "eza", fd = "fd", fzf = "fzf", delta = "delta", jq = "gojq", osc = "osc", precious = "precious", rg = "rg" }
 
 [envs.ide]
 channels = ["conda-forge"]
