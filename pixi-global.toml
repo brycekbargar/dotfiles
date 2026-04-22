@@ -1,9 +1,9 @@
 [envs.cli]
 channels = ["conda-forge"]
-dependencies = { bat = "*", exa = "*", fd-find = "*", fzf = "*", git-delta = "*", gojq = "*", osc = "*", precious = "*", ripgrep = "*" }
+dependencies = { bat = "<0.27", exa = "==0.10.1", fd-find = "<10.5", fzf = "<0.68", git-delta = "<0.20", gojq = "<0.13", osc = "<0.5", precious = "<0.11", ripgrep = "<15.2" }
 exposed = { bat = "bat", exa = "exa", fd = "fd", fzf = "fzf", delta = "delta", jq = "gojq", osc = "osc", precious = "precious", rg = "rg" }
 
 [envs.ide]
 channels = ["conda-forge"]
-dependencies = { efm-langserver = "*", go-shfmt = "*", pre-commit-hooks = "*", shellcheck = "*", stylua = "*", taplo = "*", tree-sitter-cli = "*", yamlfmt = "*", yamllint = "*" }
-exposed = { efm-langserver = "efm-langserver", shfmt = "shfmt", check-added-large-files = "check-added-large-files", check-byte-order-marker = "check-byte-order-marker", check-case-conflict = "check-case-conflict", check-executables-have-shebangs = "check-executables-have-shebangs", check-merge-conflict = "check-merge-conflict", check-shebang-scripts-are-executable = "check-shebang-scripts-are-executable", check-symlinks = "check-symlinks", destroyed-symlinks = "destroyed-symlinks", detect-aws-credentials = "detect-aws-credentials", detect-private-key = "detect-private-key", end-of-file-fixer = "end-of-file-fixer", fix-byte-order-marker = "fix-byte-order-marker", mixed-line-ending = "mixed-line-ending", trailing-whitespace-fixer = "trailing-whitespace-fixer", shellcheck = "shellcheck", stylua = "stylua", taplo = "taplo", tree-sitter = "tree-sitter", yamlfmt = "yamlfmt", yamllint = "yamllint" }
+dependencies = { efm-langserver = "<0.0.57", go-shfmt = "<3.14", pre-commit-hooks = "<5.1", shellcheck = "<0.12", stylua = "<2.5", taplo = "<0.11", tree-sitter-cli = "<0.27", yamlfmt = "<0.22", yamllint = "<1.39" }
+exposed = { efm-langserver = "efm-langserver", shfmt = "shfmt", check-added-large-files = "check-added-large-files", check-case-conflict = "check-case-conflict", end-of-file-fixer = "end-of-file-fixer", trailing-whitespace-fixer = "trailing-whitespace-fixer", shellcheck = "shellcheck", stylua = "stylua", taplo = "taplo", tree-sitter = "tree-sitter", yamlfmt = "yamlfmt", yamllint = "yamllint" }
