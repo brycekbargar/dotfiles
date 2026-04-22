@@ -36,9 +36,11 @@ function Initialize-PwshContainer {
 <#
 .Synopsis
 Unlocks bitwarden and serves the api
-.Description
-Remember to run bw lock after!
 #>
 function Invoke-Bitwarden {
-    bw serve --session $(bw unlock)
+    try {
+        bw serve --session $(bw unlock --raw)
+    } finally {
+        bw lock
+    }
 }
