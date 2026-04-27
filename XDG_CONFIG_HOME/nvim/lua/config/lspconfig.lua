@@ -45,4 +45,12 @@ vim.api.nvim_create_autocmd("LspAttach", {
 	end,
 })
 
-vim.lsp.enable({ "efm", "lua", "python", "toml" })
+local lsp_dir = vim.fn.stdpath("config") .. "/lsp"
+local lsp_servers = {}
+
+for _, file in ipairs(vim.fn.readdir(lsp_dir)) do
+	local server_name = file:gsub("%.lua$", "")
+	table.insert(lsp_servers, server_name)
+end
+
+vim.lsp.enable(lsp_servers)
