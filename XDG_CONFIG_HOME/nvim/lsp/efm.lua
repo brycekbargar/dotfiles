@@ -1,3 +1,24 @@
+local eslintfmt = {
+	formatCommand = "eslint --fix '${INPUT}'",
+	formatStdin = false,
+	rootMarkers = {
+		"package.json",
+	},
+}
+local eslintcheck = {
+	lintSource = "efm/eslint",
+	lintCommand = "",
+	lintStdin = true,
+	lintFormats = {
+		"%\\s%#%l:%c %# %trror  %m",
+		"%\\s%#%l:%c %# %tarning  %m",
+	},
+	lintIgnoreExitCode = true,
+	rootMarkers = {
+		"package.json",
+	},
+}
+
 local jqfmt = {
 	formatCommand = "jq",
 	formatStdin = true,
@@ -59,6 +80,8 @@ return {
 	init_options = { documentFormatting = true },
 	settings = {
 		languages = {
+			javascript = { eslintfmt, eslintcheck },
+			javascriptreact = { eslintfmt, eslintcheck },
 			json = { jqfmt, jqcheck },
 			lua = { stylua },
 			python = ruff,

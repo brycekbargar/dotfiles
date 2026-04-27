@@ -20,6 +20,7 @@ ts.install({
 	"javascript",
 	"json",
 	"json5",
+	"jsx",
 	"lua",
 	"make",
 	"markdown",
