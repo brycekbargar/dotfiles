@@ -74,21 +74,28 @@ local taplo = {
 	formatStdin = true,
 }
 
+local tofu = {
+	formatCommand = "tofu fmt -",
+	formatStdin = true,
+}
+
+local languages = {
+	javascript = { eslintfmt, eslintcheck },
+	javascriptreact = { eslintfmt, eslintcheck },
+	json = { jqfmt, jqcheck },
+	lua = { stylua },
+	python = ruff,
+	sh = { shfmt, shellcheck },
+	bash = { shfmt, shellcheck },
+	toml = { taplo },
+	opentofu = { tofu },
+	terraform = { tofu },
+	["terraform-vars"] = { tofu },
+}
 return {
 	cmd = { "efm-langserver" },
-	filetypes = { "json", "lua", "python", "sh", "bash", "toml" },
+	filetypes = vim.tbl_keys(languages),
 	init_options = { documentFormatting = true },
-	settings = {
-		languages = {
-			javascript = { eslintfmt, eslintcheck },
-			javascriptreact = { eslintfmt, eslintcheck },
-			json = { jqfmt, jqcheck },
-			lua = { stylua },
-			python = ruff,
-			sh = { shfmt, shellcheck },
-			bash = { shfmt, shellcheck },
-			toml = { taplo },
-		},
-		rootMarkers = { ".git/" },
-	},
+	settings = { languages = languages },
+	rootMarkers = { ".git/" },
 }

@@ -46,3 +46,5 @@ require("treesitter-context").setup({
 	max_lines = 15,
 	multiline_threshold = 5,
 })
+
+vim.treesitter.language.register("hcl", { "opentofu", "xslt" })

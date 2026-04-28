@@ -1,0 +1,2 @@
+" vint: -ProhibitAutocmdWithNoGroup
+au BufRead,BufNewFile *.tofu set filetype=opentofu
