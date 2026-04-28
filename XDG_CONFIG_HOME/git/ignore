@@ -2,3 +2,4 @@ pyrightconfig.json
 precious.toml
 pixi.lock
 pixi.toml
+.pixi/*
