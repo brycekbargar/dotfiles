@@ -54,7 +54,7 @@ if !has('nvim')
         set undodir=$HOME/vimfiles/state/undo
         set viminfofile=$HOME/vimfiles/state/.viminfo
     else
-        silent execute "!mkdir -p .local/state/vim/{backup,swap,undo}"
+        silent execute "!mkdir -p \"$XDG_STATE_HOME\"/vim/{backup,swap,undo}"
         set backupdir=$XDG_STATE_HOME/vim/backup//
         set directory=$XDG_STATE_HOME/vim/swap//
         set undodir=$XDG_STATE_HOME/vim/undo//
